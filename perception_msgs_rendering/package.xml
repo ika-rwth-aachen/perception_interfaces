@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>perception_msgs_rendering</name>
+  <version>0.0.0</version>
+  <description>This package provides rviz renderings for the perception_msgs</description>
+  <maintainer email="guido.kueppers@rwth-aachen.de">Guido Küppers</maintainer>
+  <author email="guido.kueppers@rwth-aachen.de">Guido Küppers</author>
+  <author email="bastian.lampe@rwth-aachen.de">Bastian Lampe</author>
+  <license>MIT</license>
+
+  <depend>ros_environment</depend>
+
+  <!-- ROS2 -->
+  <build_depend condition="$ROS_VERSION == 2">qtbase5-dev</build_depend>
+  <build_depend condition="$ROS_VERSION == 2">rviz_ogre_vendor</build_depend>
+
+  <build_export_depend condition="$ROS_VERSION == 2">rviz_ogre_vendor</build_export_depend>
+
+  <exec_depend condition="$ROS_VERSION == 2">libqt5-core</exec_depend>
+  <exec_depend condition="$ROS_VERSION == 2">libqt5-gui</exec_depend>
+  <exec_depend condition="$ROS_VERSION == 2">libqt5-opengl</exec_depend>
+  <exec_depend condition="$ROS_VERSION == 2">libqt5-widgets</exec_depend>
+  <exec_depend condition="$ROS_VERSION == 2">rviz_ogre_vendor</exec_depend>
+
+  <depend condition="$ROS_VERSION == 2">perception_msgs</depend>
+  <depend condition="$ROS_VERSION == 2">perception_msgs_utils</depend>
+  <depend condition="$ROS_VERSION == 2">rviz_common</depend>
+  <depend condition="$ROS_VERSION == 2">rviz_rendering</depend>
+  <depend condition="$ROS_VERSION == 2">tf2_geometry_msgs</depend>
+
+  <buildtool_depend condition="$ROS_VERSION == 2">ament_cmake</buildtool_depend>
+
+  <export>
+    <build_type condition="$ROS_VERSION == 2">ament_cmake</build_type>
+  </export>
+
+</package>

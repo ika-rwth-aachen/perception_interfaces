@@ -1,0 +1,36 @@
+<library path="perception_msgs_rviz_plugins">
+
+  <class
+    name="perception_msgs/ObjectList"
+    type="perception_msgs::displays::ObjectListDisplay"
+    base_class_type="rviz_common::Display"
+  >
+    <description>
+      Displays perception_msgs/msg/ObjectList object lists.
+    </description>
+    <message_type>perception_msgs/msg/ObjectList</message_type>
+  </class>
+
+  <class
+    name="perception_msgs/EgoData"
+    type="perception_msgs::displays::EgoDataDisplay"
+    base_class_type="rviz_common::Display"
+  >
+    <description>
+      Displays perception_msgs/msg/EgoData ego data.
+    </description>
+    <message_type>perception_msgs/msg/EgoData</message_type>
+  </class>
+
+  <class
+    name="perception_msgs/TrafficLight"
+    type="perception_msgs::displays::TrafficLightDisplay"
+    base_class_type="rviz_common::Display"
+  >
+    <description>
+      Displays perception_msgs/msg/ObjectList traffic lights.
+    </description>
+    <message_type>perception_msgs/msg/ObjectList</message_type>
+  </class>
+
+</library>

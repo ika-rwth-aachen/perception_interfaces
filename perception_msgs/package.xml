@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<package format="3">
+
+  <name>perception_msgs</name>
+  <version>1.0.0</version>
+  <description>Message definitions related to perception tasks in Intelligent Transportation Systems</description>
+  
+  <maintainer email="guido.kueppers@rwth-aachen.de">Guido Küppers</maintainer>
+  <author email="guido.kueppers@rwth-aachen.de">Guido Küppers</author>
+  <author email="lennart.reiher@rwth-aachen.de">Lennart Reiher</author>
+  <author email="bastian.lampe@rwth-aachen.de">Bastian Lampe</author>
+
+  <license>MIT</license>
+
+  <depend>geometry_msgs</depend>
+  <depend>ros_environment</depend>
+  <depend>std_msgs</depend>
+  <depend>tf2_geometry_msgs</depend>
+
+  <!-- ROS2 -->
+  <buildtool_depend condition="$ROS_VERSION == 2">ament_cmake</buildtool_depend>
+  <build_depend condition="$ROS_VERSION == 2">rosidl_default_generators</build_depend>
+  <exec_depend condition="$ROS_VERSION == 2">rosidl_default_runtime</exec_depend>
+  <test_depend condition="$ROS_VERSION == 2">ament_cmake_gtest</test_depend>
+  <member_of_group condition="$ROS_VERSION == 2">rosidl_interface_packages</member_of_group>
+
+  <!-- ROS1 -->
+  <buildtool_depend condition="$ROS_VERSION == 1">catkin</buildtool_depend>
+  <depend condition="$ROS_VERSION == 1">message_generation</depend>
+  <exec_depend condition="$ROS_VERSION == 1">message_runtime</exec_depend>
+
+  <export>
+    <build_type condition="$ROS_VERSION == 1">catkin</build_type>
+    <build_type condition="$ROS_VERSION == 2">ament_cmake</build_type>
+  </export>
+
+</package>
