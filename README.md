@@ -36,8 +36,8 @@ Anyone interested in using the more complex ETSI messages in ROS, despite the af
 
 The perception_msgs contain simplified versions of two central messages defined by ETSI, the Cooperative Awareness Message (CAM) and the Collective Perception Message (CPM). The CAM and CPM correspond to the following messages defined in [perception_msgs](perception_msgs):
 
-1. CAM ⭢ [EgoData.msg](perception_msgs/msg/EgoData.msg)
-2. CPM ⭢ [ObjectList.msg](perception_msgs/msg/ObjectList.msg)
+1. CAM → [EgoData.msg](perception_msgs/msg/EgoData.msg)
+2. CPM → [ObjectList.msg](perception_msgs/msg/ObjectList.msg)
 
 The [EgoData.msg](perception_msgs/msg/EgoData.msg) contains self perception data including:
 - **Basic Vehicle Information**: Such as vehicle id, vehicle dimensions.
@@ -112,7 +112,7 @@ The coordinate system in which all subsequent fields of a message are given is d
 
 Transformations between coordinate frames are often needed in robotics applications. There exists the [tf2](http://wiki.ros.org/tf2) ROS package ([GitHub](https://github.com/ros2/geometry2)) that provides a lot of functions and tools around coordinate frames and transformations. It is the de facto standard for related tasks in ROS. Since the package does not know how the messages files in this repository are structured, we need to define functions that allow us to integrate our messages into the existing framework provided by the tf2 ROS package. For this purpose, we need to especially write a specialized `doTransform()` function for our messages.
 
-The implementation can be found in [tf2_perception_msgs](tf2_perception_msgs). Available implementations include the provided [EgoData.msg](perception_msgs/msg/EgoData.msg) with the [EGO.msg](perception_msgs/msg/EGO.msg) and [EGORWS.msg](perception_msgs/msg/EGORWS.msg) state models, and the [ObjectList.msg](perception_msgs/msg/ObjectList.msg) with the [ISCACTR.msg](perception_msgs/msg/ISCACTR.msg) and [HEXAMOTION.msg](perception_msgs/msg/HEXAMOTION.msg) state model.
+The implementation can be found in [tf2_perception_msgs](tf2_perception_msgs). Available implementations include the provided [EgoData.msg](perception_msgs/msg/EgoData.msg) with the [EGO.msg](perception_msgs/msg/EGO.msg) and [EGORWS.msg](perception_msgs/msg/EGORWS.msg) state models, and the [ObjectList.msg](perception_msgs/msg/ObjectList.msg) with the [ISCACTR.msg](perception_msgs/msg/ISCACTR.msg) and [HEXAMOTION.msg](perception_msgs/msg/HEXAMOTION.msg) state models.
 
 
 ## RViz Plugins
@@ -121,10 +121,10 @@ This repository provides ROS packages [perception_msgs_rendering](perception_msg
 
 To further extend the object list, a workflow for visualizing new meshes has been established:
 
-1. Import new meshes as .stl-files in Blender. (File -> Import -> Stl)
-2. If not already correct, rotate Object so +x is the front and +z is the top of the object. (click on object ⭢ Object Properties ⭢ Transform ⭢ Rotation)
-3. Set origin to center of surface. (right click on object -> Set Origin -> Origin to Center of Mass (Surface))
-4. Export new file as .stl (File -> Export -> Stl) 
+1. Import new meshes as .stl-files in Blender. (File → Import → Stl)
+2. If not already correct, rotate Object so +x is the front and +z is the top of the object. (click on object → Object Properties → Transform → Rotation)
+3. Set origin to center of surface. (right click on object → Set Origin → Origin to Center of Mass (Surface))
+4. Export new file as .stl (File → Export → Stl) 
 
 ## Minimal implementation
 
