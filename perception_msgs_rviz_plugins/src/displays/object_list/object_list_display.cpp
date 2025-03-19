@@ -57,9 +57,9 @@ ObjectListDisplay::ObjectListDisplay()
 
   // Object Appearance Properties
   appearance_properties_ = new rviz_common::properties::Property("Appearance Properties", " ", "Different properties to modify the appearance of objects", this);
-  viz_mesh_ = new rviz_common::properties::BoolProperty("Mesh", true, 
+  viz_mesh_ = new rviz_common::properties::BoolProperty("Mesh", false,
     "Visualize the object as a mesh.", appearance_properties_);
-  viz_bounding_box_ = new rviz_common::properties::BoolProperty("Bounding box", false,
+  viz_bounding_box_ = new rviz_common::properties::BoolProperty("Bounding box", true,
     "Visualize the bounding box of an object.", appearance_properties_);
   viz_direction_ind_ = new rviz_common::properties::BoolProperty("Orientation Indication", false,
     "Visualize a cone indicating the direction of an object.", viz_bounding_box_);
