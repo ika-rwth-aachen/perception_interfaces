@@ -29,7 +29,7 @@ def do_transform_state(
         state: ObjectState,
         transform: TransformStamped) -> ObjectState:
     """
-    Apply a `Transform` or `TransformStamped` on a `ObjectState`.
+    Apply a `Transform` or `TransformStamped` to `ObjectState`.
 
     The pose with covariance is transformed into a different frame,
     while the rest of the ObjectState is kept untouched.
@@ -55,7 +55,7 @@ def do_transform_object(
         object: Object,
         transform: TransformStamped) -> Object:
     """
-    Apply a `Transform` or `TransformStamped` on a `Object`.
+    Apply a `Transform` or `TransformStamped` to `Object`.
 
     The pose with covariance is transformed into a different frame,
     while the rest of the Object is kept untouched.
@@ -89,7 +89,7 @@ def do_transform_object_list(
         object_list: ObjectList,
         transform: TransformStamped) -> ObjectList:
     """
-    Apply a `Transform` or `TransformStamped` on a `ObjectList`.
+    Apply a `Transform` or `TransformStamped` to `ObjectList`.
 
     The pose with covariance is transformed into a different frame,
     while the rest of the ObjectList is kept untouched.
@@ -113,7 +113,7 @@ def do_transform_ego_data(
         ego_data: EgoData,
         transform: TransformStamped) -> EgoData:
     """
-    Apply a `Transform` or `TransformStamped` on a `EgoData`.
+    Apply a `Transform` or `TransformStamped` to `EgoData`.
 
     The pose with covariance is transformed into a different frame,
     while the rest of the EgoData is kept untouched.
