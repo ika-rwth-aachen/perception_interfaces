@@ -92,7 +92,7 @@ However, this convenience comes at a cost. We are able to receive data via the s
 
 ## Access functions
 
-Working with hierarchical ROS messages, especially in C++, can be challenging sometimes due to the many nested subfields and certain requirements posed at how fields should be filled. For this reason, with [perception_msgs_utils](perception_msgs_utils), we provide a ROS package with access functions defined in C++ header files. These enable developers to read and write fields of the perception_msgs more easily.
+Working with hierarchical ROS messages, especially in C++, can be challenging sometimes due to the many nested subfields and certain requirements posed at how fields should be filled. For this reason, with [perception_msgs_utils](perception_msgs_utils), we provide a ROS package with access functions defined in C++ header files as well as python equivalents. These enable developers to read and write fields of the perception_msgs more easily.
 
 A list of all access functions can be found in [convenience_state_getters.h](perception_msgs_utils/include/perception_msgs_utils/impl/convenience_state_getters.h) and [convenience_state_setters.h](perception_msgs_utils/include/perception_msgs_utils/impl/convenience_state_setters.h).
 
@@ -105,6 +105,12 @@ In your C++ code, just include them like this
 to use them. Example benefits include the ability to let the access functions automatically convert between quaternions and euler angles, or making sure that, e.g., yaw angles always lie between -PI and +PI.
 
 The API documentation for the object access functions can be found [here](https://ika-rwth-aachen.github.io/perception_interfaces).
+
+In your python code, you can use the access functions like this:
+
+```python
+import perception_msgs_utils
+```
 
 ## Coordinate Systems and Transformations
 
