@@ -1,0 +1,47 @@
+name: Trigger downstream projects ci
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+
+  trigger-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger pipeline
+        run: |
+          curl --silent --fail --request POST --form "token=${{ secrets.PERCEPTION_INTERFACES_CI_TRIGGER_GITLAB_TOKEN }}" "https://gitlab.ika.rwth-aachen.de/api/v4/projects/3100/trigger/pipeline" | jq -r .id > id
+      - name: Upload pipeline ID
+        uses: actions/upload-artifact@v4
+        with:
+          name: id_ci
+          path: id
+
+  watch-ci:
+    runs-on: ubuntu-latest
+    needs: trigger-ci
+    steps:
+      - name: Get pipeline ID
+        uses: actions/download-artifact@v4
+        with:
+          name: id_ci
+      - name: Wait for pipeline completion
+        run: |
+          PIPELINE_ID=$(cat id)
+          while true; do
+            sleep 30
+            PIPELINE_STATUS=$(curl --silent --header "PRIVATE-TOKEN: ${{ secrets.PERCEPTION_INTERFACES_CI_TRIGGER_GITLAB_TOKEN }}" "https://gitlab.ika.rwth-aachen.de/api/v4/projects/3100/pipelines/$PIPELINE_ID" | jq -r .status)
+            echo "Pipeline status: $PIPELINE_STATUS (https://gitlab.ika.rwth-aachen.de/fb-fi/ops/perception_interfaces-ci/-/pipelines/$PIPELINE_ID)"
+            if [[ $PIPELINE_STATUS == "success" ]]; then
+              break
+            elif [[ $PIPELINE_STATUS == "failed" ]]; then
+              exit 1
+            elif [[ $PIPELINE_STATUS == "canceled" ]]; then
+              exit 1
+            fi
+          done
