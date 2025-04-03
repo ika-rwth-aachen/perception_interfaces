@@ -276,7 +276,8 @@ void ObjectState::setObjectStateVizDefault(const perception_msgs::msg::ObjectSta
         break;
     }
 
-    if (!mesh.isNull())
+    // Check if mesh was loaded successfully (nullptr if loading failed)
+    if (mesh)
     {
       // compute mesh scaling factors to fixed height
       Ogre::Vector3 mesh_dims = mesh->getBounds().getSize();
