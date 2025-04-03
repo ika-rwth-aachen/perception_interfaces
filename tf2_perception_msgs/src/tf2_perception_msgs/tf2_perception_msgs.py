@@ -58,8 +58,8 @@ def do_transform_state(
     The pose with covariance is transformed into a different frame,
     while the rest of the ObjectState is kept untouched.
 
-    :param state: The object state that should be transformedy
-    :param transform: The transform which will applied to the object state
+    :param state: The object state that should be transformed
+    :param transform: The transform which will be applied to the object state
     :returns: The transformed object state
     """
     state_out = state
