@@ -17,8 +17,12 @@
   <depend>tf2_geometry_msgs</depend>
 
   <!-- ROS2 -->
+  <depend condition="$ROS_VERSION == 2">python3-transforms3d</depend>
+  <depend condition="$ROS_VERSION == 2">tf_transformations</depend>
   <buildtool_depend condition="$ROS_VERSION == 2">ament_cmake</buildtool_depend>
+  <buildtool_depend condition="$ROS_VERSION == 2">ament_cmake_python</buildtool_depend>
   <test_depend condition="$ROS_VERSION == 2">ament_cmake_gtest</test_depend>
+  <test_depend condition="$ROS_VERSION == 2">ament_cmake_pytest</test_depend>
 
   <!-- ROS1 -->
   <buildtool_depend condition="$ROS_VERSION == 1">catkin</buildtool_depend>
