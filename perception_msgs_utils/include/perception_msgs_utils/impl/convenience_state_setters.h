@@ -361,33 +361,32 @@ inline void setPoseCovariance(
 {
   const int n = 6;
   const int model_id = state.model_id;
+
   int ix, jx;
   for (int i = 0; i < n; i++) {
+    bool i_valid = true;
+    switch (i) {
+      case 0: i_valid = hasX(model_id);  ix = i_valid ? indexX(model_id) : 0; break;
+      case 1: i_valid = hasY(model_id);  ix = i_valid ? indexY(model_id) : 0; break;
+      case 2: i_valid = hasZ(model_id);  ix = i_valid ? indexZ(model_id) : 0; break;
+      case 3: i_valid = hasRoll(model_id);  ix = i_valid ? indexRoll(model_id) : 0; break;
+      case 4: i_valid = hasPitch(model_id); ix = i_valid ? indexPitch(model_id) : 0; break;
+      case 5: i_valid = hasYaw(model_id);   ix = i_valid ? indexYaw(model_id) : 0; break;
+    }
+    if (!i_valid) continue;
+
     for (int j = 0; j < n; j++) {
-      if (i == 0 && hasX(model_id))
-        ix = indexX(model_id);
-      else if (i == 1 && hasY(model_id))
-        ix = indexY(model_id);
-      else if (i == 2 && hasZ(model_id))
-        ix = indexZ(model_id);
-      else if (i == 3 && hasRoll(model_id))
-        ix = indexRoll(model_id);
-      else if (i == 4 && hasPitch(model_id))
-        ix = indexPitch(model_id);
-      else if (i == 5 && hasYaw(model_id))
-        ix = indexYaw(model_id);
-      if (j == 0 && hasX(model_id))
-        jx = indexX(model_id);
-      else if (j == 1 && hasY(model_id))
-        jx = indexY(model_id);
-      else if (j == 2 && hasZ(model_id))
-        jx = indexZ(model_id);
-      else if (j == 3 && hasRoll(model_id))
-        jx = indexRoll(model_id);
-      else if (j == 4 && hasPitch(model_id))
-        jx = indexPitch(model_id);
-      else if (j == 5 && hasYaw(model_id))
-        jx = indexYaw(model_id);
+      bool j_valid = true;
+      switch (j) {
+        case 0: j_valid = hasX(model_id);  jx = j_valid ? indexX(model_id) : 0; break;
+        case 1: j_valid = hasY(model_id);  jx = j_valid ? indexY(model_id) : 0; break;
+        case 2: j_valid = hasZ(model_id);  jx = j_valid ? indexZ(model_id) : 0; break;
+        case 3: j_valid = hasRoll(model_id);  jx = j_valid ? indexRoll(model_id) : 0; break;
+        case 4: j_valid = hasPitch(model_id); jx = j_valid ? indexPitch(model_id) : 0; break;
+        case 5: j_valid = hasYaw(model_id);   jx = j_valid ? indexYaw(model_id) : 0; break;
+      }
+      if (!j_valid) continue;
+
       setContinuousStateCovarianceAt(state, ix, jx, val[n * i + j]);
     }
   }
