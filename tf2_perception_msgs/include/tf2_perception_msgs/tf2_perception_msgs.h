@@ -30,6 +30,7 @@ SOFTWARE.
 #include <perception_msgs/Object.h>
 #include <perception_msgs/ObjectList.h>
 #include <perception_msgs_utils/object_access.h>
+#include <tf2/convert.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 
 namespace tf2 {
