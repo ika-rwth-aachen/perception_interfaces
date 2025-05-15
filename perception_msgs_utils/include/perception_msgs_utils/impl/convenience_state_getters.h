@@ -237,16 +237,16 @@ inline gm::Pose getPose(const ObjectState& state) {
  * @brief Get the object's geometric center position
  * 
  * @param state The state to get the center position from
- * @return gm::Position The position of the object's geometric center
+ * @return gm::Point The position of the object's geometric center
  */
 inline gm::Point getCenterPosition(const ObjectState& state) {
   gm::Point position = getPosition(state);
-  auto orientation = getOrientation(state);
-  gm::Vector3 offset_to_center = state.reference_point.translation_to_geometric_center;
+  const auto orientation = getOrientation(state);
+  const gm::Vector3 offset_to_center = state.reference_point.translation_to_geometric_center;
   tf2::Quaternion q;
   tf2::fromMsg(orientation, q);
-  tf2::Vector3 offset_to_center_tf2(offset_to_center.x, offset_to_center.y, offset_to_center.z);
-  tf2::Vector3 rotated_offset_to_center = tf2::quatRotate(q, offset_to_center_tf2);
+  const tf2::Vector3 offset_to_center_tf2(offset_to_center.x, offset_to_center.y, offset_to_center.z);
+  const tf2::Vector3 rotated_offset_to_center = tf2::quatRotate(q, offset_to_center_tf2);
   position.x += rotated_offset_to_center.x();
   position.y += rotated_offset_to_center.y();
   position.z += rotated_offset_to_center.z();
