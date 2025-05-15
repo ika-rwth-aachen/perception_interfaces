@@ -36,11 +36,9 @@ SOFTWARE.
 #include <algorithm>
 #include <cmath>
 
-namespace perception_msgs
-{
+namespace perception_msgs {
 
-namespace object_access
-{
+namespace object_access {
 
 // --- full state/covariance -------------------------------------------------
 
@@ -50,8 +48,7 @@ namespace object_access
  * @param state 
  * @return std::vector<double> 
  */
-inline std::vector<double> getContinuousState(const ObjectState & state)
-{
+inline std::vector<double> getContinuousState(const ObjectState& state) {
   sanityCheckContinuousState(state);
   return state.continuous_state;
 }
@@ -64,8 +61,7 @@ inline std::vector<double> getContinuousState(const ObjectState & state)
  * @return std::vector<double> 
  */
 template <typename T>
-inline std::vector<double> getContinuousState(const T & obj)
-{
+inline std::vector<double> getContinuousState(const T& obj) {
   return getContinuousState(obj.state);
 }
 
@@ -75,8 +71,7 @@ inline std::vector<double> getContinuousState(const T & obj)
  * @param state 
  * @return std::vector<long int> 
  */
-inline std::vector<long int> getDiscreteState(const ObjectState & state)
-{
+inline std::vector<long int> getDiscreteState(const ObjectState& state) {
   sanityCheckContinuousState(state);
   return state.discrete_state;
 }
@@ -89,8 +84,7 @@ inline std::vector<long int> getDiscreteState(const ObjectState & state)
  * @return std::vector<long int> 
  */
 template <typename T>
-inline std::vector<long int> getDiscreteState(const T & obj)
-{
+inline std::vector<long int> getDiscreteState(const T& obj) {
   return getDiscreteState(obj.state);
 }
 
@@ -100,8 +94,7 @@ inline std::vector<long int> getDiscreteState(const T & obj)
  * @param state 
  * @return std::vector<double> 
  */
-inline std::vector<double> getContinuousStateCovariance(const ObjectState & state)
-{
+inline std::vector<double> getContinuousStateCovariance(const ObjectState& state) {
   sanityCheckContinuousState(state);
   return state.continuous_state_covariance;
 }
@@ -114,8 +107,7 @@ inline std::vector<double> getContinuousStateCovariance(const ObjectState & stat
  * @return std::vector<double> 
  */
 template <typename T>
-inline std::vector<double> getContinuousStateCovariance(const T & obj)
-{
+inline std::vector<double> getContinuousStateCovariance(const T& obj) {
   return getContinuousStateCovariance(obj.state);
 }
 
@@ -127,9 +119,7 @@ inline std::vector<double> getContinuousStateCovariance(const T & obj)
  * @param j 
  * @return double 
  */
-inline double getContinuousStateCovarianceAt(
-  const ObjectState & state, const unsigned int i, const unsigned int j)
-{
+inline double getContinuousStateCovarianceAt(const ObjectState& state, const unsigned int i, const unsigned int j) {
   const int n = getContinuousStateSize(state);
   const std::vector<double> covariance = getContinuousStateCovariance(state);
   return covariance[n * i + j];
@@ -145,9 +135,7 @@ inline double getContinuousStateCovarianceAt(
  * @return double 
  */
 template <typename T>
-inline double getContinuousStateCovarianceAt(
-  const T & obj, const unsigned int i, const unsigned int j)
-{
+inline double getContinuousStateCovarianceAt(const T& obj, const unsigned int i, const unsigned int j) {
   return getContinuousStateCovarianceAt(obj.state, i, j);
 }
 
@@ -157,8 +145,7 @@ inline double getContinuousStateCovarianceAt(
  * @param state 
  * @return std::vector<double> 
  */
-inline std::vector<double> getContinuousStateCovarianceDiagonal(const ObjectState & state)
-{
+inline std::vector<double> getContinuousStateCovarianceDiagonal(const ObjectState& state) {
   const int n = getContinuousStateSize(state);
   std::vector<double> diagonal(n);
   for (int i = 0; i < n; i++) diagonal[i] = getContinuousStateCovarianceAt(state, i, i);
@@ -173,13 +160,11 @@ inline std::vector<double> getContinuousStateCovarianceDiagonal(const ObjectStat
  * @return std::vector<double> 
  */
 template <typename T>
-inline std::vector<double> getContinuousStateCovarianceDiagonal(const T & obj)
-{
+inline std::vector<double> getContinuousStateCovarianceDiagonal(const T& obj) {
   return getContinuousStateCovarianceDiagonal(obj.state);
 }
 
 // --- vector quantities -----------------------------------------------------
-
 
 /**
  * @brief Get the position of a given object state.
@@ -187,8 +172,7 @@ inline std::vector<double> getContinuousStateCovarianceDiagonal(const T & obj)
  * @param state 
  * @return gm::Point 
  */
-inline gm::Point getPosition(const ObjectState & state)
-{
+inline gm::Point getPosition(const ObjectState& state) {
   gm::Point position;
   position.x = getX(state);
   position.y = getY(state);
@@ -204,8 +188,7 @@ inline gm::Point getPosition(const ObjectState & state)
  * @return gm::Point 
  */
 template <typename T>
-inline gm::Point getPosition(const T & obj)
-{
+inline gm::Point getPosition(const T& obj) {
   return getPosition(obj.state);
 }
 
@@ -215,8 +198,7 @@ inline gm::Point getPosition(const T & obj)
  * @param state 
  * @return gm::Quaternion 
  */
-inline gm::Quaternion getOrientation(const ObjectState & state)
-{
+inline gm::Quaternion getOrientation(const ObjectState& state) {
   tf2::Quaternion q;
   double roll{0}, pitch{0}, yaw{0};
   if (hasRoll(state.model_id)) roll = getRoll(state);
@@ -234,8 +216,7 @@ inline gm::Quaternion getOrientation(const ObjectState & state)
  * @return gm::Quaternion 
  */
 template <typename T>
-inline gm::Quaternion getOrientation(const T & obj)
-{
+inline gm::Quaternion getOrientation(const T& obj) {
   return getOrientation(obj.state);
 }
 
@@ -245,12 +226,43 @@ inline gm::Quaternion getOrientation(const T & obj)
  * @param state 
  * @return gm::Pose 
  */
-inline gm::Pose getPose(const ObjectState & state)
-{
+inline gm::Pose getPose(const ObjectState& state) {
   gm::Pose pose;
   pose.position = getPosition(state);
   pose.orientation = getOrientation(state);
   return pose;
+}
+
+/**
+ * @brief Get the object's geometric center position
+ * 
+ * @param state The state to get the center position from
+ * @return gm::Point The position of the object's geometric center
+ */
+inline gm::Point getCenterPosition(const ObjectState& state) {
+  gm::Point position = getPosition(state);
+  const auto orientation = getOrientation(state);
+  const gm::Vector3 offset_to_center = state.reference_point.translation_to_geometric_center;
+  tf2::Quaternion q;
+  tf2::fromMsg(orientation, q);
+  const tf2::Vector3 offset_to_center_tf2(offset_to_center.x, offset_to_center.y, offset_to_center.z);
+  const tf2::Vector3 rotated_offset_to_center = tf2::quatRotate(q, offset_to_center_tf2);
+  position.x += rotated_offset_to_center.x();
+  position.y += rotated_offset_to_center.y();
+  position.z += rotated_offset_to_center.z();
+  return position;
+}
+
+/**
+ * @brief Get the object's geometric center position
+ * 
+ * @tparam T 
+ * @param object The object to get the center position from
+ * @return gm::Position The position of the object's geometric center
+ */
+template <typename T>
+inline gm::Point getCenterPosition(const T& object) {
+  return getCenterPosition(object.state);
 }
 
 /**
@@ -261,8 +273,7 @@ inline gm::Pose getPose(const ObjectState & state)
  * @return gm::Pose 
  */
 template <typename T>
-inline gm::Pose getPose(const T & obj)
-{
+inline gm::Pose getPose(const T& obj) {
   return getPose(obj.state);
 }
 
@@ -272,8 +283,7 @@ inline gm::Pose getPose(const T & obj)
  * @param state 
  * @return std::vector<double> 
  */
-inline std::vector<double> getPoseCovariance(const ObjectState & state)
-{
+inline std::vector<double> getPoseCovariance(const ObjectState& state) {
   const int n = 6;
   const int model_id = state.model_id;
   std::vector<double> pose_covariance(n * n, 0.0);
@@ -324,8 +334,7 @@ inline std::vector<double> getPoseCovariance(const ObjectState & state)
  * @return std::vector<double> 
  */
 template <typename T>
-inline std::vector<double> getPoseCovariance(const T & obj)
-{
+inline std::vector<double> getPoseCovariance(const T& obj) {
   return getPoseCovariance(obj.state);
 }
 
@@ -336,8 +345,7 @@ inline std::vector<double> getPoseCovariance(const T & obj)
  * @param state 
  * @return gm::PoseWithCovariance 
  */
-inline gm::PoseWithCovariance getPoseWithCovariance(const ObjectState & state)
-{
+inline gm::PoseWithCovariance getPoseWithCovariance(const ObjectState& state) {
   gm::PoseWithCovariance pose_with_covariance;
   pose_with_covariance.pose = getPose(state);
   std::vector<double> covariance_vector = getPoseCovariance(state);
@@ -355,8 +363,7 @@ inline gm::PoseWithCovariance getPoseWithCovariance(const ObjectState & state)
  * @return gm::PoseWithCovariance 
  */
 template <typename T>
-inline gm::PoseWithCovariance getPoseWithCovariance(const T & obj)
-{
+inline gm::PoseWithCovariance getPoseWithCovariance(const T& obj) {
   return getPoseWithCovariance(obj.state);
 }
 
@@ -366,8 +373,7 @@ inline gm::PoseWithCovariance getPoseWithCovariance(const T & obj)
  * @param state 
  * @return gm::Vector3 
  */
-inline gm::Vector3 getVelocity(const ObjectState & state)
-{
+inline gm::Vector3 getVelocity(const ObjectState& state) {
   gm::Vector3 velocity;
   velocity.x = getVelLon(state);
   velocity.y = getVelLat(state);
@@ -383,8 +389,7 @@ inline gm::Vector3 getVelocity(const ObjectState & state)
  * @return gm::Vector3 
  */
 template <typename T>
-inline gm::Vector3 getVelocity(const T & obj)
-{
+inline gm::Vector3 getVelocity(const T& obj) {
   return getVelocity(obj.state);
 }
 
@@ -394,8 +399,7 @@ inline gm::Vector3 getVelocity(const T & obj)
  * @param state 
  * @return double 
  */
-inline double getVelocityMagnitude(const ObjectState & state)
-{
+inline double getVelocityMagnitude(const ObjectState& state) {
   gm::Vector3 vel = getVelocity(state);
   using namespace std;
   return sqrt(pow(vel.x, 2) + pow(vel.y, 2) + pow(vel.z, 2));
@@ -409,8 +413,7 @@ inline double getVelocityMagnitude(const ObjectState & state)
  * @return double 
  */
 template <typename T>
-inline double getVelocityMagnitude(const T & obj)
-{
+inline double getVelocityMagnitude(const T& obj) {
   return getVelocityMagnitude(obj.state);
 }
 
@@ -419,8 +422,7 @@ inline double getVelocityMagnitude(const T & obj)
  * @param state 
  * @return gm::Vector3 
  */
-inline gm::Vector3 getAcceleration(const ObjectState & state)
-{
+inline gm::Vector3 getAcceleration(const ObjectState& state) {
   gm::Vector3 acceleration;
   acceleration.x = getAccLon(state);
   acceleration.y = getAccLat(state);
@@ -436,8 +438,7 @@ inline gm::Vector3 getAcceleration(const ObjectState & state)
  * @return gm::Vector3 
  */
 template <typename T>
-inline gm::Vector3 getAcceleration(const T & obj)
-{
+inline gm::Vector3 getAcceleration(const T& obj) {
   return getAcceleration(obj.state);
 }
 
@@ -447,8 +448,7 @@ inline gm::Vector3 getAcceleration(const T & obj)
  * @param state 
  * @return double 
  */
-inline double getAccelerationMagnitude(const ObjectState & state)
-{
+inline double getAccelerationMagnitude(const ObjectState& state) {
   gm::Vector3 acc = getAcceleration(state);
   using namespace std;
   return sqrt(pow(acc.x, 2) + pow(acc.y, 2) + pow(acc.z, 2));
@@ -462,13 +462,11 @@ inline double getAccelerationMagnitude(const ObjectState & state)
  * @return double 
  */
 template <typename T>
-inline double getAccelerationMagnitude(const T & obj)
-{
+inline double getAccelerationMagnitude(const T& obj) {
   return getAccelerationMagnitude(obj.state);
 }
 
 // --- alternative state entries ---------------------------------------------
-
 
 /**
  * @brief Get the roll in degree of a given object state.
@@ -476,7 +474,7 @@ inline double getAccelerationMagnitude(const T & obj)
  * @param state 
  * @return double 
  */
-inline double getRollInDeg(const ObjectState & state) { return getRoll(state) * 180.0 / M_PI; }
+inline double getRollInDeg(const ObjectState& state) { return getRoll(state) * 180.0 / M_PI; }
 
 /**
  * @brief Get the roll in degree of a given template object that contains an object state.
@@ -486,8 +484,7 @@ inline double getRollInDeg(const ObjectState & state) { return getRoll(state) * 
  * @return double 
  */
 template <typename T>
-inline double getRollInDeg(const T & obj)
-{
+inline double getRollInDeg(const T& obj) {
   return getRollInDeg(obj.state);
 }
 
@@ -497,7 +494,7 @@ inline double getRollInDeg(const T & obj)
  * @param state 
  * @return double 
  */
-inline double getPitchInDeg(const ObjectState & state) { return getPitch(state) * 180.0 / M_PI; }
+inline double getPitchInDeg(const ObjectState& state) { return getPitch(state) * 180.0 / M_PI; }
 
 /**
  * @brief Get the pitch in degree of a given template object that contains an object state.
@@ -507,8 +504,7 @@ inline double getPitchInDeg(const ObjectState & state) { return getPitch(state) 
  * @return double 
  */
 template <typename T>
-inline double getPitchInDeg(const T & obj)
-{
+inline double getPitchInDeg(const T& obj) {
   return getPitchInDeg(obj.state);
 }
 
@@ -518,7 +514,7 @@ inline double getPitchInDeg(const T & obj)
  * @param state 
  * @return double 
  */
-inline double getYawInDeg(const ObjectState & state) { return getYaw(state) * 180.0 / M_PI; }
+inline double getYawInDeg(const ObjectState& state) { return getYaw(state) * 180.0 / M_PI; }
 
 /**
  * @brief Get the yaw in degree of a given template object that contains an object state.
@@ -528,8 +524,7 @@ inline double getYawInDeg(const ObjectState & state) { return getYaw(state) * 18
  * @return double 
  */
 template <typename T>
-inline double getYawInDeg(const T & obj)
-{
+inline double getYawInDeg(const T& obj) {
   return getYawInDeg(obj.state);
 }
 
@@ -539,8 +534,7 @@ inline double getYawInDeg(const T & obj)
  * @param state 
  * @return gm::PoseWithCovariance 
  */
-inline gm::PoseWithCovariance getVelocityXYZWithCovariance(const ObjectState & state)
-{
+inline gm::PoseWithCovariance getVelocityXYZWithCovariance(const ObjectState& state) {
   gm::PoseWithCovariance vel_lon_lat, vel_xyz;
   vel_lon_lat.pose.position.x = getVelLon(state);
   vel_lon_lat.pose.position.y = getVelLat(state);
@@ -593,8 +587,7 @@ inline gm::PoseWithCovariance getVelocityXYZWithCovariance(const ObjectState & s
  * @return gm::PoseWithCovariance 
  */
 template <typename T>
-inline gm::PoseWithCovariance getVelocityXYZWithCovariance(const T & obj)
-{
+inline gm::PoseWithCovariance getVelocityXYZWithCovariance(const T& obj) {
   return getVelocityXYZWithCovariance(obj.state);
 }
 
@@ -604,8 +597,7 @@ inline gm::PoseWithCovariance getVelocityXYZWithCovariance(const T & obj)
  * @param state 
  * @return gm::Vector3 
  */
-inline gm::Vector3 getVelocityXYZ(const ObjectState & state)
-{
+inline gm::Vector3 getVelocityXYZ(const ObjectState& state) {
   gm::Vector3 vel_lon_lat, vel_xyz;
   vel_lon_lat = getVelocity(state);
   tf2::Quaternion q;
@@ -624,8 +616,7 @@ inline gm::Vector3 getVelocityXYZ(const ObjectState & state)
  * @return gm::Vector3 
  */
 template <typename T>
-inline gm::Vector3 getVelocityXYZ(const T & obj)
-{
+inline gm::Vector3 getVelocityXYZ(const T& obj) {
   return getVelocityXYZ(obj.state);
 }
 
@@ -635,7 +626,7 @@ inline gm::Vector3 getVelocityXYZ(const T & obj)
  * @param state 
  * @return double 
  */
-inline double getVelX(const ObjectState & state) { return getVelocityXYZ(state).x; }
+inline double getVelX(const ObjectState& state) { return getVelocityXYZ(state).x; }
 
 /**
  * @brief Get the x-velocity of a given template object that contains an object state.
@@ -645,8 +636,7 @@ inline double getVelX(const ObjectState & state) { return getVelocityXYZ(state).
  * @return double 
  */
 template <typename T>
-inline double getVelX(const T & obj)
-{
+inline double getVelX(const T& obj) {
   return getVelX(obj.state);
 }
 
@@ -656,7 +646,7 @@ inline double getVelX(const T & obj)
  * @param state 
  * @return double 
  */
-inline double getVelY(const ObjectState & state) { return getVelocityXYZ(state).y; }
+inline double getVelY(const ObjectState& state) { return getVelocityXYZ(state).y; }
 
 /**
  * @brief Get the y-velocity of a given template object that contains an object state.
@@ -666,8 +656,7 @@ inline double getVelY(const ObjectState & state) { return getVelocityXYZ(state).
  * @return double 
  */
 template <typename T>
-inline double getVelY(const T & obj)
-{
+inline double getVelY(const T& obj) {
   return getVelY(obj.state);
 }
 
@@ -677,8 +666,7 @@ inline double getVelY(const T & obj)
  * @param state 
  * @return gm::PoseWithCovariance 
  */
-inline gm::PoseWithCovariance getAccelerationXYZWithCovariance(const ObjectState & state)
-{
+inline gm::PoseWithCovariance getAccelerationXYZWithCovariance(const ObjectState& state) {
   gm::PoseWithCovariance acc_lon_lat, acc_xyz;
   acc_lon_lat.pose.position.x = getAccLon(state);
   acc_lon_lat.pose.position.y = getAccLat(state);
@@ -729,8 +717,7 @@ inline gm::PoseWithCovariance getAccelerationXYZWithCovariance(const ObjectState
  * @return gm::PoseWithCovariance 
  */
 template <typename T>
-inline gm::PoseWithCovariance getAccelerationXYZWithCovariance(const T & obj)
-{
+inline gm::PoseWithCovariance getAccelerationXYZWithCovariance(const T& obj) {
   return getAccelerationXYZWithCovariance(obj.state);
 }
 
@@ -740,8 +727,7 @@ inline gm::PoseWithCovariance getAccelerationXYZWithCovariance(const T & obj)
  * @param state 
  * @return gm::Vector3 
  */
-inline gm::Vector3 getAccelerationXYZ(const ObjectState & state)
-{
+inline gm::Vector3 getAccelerationXYZ(const ObjectState& state) {
   gm::Vector3 acc_lon_lat, acc_xyz;
   acc_lon_lat = getAcceleration(state);
   tf2::Quaternion q;
@@ -760,8 +746,7 @@ inline gm::Vector3 getAccelerationXYZ(const ObjectState & state)
  * @return gm::Vector3 
  */
 template <typename T>
-inline gm::Vector3 getAccelerationXYZ(const T & obj)
-{
+inline gm::Vector3 getAccelerationXYZ(const T& obj) {
   return getAccelerationXYZ(obj.state);
 }
 
@@ -771,7 +756,7 @@ inline gm::Vector3 getAccelerationXYZ(const T & obj)
  * @param state 
  * @return double 
  */
-inline double getAccX(const ObjectState & state) { return getAccelerationXYZ(state).x; }
+inline double getAccX(const ObjectState& state) { return getAccelerationXYZ(state).x; }
 
 /**
  * @brief Get the x-acceleration of a given template object that contains an object state.
@@ -781,8 +766,7 @@ inline double getAccX(const ObjectState & state) { return getAccelerationXYZ(sta
  * @return double 
  */
 template <typename T>
-inline double getAccX(const T & obj)
-{
+inline double getAccX(const T& obj) {
   return getAccX(obj.state);
 }
 
@@ -792,7 +776,7 @@ inline double getAccX(const T & obj)
  * @param state 
  * @return double 
  */
-inline double getAccY(const ObjectState & state) { return getAccelerationXYZ(state).y; }
+inline double getAccY(const ObjectState& state) { return getAccelerationXYZ(state).y; }
 
 /**
  * @brief Get the y-acceleration of a given template object that contains an object state.
@@ -802,8 +786,7 @@ inline double getAccY(const ObjectState & state) { return getAccelerationXYZ(sta
  * @return double 
  */
 template <typename T>
-inline double getAccY(const T & obj)
-{
+inline double getAccY(const T& obj) {
   return getAccY(obj.state);
 }
 
@@ -815,14 +798,11 @@ inline double getAccY(const T & obj)
  * @param state 
  * @return ObjectClassification 
  */
-inline ObjectClassification getClassWithHighestProbability(const ObjectState & state)
-{
+inline ObjectClassification getClassWithHighestProbability(const ObjectState& state) {
   ObjectClassification highest_prob_class;
   auto highest_prob_class_it = std::max_element(
-    state.classifications.begin(), state.classifications.end(),
-    [](const ObjectClassification & c1, const ObjectClassification & c2) {
-      return c1.probability < c2.probability;
-    });
+      state.classifications.begin(), state.classifications.end(),
+      [](const ObjectClassification& c1, const ObjectClassification& c2) { return c1.probability < c2.probability; });
   if (highest_prob_class_it == state.classifications.end()) {
     highest_prob_class.probability = -1.0;
     highest_prob_class.type = ObjectClassification::UNKNOWN;
@@ -840,8 +820,7 @@ inline ObjectClassification getClassWithHighestProbability(const ObjectState & s
  * @return ObjectClassification 
  */
 template <typename T>
-inline ObjectClassification getClassWithHighestProbability(const T & obj)
-{
+inline ObjectClassification getClassWithHighestProbability(const T& obj) {
   return getClassWithHighestProbability(obj.state);
 }
 
