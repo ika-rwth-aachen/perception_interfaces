@@ -416,6 +416,7 @@ void ObjectState::setObjectPredictionsVizDefault(
     billboard_line_prediction->setColor(line_color.r, line_color.g, line_color.b, line_color.a);
     float line_width = prediction_line_width_;
     billboard_line_prediction->setLineWidth(line_width);
+    billboard_line_prediction->setMaxPointsPerLine(states.size());
     auto base_state = perception_msgs::object_access::getPose(object_state_);
     tf2::Transform base_state_tf;
     tf2::fromMsg(base_state, base_state_tf);
