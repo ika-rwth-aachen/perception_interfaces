@@ -3,6 +3,7 @@ project(perception_msgs_rendering)
 
 find_package(ros_environment REQUIRED QUIET)
 set(ROS_VERSION $ENV{ROS_VERSION})
+add_compile_definitions(ROS_DISTRO_$ENV{ROS_DISTRO})
 
 # === ROS2 (AMENT) =============================================================
 if(${ROS_VERSION} EQUAL 2)
