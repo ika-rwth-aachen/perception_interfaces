@@ -243,35 +243,36 @@ void ObjectState::setObjectStateVizDefault(const perception_msgs::msg::ObjectSta
     //load mesh to render based on classification
     Ogre::Entity* entity;
     Ogre::MeshPtr mesh;
+    resource_retriever::Retriever* retriever;
 
     using namespace perception_msgs::msg;
     switch (classification_.type) {
       case ObjectClassification::CAR:
-        mesh = rviz_rendering::loadMeshFromResource("package://perception_msgs_rendering/meshes/car.stl");
+        mesh = rviz_rendering::loadMeshFromResource(retriever, "package://perception_msgs_rendering/meshes/car.stl");
         material = "CarMaterial";
         break;
       case ObjectClassification::TRUCK:
-        mesh = rviz_rendering::loadMeshFromResource("package://perception_msgs_rendering/meshes/truck.stl");
+        mesh = rviz_rendering::loadMeshFromResource(retriever, "package://perception_msgs_rendering/meshes/truck.stl");
         material = "TruckMaterial";
         break;
       case ObjectClassification::BUS:
-        mesh = rviz_rendering::loadMeshFromResource("package://perception_msgs_rendering/meshes/bus.stl");
+        mesh = rviz_rendering::loadMeshFromResource(retriever, "package://perception_msgs_rendering/meshes/bus.stl");
         material = "BusMaterial";
         break;
       case ObjectClassification::BICYCLE:
-        mesh = rviz_rendering::loadMeshFromResource("package://perception_msgs_rendering/meshes/bicycle.stl");
+        mesh = rviz_rendering::loadMeshFromResource(retriever, "package://perception_msgs_rendering/meshes/bicycle.stl");
         material = "BicycleMaterial";
         break;
       case ObjectClassification::MOTORBIKE:
-        mesh = rviz_rendering::loadMeshFromResource("package://perception_msgs_rendering/meshes/motorbike.stl");
+        mesh = rviz_rendering::loadMeshFromResource(retriever, "package://perception_msgs_rendering/meshes/motorbike.stl");
         material = "MotorbikeMaterial";
         break;
       case ObjectClassification::PEDESTRIAN:
-        mesh = rviz_rendering::loadMeshFromResource("package://perception_msgs_rendering/meshes/pedestrian.stl");
+        mesh = rviz_rendering::loadMeshFromResource(retriever, "package://perception_msgs_rendering/meshes/pedestrian.stl");
         material = "PedestrianMaterial";
         break;
       default:
-        mesh = rviz_rendering::loadMeshFromResource("package://perception_msgs_rendering/meshes/car.stl");
+        mesh = rviz_rendering::loadMeshFromResource(retriever, "package://perception_msgs_rendering/meshes/car.stl");
         material = "CarMaterial";
         break;
     }
