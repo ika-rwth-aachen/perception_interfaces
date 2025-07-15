@@ -65,7 +65,6 @@ if(${ROS_VERSION} EQUAL 2)
     perception_msgs_utils
     rviz_common
     rviz_rendering
-    resource_retriever
     tf2_geometry_msgs
   )
   if(NOT ROS_DISTRO STREQUAL "noetic"
