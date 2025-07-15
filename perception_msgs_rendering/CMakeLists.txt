@@ -25,7 +25,6 @@ if(${ROS_VERSION} EQUAL 2)
   find_package(rviz_common REQUIRED)
   find_package(rviz_ogre_vendor REQUIRED)
   find_package(rviz_rendering REQUIRED)
-  find_package(resource_retriever REQUIRED)
   find_package(tf2_geometry_msgs REQUIRED)
 
   if(NOT ROS_DISTRO STREQUAL "noetic"
