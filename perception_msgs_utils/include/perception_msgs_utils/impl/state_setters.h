@@ -612,6 +612,30 @@ namespace object_access {
   }
 
   /**
+   * @brief Set the turn indicator for a given object state.
+   *
+   * @param state
+   * @param val
+   */
+  inline void setTurnIndicator(ObjectState& state, const uint8_t val) {
+    sanityCheckDiscreteState(state);
+    const int idx = indexTurnIndicator(state.model_id);
+    state.discrete_state[idx] = val;
+  }
+
+  /**
+   * @brief Set the turn indicator for a given template object that contains an object state.
+   *
+   * @tparam T
+   * @param obj
+   * @param val
+   */
+  template <typename T>
+  inline void setTurnIndicator(T& obj, const uint8_t val) {
+    setTurnIndicator(obj.state, val);
+  }
+
+  /**
    * @brief Set the traffic light state for a given object state.
    *
    * @param state

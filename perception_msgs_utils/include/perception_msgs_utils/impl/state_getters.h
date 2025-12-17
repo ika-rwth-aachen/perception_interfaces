@@ -523,6 +523,29 @@ namespace object_access {
   }
 
   /**
+   * @brief Get the turn indicator state for a given object state.
+   *
+   * @param state
+   * @return uint8_t
+   */
+  inline uint8_t getTurnIndicator(const ObjectState& state) {
+    sanityCheckDiscreteState(state);
+    return state.discrete_state[indexTurnIndicator(state.model_id)];
+  }
+
+  /**
+   * @brief Get the turn indicator state for a given template object that contains an object state.
+   *
+   * @tparam T
+   * @param obj
+   * @return uint8_t
+   */
+  template <typename T>
+  inline uint8_t getTurnIndicator(const T& obj) {
+    return getTurnIndicator(obj.state);
+  }
+
+  /**
    * @brief Get the traffic light state for a given object state.
    *
    * @param state

@@ -143,6 +143,10 @@ TEST(perception_msgs, test_set_get_EGO)
   setStandstill(obj, true);
   EXPECT_EQ(true, getStandstill(obj));
 
+  // set/getTurnIndicator
+  setTurnIndicator(obj, EGO::TURN_INDICATOR_LEFT);
+  EXPECT_EQ(EGO::TURN_INDICATOR_LEFT, getTurnIndicator(obj));
+
   // unknown covariance after setting state values
   std::vector<double> continuous_state_covariance = getContinuousStateCovariance(obj);
   int n = getContinuousStateSize(obj);
@@ -233,6 +237,10 @@ TEST(perception_msgs, test_set_get_EGORWS)
   setStandstill(obj, true);
   EXPECT_EQ(true, getStandstill(obj));
 
+  // set/getTurnIndicator
+  setTurnIndicator(obj, EGORWS::TURN_INDICATOR_RIGHT);
+  EXPECT_EQ(EGORWS::TURN_INDICATOR_RIGHT, getTurnIndicator(obj));
+
   // unknown covariance after setting state values
   std::vector<double> continuous_state_covariance = getContinuousStateCovariance(obj);
   int n = getContinuousStateSize(obj);
@@ -313,6 +321,10 @@ TEST(perception_msgs, test_set_get_ISCACTR)
   val = randomValue();
   setHeight(obj, val);
   EXPECT_DOUBLE_EQ(val, getHeight(obj));
+
+  // set/getTurnIndicator
+  setTurnIndicator(obj, ISCACTR::TURN_INDICATOR_OFF);
+  EXPECT_EQ(ISCACTR::TURN_INDICATOR_OFF, getTurnIndicator(obj));
 }
 
 TEST(perception_msgs, test_set_get_HEXAMOTION)
@@ -401,6 +413,10 @@ TEST(perception_msgs, test_set_get_HEXAMOTION)
   val = randomValue();
   setHeight(obj, val);
   EXPECT_DOUBLE_EQ(val, getHeight(obj));
+
+  // set/getTurnIndicator
+  setTurnIndicator(obj, HEXAMOTION::TURN_INDICATOR_HAZARD);
+  EXPECT_EQ(HEXAMOTION::TURN_INDICATOR_HAZARD, getTurnIndicator(obj));
 }
 
 TEST(perception_msgs, test_set_get_TRAFFICLIGHT)

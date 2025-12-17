@@ -428,6 +428,27 @@ namespace object_access {
   }
 
   /**
+   * @brief Get the vector-index that stores the turn indicator state for a given model-id.
+   *
+   * @param model_id
+   * @return int
+   */
+  inline int indexTurnIndicator(const unsigned char& model_id) {
+    switch(model_id) {
+      case EGO::MODEL_ID:
+        return EGO::TURN_INDICATOR;
+      case EGORWS::MODEL_ID:
+        return EGORWS::TURN_INDICATOR;
+      case ISCACTR::MODEL_ID:
+        return ISCACTR::TURN_INDICATOR;
+      case HEXAMOTION::MODEL_ID:
+        return HEXAMOTION::TURN_INDICATOR;
+      default:
+        throw std::invalid_argument(kExceptionUnknownStateEntry + std::to_string(model_id) + ", " + "turn_indicator");
+    }
+  }
+
+  /**
    * @brief Get the vector-index that stores the traffic light state for a given model-id.
    *
    * @param model_id
@@ -910,6 +931,28 @@ namespace object_access {
         return false;
       case HEXAMOTION::MODEL_ID:
         return false;
+      default:
+        return false;
+    }
+  }
+
+  /**
+   * @brief Indicates if given model contains a turn indicator state.
+   *
+   * @param model_id
+   * @return true
+   * @return false
+   */
+  inline bool hasTurnIndicator(const unsigned char& model_id) {
+    switch(model_id) {
+      case EGO::MODEL_ID:
+        return true;
+      case EGORWS::MODEL_ID:
+        return true;
+      case ISCACTR::MODEL_ID:
+        return true;
+      case HEXAMOTION::MODEL_ID:
+        return true;
       default:
         return false;
     }

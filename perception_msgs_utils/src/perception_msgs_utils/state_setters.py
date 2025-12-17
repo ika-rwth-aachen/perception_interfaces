@@ -40,7 +40,7 @@ from .state_index import (
     index_steering_angle_ack, index_steering_angle_rate_ack,
     index_steering_angle_front, index_steering_angle_rear,
     index_width, index_length, index_height, index_standstill,
-    index_state, index_type
+    index_turn_indicator, index_state, index_type
 )
 from .checks import sanity_check_continuous_state, sanity_check_discrete_state
 from .utils import set_continuous_state_covariance_to_unknown_at
@@ -238,6 +238,13 @@ def set_standstill(obj: T, val: bool) -> None:
     state = obj if isinstance(obj, ObjectState) else obj.state
     sanity_check_discrete_state(state)
     idx = index_standstill(state.model_id)
+    state.discrete_state[idx] = val
+
+def set_turn_indicator(obj: T, val: int) -> None:
+    """Set the turn indicator state for a given object or object state."""
+    state = obj if isinstance(obj, ObjectState) else obj.state
+    sanity_check_discrete_state(state)
+    idx = index_turn_indicator(state.model_id)
     state.discrete_state[idx] = val
 
 def set_state(obj: T, val: int) -> None:

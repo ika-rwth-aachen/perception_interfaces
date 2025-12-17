@@ -73,11 +73,13 @@ _EGORWS_INDICES = {
 }
 
 _EGO_DISCRETE_INDICES = {
-    'standstill': EGO.STANDSTILL
+    'standstill': EGO.STANDSTILL,
+    'turn_indicator': EGO.TURN_INDICATOR
 }
 
 _EGORWS_DISCRETE_INDICES = {
-    'standstill': EGORWS.STANDSTILL
+    'standstill': EGORWS.STANDSTILL,
+    'turn_indicator': EGORWS.TURN_INDICATOR
 }
 
 _ISCACTR_INDICES = {
@@ -93,6 +95,10 @@ _ISCACTR_INDICES = {
     'width': ISCACTR.WIDTH,
     'length': ISCACTR.LENGTH,
     'height': ISCACTR.HEIGHT
+}
+
+_ISCACTR_DISCRETE_INDICES = {
+    'turn_indicator': ISCACTR.TURN_INDICATOR
 }
 
 _HEXAMOTION_INDICES = {
@@ -112,6 +118,10 @@ _HEXAMOTION_INDICES = {
     'length': HEXAMOTION.LENGTH,
     'width': HEXAMOTION.WIDTH,
     'height': HEXAMOTION.HEIGHT
+}
+
+_HEXAMOTION_DISCRETE_INDICES = {
+    'turn_indicator': HEXAMOTION.TURN_INDICATOR
 }
 
 _TRAFFICLIGHT_INDICES = {
@@ -138,6 +148,8 @@ _MODEL_CAPABILITIES: Dict[int, Set[str]] = {
 _DISCRETE_MODEL_CAPABILITIES: Dict[int, Set[str]] = {
     EGO_MODEL_ID: set(_EGO_DISCRETE_INDICES.keys()),
     EGORWS_MODEL_ID: set(_EGORWS_DISCRETE_INDICES.keys()),
+    ISCACTR_MODEL_ID: set(_ISCACTR_DISCRETE_INDICES.keys()),
+    HEXAMOTION_MODEL_ID: set(_HEXAMOTION_DISCRETE_INDICES.keys()),
     TRAFFICLIGHT_MODEL_ID: set(_TRAFFICLIGHT_DISCRETE_INDICES.keys())
 }
 
@@ -189,6 +201,10 @@ def _get_discrete_index(model_id: int, entry: str) -> int:
         indices = _EGO_DISCRETE_INDICES
     elif model_id == EGORWS_MODEL_ID:
         indices = _EGORWS_DISCRETE_INDICES
+    elif model_id == ISCACTR_MODEL_ID:
+        indices = _ISCACTR_DISCRETE_INDICES
+    elif model_id == HEXAMOTION_MODEL_ID:
+        indices = _HEXAMOTION_DISCRETE_INDICES
     elif model_id == TRAFFICLIGHT_MODEL_ID:
         indices = _TRAFFICLIGHT_DISCRETE_INDICES
     else:
@@ -283,6 +299,10 @@ def index_standstill(model_id: int) -> int:
     """Get the vector-index that stores the standstill flag."""
     return _get_discrete_index(model_id, 'standstill')
 
+def index_turn_indicator(model_id: int) -> int:
+    """Get the vector-index that stores the turn indicator."""
+    return _get_discrete_index(model_id, 'turn_indicator')
+
 def index_state(model_id: int) -> int:
     """Get the vector-index that stores a state entry."""
     return _get_discrete_index(model_id, 'state')
@@ -374,6 +394,10 @@ def has_height(model_id: int) -> bool:
 def has_standstill(model_id: int) -> bool:
     """Check if the model supports standstill."""
     return 'standstill' in _DISCRETE_MODEL_CAPABILITIES.get(model_id, set())
+
+def has_turn_indicator(model_id: int) -> bool:
+    """Check if the model supports turn indicator."""
+    return 'turn_indicator' in _DISCRETE_MODEL_CAPABILITIES.get(model_id, set())
 
 def has_state(model_id: int) -> bool:
     """Check if the model supports state."""
