@@ -25,6 +25,8 @@ if(${ROS_VERSION} EQUAL 2)
   find_package(rviz_default_plugins REQUIRED)
   find_package(rviz_ogre_vendor REQUIRED)
   find_package(rviz_rendering REQUIRED)
+  find_package(rviz_2d_overlay_msgs REQUIRED)
+  find_package(rviz_2d_overlay_plugins REQUIRED)
   find_package(std_msgs REQUIRED)
   find_package(tf2 REQUIRED)
   find_package(tf2_ros REQUIRED)
@@ -34,6 +36,7 @@ if(${ROS_VERSION} EQUAL 2)
     include/perception_msgs/displays/object_list/object_list_display.hpp
     include/perception_msgs/displays/ego_data/ego_data_display.hpp
     include/perception_msgs/displays/traffic_light/traffic_light_display.hpp
+    include/perception_msgs/displays/ego_data_overlay/ego_data_overlay_display.hpp
   )
 
   foreach(header "${display_headers_to_moc}")
@@ -43,6 +46,7 @@ if(${ROS_VERSION} EQUAL 2)
   set(display_source_files
     src/displays/object_list/object_list_display.cpp
     src/displays/ego_data/ego_data_display.cpp
+    src/displays/ego_data_overlay/ego_data_overlay_display.cpp
     src/displays/traffic_light/traffic_light_display.cpp
   )
 
@@ -73,6 +77,7 @@ if(${ROS_VERSION} EQUAL 2)
     rviz_common
     rviz_default_plugins
     rviz_rendering
+    rviz_2d_overlay_plugins
     tf2
     tf2_ros
   )
@@ -88,6 +93,7 @@ if(${ROS_VERSION} EQUAL 2)
     rviz_common
     rviz_default_plugins
     rviz_ogre_vendor
+    rviz_2d_overlay_plugins
     tf2
     tf2_ros
   )
@@ -98,6 +104,11 @@ if(${ROS_VERSION} EQUAL 2)
     ARCHIVE DESTINATION lib
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin
+  )
+  
+  install(
+    DIRECTORY assets/
+    DESTINATION share/${PROJECT_NAME}/assets
   )
   # RViz Display End
 
