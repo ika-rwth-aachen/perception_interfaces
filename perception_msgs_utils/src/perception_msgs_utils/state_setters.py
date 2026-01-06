@@ -40,7 +40,8 @@ from .state_index import (
     index_steering_angle_ack, index_steering_angle_rate_ack,
     index_steering_angle_front, index_steering_angle_rear,
     index_width, index_length, index_height, index_standstill,
-    index_turn_indicator, index_state, index_type
+    index_turn_indicator, index_brake_light, index_reverse_light,
+    index_state, index_type
 )
 from .checks import sanity_check_continuous_state, sanity_check_discrete_state
 from .utils import set_continuous_state_covariance_to_unknown_at
@@ -245,6 +246,20 @@ def set_turn_indicator(obj: T, val: int) -> None:
     state = obj if isinstance(obj, ObjectState) else obj.state
     sanity_check_discrete_state(state)
     idx = index_turn_indicator(state.model_id)
+    state.discrete_state[idx] = val
+
+def set_brake_light(obj: T, val: int) -> None:
+    """Set the brake light state for a given object or object state."""
+    state = obj if isinstance(obj, ObjectState) else obj.state
+    sanity_check_discrete_state(state)
+    idx = index_brake_light(state.model_id)
+    state.discrete_state[idx] = val
+
+def set_reverse_light(obj: T, val: int) -> None:
+    """Set the reverse light state for a given object or object state."""
+    state = obj if isinstance(obj, ObjectState) else obj.state
+    sanity_check_discrete_state(state)
+    idx = index_reverse_light(state.model_id)
     state.discrete_state[idx] = val
 
 def set_state(obj: T, val: int) -> None:

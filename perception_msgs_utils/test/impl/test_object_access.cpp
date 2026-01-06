@@ -147,6 +147,14 @@ TEST(perception_msgs, test_set_get_EGO)
   setTurnIndicator(obj, EGO::TURN_INDICATOR_LEFT);
   EXPECT_EQ(EGO::TURN_INDICATOR_LEFT, getTurnIndicator(obj));
 
+  // set/getBrakeLight
+  setBrakeLight(obj, EGO::LIGHT_ON);
+  EXPECT_EQ(EGO::LIGHT_ON, getBrakeLight(obj));
+
+  // set/getReverseLight
+  setReverseLight(obj, EGO::LIGHT_OFF);
+  EXPECT_EQ(EGO::LIGHT_OFF, getReverseLight(obj));
+
   // unknown covariance after setting state values
   std::vector<double> continuous_state_covariance = getContinuousStateCovariance(obj);
   int n = getContinuousStateSize(obj);
@@ -241,6 +249,14 @@ TEST(perception_msgs, test_set_get_EGORWS)
   setTurnIndicator(obj, EGORWS::TURN_INDICATOR_RIGHT);
   EXPECT_EQ(EGORWS::TURN_INDICATOR_RIGHT, getTurnIndicator(obj));
 
+  // set/getBrakeLight
+  setBrakeLight(obj, EGORWS::LIGHT_OFF);
+  EXPECT_EQ(EGORWS::LIGHT_OFF, getBrakeLight(obj));
+
+  // set/getReverseLight
+  setReverseLight(obj, EGORWS::LIGHT_ON);
+  EXPECT_EQ(EGORWS::LIGHT_ON, getReverseLight(obj));
+
   // unknown covariance after setting state values
   std::vector<double> continuous_state_covariance = getContinuousStateCovariance(obj);
   int n = getContinuousStateSize(obj);
@@ -325,6 +341,14 @@ TEST(perception_msgs, test_set_get_ISCACTR)
   // set/getTurnIndicator
   setTurnIndicator(obj, ISCACTR::TURN_INDICATOR_OFF);
   EXPECT_EQ(ISCACTR::TURN_INDICATOR_OFF, getTurnIndicator(obj));
+
+  // set/getBrakeLight
+  setBrakeLight(obj, ISCACTR::LIGHT_ON);
+  EXPECT_EQ(ISCACTR::LIGHT_ON, getBrakeLight(obj));
+
+  // set/getReverseLight
+  setReverseLight(obj, ISCACTR::LIGHT_OFF);
+  EXPECT_EQ(ISCACTR::LIGHT_OFF, getReverseLight(obj));
 }
 
 TEST(perception_msgs, test_set_get_HEXAMOTION)
@@ -417,6 +441,14 @@ TEST(perception_msgs, test_set_get_HEXAMOTION)
   // set/getTurnIndicator
   setTurnIndicator(obj, HEXAMOTION::TURN_INDICATOR_HAZARD);
   EXPECT_EQ(HEXAMOTION::TURN_INDICATOR_HAZARD, getTurnIndicator(obj));
+
+  // set/getBrakeLight
+  setBrakeLight(obj, HEXAMOTION::LIGHT_OFF);
+  EXPECT_EQ(HEXAMOTION::LIGHT_OFF, getBrakeLight(obj));
+
+  // set/getReverseLight
+  setReverseLight(obj, HEXAMOTION::LIGHT_ON);
+  EXPECT_EQ(HEXAMOTION::LIGHT_ON, getReverseLight(obj));
 }
 
 TEST(perception_msgs, test_set_get_TRAFFICLIGHT)

@@ -32,8 +32,8 @@ from perception_msgs_utils.init import initialize_state
 from perception_msgs_utils.utils import get_continuous_state_size, get_discrete_state_size, get_continuous_state_covariance_size
 from perception_msgs_utils.convenience_state_getters import get_continuous_state, get_discrete_state, get_continuous_state_covariance, get_class_with_highest_probability, get_pose_with_covariance, get_velocity, get_acceleration, get_roll_in_deg, get_pitch_in_deg, get_yaw_in_deg, get_velocity_xyz, get_velocity_magnitude, get_acceleration_magnitude, get_velocity_xyz_with_covariance, get_acceleration_xyz_with_covariance, get_acceleration_xyz
 from perception_msgs_utils.convenience_state_setters import set_continuous_state, set_discrete_state, set_continuous_state_covariance, set_continuous_state_covariance_at, set_pose_with_covariance_from_gm_pose_with_covariance, set_velocity_from_gm_vector3, set_acceleration_from_gm_vector3, set_roll_in_deg, set_pitch_in_deg, set_yaw_in_deg, set_velocity_xyz_yaw_from_gm_vector3, set_velocity_xyz_yaw_with_covariance_from_gm_vector3, set_acceleration_xyz_yaw_from_gm_vector3, set_acceleration_xyz_yaw_with_covariance_from_gm_vector3
-from perception_msgs_utils.state_setters import set_x, set_y, set_z, set_vel_lon, set_vel_lat, set_acc_lon, set_acc_lat, set_roll, set_pitch, set_yaw, set_yaw_rate, set_steering_angle_ack, set_steering_angle_rate_ack, set_standstill, set_turn_indicator, set_steering_angle_front, set_steering_angle_rear, set_width, set_length, set_height, set_roll_rate, set_pitch_rate, set_state, set_type
-from perception_msgs_utils.state_getters import get_x, get_y, get_z, get_vel_lon, get_vel_lat, get_acc_lon, get_acc_lat, get_roll, get_pitch, get_yaw, get_yaw_rate, get_steering_angle_ack, get_steering_angle_rate_ack, get_standstill, get_turn_indicator, get_steering_angle_front, get_steering_angle_rear, get_width, get_length, get_height, get_roll_rate, get_pitch_rate, get_state, get_type
+from perception_msgs_utils.state_setters import set_x, set_y, set_z, set_vel_lon, set_vel_lat, set_acc_lon, set_acc_lat, set_roll, set_pitch, set_yaw, set_yaw_rate, set_steering_angle_ack, set_steering_angle_rate_ack, set_standstill, set_turn_indicator, set_brake_light, set_reverse_light, set_steering_angle_front, set_steering_angle_rear, set_width, set_length, set_height, set_roll_rate, set_pitch_rate, set_state, set_type
+from perception_msgs_utils.state_getters import get_x, get_y, get_z, get_vel_lon, get_vel_lat, get_acc_lon, get_acc_lat, get_roll, get_pitch, get_yaw, get_yaw_rate, get_steering_angle_ack, get_steering_angle_rate_ack, get_standstill, get_turn_indicator, get_brake_light, get_reverse_light, get_steering_angle_front, get_steering_angle_rear, get_width, get_length, get_height, get_roll_rate, get_pitch_rate, get_state, get_type
 from perception_msgs_utils.state_index import index_vel_lon, index_vel_lat, index_acc_lon, index_acc_lat
 
 def random_value():
@@ -128,6 +128,12 @@ def test_set_get_EGO():
     set_turn_indicator(obj, EGO.TURN_INDICATOR_LEFT)
     assert get_turn_indicator(obj) == EGO.TURN_INDICATOR_LEFT
 
+    set_brake_light(obj, EGO.LIGHT_ON)
+    assert get_brake_light(obj) == EGO.LIGHT_ON
+
+    set_reverse_light(obj, EGO.LIGHT_OFF)
+    assert get_reverse_light(obj) == EGO.LIGHT_OFF
+
     continuous_state_covariance = get_continuous_state_covariance(obj)
     n = get_continuous_state_size(obj)
     for i in range(n):
@@ -199,6 +205,12 @@ def test_set_get_EGORWS():
     set_turn_indicator(obj, EGORWS.TURN_INDICATOR_RIGHT)
     assert get_turn_indicator(obj) == EGORWS.TURN_INDICATOR_RIGHT
 
+    set_brake_light(obj, EGORWS.LIGHT_OFF)
+    assert get_brake_light(obj) == EGORWS.LIGHT_OFF
+
+    set_reverse_light(obj, EGORWS.LIGHT_ON)
+    assert get_reverse_light(obj) == EGORWS.LIGHT_ON
+
     continuous_state_covariance = get_continuous_state_covariance(obj)
     n = get_continuous_state_size(obj)
     for i in range(n):
@@ -262,6 +274,12 @@ def test_set_get_ISCACTR():
 
     set_turn_indicator(obj, ISCACTR.TURN_INDICATOR_OFF)
     assert get_turn_indicator(obj) == ISCACTR.TURN_INDICATOR_OFF
+
+    set_brake_light(obj, ISCACTR.LIGHT_ON)
+    assert get_brake_light(obj) == ISCACTR.LIGHT_ON
+
+    set_reverse_light(obj, ISCACTR.LIGHT_OFF)
+    assert get_reverse_light(obj) == ISCACTR.LIGHT_OFF
 
 def test_set_get_HEXAMOTION():
     obj = Object()
@@ -333,6 +351,12 @@ def test_set_get_HEXAMOTION():
 
     set_turn_indicator(obj, HEXAMOTION.TURN_INDICATOR_HAZARD)
     assert get_turn_indicator(obj) == HEXAMOTION.TURN_INDICATOR_HAZARD
+
+    set_brake_light(obj, HEXAMOTION.LIGHT_OFF)
+    assert get_brake_light(obj) == HEXAMOTION.LIGHT_OFF
+
+    set_reverse_light(obj, HEXAMOTION.LIGHT_ON)
+    assert get_reverse_light(obj) == HEXAMOTION.LIGHT_ON
 
 def test_set_get_TRAFFICLIGHT():
     obj = Object()

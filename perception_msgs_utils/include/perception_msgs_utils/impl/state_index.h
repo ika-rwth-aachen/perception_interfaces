@@ -449,6 +449,48 @@ namespace object_access {
   }
 
   /**
+   * @brief Get the vector-index that stores the brake light state for a given model-id.
+   *
+   * @param model_id
+   * @return int
+   */
+  inline int indexBrakeLight(const unsigned char& model_id) {
+    switch(model_id) {
+      case EGO::MODEL_ID:
+        return EGO::BRAKE_LIGHT;
+      case EGORWS::MODEL_ID:
+        return EGORWS::BRAKE_LIGHT;
+      case ISCACTR::MODEL_ID:
+        return ISCACTR::BRAKE_LIGHT;
+      case HEXAMOTION::MODEL_ID:
+        return HEXAMOTION::BRAKE_LIGHT;
+      default:
+        throw std::invalid_argument(kExceptionUnknownStateEntry + std::to_string(model_id) + ", " + "brake_light");
+    }
+  }
+
+  /**
+   * @brief Get the vector-index that stores the reverse light state for a given model-id.
+   *
+   * @param model_id
+   * @return int
+   */
+  inline int indexReverseLight(const unsigned char& model_id) {
+    switch(model_id) {
+      case EGO::MODEL_ID:
+        return EGO::REVERSE_LIGHT;
+      case EGORWS::MODEL_ID:
+        return EGORWS::REVERSE_LIGHT;
+      case ISCACTR::MODEL_ID:
+        return ISCACTR::REVERSE_LIGHT;
+      case HEXAMOTION::MODEL_ID:
+        return HEXAMOTION::REVERSE_LIGHT;
+      default:
+        throw std::invalid_argument(kExceptionUnknownStateEntry + std::to_string(model_id) + ", " + "reverse_light");
+    }
+  }
+
+  /**
    * @brief Get the vector-index that stores the traffic light state for a given model-id.
    *
    * @param model_id
@@ -944,6 +986,50 @@ namespace object_access {
    * @return false
    */
   inline bool hasTurnIndicator(const unsigned char& model_id) {
+    switch(model_id) {
+      case EGO::MODEL_ID:
+        return true;
+      case EGORWS::MODEL_ID:
+        return true;
+      case ISCACTR::MODEL_ID:
+        return true;
+      case HEXAMOTION::MODEL_ID:
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  /**
+   * @brief Indicates if given model contains a brake light state.
+   *
+   * @param model_id
+   * @return true
+   * @return false
+   */
+  inline bool hasBrakeLight(const unsigned char& model_id) {
+    switch(model_id) {
+      case EGO::MODEL_ID:
+        return true;
+      case EGORWS::MODEL_ID:
+        return true;
+      case ISCACTR::MODEL_ID:
+        return true;
+      case HEXAMOTION::MODEL_ID:
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  /**
+   * @brief Indicates if given model contains a reverse light state.
+   *
+   * @param model_id
+   * @return true
+   * @return false
+   */
+  inline bool hasReverseLight(const unsigned char& model_id) {
     switch(model_id) {
       case EGO::MODEL_ID:
         return true;

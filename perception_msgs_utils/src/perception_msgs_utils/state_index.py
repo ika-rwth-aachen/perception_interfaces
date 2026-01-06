@@ -74,12 +74,16 @@ _EGORWS_INDICES = {
 
 _EGO_DISCRETE_INDICES = {
     'standstill': EGO.STANDSTILL,
-    'turn_indicator': EGO.TURN_INDICATOR
+    'turn_indicator': EGO.TURN_INDICATOR,
+    'brake_light': EGO.BRAKE_LIGHT,
+    'reverse_light': EGO.REVERSE_LIGHT
 }
 
 _EGORWS_DISCRETE_INDICES = {
     'standstill': EGORWS.STANDSTILL,
-    'turn_indicator': EGORWS.TURN_INDICATOR
+    'turn_indicator': EGORWS.TURN_INDICATOR,
+    'brake_light': EGORWS.BRAKE_LIGHT,
+    'reverse_light': EGORWS.REVERSE_LIGHT
 }
 
 _ISCACTR_INDICES = {
@@ -98,7 +102,9 @@ _ISCACTR_INDICES = {
 }
 
 _ISCACTR_DISCRETE_INDICES = {
-    'turn_indicator': ISCACTR.TURN_INDICATOR
+    'turn_indicator': ISCACTR.TURN_INDICATOR,
+    'brake_light': ISCACTR.BRAKE_LIGHT,
+    'reverse_light': ISCACTR.REVERSE_LIGHT
 }
 
 _HEXAMOTION_INDICES = {
@@ -121,7 +127,9 @@ _HEXAMOTION_INDICES = {
 }
 
 _HEXAMOTION_DISCRETE_INDICES = {
-    'turn_indicator': HEXAMOTION.TURN_INDICATOR
+    'turn_indicator': HEXAMOTION.TURN_INDICATOR,
+    'brake_light': HEXAMOTION.BRAKE_LIGHT,
+    'reverse_light': HEXAMOTION.REVERSE_LIGHT
 }
 
 _TRAFFICLIGHT_INDICES = {
@@ -303,6 +311,14 @@ def index_turn_indicator(model_id: int) -> int:
     """Get the vector-index that stores the turn indicator."""
     return _get_discrete_index(model_id, 'turn_indicator')
 
+def index_brake_light(model_id: int) -> int:
+    """Get the vector-index that stores the brake light."""
+    return _get_discrete_index(model_id, 'brake_light')
+
+def index_reverse_light(model_id: int) -> int:
+    """Get the vector-index that stores the reverse light."""
+    return _get_discrete_index(model_id, 'reverse_light')
+
 def index_state(model_id: int) -> int:
     """Get the vector-index that stores a state entry."""
     return _get_discrete_index(model_id, 'state')
@@ -398,6 +414,14 @@ def has_standstill(model_id: int) -> bool:
 def has_turn_indicator(model_id: int) -> bool:
     """Check if the model supports turn indicator."""
     return 'turn_indicator' in _DISCRETE_MODEL_CAPABILITIES.get(model_id, set())
+
+def has_brake_light(model_id: int) -> bool:
+    """Check if the model supports brake light."""
+    return 'brake_light' in _DISCRETE_MODEL_CAPABILITIES.get(model_id, set())
+
+def has_reverse_light(model_id: int) -> bool:
+    """Check if the model supports reverse light."""
+    return 'reverse_light' in _DISCRETE_MODEL_CAPABILITIES.get(model_id, set())
 
 def has_state(model_id: int) -> bool:
     """Check if the model supports state."""
