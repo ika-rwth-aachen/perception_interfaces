@@ -3,9 +3,9 @@
 ###########################################################################################################################################################
 uint8 MODEL_ID=17
 uint8 CONTINUOUS_STATE_SIZE=16
-uint8 DISCRETE_STATE_SIZE=4
+uint8 DISCRETE_STATE_SIZE=3
 
-#   The HEXAMOTION state model (N=16 & M=4) has the following entries
+#   The HEXAMOTION state model (N=16 & M=3) has the following entries
 #   continuous_state:
 uint8 X=0             # x position of reference point in header frame [m]
 uint8 Y=1             # y position of reference point in header frame [m]
@@ -25,8 +25,8 @@ uint8 WIDTH=14        # width in object frame [m]
 uint8 HEIGHT=15       # height in object frame [m]
 #   discrete_state:
 uint8 TURN_INDICATOR=0  # turn indicator state (0=unknown, 1=off, 2=left, 3=right, 4=hazard)
-uint8 BRAKE_LIGHT=2     # brake light state (0=unknown, 1=off, 2=on)
-uint8 REVERSE_LIGHT=3   # reverse light state (0=unknown, 1=off, 2=on)
+uint8 BRAKE_LIGHT=1     # brake light state (0=unknown, 1=off, 2=on)
+uint8 REVERSE_LIGHT=2   # reverse light state (0=unknown, 1=off, 2=on)
 
 # discrete state enums
 int64 TURN_INDICATOR_UNKNOWN=0
