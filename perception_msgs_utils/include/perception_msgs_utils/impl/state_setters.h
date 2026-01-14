@@ -237,7 +237,7 @@ namespace object_access {
   inline void setRoll(ObjectState& state, const double val, const bool reset_covariance = true) {
     sanityCheckContinuousState(state);
     double capped_val = val;
-    capped_val -= 2.f * M_PI * std::floor((capped_val + M_PI) * (M_1_PI * 0.5f));
+    capped_val -= 2.0 * M_PI * std::floor((capped_val + M_PI) * (M_1_PI * 0.5));
     if (capped_val <= -M_PI) capped_val += 2 * M_PI;
     const int idx = indexRoll(state.model_id);
     state.continuous_state[idx] = capped_val;
@@ -294,7 +294,7 @@ namespace object_access {
   inline void setPitch(ObjectState& state, const double val, const bool reset_covariance = true) {
     sanityCheckContinuousState(state);
     double capped_val = val;
-    capped_val -= 2.f * M_PI * std::floor((capped_val + M_PI) * (M_1_PI * 0.5f));
+    capped_val -= 2.0 * M_PI * std::floor((capped_val + M_PI) * (M_1_PI * 0.5));
     if (capped_val <= -M_PI) capped_val += 2 * M_PI;
     const int idx = indexPitch(state.model_id);
     state.continuous_state[idx] = capped_val;
@@ -351,7 +351,7 @@ namespace object_access {
   inline void setYaw(ObjectState& state, const double val, const bool reset_covariance = true) {
     sanityCheckContinuousState(state);
     double capped_val = val;
-    capped_val -= 2.f * M_PI * std::floor((capped_val + M_PI) * (M_1_PI * 0.5f));
+    capped_val -= 2.0 * M_PI * std::floor((capped_val + M_PI) * (M_1_PI * 0.5));
     if (capped_val <= -M_PI) capped_val += 2 * M_PI;
     const int idx = indexYaw(state.model_id);
     state.continuous_state[idx] = capped_val;
