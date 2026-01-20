@@ -94,15 +94,14 @@ protected:
   rviz_common::properties::BoolProperty *color_property_group_;
   rviz_common::properties::ColorProperty *color_property_pedestrian_;
   rviz_common::properties::ColorProperty *color_property_bicycle_;
-  rviz_common::properties::ColorProperty *color_property_motorbike_;
+  rviz_common::properties::ColorProperty *color_property_motorcycle_;
   rviz_common::properties::ColorProperty *color_property_car_;
-  rviz_common::properties::ColorProperty *color_property_truck_;
-  rviz_common::properties::ColorProperty *color_property_van_;
+  rviz_common::properties::ColorProperty *color_property_utility_;
   rviz_common::properties::ColorProperty *color_property_bus_;
   rviz_common::properties::ColorProperty *color_property_animal_;
   rviz_common::properties::ColorProperty *color_property_road_obstacle_;
-  rviz_common::properties::ColorProperty *color_property_train_;
-  rviz_common::properties::ColorProperty *color_property_trailer_;
+  rviz_common::properties::ColorProperty *color_property_vru_;
+  rviz_common::properties::ColorProperty *color_property_micro_;
   rviz_common::properties::ColorProperty *color_property_unknown_;
 
   // velocity properties

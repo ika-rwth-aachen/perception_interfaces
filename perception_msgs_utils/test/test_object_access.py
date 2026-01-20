@@ -385,10 +385,10 @@ def test_get_class_with_highest_probability():
     dummy_class = ObjectClassification()
     max_class = ObjectClassification()
 
-    dummy_class.type = ObjectClassification.MOTORBIKE
+    dummy_class.type = ObjectClassification.MOTORCYCLE
     dummy_class.probability = 0.2
     obj.state.classifications.append(dummy_class)
-    dummy_class.type = ObjectClassification.VAN
+    dummy_class.type = ObjectClassification.UTILITY
     dummy_class.probability = 0.3
     obj.state.classifications.append(dummy_class)
     dummy_class.type = ObjectClassification.CAR

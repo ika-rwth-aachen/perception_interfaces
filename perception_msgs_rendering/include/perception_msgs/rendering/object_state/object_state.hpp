@@ -462,10 +462,10 @@ class ObjectState {
   std::string hoverboard_glow_material_name_ = "ObjectHoverboard/Glow";
 
   const double kFixedMeshHeightCar = 1.5;
-  const double kFixedMeshHeightTruck = 4.0;
+  const double kFixedMeshHeightUtility = 4.0;
   const double kFixedMeshHeightBus = 4.0;
   const double kFixedMeshHeightBicycle = 1.1;
-  const double kFixedMeshHeightMotorbike = 1.3;
+  const double kFixedMeshHeightMotorcycle = 1.3;
   const double kFixedMeshHeightPedestrian = 1.8;
 };
 
