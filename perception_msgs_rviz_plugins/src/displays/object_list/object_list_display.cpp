@@ -334,7 +334,7 @@ void ObjectListDisplay::processMessage(perception_msgs::msg::ObjectList::ConstSh
     {perception_msgs::msg::ObjectClassification::ANIMAL, color_animal},
     {perception_msgs::msg::ObjectClassification::ROAD_OBSTACLE, color_road_obstacle},
     {perception_msgs::msg::ObjectClassification::VRU, color_vru},
-    {perception_msgs::msg::ObjectClassification::MICRO_MOBILITY, color_micro},
+    {perception_msgs::msg::ObjectClassification::MICRO, color_micro},
     {perception_msgs::msg::ObjectClassification::UNKNOWN, color_unknown}
   };
 
