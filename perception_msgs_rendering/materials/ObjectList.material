@@ -10,7 +10,7 @@ material CarMaterial
     }
 }
 
-material TruckMaterial
+material UtilityMaterial
 {
     technique
     {
@@ -34,7 +34,7 @@ material BicycleMaterial
     }
 }
 
-material MotorbikeMaterial
+material MotorcycleMaterial
 {
     technique
     {

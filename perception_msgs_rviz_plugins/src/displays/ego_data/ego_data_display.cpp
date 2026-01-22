@@ -241,18 +241,13 @@ void EgoDataDisplay::processMessage(perception_msgs::msg::EgoData::ConstSharedPt
   classification_color_map_ = {{perception_msgs::msg::ObjectClassification::UNCLASSIFIED, color_general},
                                {perception_msgs::msg::ObjectClassification::PEDESTRIAN, color_general},
                                {perception_msgs::msg::ObjectClassification::BICYCLE, color_general},
-                               {perception_msgs::msg::ObjectClassification::MOTORBIKE, color_general},
+                               {perception_msgs::msg::ObjectClassification::MOTORCYCLE, color_general},
                                {perception_msgs::msg::ObjectClassification::CAR, color_general},
-                               {perception_msgs::msg::ObjectClassification::TRUCK, color_general},
-                               {perception_msgs::msg::ObjectClassification::VAN, color_general},
+                               {perception_msgs::msg::ObjectClassification::UTILITY, color_general},
                                {perception_msgs::msg::ObjectClassification::BUS, color_general},
                                {perception_msgs::msg::ObjectClassification::ANIMAL, color_general},
-                               {perception_msgs::msg::ObjectClassification::ROAD_OBSTACLE, color_general},
-                               {perception_msgs::msg::ObjectClassification::TRAIN, color_general},
-                               {perception_msgs::msg::ObjectClassification::TRAILER, color_general},
-                               {perception_msgs::msg::ObjectClassification::CAR_UNION, color_general},
-                               {perception_msgs::msg::ObjectClassification::TRUCK_UNION, color_general},
-                               {perception_msgs::msg::ObjectClassification::BIKE_UNION, color_general},
+                               {perception_msgs::msg::ObjectClassification::VRU, color_general},
+                               {perception_msgs::msg::ObjectClassification::MICRO, color_general},
                                {perception_msgs::msg::ObjectClassification::UNKNOWN, color_general}};
 
   bool visualize_bounding_box = viz_bounding_box_->getBool();

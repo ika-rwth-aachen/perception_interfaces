@@ -735,10 +735,10 @@ TEST(perception_msgs, test_getClassWithHighestProbability)
   ObjectClassification dummy_class;
   ObjectClassification max_class;
 
-  dummy_class.type = ObjectClassification::MOTORBIKE;
+  dummy_class.type = ObjectClassification::MOTORCYCLE;
   dummy_class.probability = 0.2;
   obj.state.classifications.push_back(dummy_class);
-  dummy_class.type = ObjectClassification::VAN;
+  dummy_class.type = ObjectClassification::UTILITY;
   dummy_class.probability = 0.3;
   obj.state.classifications.push_back(dummy_class);
   dummy_class.type = ObjectClassification::CAR;

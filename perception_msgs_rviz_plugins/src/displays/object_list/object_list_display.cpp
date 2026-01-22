@@ -95,33 +95,27 @@ ObjectListDisplay::ObjectListDisplay()
   color_property_bicycle_ = new rviz_common::properties::ColorProperty(
     "BICYCLE", QColor(255, 255, 25),
     "Color to visualize objects with classification BICYCLE.", color_property_group_);
-  color_property_motorbike_ = new rviz_common::properties::ColorProperty(
-    "MOTORBIKE", QColor(255, 255, 25),
-    "Color to visualize objects with classification MOTORBIKE.", color_property_group_);
+  color_property_motorcycle_ = new rviz_common::properties::ColorProperty(
+    "MOTORCYCLE", QColor(255, 255, 25),
+    "Color to visualize objects with classification MOTORCYCLE.", color_property_group_);
   color_property_car_ = new rviz_common::properties::ColorProperty(
     "CAR", QColor(25, 25, 255),
     "Color to visualize objects with classification CAR.", color_property_group_);
-  color_property_truck_ = new rviz_common::properties::ColorProperty(
-    "TRUCK", QColor(25, 25, 255),
-    "Color to visualize objects with classification TRUCK.", color_property_group_);
-  color_property_van_ = new rviz_common::properties::ColorProperty(
-    "VAN", QColor(25, 25, 255),
-    "Color to visualize objects with classification VAN.", color_property_group_);
+  color_property_utility_ = new rviz_common::properties::ColorProperty(
+    "UTILITY", QColor(25, 25, 255),
+    "Color to visualize objects with classification UTILITY.", color_property_group_);
   color_property_bus_ = new rviz_common::properties::ColorProperty(
     "BUS", QColor(25, 25, 255),
     "Color to visualize objects with classification BUS.", color_property_group_);
   color_property_animal_ = new rviz_common::properties::ColorProperty(
     "ANIMAL", QColor(0, 128, 128),
     "Color to visualize objects with classification ANIMAL.", color_property_group_);
-  color_property_road_obstacle_ = new rviz_common::properties::ColorProperty(
-    "ROAD-OBSTACLE", QColor(0, 128, 128),
-    "Color to visualize objects with classification ROAD-OBSTACLE.", color_property_group_);
-  color_property_train_ = new rviz_common::properties::ColorProperty(
-    "TRAIN", QColor(0, 128, 128),
-    "Color to visualize objects with classification TRAIN.", color_property_group_);
-  color_property_trailer_ = new rviz_common::properties::ColorProperty(
-    "TRAILER", QColor(25, 25, 255),
-    "Color to visualize objects with classification TRAILER.", color_property_group_);
+  color_property_vru_ = new rviz_common::properties::ColorProperty(
+    "VRU", QColor(25, 255, 255),
+    "Color to visualize objects with classification VRU.", color_property_group_);
+  color_property_micro_ = new rviz_common::properties::ColorProperty(
+    "MICRO", QColor(25, 255, 255),
+    "Color to visualize objects with classification MICRO.", color_property_group_);
   color_property_unknown_ = new rviz_common::properties::ColorProperty(
     "UNKNOWN", QColor(128, 128, 128),
     "Color to visualize objects with classification UNKNOWN.", color_property_group_);
@@ -285,30 +279,26 @@ void ObjectListDisplay::processMessage(perception_msgs::msg::ObjectList::ConstSh
 
   Ogre::ColourValue color_pedestrian = color_general;
   Ogre::ColourValue color_bicycle = color_general;
-  Ogre::ColourValue color_motorbike = color_general;
+  Ogre::ColourValue color_motorcycle = color_general;
   Ogre::ColourValue color_car = color_general;
-  Ogre::ColourValue color_truck = color_general;
-  Ogre::ColourValue color_van = color_general;
+  Ogre::ColourValue color_utility = color_general;
   Ogre::ColourValue color_bus = color_general;
   Ogre::ColourValue color_animal = color_general;
-  Ogre::ColourValue color_road_obstacle = color_general;
-  Ogre::ColourValue color_train = color_general;
-  Ogre::ColourValue color_trailer = color_general;
+  Ogre::ColourValue color_vru = color_general;
+  Ogre::ColourValue color_micro = color_general;
   Ogre::ColourValue color_unknown = color_general;
 
   // colors for classes
   if(color_property_group_->getBool()) {
     color_pedestrian = rviz_common::properties::qtToOgre(color_property_pedestrian_->getColor());
     color_bicycle = rviz_common::properties::qtToOgre(color_property_bicycle_->getColor());
-    color_motorbike = rviz_common::properties::qtToOgre(color_property_motorbike_->getColor());
+    color_motorcycle = rviz_common::properties::qtToOgre(color_property_motorcycle_->getColor());
     color_car = rviz_common::properties::qtToOgre(color_property_car_->getColor());
-    color_truck = rviz_common::properties::qtToOgre(color_property_truck_->getColor());
-    color_van = rviz_common::properties::qtToOgre(color_property_van_->getColor());
+    color_utility = rviz_common::properties::qtToOgre(color_property_utility_->getColor());
     color_bus = rviz_common::properties::qtToOgre(color_property_bus_->getColor());
     color_animal = rviz_common::properties::qtToOgre(color_property_animal_->getColor());
-    color_road_obstacle = rviz_common::properties::qtToOgre(color_property_road_obstacle_->getColor());
-    color_train = rviz_common::properties::qtToOgre(color_property_train_->getColor());
-    color_trailer = rviz_common::properties::qtToOgre(color_property_trailer_->getColor());
+    color_vru = rviz_common::properties::qtToOgre(color_property_vru_->getColor());
+    color_micro = rviz_common::properties::qtToOgre(color_property_micro_->getColor());
     color_unknown = rviz_common::properties::qtToOgre(color_property_unknown_->getColor());
   }
 
@@ -317,14 +307,13 @@ void ObjectListDisplay::processMessage(perception_msgs::msg::ObjectList::ConstSh
 
   color_pedestrian.a = alpha_property_->getFloat();
   color_bicycle.a = alpha_property_->getFloat();
-  color_motorbike.a = alpha_property_->getFloat();
+  color_motorcycle.a = alpha_property_->getFloat();
   color_car.a = alpha_property_->getFloat();
-  color_truck.a = alpha_property_->getFloat();
-  color_van.a = alpha_property_->getFloat();
+  color_utility.a = alpha_property_->getFloat();
   color_bus.a = alpha_property_->getFloat();
   color_animal.a = alpha_property_->getFloat();
-  color_road_obstacle.a = alpha_property_->getFloat();
-  color_trailer.a = alpha_property_->getFloat();
+  color_vru.a = alpha_property_->getFloat();
+  color_micro.a = alpha_property_->getFloat();
   color_unknown.a = alpha_property_->getFloat();
 
   classification_color_map_ =
@@ -332,18 +321,13 @@ void ObjectListDisplay::processMessage(perception_msgs::msg::ObjectList::ConstSh
     {perception_msgs::msg::ObjectClassification::UNCLASSIFIED, color_unknown},
     {perception_msgs::msg::ObjectClassification::PEDESTRIAN, color_pedestrian},
     {perception_msgs::msg::ObjectClassification::BICYCLE, color_bicycle},
-    {perception_msgs::msg::ObjectClassification::MOTORBIKE, color_motorbike},
+    {perception_msgs::msg::ObjectClassification::MOTORCYCLE, color_motorcycle},
     {perception_msgs::msg::ObjectClassification::CAR, color_car},
-    {perception_msgs::msg::ObjectClassification::TRUCK, color_truck},
-    {perception_msgs::msg::ObjectClassification::VAN, color_van},
+    {perception_msgs::msg::ObjectClassification::UTILITY, color_utility},
     {perception_msgs::msg::ObjectClassification::BUS, color_bus},
     {perception_msgs::msg::ObjectClassification::ANIMAL, color_animal},
-    {perception_msgs::msg::ObjectClassification::ROAD_OBSTACLE, color_road_obstacle},
-    {perception_msgs::msg::ObjectClassification::TRAIN, color_train},
-    {perception_msgs::msg::ObjectClassification::TRAILER, color_trailer},
-    {perception_msgs::msg::ObjectClassification::CAR_UNION, color_car},
-    {perception_msgs::msg::ObjectClassification::TRUCK_UNION, color_truck},
-    {perception_msgs::msg::ObjectClassification::BIKE_UNION, color_motorbike},
+    {perception_msgs::msg::ObjectClassification::VRU, color_vru},
+    {perception_msgs::msg::ObjectClassification::MICRO, color_micro},
     {perception_msgs::msg::ObjectClassification::UNKNOWN, color_unknown}
   };
 

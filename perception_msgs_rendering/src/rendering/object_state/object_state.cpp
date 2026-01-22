@@ -294,9 +294,9 @@ void ObjectState::setObjectStateVizDefault(const perception_msgs::msg::ObjectSta
         package = "package://perception_msgs_rendering/meshes/car.stl";
         material = "CarMaterial";
         break;
-      case ObjectClassification::TRUCK:
-        package = "package://perception_msgs_rendering/meshes/truck.stl";
-        material = "TruckMaterial";
+      case ObjectClassification::UTILITY:
+        package = "package://perception_msgs_rendering/meshes/utility.stl";
+        material = "UtilityMaterial";
         break;
       case ObjectClassification::BUS:
         package = "package://perception_msgs_rendering/meshes/bus.stl";
@@ -306,9 +306,9 @@ void ObjectState::setObjectStateVizDefault(const perception_msgs::msg::ObjectSta
         package = "package://perception_msgs_rendering/meshes/bicycle.stl";
         material = "BicycleMaterial";
         break;
-      case ObjectClassification::MOTORBIKE:
-        package = "package://perception_msgs_rendering/meshes/motorbike.stl";
-        material = "MotorbikeMaterial";
+      case ObjectClassification::MOTORCYCLE:
+        package = "package://perception_msgs_rendering/meshes/motorcycle.stl";
+        material = "MotorcycleMaterial";
         break;
       case ObjectClassification::PEDESTRIAN:
         package = "package://perception_msgs_rendering/meshes/pedestrian.stl";
@@ -337,8 +337,8 @@ void ObjectState::setObjectStateVizDefault(const perception_msgs::msg::ObjectSta
       case ObjectClassification::CAR:
         scaling_factor_z = kFixedMeshHeightCar / mesh_dims.z;
         break;
-      case ObjectClassification::TRUCK:
-        scaling_factor_z = kFixedMeshHeightTruck / mesh_dims.z;
+      case ObjectClassification::UTILITY:
+        scaling_factor_z = kFixedMeshHeightUtility / mesh_dims.z;
         break;
       case ObjectClassification::BUS:
         scaling_factor_z = kFixedMeshHeightBus / mesh_dims.z;
@@ -346,8 +346,8 @@ void ObjectState::setObjectStateVizDefault(const perception_msgs::msg::ObjectSta
       case ObjectClassification::BICYCLE:
         scaling_factor_z = kFixedMeshHeightBicycle / mesh_dims.z;
         break;
-      case ObjectClassification::MOTORBIKE:
-        scaling_factor_z = kFixedMeshHeightMotorbike / mesh_dims.z;
+      case ObjectClassification::MOTORCYCLE:
+        scaling_factor_z = kFixedMeshHeightMotorcycle / mesh_dims.z;
         break;
       case ObjectClassification::PEDESTRIAN:
         scaling_factor_z = kFixedMeshHeightPedestrian / mesh_dims.z;
@@ -763,17 +763,17 @@ void ObjectState::classToText(const perception_msgs::msg::ObjectClassification& 
     case perception_msgs::msg::ObjectClassification::BICYCLE:
       text += "BICYCLE";
       break;
-    case perception_msgs::msg::ObjectClassification::MOTORBIKE:
-      text += "MOTORBIKE";
+    case perception_msgs::msg::ObjectClassification::MOTORCYCLE:
+      text += "MOTORCYCLE";
       break;
     case perception_msgs::msg::ObjectClassification::CAR:
       text += "CAR";
       break;
-    case perception_msgs::msg::ObjectClassification::TRUCK:
-      text += "TRUCK";
+    case perception_msgs::msg::ObjectClassification::UTILITY:
+      text += "UTILITY";
       break;
     case perception_msgs::msg::ObjectClassification::VAN:
-      text += "VAN";
+      text += "VAN (DEPRECATED)";
       break;
     case perception_msgs::msg::ObjectClassification::BUS:
       text += "BUS";
@@ -782,22 +782,28 @@ void ObjectState::classToText(const perception_msgs::msg::ObjectClassification& 
       text += "ANIMAL";
       break;
     case perception_msgs::msg::ObjectClassification::ROAD_OBSTACLE:
-      text += "ROAD_OBSTACLE";
+      text += "ROAD_OBSTACLE (DEPRECATED)";
       break;
     case perception_msgs::msg::ObjectClassification::TRAIN:
-      text += "TRAIN";
+      text += "TRAIN (DEPRECATED)";
       break;
     case perception_msgs::msg::ObjectClassification::TRAILER:
-      text += "TRAILER";
+      text += "TRAILER (DEPRECATED)";
+      break;
+    case perception_msgs::msg::ObjectClassification::VRU:
+      text += "VRU";
+      break;
+    case perception_msgs::msg::ObjectClassification::MICRO:
+      text += "MICRO";
       break;
     case perception_msgs::msg::ObjectClassification::CAR_UNION:
-      text += "CAR_UNION";
+      text += "CAR_UNION (DEPRECATED)";
       break;
     case perception_msgs::msg::ObjectClassification::TRUCK_UNION:
-      text += "TRUCK_UNION";
+      text += "TRUCK_UNION (DEPRECATED)";
       break;
     case perception_msgs::msg::ObjectClassification::BIKE_UNION:
-      text += "BIKE_UNION";
+      text += "BIKE_UNION (DEPRECATED)";
       break;
     case perception_msgs::msg::ObjectClassification::UNKNOWN:
       text += "UNKNOWN";
