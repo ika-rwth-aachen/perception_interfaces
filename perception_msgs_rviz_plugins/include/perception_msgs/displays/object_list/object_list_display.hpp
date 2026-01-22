@@ -90,7 +90,25 @@ protected:
   rviz_common::properties::BoolProperty *hoverboard_glow_;
   rviz_common::properties::FloatProperty *hoverboard_glow_height_;
   rviz_common::properties::FloatProperty *hoverboard_glow_intensity_;
-  // color by classification (applies to multiple modes)
+
+  // Uncertainty visualization
+  rviz_common::properties::BoolProperty *viz_xy_uncertainty_;
+  rviz_common::properties::ColorProperty *xy_uncertainty_color_;
+  rviz_common::properties::FloatProperty *xy_uncertainty_alpha_;
+  rviz_common::properties::FloatProperty *xy_uncertainty_scale_;
+  rviz_common::properties::IntProperty *xy_uncertainty_segments_;
+  rviz_common::properties::BoolProperty *viz_yaw_uncertainty_;
+  rviz_common::properties::ColorProperty *yaw_uncertainty_color_;
+  rviz_common::properties::FloatProperty *yaw_uncertainty_alpha_;
+  rviz_common::properties::FloatProperty *yaw_uncertainty_cone_length_;
+
+  // Safety margin visualization
+  rviz_common::properties::BoolProperty *viz_safety_margins_;
+  rviz_common::properties::ColorProperty *safety_margin_color_2sigma_;
+  rviz_common::properties::ColorProperty *safety_margin_color_3sigma_;
+  rviz_common::properties::FloatProperty *safety_margin_alpha_;
+
+  // Color by Classification (applies to multiple modes)
   rviz_common::properties::BoolProperty *color_property_group_;
   rviz_common::properties::ColorProperty *color_property_pedestrian_;
   rviz_common::properties::ColorProperty *color_property_bicycle_;

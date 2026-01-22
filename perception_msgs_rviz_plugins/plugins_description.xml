@@ -33,4 +33,123 @@
     <message_type>perception_msgs/msg/ObjectList</message_type>
   </class>
 
+  <class
+    name="AttentionVector"
+    type="perception_msgs::displays::AttentionVectorDisplay"
+    base_class_type="rviz_common::Display"
+  >
+    <description>
+      Displays attention vectors as red arrows from ego position to detected objects.
+    </description>
+    <message_type>perception_msgs/msg/ObjectList</message_type>
+  </class>
+
+  <class
+    name="AttentionGrid"
+    type="perception_msgs::displays::AttentionGridDisplay"
+    base_class_type="rviz_common::Display"
+  >
+    <description>
+      Enhanced occupancy grid display with advanced colormaps and alpha transparency for attention visualization.
+    </description>
+    <message_type>nav_msgs/msg/OccupancyGrid</message_type>
+  </class>
+
+  <class
+    name="AttentionCompass"
+    type="perception_msgs::displays::AttentionCompassDisplay"
+    base_class_type="rviz_common::Display"
+  >
+    <description>
+      Futuristic compass overlay showing AI attention in 8 directional sectors around the ego vehicle.
+    </description>
+    <message_type>perception_msgs/msg/ObjectList</message_type>
+  </class>
+
+  <class
+    name="AttentionHUD"
+    type="perception_msgs::displays::AttentionHUDDisplay"
+    base_class_type="rviz_common::Display"
+  >
+    <description>
+      Large futuristic HUD overlay with animated trapezoidal elements showing AI attention directions.
+    </description>
+    <message_type>perception_msgs/msg/ObjectList</message_type>
+  </class>
+
+  <class
+    name="AttentionAura3D"
+    type="perception_msgs::displays::AttentionAura3DDisplay"
+    base_class_type="rviz_common::Display"
+  >
+    <description>
+      3D futuristic aura visualization with trapezoidal elements positioned around the ego vehicle in the 3D world.
+    </description>
+    <message_type>perception_msgs/msg/ObjectList</message_type>
+  </class>
+
+  <class
+    name="AttentionCloud"
+    type="perception_msgs::displays::AttentionCloudDisplay"
+    base_class_type="rviz_common::Display"
+  >
+    <description>
+      XAI thinking cloud that appears above vehicle when pedestrians are detected in front, with gentle floating animation.
+    </description>
+    <message_type>perception_msgs/msg/ObjectList</message_type>
+  </class>
+
+  <class
+    name="AttentionUncertainty"
+    type="perception_msgs::displays::AttentionUncertaintyDisplay"
+    base_class_type="rviz_common::Display"
+  >
+    <description>
+      Overlay HUD showing smoothed mean classification certainty as a color coded bar with configurable thresholds.
+    </description>
+    <message_type>perception_msgs/msg/ObjectList</message_type>
+  </class>
+
+  <class
+    name="UncertaintyGraph"
+    type="perception_msgs::displays::UncertaintyGraphDisplay"
+    base_class_type="rviz_common::Display"
+  >
+    <description>
+      Temporal uncertainty graph overlay showing classification and regression certainty history over time.
+    </description>
+    <message_type>perception_msgs/msg/ObjectList</message_type>
+  </class>
+
+  <class
+    name="VehicleSensorHud"
+    type="perception_msgs::displays::VehicleSensorHudDisplay"
+    base_class_type="rviz_common::Display"
+  >
+    <description>
+      Vehicle sensor status HUD showing abstract top-down vehicle view with LiDAR sensor positions and perception status.
+    </description>
+    <message_type>perception_msgs/msg/ObjectList</message_type>
+  </class>
+
+  <class
+    name="ModelCard"
+    type="perception_msgs::displays::ModelCardDisplay"
+    base_class_type="rviz_common::Display"
+  >
+    <description>
+      Model information card showing key neural network facts like name, version, accuracy, and architecture in an expandable futuristic panel.
+    </description>
+  </class>
+
+  <class
+    name="DataCard"
+    type="perception_msgs::displays::DataCardDisplay"
+    base_class_type="rviz_common::Display"
+  >
+    <description>
+      Dataset information card for Trustworthy AI showing training data statistics, class distributions, pretraining info, and GDPR compliance.
+    </description>
+  </class>
+
 </library>

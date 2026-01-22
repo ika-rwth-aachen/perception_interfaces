@@ -29,11 +29,31 @@ if(${ROS_VERSION} EQUAL 2)
   find_package(tf2 REQUIRED)
   find_package(tf2_ros REQUIRED)
   find_package(tf2_geometry_msgs REQUIRED)
+  find_package(nav_msgs REQUIRED)
+  find_package(map_msgs REQUIRED)
+  
+  # Conditional resource_retriever for ROS distro compatibility
+  if(NOT ROS_DISTRO STREQUAL "noetic"
+      AND NOT ROS_DISTRO STREQUAL "humble"
+      AND NOT ROS_DISTRO STREQUAL "jazzy")
+    find_package(resource_retriever REQUIRED)
+  endif()
 
   set(display_headers_to_moc
     include/perception_msgs/displays/object_list/object_list_display.hpp
     include/perception_msgs/displays/ego_data/ego_data_display.hpp
     include/perception_msgs/displays/traffic_light/traffic_light_display.hpp
+    include/perception_msgs/displays/attention_vector/attention_vector_display.hpp
+    include/perception_msgs/displays/attention_grid/attention_grid_display.hpp
+    include/perception_msgs/displays/attention_compass/attention_compass_display.hpp
+    include/perception_msgs/displays/attention_hud/attention_hud_display.hpp
+    include/perception_msgs/displays/attention_aura3d/attention_aura3d_display.hpp
+    include/perception_msgs/displays/attention_cloud/attention_cloud_display.hpp
+    include/perception_msgs/displays/attention_uncertainty/attention_uncertainty_display.hpp
+    include/perception_msgs/displays/uncertainty_graph/uncertainty_graph_display.hpp
+    include/perception_msgs/displays/vehicle_sensor_hud/vehicle_sensor_hud_display.hpp
+    include/perception_msgs/displays/model_card/model_card_display.hpp
+    include/perception_msgs/displays/data_card/data_card_display.hpp
   )
 
   foreach(header "${display_headers_to_moc}")
@@ -44,6 +64,18 @@ if(${ROS_VERSION} EQUAL 2)
     src/displays/object_list/object_list_display.cpp
     src/displays/ego_data/ego_data_display.cpp
     src/displays/traffic_light/traffic_light_display.cpp
+    src/displays/attention_vector/attention_vector_display.cpp
+    src/displays/attention_grid/attention_grid_display.cpp
+    src/displays/attention_grid/attention_swatch.cpp
+    src/displays/attention_compass/attention_compass_display.cpp
+    src/displays/attention_hud/attention_hud_display.cpp
+    src/displays/attention_aura3d/attention_aura3d_display.cpp
+    src/displays/attention_cloud/attention_cloud_display.cpp
+    src/displays/attention_uncertainty/attention_uncertainty_display.cpp
+    src/displays/uncertainty_graph/uncertainty_graph_display.cpp
+    src/displays/vehicle_sensor_hud/vehicle_sensor_hud_display.cpp
+    src/displays/model_card/model_card_display.cpp
+    src/displays/data_card/data_card_display.cpp
   )
 
   add_library(${PROJECT_NAME} SHARED
@@ -75,7 +107,16 @@ if(${ROS_VERSION} EQUAL 2)
     rviz_rendering
     tf2
     tf2_ros
+    nav_msgs
+    map_msgs
   )
+
+  # Conditional resource_retriever target dependencies
+  if(NOT ROS_DISTRO STREQUAL "noetic"
+      AND NOT ROS_DISTRO STREQUAL "humble"
+      AND NOT ROS_DISTRO STREQUAL "jazzy")
+    ament_target_dependencies(${PROJECT_NAME} PUBLIC resource_retriever)
+  endif()
 
   # Export modern CMake targets
   ament_export_targets(${PROJECT_NAME} HAS_LIBRARY_TARGET)
@@ -90,6 +131,28 @@ if(${ROS_VERSION} EQUAL 2)
     rviz_ogre_vendor
     tf2
     tf2_ros
+    nav_msgs
+    map_msgs
+  )
+
+  # Conditional resource_retriever export dependencies
+  if(NOT ROS_DISTRO STREQUAL "noetic"
+      AND NOT ROS_DISTRO STREQUAL "humble"
+      AND NOT ROS_DISTRO STREQUAL "jazzy")
+    ament_export_dependencies(resource_retriever)
+  endif()
+
+  # Adds shallow folders containing ogre_media such as meshes and scripts to Rviz
+  # so that they can be found at runtime. Requires rviz_rendering.
+  register_rviz_ogre_media_exports(
+    DIRECTORIES
+    "meshes"
+  )
+
+  # Install mesh files
+  install(
+    DIRECTORY meshes/
+    DESTINATION share/${PROJECT_NAME}/meshes
   )
 
   install(
@@ -99,6 +162,7 @@ if(${ROS_VERSION} EQUAL 2)
     LIBRARY DESTINATION lib
     RUNTIME DESTINATION bin
   )
+
   # RViz Display End
 
   if(BUILD_TESTING)
