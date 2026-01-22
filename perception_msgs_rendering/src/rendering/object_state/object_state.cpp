@@ -782,7 +782,7 @@ void ObjectState::classToText(const perception_msgs::msg::ObjectClassification& 
       text += "ANIMAL";
       break;
     case perception_msgs::msg::ObjectClassification::ROAD_OBSTACLE:
-      text += "ROAD_OBSTACLE";
+      text += "ROAD_OBSTACLE (DEPRECATED)";
       break;
     case perception_msgs::msg::ObjectClassification::TRAIN:
       text += "TRAIN (DEPRECATED)";

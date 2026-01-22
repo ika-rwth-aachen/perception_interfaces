@@ -99,7 +99,6 @@ protected:
   rviz_common::properties::ColorProperty *color_property_utility_;
   rviz_common::properties::ColorProperty *color_property_bus_;
   rviz_common::properties::ColorProperty *color_property_animal_;
-  rviz_common::properties::ColorProperty *color_property_road_obstacle_;
   rviz_common::properties::ColorProperty *color_property_vru_;
   rviz_common::properties::ColorProperty *color_property_micro_;
   rviz_common::properties::ColorProperty *color_property_unknown_;

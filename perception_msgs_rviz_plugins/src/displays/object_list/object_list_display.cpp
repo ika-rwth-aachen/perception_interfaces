@@ -110,9 +110,6 @@ ObjectListDisplay::ObjectListDisplay()
   color_property_animal_ = new rviz_common::properties::ColorProperty(
     "ANIMAL", QColor(0, 128, 128),
     "Color to visualize objects with classification ANIMAL.", color_property_group_);
-  color_property_road_obstacle_ = new rviz_common::properties::ColorProperty(
-    "ROAD-OBSTACLE", QColor(0, 128, 128),
-    "Color to visualize objects with classification ROAD-OBSTACLE.", color_property_group_);
   color_property_vru_ = new rviz_common::properties::ColorProperty(
     "VRU", QColor(25, 255, 255),
     "Color to visualize objects with classification VRU.", color_property_group_);
@@ -287,7 +284,6 @@ void ObjectListDisplay::processMessage(perception_msgs::msg::ObjectList::ConstSh
   Ogre::ColourValue color_utility = color_general;
   Ogre::ColourValue color_bus = color_general;
   Ogre::ColourValue color_animal = color_general;
-  Ogre::ColourValue color_road_obstacle = color_general;
   Ogre::ColourValue color_vru = color_general;
   Ogre::ColourValue color_micro = color_general;
   Ogre::ColourValue color_unknown = color_general;
@@ -301,7 +297,6 @@ void ObjectListDisplay::processMessage(perception_msgs::msg::ObjectList::ConstSh
     color_utility = rviz_common::properties::qtToOgre(color_property_utility_->getColor());
     color_bus = rviz_common::properties::qtToOgre(color_property_bus_->getColor());
     color_animal = rviz_common::properties::qtToOgre(color_property_animal_->getColor());
-    color_road_obstacle = rviz_common::properties::qtToOgre(color_property_road_obstacle_->getColor());
     color_vru = rviz_common::properties::qtToOgre(color_property_vru_->getColor());
     color_micro = rviz_common::properties::qtToOgre(color_property_micro_->getColor());
     color_unknown = rviz_common::properties::qtToOgre(color_property_unknown_->getColor());
@@ -317,7 +312,6 @@ void ObjectListDisplay::processMessage(perception_msgs::msg::ObjectList::ConstSh
   color_utility.a = alpha_property_->getFloat();
   color_bus.a = alpha_property_->getFloat();
   color_animal.a = alpha_property_->getFloat();
-  color_road_obstacle.a = alpha_property_->getFloat();
   color_vru.a = alpha_property_->getFloat();
   color_micro.a = alpha_property_->getFloat();
   color_unknown.a = alpha_property_->getFloat();
@@ -332,7 +326,6 @@ void ObjectListDisplay::processMessage(perception_msgs::msg::ObjectList::ConstSh
     {perception_msgs::msg::ObjectClassification::UTILITY, color_utility},
     {perception_msgs::msg::ObjectClassification::BUS, color_bus},
     {perception_msgs::msg::ObjectClassification::ANIMAL, color_animal},
-    {perception_msgs::msg::ObjectClassification::ROAD_OBSTACLE, color_road_obstacle},
     {perception_msgs::msg::ObjectClassification::VRU, color_vru},
     {perception_msgs::msg::ObjectClassification::MICRO, color_micro},
     {perception_msgs::msg::ObjectClassification::UNKNOWN, color_unknown}

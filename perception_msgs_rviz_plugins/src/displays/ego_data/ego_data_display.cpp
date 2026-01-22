@@ -246,7 +246,6 @@ void EgoDataDisplay::processMessage(perception_msgs::msg::EgoData::ConstSharedPt
                                {perception_msgs::msg::ObjectClassification::UTILITY, color_general},
                                {perception_msgs::msg::ObjectClassification::BUS, color_general},
                                {perception_msgs::msg::ObjectClassification::ANIMAL, color_general},
-                               {perception_msgs::msg::ObjectClassification::ROAD_OBSTACLE, color_general},
                                {perception_msgs::msg::ObjectClassification::VRU, color_general},
                                {perception_msgs::msg::ObjectClassification::MICRO, color_general},
                                {perception_msgs::msg::ObjectClassification::UNKNOWN, color_general}};
