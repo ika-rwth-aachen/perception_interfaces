@@ -45,7 +45,7 @@ protected Q_SLOTS:
   void updateWidth();
   void updateHeight();
   void updateLeft();
-  void updateTop();
+  void updateBottom();
   void updateBackgroundColor();
   void updateBackgroundAlpha();
 
@@ -57,7 +57,7 @@ private:
   rviz_common::properties::IntProperty* width_property_;
   rviz_common::properties::IntProperty* height_property_;
   rviz_common::properties::IntProperty* left_property_;
-  rviz_common::properties::IntProperty* top_property_;
+  rviz_common::properties::IntProperty* bottom_property_;
   rviz_common::properties::ColorProperty* bg_color_property_;
   rviz_common::properties::FloatProperty* bg_alpha_property_;
   
@@ -65,7 +65,7 @@ private:
   int width_;
   int height_;
   int left_;
-  int top_;
+  int bottom_;
   QColor bg_color_;
   float bg_alpha_;
   

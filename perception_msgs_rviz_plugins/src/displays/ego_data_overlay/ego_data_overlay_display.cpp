@@ -1,4 +1,9 @@
 #include "perception_msgs/displays/ego_data_overlay/ego_data_overlay_display.hpp"
+#include <QGuiApplication>
+#include <QScreen>
+#include <QPainter>
+#include <QFontMetrics>
+// Including Ogre after Qt to avoid conflicts is necessary
 #include <OgreMaterialManager.h>
 #include <OgreTextureManager.h>
 #include <OgreTexture.h>
@@ -6,8 +11,6 @@
 #include <OgreHardwarePixelBuffer.h>
 #include <rviz_rendering/render_system.hpp>
 #include <ament_index_cpp/get_package_share_directory.hpp>
-#include <QPainter>
-#include <QFontMetrics>
 
 namespace perception_msgs
 {
@@ -18,7 +21,7 @@ EgoDataOverlay::EgoDataOverlay()
   : width_(350)
   , height_(80)
   , left_(10)
-  , top_(10)
+  , bottom_(10)
   , bg_color_(20, 20, 20)
   , bg_alpha_(0.9)
   , velocity_(0.0)
@@ -41,9 +44,9 @@ EgoDataOverlay::EgoDataOverlay()
     "Left", left_, "Left position of the overlay", this, SLOT(updateLeft()));
   left_property_->setMin(0);
   
-  top_property_ = new rviz_common::properties::IntProperty(
-    "Top", top_, "Top position of the overlay", this, SLOT(updateTop()));
-  top_property_->setMin(0);
+  bottom_property_ = new rviz_common::properties::IntProperty(
+    "Bottom", bottom_, "Bottom position of the overlay", this, SLOT(updateBottom()));
+  bottom_property_->setMin(0);
   
   bg_color_property_ = new rviz_common::properties::ColorProperty(
     "Background Color", bg_color_, "Background color", this, SLOT(updateBackgroundColor()));
@@ -66,9 +69,17 @@ void EgoDataOverlay::onInitialize()
   std::string overlay_name = "EgoDataOverlayDisplayOverlay" + std::to_string(count++);
   overlay_ = std::make_shared<rviz_2d_overlay_plugins::OverlayObject>(overlay_name);
   
+  // DPI based scaling (350x80 on every screen)
+  QScreen* screen = QGuiApplication::primaryScreen();
+  qreal dpi = screen ? screen->logicalDotsPerInch() : 96.0;
+  // Convert desired size in mm to pixels
+  double overlay_width_mm = 350.0 * 25.4 / dpi;
+  double overlay_height_mm = 80.0 * 25.4 / dpi;
+  width_ = static_cast<int>(overlay_width_mm * dpi / 25.4);
+  height_ = static_cast<int>(overlay_height_mm * dpi / 25.4);
   overlay_->updateTextureSize(width_, height_);
   overlay_->setDimensions(width_, height_);
-  overlay_->setPosition(left_, top_);
+  overlay_->setPosition(left_, bottom_, rviz_2d_overlay_plugins::HorizontalAlignment::CENTER, rviz_2d_overlay_plugins::VerticalAlignment::BOTTOM);
   
   // Load icon images (place PNGs in assets/ folder)
   QString package_path = QString::fromStdString(ament_index_cpp::get_package_share_directory("perception_msgs_rviz_plugins"));
@@ -164,24 +175,27 @@ void EgoDataOverlay::renderOverlay()
   painter.setBrush(bg_with_alpha);
   painter.drawRoundedRect(0, 0, width_, height_, 40, 40);
   
-  // Layout-Parameter
-  int circle_size = 50;
+  // Layout parameters relative to overlay height
+  int circle_size = static_cast<int>(height_ * 0.6);
+  int steering_size = static_cast<int>(height_ * 0.42);
+  int velocity_width = static_cast<int>(height_ * 0.6);
+  int spacing = static_cast<int>(height_ * 0.14);
   int center_y = height_ / 2;
-  int spacing = 12;
-  
+
   // Calculate total content width
   int total_content_width = circle_size + spacing +  // Park
                             circle_size + spacing +  // Left turn_signal
-                            50 + spacing +           // Velocity
+                            velocity_width + spacing + // Velocity
                             circle_size + spacing +  // Right turn_signal
-                            35;                      // Steering
-  
+                            steering_size;           // Steering
+
   // Center the content horizontally
   int current_x = (width_ - total_content_width) / 2;
   
-  QFont speedFont("Arial", 16, QFont::Bold);
-  QFont unitFont("Arial", 9);
-  QFont smallFont("Arial", 11);
+  // Font sizes relative to overlay height
+  QFont speedFont("Arial", static_cast<int>(height_ * 0.28), QFont::Bold);
+  QFont unitFont("Arial", static_cast<int>(height_ * 0.16));
+  QFont smallFont("Arial", static_cast<int>(height_ * 0.19));
   
   // SECTION 1: Park symbol
   QColor park_color = standstill_ ? QColor(255, 100, 100) : QColor(60, 60, 60);
@@ -203,13 +217,13 @@ void EgoDataOverlay::renderOverlay()
   // Section 4: Velocity
   painter.setFont(speedFont);
   painter.setPen(QColor(220, 220, 220));
-  painter.drawText(QRect(current_x, center_y - 22, 50, 24), 
+  painter.drawText(QRect(current_x, center_y - static_cast<int>(height_ * 0.28), velocity_width, static_cast<int>(height_ * 0.32)), 
                    Qt::AlignCenter, QString::number(static_cast<int>(velocity_)));
   painter.setFont(unitFont);
   painter.setPen(QColor(150, 150, 150));
-  painter.drawText(QRect(current_x, center_y + 4, 50, 18), 
+  painter.drawText(QRect(current_x, center_y + static_cast<int>(height_ * 0.05), velocity_width, static_cast<int>(height_ * 0.18)), 
                    Qt::AlignCenter, "km/h");
-  current_x += 50 + spacing;
+  current_x += velocity_width + spacing;
   
   // Section 5: Right turn_signal icon
   QPixmap& turn_signal_right_icon = turn_signal_right_ ? icon_turn_signal_right_on_ : icon_turn_signal_right_off_;
@@ -218,25 +232,21 @@ void EgoDataOverlay::renderOverlay()
   current_x += circle_size + spacing;
   
   // SECTION 6: Steering wheel angle
-  int steering_size = 35;
   int steering_start = current_x;
-  
   // Draw rotated steering wheel
   QPixmap scaled_steering = icon_steering_wheel_.scaled(steering_size, steering_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   QTransform transform;
   transform.translate(steering_size/2.0, steering_size/2.0);
-  transform.rotate(steering_angle_);
+  transform.rotate(-steering_angle_); // Negative to match steering direction
   transform.translate(-steering_size/2.0, -steering_size/2.0);
   QPixmap rotated = scaled_steering.transformed(transform, Qt::SmoothTransformation);
-  
   int offset_x = (rotated.width() - steering_size) / 2;
   int offset_y = (rotated.height() - steering_size) / 2;
-  painter.drawPixmap(steering_start - offset_x, center_y - steering_size/2 - offset_y - 8, rotated);
-  
+  painter.drawPixmap(steering_start - offset_x, center_y - steering_size/2 - offset_y - static_cast<int>(height_ * 0.12), rotated);
   // Draw angle text below the steering wheel
-  painter.setFont(QFont("Arial", 12, QFont::Bold));
+  painter.setFont(QFont("Arial", static_cast<int>(height_ * 0.17), QFont::Bold));
   painter.setPen(QColor(220, 220, 220));
-  painter.drawText(QRect(steering_start, center_y + steering_size/2 - 6, steering_size, 18), 
+  painter.drawText(QRect(steering_start, center_y + steering_size/2 - static_cast<int>(height_ * 0.09), steering_size, static_cast<int>(height_ * 0.23)), 
                    Qt::AlignCenter, 
                    QString::number(static_cast<int>(steering_angle_)) + "°");
   
@@ -266,16 +276,16 @@ void EgoDataOverlay::updateLeft()
 {
   left_ = left_property_->getInt();
   if (overlay_) {
-    overlay_->setPosition(left_, top_);
+    overlay_->setPosition(left_, bottom_, rviz_2d_overlay_plugins::HorizontalAlignment::CENTER, rviz_2d_overlay_plugins::VerticalAlignment::BOTTOM);
   }
   update_required_ = true;
 }
 
-void EgoDataOverlay::updateTop()
+void EgoDataOverlay::updateBottom()
 {
-  top_ = top_property_->getInt();
+  bottom_ = bottom_property_->getInt();
   if (overlay_) {
-    overlay_->setPosition(left_, top_);
+    overlay_->setPosition(left_, bottom_, rviz_2d_overlay_plugins::HorizontalAlignment::CENTER, rviz_2d_overlay_plugins::VerticalAlignment::BOTTOM);
   }
   update_required_ = true;
 }
