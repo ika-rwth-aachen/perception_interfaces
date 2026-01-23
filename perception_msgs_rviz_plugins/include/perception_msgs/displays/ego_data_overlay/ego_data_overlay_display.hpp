@@ -3,7 +3,12 @@
 
 #include <perception_msgs/msg/ego_data.hpp>
 #include <perception_msgs/msg/ego.hpp>
+// fix for kilted include path
+#if __has_include(<rviz_2d_overlay_plugins/overlay_utils.hpp>)
 #include <rviz_2d_overlay_plugins/overlay_utils.hpp>
+#elif __has_include(<overlay_utils.hpp>)
+#include <overlay_utils.hpp>
+#endif
 #include <rviz_common/properties/bool_property.hpp>
 #include <rviz_common/properties/color_property.hpp>
 #include <rviz_common/properties/float_property.hpp>
