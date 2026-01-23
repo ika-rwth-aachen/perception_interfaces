@@ -1,15 +1,16 @@
 #ifndef PERCEPTION_MSGS__DISPLAYS__EGO_DATA_OVERLAY__EGO_DATA_OVERLAY_DISPLAY_HPP_
 #define PERCEPTION_MSGS__DISPLAYS__EGO_DATA_OVERLAY__EGO_DATA_OVERLAY_DISPLAY_HPP_
 
-#include <rviz_common/ros_topic_display.hpp>
-#include <rviz_2d_overlay_plugins/overlay_utils.hpp>
-#include <rviz_common/properties/int_property.hpp>
-#include <rviz_common/properties/float_property.hpp>
-#include <rviz_common/properties/color_property.hpp>
-#include <rviz_common/properties/bool_property.hpp>
-#include <rviz_common/properties/string_property.hpp>
 #include <perception_msgs/msg/ego_data.hpp>
 #include <perception_msgs/msg/ego.hpp>
+#include <rviz_2d_overlay_plugins/overlay_utils.hpp>
+#include <rviz_common/properties/bool_property.hpp>
+#include <rviz_common/properties/color_property.hpp>
+#include <rviz_common/properties/float_property.hpp>
+#include <rviz_common/properties/int_property.hpp>
+#include <rviz_common/properties/string_property.hpp>
+#include <rviz_common/ros_topic_display.hpp>
+
 #include <QImage>
 #include <QPainter>
 #include <QColor>

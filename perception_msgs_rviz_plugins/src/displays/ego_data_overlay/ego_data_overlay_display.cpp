@@ -3,6 +3,8 @@
 #include <QScreen>
 #include <QPainter>
 #include <QFontMetrics>
+#include <exception>
+
 // Including Ogre after Qt to avoid conflicts is necessary
 #include <OgreMaterialManager.h>
 #include <OgreTextureManager.h>
@@ -10,7 +12,9 @@
 #include <OgreTechnique.h>
 #include <OgreHardwarePixelBuffer.h>
 #include <rviz_rendering/render_system.hpp>
+#include <rviz_common/properties/status_property.hpp>
 #include <ament_index_cpp/get_package_share_directory.hpp>
+#include "perception_msgs_utils/object_access.hpp"
 
 namespace perception_msgs
 {
@@ -110,34 +114,22 @@ void EgoDataOverlay::onDisable()
 
 void EgoDataOverlay::processMessage(perception_msgs::msg::EgoData::ConstSharedPtr msg)
 {
-  // Extract values from EgoData
-  const auto& state = msg->state;
-  
-  // VEL_LON at index 3, convert m/s to km/h
-  if (state.continuous_state.size() > perception_msgs::msg::EGO::VEL_LON) {
-    velocity_ = state.continuous_state[perception_msgs::msg::EGO::VEL_LON] * 3.6;
-  }
-  
-  // STEERING_ANGLE_ACK at index 11, convert rad to degrees
-  if (state.continuous_state.size() > perception_msgs::msg::EGO::STEERING_ANGLE_ACK) {
-    steering_angle_ = state.continuous_state[perception_msgs::msg::EGO::STEERING_ANGLE_ACK] * 180.0 / M_PI;
-  }
-  
-  // STANDSTILL at index 0 in discrete_state
-  if (state.discrete_state.size() > perception_msgs::msg::EGO::STANDSTILL) {
-    standstill_ = state.discrete_state[perception_msgs::msg::EGO::STANDSTILL] != 0;
-  }
-  
-  // TURN_INDICATOR at index 1 in discrete_state - always reset first
-  turn_signal_left_ = false;
-  turn_signal_right_ = false;
-  if (state.discrete_state.size() > perception_msgs::msg::EGO::TURN_INDICATOR) {
-    int turn_indicator = state.discrete_state[perception_msgs::msg::EGO::TURN_INDICATOR];
-    turn_signal_left_ = (turn_indicator == perception_msgs::msg::EGO::TURN_INDICATOR_LEFT || 
+  try {
+    velocity_ = perception_msgs::object_access::getVelLon(*msg) * 3.6;
+    steering_angle_ = perception_msgs::object_access::getSteeringAngleAck(*msg) * 180.0 / M_PI;
+    standstill_ = perception_msgs::object_access::getStandstill(*msg);
+
+    const uint8_t turn_indicator = perception_msgs::object_access::getTurnIndicator(*msg);
+    turn_signal_left_ = (turn_indicator == perception_msgs::msg::EGO::TURN_INDICATOR_LEFT ||
                          turn_indicator == perception_msgs::msg::EGO::TURN_INDICATOR_HAZARD);
-    turn_signal_right_ = (turn_indicator == perception_msgs::msg::EGO::TURN_INDICATOR_RIGHT || 
+    turn_signal_right_ = (turn_indicator == perception_msgs::msg::EGO::TURN_INDICATOR_RIGHT ||
                           turn_indicator == perception_msgs::msg::EGO::TURN_INDICATOR_HAZARD);
+  } catch (const std::exception& e) {
+    setStatus(rviz_common::properties::StatusProperty::Error, "EgoData", e.what());
+    return;
   }
+
+  setStatus(rviz_common::properties::StatusProperty::Ok, "EgoData", "Valid message received");
 
   update_required_ = true;
 }
@@ -195,8 +187,6 @@ void EgoDataOverlay::renderOverlay()
   // Font sizes relative to overlay height
   QFont speedFont("Arial", static_cast<int>(height_ * 0.28), QFont::Bold);
   QFont unitFont("Arial", static_cast<int>(height_ * 0.16));
-  QFont smallFont("Arial", static_cast<int>(height_ * 0.19));
-  
   // SECTION 1: Park symbol
   QColor park_color = standstill_ ? QColor(255, 100, 100) : QColor(60, 60, 60);
   painter.setPen(QPen(QColor(150, 150, 150), 2));
