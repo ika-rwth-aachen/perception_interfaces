@@ -6,6 +6,7 @@
   <description>This package provides rviz displays for the perception_msgs</description>
   <maintainer email="guido.kueppers@rwth-aachen.de">Guido Küppers</maintainer>
   <author email="guido.kueppers@rwth-aachen.de">Guido Küppers</author>
+  <author email="jean-pierre.busch@rwth-aachen.de">Jean-Pierre Busch</author>
   <license>MIT</license>
 
   <depend>ros_environment</depend>
@@ -28,8 +29,11 @@
   <exec_depend condition="$ROS_VERSION == 2">rviz_ogre_vendor</exec_depend>
 
   <depend condition="$ROS_VERSION == 2">perception_msgs</depend>
+  <depend condition="$ROS_VERSION == 2">perception_msgs_utils</depend>
   <depend condition="$ROS_VERSION == 2">pluginlib</depend>
   <depend condition="$ROS_VERSION == 2">rclcpp</depend>
+  <depend condition="$ROS_VERSION == 2">rviz_2d_overlay_msgs</depend>
+  <depend condition="$ROS_VERSION == 2">rviz_2d_overlay_plugins</depend>
   <depend condition="$ROS_VERSION == 2">rviz_common</depend>
   <depend condition="$ROS_VERSION == 2">rviz_default_plugins</depend>
   <depend condition="$ROS_VERSION == 2">rviz_rendering</depend>

@@ -33,4 +33,15 @@
     <message_type>perception_msgs/msg/ObjectList</message_type>
   </class>
 
+  <class
+    name="perception_msgs/EgoDataOverlay"
+    type="perception_msgs::displays::EgoDataOverlay"
+    base_class_type="rviz_common::Display"
+  >
+    <description>
+      Displays vehicle state from perception_msgs/msg/EgoData.
+    </description>
+    <message_type>perception_msgs/msg/EgoData</message_type>
+  </class>
+
 </library>
