@@ -35,6 +35,7 @@ from tf_transformations import euler_from_quaternion, quaternion_from_euler
 
 from .checks import sanity_check_continuous_state, sanity_check_discrete_state, sanity_check_continuous_state_covariance
 from .utils import get_continuous_state_size
+from .state_getters import get_roll, get_pitch, get_yaw
 from .state_setters import set_x, set_y, set_z, set_roll, set_pitch, set_yaw, set_vel_lon, set_vel_lat, set_acc_lon, set_acc_lat
 from .state_index import has_x, has_y, has_z, has_roll, has_pitch, has_yaw, has_vel_lon, has_vel_lat, has_acc_lon, has_acc_lat
 from .state_index import index_x, index_y, index_z, index_roll, index_pitch, index_yaw, index_vel_lon, index_vel_lat, index_acc_lon, index_acc_lat
@@ -126,6 +127,47 @@ def set_position_from_list(obj: T, val: List[float], reset_covariance: bool = Tr
     set_x(state, val[0], reset_covariance)
     set_y(state, val[1], reset_covariance)
     set_z(state, val[2], reset_covariance)
+
+def set_center_position_from_gm_point(obj: T, val: Point, reset_covariance: bool = True) -> None:
+    """Set the object's geometric center position for a given object state.
+
+    Args:
+        state: ObjectState instance
+        val: Geometric center position to set
+    """
+    state = obj if isinstance(obj, ObjectState) else obj.state
+
+    roll = get_roll(state) if has_roll(state.model_id) else 0.0
+    pitch = get_pitch(state) if has_pitch(state.model_id) else 0.0
+    yaw = get_yaw(state) if has_yaw(state.model_id) else 0.0
+    q = Quaternion()
+    q.x, q.y, q.z, q.w = quaternion_from_euler(roll, pitch, yaw)
+
+    offset_to_center = state.reference_point.translation_to_geometric_center
+    tf = TransformStamped()
+    tf.transform.rotation = q
+    offset_to_center_stamped = Vector3Stamped()
+    offset_to_center_stamped.vector = offset_to_center
+    rotated_offset_to_center = tf2_geometry_msgs.do_transform_vector3(offset_to_center_stamped, tf).vector
+
+    position = Point()
+    position.x = val.x - rotated_offset_to_center.x
+    position.y = val.y - rotated_offset_to_center.y
+    position.z = val.z - rotated_offset_to_center.z
+    set_position_from_gm_point(state, position, reset_covariance)
+
+def set_center_position_from_list(obj: T, val: List[float], reset_covariance: bool = True) -> None:
+    """Set the object's geometric center position for a given object state.
+
+    Args:
+        state: ObjectState instance
+        val: Geometric center position [x, y, z]
+    """
+    center_position = Point()
+    center_position.x = val[0]
+    center_position.y = val[1]
+    center_position.z = val[2]
+    set_center_position_from_gm_point(obj, center_position, reset_covariance)
 
 def set_orientation_from_gm_quaternion(obj: T, val: Quaternion, reset_covariance: bool = True) -> None:
     """Set the orientation for a given object state.
