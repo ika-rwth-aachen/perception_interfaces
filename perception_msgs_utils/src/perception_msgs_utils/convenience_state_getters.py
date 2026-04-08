@@ -185,12 +185,12 @@ def get_center_position(obj: T) -> Point:
     orientation = get_orientation(state)
     offset_to_center = state.reference_point.translation_to_geometric_center
 
-    tf = Transform()
-    tf.rotation = orientation
+    orientation_tf2 = Transform()
+    orientation_tf2.rotation = orientation
 
     offset_to_center_tf2 = Vector3()
     offset_to_center_tf2.vector = offset_to_center
-    rotated_offset_to_center = tf2_geometry_msgs.do_transform_vector3(offset_to_center_tf2, tf).vector
+    rotated_offset_to_center = tf2_geometry_msgs.do_transform_vector3(offset_to_center_tf2, orientation_tf2).vector
 
     position.x += rotated_offset_to_center.x
     position.y += rotated_offset_to_center.y
