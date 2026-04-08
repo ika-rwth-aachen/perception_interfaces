@@ -172,7 +172,7 @@ def get_pose(obj: T) -> Pose:
 
 def get_center_position(obj: T) -> Point:
     """
-    Get the object's geometric center position.
+    Get the geometric center position of an object.
 
     Args:
         obj: The object to get the center position from.
