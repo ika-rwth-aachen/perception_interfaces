@@ -30,7 +30,7 @@ from typing import TypeVar, Union, List
 import math
 import tf2_geometry_msgs
 from perception_msgs.msg import ObjectState, Object, EgoData, ObjectClassification
-from geometry_msgs.msg import Point, Quaternion, Pose, PoseWithCovariance, PoseWithCovarianceStamped, Vector3, Vector3Stamped, TransformStamped
+from geometry_msgs.msg import Point, Quaternion, Pose, PoseWithCovariance, PoseWithCovarianceStamped, Vector3, Transform
 from tf_transformations import quaternion_from_euler
 
 
@@ -185,12 +185,12 @@ def get_center_position(obj: T) -> Point:
     orientation = get_orientation(state)
     offset_to_center = state.reference_point.translation_to_geometric_center
 
-    tf = TransformStamped()
-    tf.transform.rotation = orientation
+    tf = Transform()
+    tf.rotation = orientation
 
-    offset_to_center_stamped = Vector3Stamped()
-    offset_to_center_stamped.vector = offset_to_center
-    rotated_offset_to_center = tf2_geometry_msgs.do_transform_vector3(offset_to_center_stamped, tf).vector
+    offset_to_center_tf2 = Vector3()
+    offset_to_center_tf2.vector = offset_to_center
+    rotated_offset_to_center = tf2_geometry_msgs.do_transform_vector3(offset_to_center_tf2, tf).vector
 
     position.x += rotated_offset_to_center.x
     position.y += rotated_offset_to_center.y
