@@ -144,11 +144,12 @@ def set_center_position_from_gm_point(obj: T, val: Point, reset_covariance: bool
     q.x, q.y, q.z, q.w = quaternion_from_euler(roll, pitch, yaw)
 
     offset_to_center = state.reference_point.translation_to_geometric_center
-    tf = TransformStamped()
-    tf.transform.rotation = q
-    offset_to_center_stamped = Vector3Stamped()
-    offset_to_center_stamped.vector = offset_to_center
-    rotated_offset_to_center = tf2_geometry_msgs.do_transform_vector3(offset_to_center_stamped, tf).vector
+    orientation_tf2 = TransformStamped()
+    orientation_tf2.transform.rotation = q
+    
+    offset_to_center_tf2 = Vector3Stamped()
+    offset_to_center_tf2.vector = offset_to_center
+    rotated_offset_to_center = tf2_geometry_msgs.do_transform_vector3(offset_to_center_tf2, orientation_tf2).vector
 
     position = Point()
     position.x = val.x - rotated_offset_to_center.x
