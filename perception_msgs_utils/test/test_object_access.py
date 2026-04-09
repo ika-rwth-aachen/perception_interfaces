@@ -27,11 +27,11 @@ import random
 import numpy as np
 
 from perception_msgs.msg import EGO, EGORWS, Object, ISCACTR, HEXAMOTION, TRAFFICLIGHT, ObjectClassification
-from geometry_msgs.msg import PoseWithCovariance, Vector3
+from geometry_msgs.msg import PoseWithCovariance, Vector3, Point
 from perception_msgs_utils.init import initialize_state
 from perception_msgs_utils.utils import get_continuous_state_size, get_discrete_state_size, get_continuous_state_covariance_size
-from perception_msgs_utils.convenience_state_getters import get_continuous_state, get_discrete_state, get_continuous_state_covariance, get_class_with_highest_probability, get_pose_with_covariance, get_velocity, get_acceleration, get_roll_in_deg, get_pitch_in_deg, get_yaw_in_deg, get_velocity_xyz, get_velocity_magnitude, get_acceleration_magnitude, get_velocity_xyz_with_covariance, get_acceleration_xyz_with_covariance, get_acceleration_xyz
-from perception_msgs_utils.convenience_state_setters import set_continuous_state, set_discrete_state, set_continuous_state_covariance, set_continuous_state_covariance_at, set_pose_with_covariance_from_gm_pose_with_covariance, set_velocity_from_gm_vector3, set_acceleration_from_gm_vector3, set_roll_in_deg, set_pitch_in_deg, set_yaw_in_deg, set_velocity_xyz_yaw_from_gm_vector3, set_velocity_xyz_yaw_with_covariance_from_gm_vector3, set_acceleration_xyz_yaw_from_gm_vector3, set_acceleration_xyz_yaw_with_covariance_from_gm_vector3
+from perception_msgs_utils.convenience_state_getters import get_continuous_state, get_discrete_state, get_continuous_state_covariance, get_class_with_highest_probability, get_pose_with_covariance, get_velocity, get_acceleration, get_roll_in_deg, get_pitch_in_deg, get_yaw_in_deg, get_velocity_xyz, get_velocity_magnitude, get_acceleration_magnitude, get_velocity_xyz_with_covariance, get_acceleration_xyz_with_covariance, get_acceleration_xyz, get_center_position
+from perception_msgs_utils.convenience_state_setters import set_continuous_state, set_discrete_state, set_continuous_state_covariance, set_continuous_state_covariance_at, set_pose_with_covariance_from_gm_pose_with_covariance, set_velocity_from_gm_vector3, set_acceleration_from_gm_vector3, set_roll_in_deg, set_pitch_in_deg, set_yaw_in_deg, set_velocity_xyz_yaw_from_gm_vector3, set_velocity_xyz_yaw_with_covariance_from_gm_vector3, set_acceleration_xyz_yaw_from_gm_vector3, set_acceleration_xyz_yaw_with_covariance_from_gm_vector3, set_center_position_from_gm_point, set_center_position_from_list
 from perception_msgs_utils.state_setters import set_x, set_y, set_z, set_vel_lon, set_vel_lat, set_acc_lon, set_acc_lat, set_roll, set_pitch, set_yaw, set_yaw_rate, set_steering_angle_ack, set_steering_angle_rate_ack, set_standstill, set_turn_indicator, set_brake_light, set_reverse_light, set_steering_angle_front, set_steering_angle_rear, set_width, set_length, set_height, set_roll_rate, set_pitch_rate, set_state, set_type
 from perception_msgs_utils.state_getters import get_x, get_y, get_z, get_vel_lon, get_vel_lat, get_acc_lon, get_acc_lat, get_roll, get_pitch, get_yaw, get_yaw_rate, get_steering_angle_ack, get_steering_angle_rate_ack, get_standstill, get_turn_indicator, get_brake_light, get_reverse_light, get_steering_angle_front, get_steering_angle_rear, get_width, get_length, get_height, get_roll_rate, get_pitch_rate, get_state, get_type
 from perception_msgs_utils.state_index import index_vel_lon, index_vel_lat, index_acc_lon, index_acc_lat
@@ -631,3 +631,33 @@ def test_convenience_set_get():
     assert acc3_xyz_with_cov.covariance[12] == pytest.approx(acc2_xyz_with_cov.covariance[12])
     assert acc3_xyz_with_cov.covariance[13] == pytest.approx(acc2_xyz_with_cov.covariance[13])
     assert acc3_xyz_with_cov.covariance[14] == pytest.approx(acc2_xyz_with_cov.covariance[14])
+
+    # set/getCenterPosition
+    initialize_state(obj, EGO.MODEL_ID)
+    obj.state.reference_point.translation_to_geometric_center.x = 2.0
+    obj.state.reference_point.translation_to_geometric_center.y = 0.0
+    obj.state.reference_point.translation_to_geometric_center.z = 0.0
+    set_x(obj, 10.0)
+    set_y(obj, 20.0)
+    set_z(obj, 30.0)
+    set_yaw(obj, np.pi / 2)
+    center1 = get_center_position(obj)
+    assert center1.x == pytest.approx(10.0)
+    assert center1.y == pytest.approx(22.0)
+    assert center1.z == pytest.approx(30.0)
+
+    center_target = Point()
+    center_target.x = 100.0
+    center_target.y = 200.0
+    center_target.z = 300.0
+    set_center_position_from_gm_point(obj, center_target)
+    center2 = get_center_position(obj)
+    assert center2.x == pytest.approx(center_target.x)
+    assert center2.y == pytest.approx(center_target.y)
+    assert center2.z == pytest.approx(center_target.z)
+
+    set_center_position_from_list(obj, [1.0, 2.0, 3.0])
+    center3 = get_center_position(obj)
+    assert center3.x == pytest.approx(1.0)
+    assert center3.y == pytest.approx(2.0)
+    assert center3.z == pytest.approx(3.0)

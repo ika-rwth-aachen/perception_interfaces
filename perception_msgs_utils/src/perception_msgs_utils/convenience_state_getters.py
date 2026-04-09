@@ -170,6 +170,34 @@ def get_pose(obj: T) -> Pose:
     pose.orientation = get_orientation(obj)
     return pose
 
+def get_center_position(obj: T) -> Point:
+    """
+    Get the geometric center position of an object.
+
+    Args:
+        obj: The object to get the center position from.
+    
+    Returns:
+        The position of the object`s geometric center.
+    """
+    state = obj if isinstance(obj, ObjectState) else obj.state
+    position = get_position(state)
+    orientation = get_orientation(state)
+    offset_to_center = state.reference_point.translation_to_geometric_center
+
+    orientation_tf2 = TransformStamped()
+    orientation_tf2.transform.rotation = orientation
+
+    offset_to_center_tf2 = Vector3Stamped()
+    offset_to_center_tf2.vector = offset_to_center
+    rotated_offset_to_center = tf2_geometry_msgs.do_transform_vector3(offset_to_center_tf2, orientation_tf2).vector
+
+    position.x += rotated_offset_to_center.x
+    position.y += rotated_offset_to_center.y
+    position.z += rotated_offset_to_center.z
+    return position
+
+
 def get_pose_covariance(obj: T) -> List[float]:
     """
     Get the pose covariance of an object.
