@@ -30,7 +30,7 @@ from typing import TypeVar, Union, List
 import math
 import tf2_geometry_msgs
 from perception_msgs.msg import ObjectState, Object, EgoData, ObjectClassification
-from geometry_msgs.msg import Point, Quaternion, Pose, PoseWithCovariance, PoseWithCovarianceStamped, Vector3, Transform
+from geometry_msgs.msg import Point, Quaternion, Pose, PoseWithCovariance, PoseWithCovarianceStamped, Vector3, Vector3Stamped, Transform, TransformStamped
 from tf_transformations import quaternion_from_euler
 
 
