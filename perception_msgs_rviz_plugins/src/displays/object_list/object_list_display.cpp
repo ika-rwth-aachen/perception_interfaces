@@ -158,6 +158,8 @@ ObjectListDisplay::ObjectListDisplay()
     "Color to visualize prediction points", viz_prediction_points_);
   width_property_prediction_points_ = new rviz_common::properties::FloatProperty("Point Width", 0.5, 
     "Width of the prediction points", viz_prediction_points_);
+  velocity_property_prediction_points_ = new rviz_common::properties::BoolProperty("Velocity-based height", true, 
+    "Set the height of the prediction points based on the velocity of the predicted state", viz_prediction_points_);
 
   // text printing options
   viz_text_ = new rviz_common::properties::BoolProperty("Text information", false,
@@ -338,6 +340,7 @@ void ObjectListDisplay::processMessage(perception_msgs::msg::ObjectList::ConstSh
   bool visualize_predictions = viz_predictions_->getBool();
   bool visualize_prediction_points = viz_prediction_points_->getBool();
   bool visualize_prediction_probabilities = viz_prediction_probabilities_->getBool();
+  bool velocity_based_height_prediction_points = velocity_property_prediction_points_->getBool();
   
   float velocity_scale;
   bool use_velocity_color;
@@ -437,6 +440,7 @@ void ObjectListDisplay::processMessage(perception_msgs::msg::ObjectList::ConstSh
         if(visualize_prediction_points) {
           state_ptr->setPredictionPointColor(rviz_common::properties::qtToOgre(color_property_prediction_points_->getColor()));
           state_ptr->setPredictionPointWidth(width_property_prediction_points_->getFloat());
+          state_ptr->setVelocityBasedHeightForPredictionPoints(velocity_based_height_prediction_points);
         }
       }
       // render

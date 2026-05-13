@@ -326,6 +326,13 @@ class ObjectState {
   void setPredictionProbCharHeight(const float& val);
 
   /**
+   * @brief Set bool to use velocity-based height for prediction points
+   *
+   * @param val
+   */
+  void setVelocityBasedHeightForPredictionPoints(const bool& val);
+
+  /**
    * @brief Set the text of the probability of an object state prediction
    *
    * @param probability
@@ -441,6 +448,7 @@ class ObjectState {
   bool print_velocity_ = true;
   bool visualize_predictions_ = true;
   bool visualize_prediction_points_ = true;
+  bool velocity_based_height_prediction_points_ = true;
   Ogre::ColourValue prediction_line_color_;
   Ogre::ColourValue prediction_point_color_;
   float prediction_line_width_ = 1.0;

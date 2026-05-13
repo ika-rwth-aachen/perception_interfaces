@@ -133,6 +133,7 @@ protected:
   rviz_common::properties::FloatProperty *width_property_prediction_points_;
   rviz_common::properties::BoolProperty *viz_prediction_probabilities_;
   rviz_common::properties::FloatProperty *char_height_prediction_probs_;
+  rviz_common::properties::BoolProperty *velocity_property_prediction_points_;
 
   // timeout
   rviz_common::properties::BoolProperty* enable_timeout_property_;

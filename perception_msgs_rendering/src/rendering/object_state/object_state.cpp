@@ -261,6 +261,8 @@ void ObjectState::setVisualizePredictionProbabilities(const bool& val) { visuali
 
 void ObjectState::setPredictionProbCharHeight(const float& val) { char_height_prediction_probs_ = val; }
 
+void ObjectState::setVelocityBasedHeightForPredictionPoints(const bool& val) { velocity_based_height_prediction_points_ = val; }
+
 void ObjectState::setObjectStateVizDefault(const perception_msgs::msg::ObjectState& state,
                                            const Ogre::ColourValue& color, const bool& viz_bb,
                                            const bool& indicate_direction) {
@@ -649,6 +651,9 @@ void ObjectState::setObjectPredictionsVizDefault(
         tf2::fromMsg(perception_msgs::object_access::getPose(states[i]), state_tf);
         auto transformed_pos_tf = base_state_tf.inverse() * state_tf;
         auto pos = transformed_pos_tf.getOrigin();
+        if (velocity_based_height_prediction_points_) {
+          pos.setZ(pos.z() + static_cast<float>(perception_msgs::object_access::getVelocityMagnitude(states[i])));
+        }
         auto orientation = transformed_pos_tf.getRotation();
         bbox_prediction[i]->setPosition(Ogre::Vector3(pos.x(), pos.y(), pos.z()));
         bbox_prediction[i]->setOrientation(
