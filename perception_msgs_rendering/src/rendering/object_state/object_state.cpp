@@ -261,6 +261,8 @@ void ObjectState::setVisualizePredictionProbabilities(const bool& val) { visuali
 
 void ObjectState::setPredictionProbCharHeight(const float& val) { char_height_prediction_probs_ = val; }
 
+void ObjectState::setVelocityBasedHeightForPredictionPoints(const bool& val) { velocity_based_height_prediction_points_ = val; }
+
 void ObjectState::setObjectStateVizDefault(const perception_msgs::msg::ObjectState& state,
                                            const Ogre::ColourValue& color, const bool& viz_bb,
                                            const bool& indicate_direction) {
@@ -635,8 +637,10 @@ void ObjectState::setObjectPredictionsVizDefault(
       tf2::fromMsg(perception_msgs::object_access::getPose(state), state_tf);
       auto transformed_pos_tf = base_state_tf.inverse() * state_tf;
       auto transformed_pos = transformed_pos_tf.getOrigin();
-      auto velocity_magnitude = perception_msgs::object_access::getVelocityMagnitude(state);
-      billboard_line_prediction->addPoint(Ogre::Vector3(transformed_pos.x(), transformed_pos.y(), transformed_pos.z() + velocity_magnitude));
+      if (velocity_based_height_prediction_points_) {
+        transformed_pos.setZ(transformed_pos.z() + static_cast<float>(perception_msgs::object_access::getVelocityMagnitude(state)));
+      }
+      billboard_line_prediction->addPoint(Ogre::Vector3(transformed_pos.x(), transformed_pos.y(), transformed_pos.z()));
     }
     if (visualize_prediction_points_) {
       for (size_t i = 0; i < states.size(); i++) {
@@ -650,9 +654,13 @@ void ObjectState::setObjectPredictionsVizDefault(
         tf2::fromMsg(perception_msgs::object_access::getPose(states[i]), state_tf);
         auto transformed_pos_tf = base_state_tf.inverse() * state_tf;
         auto pos = transformed_pos_tf.getOrigin();
-        pos.setZ(static_cast<float>(perception_msgs::object_access::getVelocityMagnitude(states[i])));
+        // store original z value to avoid changing the bbox position when using velocity-based height for prediction points
+        float pos_z_original = pos.z();
+        if (velocity_based_height_prediction_points_) {
+          pos.setZ(pos_z_original + static_cast<float>(perception_msgs::object_access::getVelocityMagnitude(states[i])));
+        }
         auto orientation = transformed_pos_tf.getRotation();
-        bbox_prediction[i]->setPosition(Ogre::Vector3(pos.x(), pos.y(), pos.z()));
+        bbox_prediction[i]->setPosition(Ogre::Vector3(pos.x(), pos.y(), pos_z_original));
         bbox_prediction[i]->setOrientation(
             Ogre::Quaternion(orientation.w(), orientation.x(), orientation.y(), orientation.z()));
       }
