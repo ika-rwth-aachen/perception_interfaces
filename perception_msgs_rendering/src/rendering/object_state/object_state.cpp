@@ -637,9 +637,6 @@ void ObjectState::setObjectPredictionsVizDefault(
       tf2::fromMsg(perception_msgs::object_access::getPose(state), state_tf);
       auto transformed_pos_tf = base_state_tf.inverse() * state_tf;
       auto transformed_pos = transformed_pos_tf.getOrigin();
-      if (velocity_based_height_prediction_points_) {
-        transformed_pos.setZ(transformed_pos.z() + static_cast<float>(perception_msgs::object_access::getVelocityMagnitude(state)));
-      }
       billboard_line_prediction->addPoint(Ogre::Vector3(transformed_pos.x(), transformed_pos.y(), transformed_pos.z()));
     }
     if (visualize_prediction_points_) {
