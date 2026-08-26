@@ -88,6 +88,7 @@ protected:
   rviz_common::properties::EnumProperty *hoverboard_cap_style_;
   rviz_common::properties::IntProperty *hoverboard_corner_segments_;
   rviz_common::properties::BoolProperty *hoverboard_glow_;
+  rviz_common::properties::BoolProperty *hoverboard_glow_fade_out_;
   rviz_common::properties::FloatProperty *hoverboard_glow_height_;
   rviz_common::properties::FloatProperty *hoverboard_glow_intensity_;
   // color by classification (applies to multiple modes)

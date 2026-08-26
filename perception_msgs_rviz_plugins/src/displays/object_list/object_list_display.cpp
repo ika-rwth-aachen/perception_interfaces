@@ -61,9 +61,9 @@ ObjectListDisplay::ObjectListDisplay()
   appearance_properties_ = new rviz_common::properties::Property("Appearance Properties", " ", "Different properties to modify the appearance of objects", this);
   viz_mesh_ = new rviz_common::properties::BoolProperty("Mesh", false,
     "Visualize the object as a mesh.", appearance_properties_);
-  viz_bounding_box_ = new rviz_common::properties::BoolProperty("Bounding box", true,
+  viz_bounding_box_ = new rviz_common::properties::BoolProperty("Bounding box", false,
     "Visualize the bounding box of an object.", appearance_properties_);
-  viz_hoverboard_ = new rviz_common::properties::BoolProperty("Hoverboard", false,
+  viz_hoverboard_ = new rviz_common::properties::BoolProperty("Hoverboard", true,
     "Visualize the object as a flat rounded tile.", appearance_properties_);
   color_property_group_ = new rviz_common::properties::BoolProperty("Classification coloring", true,
     "Use the object classification to set the color for supported visuals.", appearance_properties_);
@@ -84,10 +84,12 @@ ObjectListDisplay::ObjectListDisplay()
   hoverboard_corner_segments_->setMax(64);
   hoverboard_glow_ = new rviz_common::properties::BoolProperty("Glow", true,
     "Add an upward glow above the tile.", viz_hoverboard_);
-  hoverboard_glow_height_ = new rviz_common::properties::FloatProperty("Glow Height [m]", 0.7,
+  hoverboard_glow_fade_out_ = new rviz_common::properties::BoolProperty("Fade Out", true,
+    "Fade the glow transparency to zero towards the top.", hoverboard_glow_);
+  hoverboard_glow_height_ = new rviz_common::properties::FloatProperty("Glow Height [m]", 0.5,
     "Height of the glow plume.", hoverboard_glow_);
   hoverboard_glow_height_->setMin(0.0);
-  hoverboard_glow_intensity_ = new rviz_common::properties::FloatProperty("Glow Intensity [0..1]", 0.6,
+  hoverboard_glow_intensity_ = new rviz_common::properties::FloatProperty("Glow Intensity [0..1]", 0.5,
     "Intensity multiplier for glow color.", hoverboard_glow_);
   hoverboard_glow_intensity_->setMin(0.0);
   hoverboard_glow_intensity_->setMax(1.0);
@@ -422,6 +424,7 @@ void ObjectListDisplay::processMessage(perception_msgs::msg::ObjectList::ConstSh
       state_ptr->setHoverboardCapStyle(hoverboard_cap_style_->getOptionInt());
       state_ptr->setHoverboardCornerSegments(hoverboard_corner_segments_->getInt());
       state_ptr->setHoverboardGlow(hoverboard_glow_->getBool());
+      state_ptr->setHoverboardGlowFadeOut(hoverboard_glow_fade_out_->getBool());
       state_ptr->setHoverboardGlowParams(hoverboard_glow_height_->getFloat(), hoverboard_glow_intensity_->getFloat());
       state_ptr->setVisualizeVelocity(visualize_velocity);
       if(visualize_velocity)

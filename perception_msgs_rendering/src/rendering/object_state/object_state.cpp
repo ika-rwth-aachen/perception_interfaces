@@ -220,6 +220,7 @@ void ObjectState::setVisualizeHoverboard(const bool& val) { visualize_hoverboard
 void ObjectState::setHoverboardThickness(const float& val) { hoverboard_thickness_ = std::max(0.0f, val); }
 void ObjectState::setHoverboardCornerRadius(const float& val) { hoverboard_corner_radius_ = std::max(0.0f, val); }
 void ObjectState::setHoverboardGlow(const bool& val) { hoverboard_glow_ = val; }
+void ObjectState::setHoverboardGlowFadeOut(const bool& val) { hoverboard_glow_fade_out_ = val; }
 void ObjectState::setHoverboardGlowParams(const float& height, const float& intensity) {
   hoverboard_glow_height_ = std::max(0.0f, height);
   hoverboard_glow_intensity_ = std::max(0.0f, std::min(1.0f, intensity));
@@ -572,7 +573,10 @@ void ObjectState::setObjectStateVizDefault(const perception_msgs::msg::ObjectSta
       cBottom.r *= hoverboard_glow_intensity_;
       cBottom.g *= hoverboard_glow_intensity_;
       cBottom.b *= hoverboard_glow_intensity_;
-      Ogre::ColourValue cTop = cBottom; cTop.a = 0.0f;
+      Ogre::ColourValue cTop = cBottom;
+      if (hoverboard_glow_fade_out_) {
+        cTop = Ogre::ColourValue(0.0f, 0.0f, 0.0f, 0.0f);
+      }
       hoverboard_glow_mo_->begin(hoverboard_glow_material_name_, Ogre::RenderOperation::OT_TRIANGLE_LIST);
       const float zG0 = zTop;
       const float zG1 = zTop + hoverboard_glow_height_;

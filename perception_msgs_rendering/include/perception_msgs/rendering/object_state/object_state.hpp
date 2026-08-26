@@ -237,6 +237,7 @@ class ObjectState {
   void setHoverboardThickness(const float& val);
   void setHoverboardCornerRadius(const float& val);
   void setHoverboardGlow(const bool& val);
+  void setHoverboardGlowFadeOut(const bool& val);
   void setHoverboardGlowParams(const float& height, const float& intensity);
   void setHoverboardCapStyle(int style);
   void setHoverboardCornerSegments(int segs);
@@ -470,8 +471,9 @@ class ObjectState {
   float hoverboard_thickness_ = 0.12f;
   float hoverboard_corner_radius_ = 0.35f;
   bool hoverboard_glow_ = true;
-  float hoverboard_glow_height_ = 0.7f;
-  float hoverboard_glow_intensity_ = 0.6f;
+  bool hoverboard_glow_fade_out_ = true;
+  float hoverboard_glow_height_ = 0.5f;
+  float hoverboard_glow_intensity_ = 0.5f;
   int hoverboard_cap_style_ = 2; // 0=square,1=bevel,2=round
   int hoverboard_corner_segments_ = 12;
   std::string hoverboard_material_name_ = "ObjectHoverboard/Tile";
