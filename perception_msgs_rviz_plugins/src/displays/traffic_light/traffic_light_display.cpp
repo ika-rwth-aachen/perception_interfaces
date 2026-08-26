@@ -59,6 +59,7 @@ TrafficLightDisplay::TrafficLightDisplay() {
                                                                  1.0,
                                                                  "Timeout duration in seconds (wall time)",
                                                                  enable_timeout_property_);
+  timeout_property_->setMin(0.001);
 }
 
 TrafficLightDisplay::~TrafficLightDisplay() {
@@ -78,6 +79,9 @@ void TrafficLightDisplay::onInitialize() {
 }
 
 void TrafficLightDisplay::reset() {
+  if (timeout_timer_) {
+    timeout_timer_->cancel();
+  }
   MFDClass::reset();
   viz_object_states_.clear();
 }
@@ -105,9 +109,11 @@ bool TrafficLightDisplay::validateFloats(perception_msgs::msg::ObjectList::Const
 void TrafficLightDisplay::processMessage(perception_msgs::msg::ObjectList::ConstSharedPtr msg) {
 
   // check for supported object model id
-  for (const auto& obj : msg->objects) {
+  for (size_t i = 0; i < msg->objects.size(); ++i) {
+    const auto& obj = msg->objects[i];
     if (obj.state.model_id != perception_msgs::msg::TRAFFICLIGHT::MODEL_ID) {
-      std::string error_msg = "Model ID not supported"; // TODO: add model_id value and object number (didn't know how to convert int to string offline)
+      const std::string error_msg = "Model ID " + std::to_string(obj.state.model_id) +
+                                    " of traffic light " + std::to_string(i) + " is not supported";
       this->setStatus(rviz_common::properties::StatusProperty::Error, "Model ID", QString::fromStdString(error_msg));
       return;
     }
@@ -129,6 +135,11 @@ void TrafficLightDisplay::processMessage(perception_msgs::msg::ObjectList::Const
     return;
   }
   setTransformOk();
+
+  if (timeout_timer_) {
+    timeout_timer_->cancel();
+    timeout_timer_.reset();
+  }
 
   scene_node_->setPosition(position);
   scene_node_->setOrientation(orientation);
@@ -159,8 +170,9 @@ void TrafficLightDisplay::processMessage(perception_msgs::msg::ObjectList::Const
 }
 
 void TrafficLightDisplay::timeoutTimerCallback() {
-
-  timeout_timer_->cancel();
+  if (timeout_timer_) {
+    timeout_timer_->cancel();
+  }
   this->reset();
 }
 

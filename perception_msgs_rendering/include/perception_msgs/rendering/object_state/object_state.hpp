@@ -198,6 +198,13 @@ class ObjectState {
   void setCharHeight(const float& val);
 
   /**
+   * @brief Set the clearance between the bounding box and its text label
+   *
+   * @param val clearance in metres
+   */
+  void setTextOffset(const float& val);
+
+  /**
    * @brief Set the visualization color of text with respect to objects classification color
    *
    * @param val
@@ -397,9 +404,9 @@ class ObjectState {
    */
   void velocityToText(const perception_msgs::msg::ObjectState& state, std::string& text);
 
-  Ogre::SceneNode* scene_node_;
-  Ogre::SceneNode* mesh_node_;
-  Ogre::SceneManager* scene_manager_;
+  Ogre::SceneNode* scene_node_ = nullptr;
+  Ogre::SceneNode* mesh_node_ = nullptr;
+  Ogre::SceneManager* scene_manager_ = nullptr;
 
   std::shared_ptr<rviz_rendering::Shape> bbox_;
   std::shared_ptr<rviz_rendering::Shape> bbox_cone_;
@@ -416,7 +423,8 @@ class ObjectState {
   perception_msgs::msg::ObjectState object_state_;
   std::vector<perception_msgs::msg::ObjectStatePrediction> predictions_;
   perception_msgs::msg::ObjectClassification classification_;
-  float char_height_ = 4.0;
+  float char_height_ = 0.5f;
+  float text_offset_ = 1.0f;
   unsigned int id_;
   bool id_set_ = false;
   double existence_probability_ = -1.0;
@@ -454,7 +462,7 @@ class ObjectState {
   float prediction_line_width_ = 1.0;
   float prediction_point_width_ = 0.5;
   bool visualize_prediction_probabilities_ = true;
-  float char_height_prediction_probs_ = 4.0;
+  float char_height_prediction_probs_ = 0.5f;
   std::string text_probabilities_;
   std::string material;
 

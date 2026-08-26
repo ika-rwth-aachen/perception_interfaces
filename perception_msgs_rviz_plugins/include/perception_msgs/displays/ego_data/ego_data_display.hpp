@@ -77,7 +77,7 @@ class EgoDataDisplay : public rviz_common::MessageFilterDisplay<perception_msgs:
  protected:
   void processMessage(perception_msgs::msg::EgoData::ConstSharedPtr msg) override;
 
-  Ogre::ManualObject *manual_object_;
+  Ogre::ManualObject *manual_object_ = nullptr;
   std::string trajectory_material_name_ = "EgoTrajectory/ThickLine";
 
   // properties
@@ -98,7 +98,7 @@ class EgoDataDisplay : public rviz_common::MessageFilterDisplay<perception_msgs:
   rviz_common::properties::ColorProperty *acceleration_color_property_;
 
   // text properties
-  rviz_common::properties::FloatProperty *char_height_;
+  rviz_common::properties::FloatProperty *char_height_, *text_offset_;
   rviz_common::properties::BoolProperty *print_vel_;
 
   // timeout
@@ -123,9 +123,6 @@ class EgoDataDisplay : public rviz_common::MessageFilterDisplay<perception_msgs:
   rclcpp::TimerBase::SharedPtr timeout_timer_;
 
   // parameters
-  std::vector<std::shared_ptr<rviz_rendering::Shape>> flat_areas_;
-  float length_;
-  float width_;
   float v_max_ = 50.0;
   float a_max_ = 5.0;
   std::string default_ = "Static Color";

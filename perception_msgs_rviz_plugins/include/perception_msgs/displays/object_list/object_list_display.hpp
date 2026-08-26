@@ -117,7 +117,7 @@ protected:
 
   // text properties
   rviz_common::properties::BoolProperty *viz_text_;
-  rviz_common::properties::FloatProperty *char_height_;
+  rviz_common::properties::FloatProperty *char_height_, *text_offset_;
   rviz_common::properties::BoolProperty *use_text_color_class_;
   rviz_common::properties::BoolProperty *print_id_;
   rviz_common::properties::BoolProperty *print_exist_prob_;

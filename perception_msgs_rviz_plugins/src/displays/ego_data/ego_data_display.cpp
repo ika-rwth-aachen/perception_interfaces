@@ -69,26 +69,32 @@ EgoDataDisplay::EgoDataDisplay() {
   // velocity options
   velocity_scale_ = new rviz_common::properties::FloatProperty(
       "Velocity scale", 1.0, "Scale the length of the velocity arrows", viz_velocity_);
+  velocity_scale_->setMin(0.0);
   velocity_height_ = new rviz_common::properties::BoolProperty(
       "Set height with Velocity", false, "Set the height of the arrow according to the EgoVehicle's velocity", viz_velocity_);
   use_velocity_color_ = new rviz_common::properties::BoolProperty(
       "Use velocity color", true,
-      "Visualize the velocity arrow in the bbox color. If not set, use specific color instead.", viz_velocity_);
+      "Use the custom velocity color instead of the bounding-box color.", viz_velocity_);
   velocity_color_property_ = new rviz_common::properties::ColorProperty(
       "Velocity Color", QColor(255, 0, 255), "Color to visualize velocity arrow", viz_velocity_);
 
   // acceleration options
   acceleration_scale_ = new rviz_common::properties::FloatProperty(
       "Acceleration scale", 10.0, "Scale the length of the acceleration arrows", viz_acceleration_);
+  acceleration_scale_->setMin(0.0);
   use_acceleration_color_ = new rviz_common::properties::BoolProperty(
       "Use acceleration color", true,
-      "Visualize the acceleration arrow in the bbox color. If not set, use specific color instead.", viz_acceleration_);
+      "Use the custom acceleration color instead of the bounding-box color.", viz_acceleration_);
   acceleration_color_property_ = new rviz_common::properties::ColorProperty(
       "Acceleration Color", QColor(255, 0, 0), "Color to visualize acceleration arrow", viz_acceleration_);
 
   // text printing options
   char_height_ =
-      new rviz_common::properties::FloatProperty("Char height", 4.0, "Height of characters, ~ Font size", viz_text_);
+      new rviz_common::properties::FloatProperty("Char height", 0.5, "Height of characters in metres.", viz_text_);
+  char_height_->setMin(0.01);
+  text_offset_ = new rviz_common::properties::FloatProperty(
+      "Vertical offset", 1.0, "Clearance between the vehicle roof and the text in metres.", viz_text_);
+  text_offset_->setMin(0.0);
   print_vel_ = new rviz_common::properties::BoolProperty("Velocity", true,
                                                          "Print the speed of the Ego-Vehicle within text.", viz_text_);
 
@@ -101,6 +107,7 @@ EgoDataDisplay::EgoDataDisplay() {
                                                                  1.0,
                                                                  "Timeout duration in seconds (wall time)",
                                                                  enable_timeout_property_);
+  timeout_property_->setMin(0.001);
 
   // trajectory properties
   viz_trajectory_ = new rviz_common::properties::BoolProperty("Planned Trajectory", true,
@@ -126,6 +133,8 @@ EgoDataDisplay::EgoDataDisplay() {
     "Color to draw vehicle outlines corresponding to states with positive acceleration", color_options_, SLOT(queueRender()));
   v_max_property_ = new rviz_common::properties::FloatProperty("max. velocity  [km/h]", v_max_, "Velocity limit for color coding", parameter_options_, SLOT(queueRender()));
   a_max_property_ = new rviz_common::properties::FloatProperty("max. acceleration [m/s²]", a_max_, "acceleration limit for color coding", parameter_options_, SLOT(queueRender()));
+  v_max_property_->setMin(0.001);
+  a_max_property_->setMin(0.001);
 
   // trajectory ending customization
   trajectory_end_cap_ = new rviz_common::properties::EnumProperty(
@@ -173,7 +182,7 @@ void EgoDataDisplay::onInitialize() {
   if (!Ogre::MaterialManager::getSingleton().resourceExists(trajectory_material_name_)) {
     Ogre::MaterialPtr mat = Ogre::MaterialManager::getSingleton().create(
         trajectory_material_name_, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-    if (!mat.isNull()) {
+    if (mat) {
       Ogre::Technique *tech = mat->getTechnique(0);
       if (!tech) tech = mat->createTechnique();
       Ogre::Pass *pass = tech->getPass(0);
@@ -189,9 +198,12 @@ void EgoDataDisplay::onInitialize() {
 }
 
 void EgoDataDisplay::reset() {
+  if (timeout_timer_) {
+    timeout_timer_->cancel();
+  }
   MFDClass::reset();
   manual_object_->clear();
-  flat_areas_.clear();
+  viz_ego_state_.reset();
 }
 
 bool validateFloats(perception_msgs::msg::EgoData::ConstSharedPtr msg) {
@@ -208,7 +220,7 @@ void EgoDataDisplay::processMessage(perception_msgs::msg::EgoData::ConstSharedPt
 
   // check for supported object model id
   if (msg->state.model_id != perception_msgs::msg::EGO::MODEL_ID && msg->state.model_id != perception_msgs::msg::EGORWS::MODEL_ID) {
-    std::string error_msg = "Model ID" + std::to_string(msg->state.model_id) + "not supported";
+    std::string error_msg = "Model ID " + std::to_string(msg->state.model_id) + " is not supported";
     this->setStatus(rviz_common::properties::StatusProperty::Error, "Model ID", QString::fromStdString(error_msg));
     return;
   }
@@ -226,6 +238,11 @@ void EgoDataDisplay::processMessage(perception_msgs::msg::EgoData::ConstSharedPt
     return;
   }
   setTransformOk();
+
+  if (timeout_timer_) {
+    timeout_timer_->cancel();
+    timeout_timer_.reset();
+  }
 
   scene_node_->setPosition(position);
   scene_node_->setOrientation(orientation);
@@ -288,7 +305,6 @@ void EgoDataDisplay::processMessage(perception_msgs::msg::EgoData::ConstSharedPt
   }
 
   // set trajectory variables
-  Ogre::Vector3 flat_dims(msg->length, msg->width, 0);
   Ogre::ColourValue color_trajectory = rviz_common::properties::qtToOgre(color_property_base_->getColor());
   color_trajectory.a = trajectory_alpha_property_->getFloat();
   
@@ -316,6 +332,7 @@ void EgoDataDisplay::processMessage(perception_msgs::msg::EgoData::ConstSharedPt
   viz_ego_state_->setVisualizeText(visualize_text);
   if (visualize_text) {
     viz_ego_state_->setCharHeight(char_height);
+    viz_ego_state_->setTextOffset(text_offset_->getFloat());
     viz_ego_state_->printVelocity(print_vel);
   }
   // render
@@ -324,52 +341,18 @@ void EgoDataDisplay::processMessage(perception_msgs::msg::EgoData::ConstSharedPt
   viz_ego_state_->setObjectState(msg->state);
 
   // display trajectory
-  flat_areas_.clear();
-  size_t num_points = msg->trajectory_planned.size();
-  if (viz_trajectory_->getBool()) {
-    if (num_points == 0) {
-      // nothing to draw; avoid constructing vectors with size (num_points - 1)
-      return;
-    } else if (num_points == 1) {
-      // draw a disk at the single point so short paths look decent
-      const float half_width = 0.5f * msg->width;
-      geometry_msgs::msg::Pose gm_pose = perception_msgs::object_access::getPose(msg->trajectory_planned[0]);
-      geometry_msgs::msg::TransformStamped tf;
-      geometry_msgs::msg::Vector3 translation_map;
-      tf.transform.translation.x = gm_pose.position.x;
-      tf.transform.translation.y = gm_pose.position.y;
-      tf.transform.translation.z = gm_pose.position.z;
-      tf.transform.rotation = gm_pose.orientation;
-      tf2::doTransform(msg->state.reference_point.translation_to_geometric_center, translation_map, tf);
-      Ogre::Vector3 p(
-          perception_msgs::object_access::getX(msg->trajectory_planned[0]) + translation_map.x,
-          perception_msgs::object_access::getY(msg->trajectory_planned[0]) + translation_map.y,
-          0.0f);
-      Ogre::ColourValue c = rviz_common::properties::qtToOgre(color_property_base_->getColor());
-      c.a = trajectory_alpha_property_->getFloat();
-      manual_object_->begin(trajectory_material_name_, Ogre::RenderOperation::OT_TRIANGLE_FAN);
-      manual_object_->position(p); manual_object_->colour(c);
-      const int seg = std::max(8, trajectory_round_segments_ ? trajectory_round_segments_->getInt() : 16);
-      for (int i = 0; i <= seg; ++i) {
-        float a = static_cast<float>(i) / static_cast<float>(seg) * Ogre::Math::TWO_PI;
-        Ogre::Vector3 v = p + Ogre::Vector3(std::cos(a), std::sin(a), 0.0f) * half_width;
-        manual_object_->position(v); manual_object_->colour(c);
-      }
-      manual_object_->end();
-      return;
-    }
-
-    // num_points >= 2
-    // helper lambdas
-    auto compute_dynamic_color = [&](size_t idx) -> Ogre::ColourValue {
+  if (viz_trajectory_->getBool() && !msg->trajectory_planned.empty()) {
+    auto compute_dynamic_color = [&](size_t source_index) -> Ogre::ColourValue {
       Ogre::ColourValue color_pos = rviz_common::properties::qtToOgre(color_positive_dynamics_->getColor());
       Ogre::ColourValue color_neg = rviz_common::properties::qtToOgre(color_negative_dynamics_->getColor());
       Ogre::ColourValue dyn = color_trajectory;
-      float v = static_cast<float>(3.6 * perception_msgs::object_access::getVelocityMagnitude(msg->trajectory_planned[idx]));
-      float a = perception_msgs::object_access::getAccelerationMagnitude(msg->trajectory_planned[idx]);
+      const float v = static_cast<float>(
+          3.6 * perception_msgs::object_access::getVelocityMagnitude(msg->trajectory_planned[source_index]));
+      const float a = static_cast<float>(
+          perception_msgs::object_access::getAccelerationMagnitude(msg->trajectory_planned[source_index]));
       float f = 0.0f;
       if (drop_down_->getOptionInt() == 2) {
-        f = std::min(1.0f, v / v_max_property_->getFloat());
+        f = std::min(1.0f, std::abs(v) / std::max(0.001f, v_max_property_->getFloat()));
         if (v > 0) {
           dyn.r = (1 - f) * color_trajectory.r + f * color_pos.r;
           dyn.g = (1 - f) * color_trajectory.g + f * color_pos.g;
@@ -380,7 +363,7 @@ void EgoDataDisplay::processMessage(perception_msgs::msg::EgoData::ConstSharedPt
           dyn.b = (1 - f) * color_trajectory.b + f * color_neg.b;
         }
       } else if (drop_down_->getOptionInt() == 3) {
-        f = std::min(1.0f, std::abs(a) / a_max_property_->getFloat());
+        f = std::min(1.0f, std::abs(a) / std::max(0.001f, a_max_property_->getFloat()));
         if (a > 0) {
           dyn.r = (1 - f) * color_trajectory.r + f * color_pos.r;
           dyn.g = (1 - f) * color_trajectory.g + f * color_pos.g;
@@ -394,9 +377,15 @@ void EgoDataDisplay::processMessage(perception_msgs::msg::EgoData::ConstSharedPt
       return dyn;
     };
 
-    // precompute world-space positions with translation to geometric center
-    std::vector<Ogre::Vector3> pts(num_points);
-    for (size_t i = 0; i < num_points; ++i) {
+    // Transform points to the geometric centre and discard consecutive
+    // duplicates. Zero-length segments used to inject arbitrary UNIT_X
+    // normals into the strip and were a common source of diamond-shaped
+    // self-intersections on short trajectories.
+    std::vector<Ogre::Vector3> pts;
+    std::vector<size_t> source_indices;
+    pts.reserve(msg->trajectory_planned.size());
+    source_indices.reserve(msg->trajectory_planned.size());
+    for (size_t i = 0; i < msg->trajectory_planned.size(); ++i) {
       geometry_msgs::msg::Pose gm_pose = perception_msgs::object_access::getPose(msg->trajectory_planned[i]);
       geometry_msgs::msg::TransformStamped tf;
       geometry_msgs::msg::Vector3 translation_map;
@@ -405,138 +394,116 @@ void EgoDataDisplay::processMessage(perception_msgs::msg::EgoData::ConstSharedPt
       tf.transform.translation.z = gm_pose.position.z;
       tf.transform.rotation = gm_pose.orientation;
       tf2::doTransform(msg->state.reference_point.translation_to_geometric_center, translation_map, tf);
-      pts[i] = Ogre::Vector3(
+      Ogre::Vector3 point(
           perception_msgs::object_access::getX(msg->trajectory_planned[i]) + translation_map.x,
           perception_msgs::object_access::getY(msg->trajectory_planned[i]) + translation_map.y,
           0.0f);
-    }
-
-    const float half_width = 0.5f * msg->width;
-
-    // cumulative arc length for fade-out and short-path handling
-    std::vector<float> cumlen(num_points, 0.0f);
-    float total_len = 0.0f;
-    for (size_t i = 1; i < num_points; ++i) {
-      total_len += (pts[i] - pts[i - 1]).length();
-      cumlen[i] = total_len;
-    }
-
-    // precompute directions and normals per segment
-    std::vector<Ogre::Vector3> dirs(num_points - 1);
-    std::vector<Ogre::Vector3> norms(num_points - 1);
-    for (size_t i = 0; i + 1 < num_points; ++i) {
-      Ogre::Vector3 d = pts[i + 1] - pts[i];
-      const float len = d.length();
-      if (len > 1e-6f) d /= len; else d = Ogre::Vector3::UNIT_X;  // fallback
-      dirs[i] = d;
-      norms[i] = Ogre::Vector3(-d.y, d.x, 0.0f);
-    }
-
-    // build left/right offset vertices using miter joins
-    std::vector<Ogre::Vector3> left(num_points), right(num_points);
-    auto make_vertex_offsets = [&](size_t i, Ogre::Vector3 &left_out, Ogre::Vector3 &right_out) {
-      Ogre::Vector3 n;
-      float scale = half_width;
-      if (i == 0) {
-        n = norms[0];
-      } else if (i == num_points - 1) {
-        n = norms[num_points - 2];
-      } else {
-        const Ogre::Vector3 &n0 = norms[i - 1];
-        const Ogre::Vector3 &n1 = norms[i];
-        Ogre::Vector3 join_n = n0 + n1;
-        if (join_n.squaredLength() < 1e-8f) {
-          n = n1;  // straight (180°)
-        } else {
-          join_n.normalise();
-          float denom = join_n.dotProduct(n1);
-          if (std::abs(denom) < 1e-3f) denom = (denom >= 0 ? 1e-3f : -1e-3f);
-          float miter = half_width / denom;
-          // clamp extremely sharp angles to avoid spikes
-          float limit = 4.0f * half_width;
-          if (std::abs(miter) > limit) miter = (miter < 0 ? -limit : limit);
-          scale = miter;
-          n = join_n;
-        }
+      if (pts.empty() || (point - pts.back()).squaredLength() > 1e-6f) {
+        pts.push_back(point);
+        source_indices.push_back(i);
       }
-      left_out = pts[i] + n * scale;
-      right_out = pts[i] - n * scale;
+    }
+
+    const float half_width = std::max(0.0f, static_cast<float>(0.5 * msg->width));
+    const int round_segments = std::max(8, trajectory_round_segments_->getInt());
+    auto emit_disk = [&](const Ogre::Vector3& centre, const Ogre::ColourValue& color) {
+      manual_object_->begin(trajectory_material_name_, Ogre::RenderOperation::OT_TRIANGLE_FAN);
+      manual_object_->position(centre);
+      manual_object_->colour(color);
+      for (int i = 0; i <= round_segments; ++i) {
+        const float angle = static_cast<float>(i) / static_cast<float>(round_segments) * Ogre::Math::TWO_PI;
+        manual_object_->position(centre + Ogre::Vector3(std::cos(angle), std::sin(angle), 0.0f) * half_width);
+        manual_object_->colour(color);
+      }
+      manual_object_->end();
     };
 
-    for (size_t i = 0; i < num_points; ++i) {
-      make_vertex_offsets(i, left[i], right[i]);
-    }
+    if (pts.size() == 1 && half_width > 0.0f) {
+      emit_disk(pts.front(), compute_dynamic_color(source_indices.front()));
+    } else if (pts.size() > 1 && half_width > 0.0f) {
+      const size_t num_points = pts.size();
 
-    // for very short polylines, render a disk instead of a degenerate ribbon
-    if (total_len < 1e-3f) {
-      Ogre::Vector3 p = pts.back();
-      Ogre::ColourValue c = rviz_common::properties::qtToOgre(color_property_base_->getColor());
-      c.a = trajectory_alpha_property_->getFloat();
-      manual_object_->begin(trajectory_material_name_, Ogre::RenderOperation::OT_TRIANGLE_FAN);
-      manual_object_->position(p); manual_object_->colour(c);
-      const int seg = std::max(8, trajectory_round_segments_ ? trajectory_round_segments_->getInt() : 16);
-      for (int i = 0; i <= seg; ++i) {
-        float a = static_cast<float>(i) / static_cast<float>(seg) * Ogre::Math::TWO_PI;
-        Ogre::Vector3 v = p + Ogre::Vector3(std::cos(a), std::sin(a), 0.0f) * half_width;
-        manual_object_->position(v); manual_object_->colour(c);
+      std::vector<float> cumlen(num_points, 0.0f);
+      float total_len = 0.0f;
+      for (size_t i = 1; i < num_points; ++i) {
+        total_len += (pts[i] - pts[i - 1]).length();
+        cumlen[i] = total_len;
+      }
+
+      std::vector<Ogre::Vector3> dirs(num_points - 1);
+      std::vector<Ogre::Vector3> norms(num_points - 1);
+      std::vector<Ogre::Vector3> left_start(num_points - 1), right_start(num_points - 1);
+      std::vector<Ogre::Vector3> left_end(num_points - 1), right_end(num_points - 1);
+      for (size_t i = 0; i + 1 < num_points; ++i) {
+        dirs[i] = pts[i + 1] - pts[i];
+        dirs[i].normalise();
+        norms[i] = Ogre::Vector3(-dirs[i].y, dirs[i].x, 0.0f);
+        left_start[i] = pts[i] + norms[i] * half_width;
+        right_start[i] = pts[i] - norms[i] * half_width;
+        left_end[i] = pts[i + 1] + norms[i] * half_width;
+        right_end[i] = pts[i + 1] - norms[i] * half_width;
+      }
+
+      // Share a miter vertex only for well-conditioned joins. Sharp turns keep
+      // the two segment end edges separate; every emitted quad then remains
+      // non-self-intersecting instead of collapsing into a diamond.
+      for (size_t i = 1; i + 1 < num_points; ++i) {
+        Ogre::Vector3 join_normal = norms[i - 1] + norms[i];
+        if (dirs[i - 1].dotProduct(dirs[i]) > -0.5f && join_normal.squaredLength() > 1e-8f) {
+          join_normal.normalise();
+          const float denominator = join_normal.dotProduct(norms[i]);
+          if (denominator > 1e-3f) {
+            const float miter = half_width / denominator;
+            if (miter <= 2.0f * half_width) {
+              const Ogre::Vector3 left = pts[i] + join_normal * miter;
+              const Ogre::Vector3 right = pts[i] - join_normal * miter;
+              left_end[i - 1] = left;
+              right_end[i - 1] = right;
+              left_start[i] = left;
+              right_start[i] = right;
+            }
+          }
+        }
+      }
+
+      manual_object_->begin(trajectory_material_name_, Ogre::RenderOperation::OT_TRIANGLE_LIST);
+      for (size_t i = 0; i + 1 < num_points; ++i) {
+        Ogre::ColourValue c0 = compute_dynamic_color(source_indices[i]);
+        Ogre::ColourValue c1 = compute_dynamic_color(source_indices[i + 1]);
+        if (trajectory_fade_out_->getBool()) {
+          const float fade_len = std::max(0.001f, trajectory_fade_length_->getFloat());
+          c0.a *= std::min(1.0f, (total_len - cumlen[i]) / fade_len);
+          c1.a *= std::min(1.0f, (total_len - cumlen[i + 1]) / fade_len);
+        }
+
+        manual_object_->position(left_start[i]); manual_object_->colour(c0);
+        manual_object_->position(right_start[i]); manual_object_->colour(c0);
+        manual_object_->position(right_end[i]); manual_object_->colour(c1);
+
+        manual_object_->position(left_start[i]); manual_object_->colour(c0);
+        manual_object_->position(right_end[i]); manual_object_->colour(c1);
+        manual_object_->position(left_end[i]); manual_object_->colour(c1);
       }
       manual_object_->end();
-      return;
-    }
 
-    // emit triangles between consecutive vertices
-    manual_object_->begin(trajectory_material_name_, Ogre::RenderOperation::OT_TRIANGLE_LIST);
-    for (size_t i = 0; i + 1 < num_points; ++i) {
-      Ogre::ColourValue c0 = compute_dynamic_color(i);
-      Ogre::ColourValue c1 = compute_dynamic_color(i + 1);
-      if (trajectory_fade_out_->getBool()) {
-        float fade_len = std::max(0.001f, trajectory_fade_length_->getFloat());
-        float rem0 = total_len - cumlen[i];
-        float rem1 = total_len - cumlen[i + 1];
-        float s0 = std::min(1.0f, rem0 / fade_len);
-        float s1 = std::min(1.0f, rem1 / fade_len);
-        c0.a *= s0;
-        c1.a *= s1;
+      if (trajectory_end_cap_->getOptionInt() == 1) {
+        const Ogre::Vector3& direction = dirs.back();
+        const Ogre::Vector3& normal = norms.back();
+        Ogre::ColourValue end_color = compute_dynamic_color(source_indices.back());
+        if (trajectory_fade_out_->getBool()) {
+          end_color.a = 0.0f;
+        }
+        manual_object_->begin(trajectory_material_name_, Ogre::RenderOperation::OT_TRIANGLE_FAN);
+        manual_object_->position(pts.back());
+        manual_object_->colour(end_color);
+        for (int i = 0; i <= round_segments; ++i) {
+          const float angle = static_cast<float>(i) / static_cast<float>(round_segments) * Ogre::Math::PI;
+          manual_object_->position(
+              pts.back() + (normal * std::cos(angle) + direction * std::sin(angle)) * half_width);
+          manual_object_->colour(end_color);
+        }
+        manual_object_->end();
       }
-
-      // (left[i], right[i], right[i+1])
-      manual_object_->position(left[i]); manual_object_->colour(c0);
-      manual_object_->position(right[i]); manual_object_->colour(c0);
-      manual_object_->position(right[i + 1]); manual_object_->colour(c1);
-
-      // (left[i], right[i+1], left[i+1])
-      manual_object_->position(left[i]); manual_object_->colour(c0);
-      manual_object_->position(right[i + 1]); manual_object_->colour(c1);
-      manual_object_->position(left[i + 1]); manual_object_->colour(c1);
-    }
-    manual_object_->end();
-
-    // optional round end cap
-    if (trajectory_end_cap_->getOptionInt() == 1 && total_len > 1e-4f) {
-      const size_t i0 = num_points - 2, i1 = num_points - 1;
-      Ogre::Vector3 p0 = pts[i0];
-      Ogre::Vector3 p1 = pts[i1];
-      Ogre::Vector3 dir = (p1 - p0);
-      float len = dir.length();
-      if (len > 1e-6f) dir /= len; else dir = Ogre::Vector3::UNIT_X;
-      Ogre::Vector3 n(-dir.y, dir.x, 0.0f);
-      Ogre::ColourValue c_end = compute_dynamic_color(i1);
-      if (trajectory_fade_out_->getBool()) {
-        float fade_len = std::max(0.001f, trajectory_fade_length_->getFloat());
-        float rem = total_len - cumlen[i1];
-        float s = std::min(1.0f, rem / fade_len);
-        c_end.a *= s; // usually 0 at the very end
-      }
-      const int seg = std::max(8, trajectory_round_segments_->getInt());
-      manual_object_->begin(trajectory_material_name_, Ogre::RenderOperation::OT_TRIANGLE_FAN);
-      manual_object_->position(p1); manual_object_->colour(c_end);
-      // sweep 0..180 degrees in (n,dir) basis to cover only the outward half beyond the end
-      for (int k = 0; k <= seg; ++k) {
-        float phi = (static_cast<float>(k) / static_cast<float>(seg)) * Ogre::Math::PI; // 0..pi
-        Ogre::Vector3 v = p1 + (n * std::cos(phi) + dir * std::sin(phi)) * half_width;
-        manual_object_->position(v); manual_object_->colour(c_end);
-      }
-      manual_object_->end();
     }
   }
 
@@ -550,8 +517,9 @@ void EgoDataDisplay::processMessage(perception_msgs::msg::EgoData::ConstSharedPt
 }
 
 void EgoDataDisplay::timeoutTimerCallback() {
-
-  timeout_timer_->cancel();
+  if (timeout_timer_) {
+    timeout_timer_->cancel();
+  }
   this->reset();
 }
 

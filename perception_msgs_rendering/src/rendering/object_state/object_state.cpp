@@ -71,6 +71,35 @@ ObjectState::ObjectState(const std::unordered_map<unsigned int, Ogre::ColourValu
 }
 
 ObjectState::~ObjectState() {
+  // Destroy visuals while their parent node is still valid.  In particular,
+  // Shape and Arrow own child scene nodes of scene_node_.
+  bbox_predictions_.clear();
+  billboard_line_predictions_.clear();
+  for (auto& probability_text : text_prob_vector_) {
+    if (probability_text && probability_text->isAttached()) {
+      probability_text->getParentSceneNode()->detachObject(probability_text.get());
+    }
+  }
+  text_prob_vector_.clear();
+  if (text_ && text_->isAttached()) {
+    text_->getParentSceneNode()->detachObject(text_.get());
+  }
+  text_.reset();
+  vel_arrow_.reset();
+  acc_arrow_.reset();
+  bbox_cone_.reset();
+  bbox_.reset();
+  bbox_mesh_.reset();
+
+  if (mesh_node_) {
+    while (mesh_node_->numAttachedObjects() > 0) {
+      Ogre::MovableObject* object = mesh_node_->getAttachedObject(0);
+      mesh_node_->detachObject(object);
+      scene_manager_->destroyMovableObject(object);
+    }
+    scene_manager_->destroySceneNode(mesh_node_);
+    mesh_node_ = nullptr;
+  }
   if (hoverboard_mo_) {
     scene_manager_->destroyManualObject(hoverboard_mo_);
     hoverboard_mo_ = nullptr;
@@ -79,7 +108,10 @@ ObjectState::~ObjectState() {
     scene_manager_->destroyManualObject(hoverboard_glow_mo_);
     hoverboard_glow_mo_ = nullptr;
   }
-  scene_manager_->destroySceneNode(scene_node_);
+  if (scene_node_) {
+    scene_manager_->destroySceneNode(scene_node_);
+    scene_node_ = nullptr;
+  }
 }
 
 void ObjectState::setObjectState(const perception_msgs::msg::ObjectState& state) {
@@ -95,9 +127,9 @@ void ObjectState::setObjectState(const perception_msgs::msg::ObjectState& state)
     if (classification_color_map_.count(classification_.type))
       color = classification_color_map_[classification_.type];
     else {  // Set default colour (grey)
-      color.r = 128.0;
-      color.g = 128.0;
-      color.b = 128.0;
+      color.r = 0.5f;
+      color.g = 0.5f;
+      color.b = 0.5f;
       color.a = 1.0;
     }
   }
@@ -149,8 +181,9 @@ void ObjectState::setObjectStatePredictions(
     Ogre::ColourValue line_color = prediction_line_color_;
     Ogre::ColourValue point_color = prediction_point_color_;
     if (predictions[i].probability >= 0.0) {
-      line_color.a = predictions[i].probability;
-      point_color.a = predictions[i].probability;
+      const float probability = std::min(1.0f, static_cast<float>(predictions[i].probability));
+      line_color.a = probability;
+      point_color.a = probability;
     } else {
       line_color.a = 0.0;
       point_color.a = 0.0;
@@ -221,6 +254,8 @@ void ObjectState::setAccelerationColor(const Ogre::ColourValue& colour) { accele
 void ObjectState::setVisualizeText(const bool& val) { visualize_text_ = val; }
 
 void ObjectState::setCharHeight(const float& val) { char_height_ = val; }
+
+void ObjectState::setTextOffset(const float& val) { text_offset_ = std::max(0.0f, val); }
 
 void ObjectState::setColorTextWithClass(const bool& val) { use_class_color_for_text_ = val; }
 
@@ -363,15 +398,7 @@ void ObjectState::setObjectStateVizDefault(const perception_msgs::msg::ObjectSta
 
       entity = scene_manager_->createEntity(mesh);
 
-      // Load material in runtime
-      Ogre::ResourceGroupManager::getSingletonPtr()->createResourceGroup("object_list_materials");
-      Ogre::ResourceGroupManager::getSingleton().addResourceLocation("package://perception_msgs_rendering/materials",
-                                                                     "FileSystem", "UserDefinedMaterials", true);
-      Ogre::ResourceGroupManager::getSingletonPtr()->initialiseResourceGroup("object_list_materials");
-      Ogre::ResourceGroupManager::getSingletonPtr()->loadResourceGroup("object_list_materials");
-      Ogre::ResourceGroupManager::getSingleton().addResourceLocation("package://perception_msgs_rendering/materials",
-                                                                     "FileSystem", "General");
-
+      // Materials are registered once through register_rviz_ogre_media_exports.
       entity->setMaterialName(material);
 
       mesh_node_ = scene_node_->createChildSceneNode();
@@ -381,7 +408,6 @@ void ObjectState::setObjectStateVizDefault(const perception_msgs::msg::ObjectSta
 
       // Scale mesh_node so it fits the bounding box
       mesh_node_->setScale(Ogre::Vector3(scaling_factor_x, scaling_factor_y, scaling_factor_z));
-      Ogre::ResourceGroupManager::getSingletonPtr()->destroyResourceGroup("object_list_materials");
     }
     else
     {
@@ -421,7 +447,7 @@ void ObjectState::setObjectStateVizDefault(const perception_msgs::msg::ObjectSta
     if (!Ogre::MaterialManager::getSingleton().resourceExists(hoverboard_material_name_)) {
       Ogre::MaterialPtr mat = Ogre::MaterialManager::getSingleton().create(
           hoverboard_material_name_, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-      if (!mat.isNull()) {
+      if (mat) {
         Ogre::Technique* tech = mat->getTechnique(0);
         if (!tech) tech = mat->createTechnique();
         Ogre::Pass* pass = tech->getPass(0);
@@ -437,7 +463,7 @@ void ObjectState::setObjectStateVizDefault(const perception_msgs::msg::ObjectSta
     if (!Ogre::MaterialManager::getSingleton().resourceExists(hoverboard_glow_material_name_)) {
       Ogre::MaterialPtr mat = Ogre::MaterialManager::getSingleton().create(
           hoverboard_glow_material_name_, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-      if (!mat.isNull()) {
+      if (mat) {
         Ogre::Technique* tech = mat->getTechnique(0);
         if (!tech) tech = mat->createTechnique();
         Ogre::Pass* pass = tech->getPass(0);
@@ -622,7 +648,7 @@ void ObjectState::setObjectPredictionsVizDefault(
     std::shared_ptr<rviz_rendering::BillboardLine>& billboard_line_prediction,
     std::vector<std::shared_ptr<rviz_rendering::Shape>>& bbox_prediction, const Ogre::ColourValue& line_color,
     const Ogre::ColourValue& point_color) {
-  if (visualize_predictions_) {
+  if (visualize_predictions_ && !states.empty()) {
     billboard_line_prediction = std::make_shared<rviz_rendering::BillboardLine>(scene_manager_, scene_node_);
     billboard_line_prediction->setColor(line_color.r, line_color.g, line_color.b, line_color.a);
     float line_width = prediction_line_width_;
@@ -714,8 +740,9 @@ void ObjectState::setObjectStateTextDefault(const perception_msgs::msg::ObjectSt
   if (!text.size()) return;
   text_ = std::make_shared<rviz_rendering::MovableText>(text, "Liberation Sans", char_height_);
   if (!b_bbox_dims_set_) bbox_dims_.z = perception_msgs::object_access::getHeight(state);
-  double height = bbox_dims_.z;
-  height += text_->getBoundingRadius();
+  // scene_node_ is located at the geometric centre.  Keep label placement
+  // independent of font size so changing Char height only changes the text.
+  const double height = 0.5 * bbox_dims_.z + text_offset_;
   Ogre::Vector3 offs(0.0, 0.0, height);
   // Maybe there is a bug in rviz_rendering::MovableText::setGlobalTranslation
   // Currently only the given y-Position is set
@@ -749,9 +776,17 @@ void ObjectState::setObjectPredictionProbabilityText(const double& probability,
   text_prob = std::make_shared<rviz_rendering::MovableText>(text_probabilities_, "Liberation Sans",
                                                             char_height_prediction_probs_);
   if (!b_bbox_dims_set_) bbox_dims_.z = perception_msgs::object_access::getHeight(state);
-  double height = bbox_dims_.z;
-  height += text_prob->getBoundingRadius();
-  Ogre::Vector3 offs(0.0, 0.0, height);
+
+  // Prediction states are expressed in the same frame as object_state_, while
+  // the label is attached below the current object's scene node.  Transform
+  // the prediction into that local frame before applying the vertical offset.
+  tf2::Transform base_state_tf;
+  tf2::Transform prediction_state_tf;
+  tf2::fromMsg(perception_msgs::object_access::getPose(object_state_), base_state_tf);
+  tf2::fromMsg(perception_msgs::object_access::getPose(state), prediction_state_tf);
+  const auto relative_position = (base_state_tf.inverse() * prediction_state_tf).getOrigin();
+  const double height = relative_position.z() + 0.5 * bbox_dims_.z + text_offset_;
+  Ogre::Vector3 offs(relative_position.x(), relative_position.y(), height);
   text_prob->setGlobalTranslation(offs);
   text_prob->setColor(prediction_line_color_);
   scene_node_->attachObject(text_prob.get());
