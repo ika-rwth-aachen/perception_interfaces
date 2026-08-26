@@ -140,6 +140,6 @@ namespace tf2 {
   }
   template <>
   inline TF2_PERCEPTION_MSGS_FRAME_TYPE getFrameId(const EgoData& ego) {
-    return ego.state.header.frame_id;
+    return ego.header.frame_id;
   }
 }
