@@ -100,6 +100,12 @@ ObjectState::~ObjectState() {
     scene_manager_->destroySceneNode(mesh_node_);
     mesh_node_ = nullptr;
   }
+  for (const auto& material_name : mesh_material_names_) {
+    if (Ogre::MaterialManager::getSingleton().resourceExists(material_name)) {
+      Ogre::MaterialManager::getSingleton().remove(material_name);
+    }
+  }
+  mesh_material_names_.clear();
   if (hoverboard_mo_) {
     scene_manager_->destroyManualObject(hoverboard_mo_);
     hoverboard_mo_ = nullptr;
@@ -216,6 +222,10 @@ void ObjectState::setVisualizeBoundingBox(const bool& val) { visualize_bounding_
 
 void ObjectState::setVisualizeMesh(const bool& val) { visualize_mesh_ = val; }
 
+void ObjectState::setFitMeshToSize(const bool& val) { fit_mesh_to_size_ = val; }
+
+void ObjectState::setColorizeMesh(const bool& val) { colorize_mesh_ = val; }
+
 void ObjectState::setVisualizeHoverboard(const bool& val) { visualize_hoverboard_ = val; }
 void ObjectState::setHoverboardThickness(const float& val) { hoverboard_thickness_ = std::max(0.0f, val); }
 void ObjectState::setHoverboardCornerRadius(const float& val) { hoverboard_corner_radius_ = std::max(0.0f, val); }
@@ -320,6 +330,12 @@ void ObjectState::setObjectStateVizDefault(const perception_msgs::msg::ObjectSta
       scene_manager_->destroySceneNode(mesh_node_);
       mesh_node_ = nullptr;
     }
+    for (const auto& material_name : mesh_material_names_) {
+      if (Ogre::MaterialManager::getSingleton().resourceExists(material_name)) {
+        Ogre::MaterialManager::getSingleton().remove(material_name);
+      }
+    }
+    mesh_material_names_.clear();
     //load mesh to render based on classification
     Ogre::Entity* entity;
     Ogre::MeshPtr mesh;
@@ -368,47 +384,82 @@ void ObjectState::setObjectStateVizDefault(const perception_msgs::msg::ObjectSta
     // Check if mesh was loaded successfully (nullptr if loading failed)
     if (mesh)
     {
-      // compute mesh scaling factors to fixed height
+      // Compute either the legacy class-specific scale or a uniform best fit.
       Ogre::Vector3 mesh_dims = mesh->getBounds().getSize();
-      double scaling_factor_z;
-      switch (classification_.type) {
-      case ObjectClassification::CAR:
-        scaling_factor_z = kFixedMeshHeightCar / mesh_dims.z;
-        break;
-      case ObjectClassification::UTILITY:
-        scaling_factor_z = kFixedMeshHeightUtility / mesh_dims.z;
-        break;
-      case ObjectClassification::BUS:
-        scaling_factor_z = kFixedMeshHeightBus / mesh_dims.z;
-        break;
-      case ObjectClassification::BICYCLE:
-        scaling_factor_z = kFixedMeshHeightBicycle / mesh_dims.z;
-        break;
-      case ObjectClassification::MOTORCYCLE:
-        scaling_factor_z = kFixedMeshHeightMotorcycle / mesh_dims.z;
-        break;
-      case ObjectClassification::PEDESTRIAN:
-        scaling_factor_z = kFixedMeshHeightPedestrian / mesh_dims.z;
-        break;
-      default:
-        scaling_factor_z = bbox_dims_.z / mesh_dims.z;
-        break;
+      double uniform_scale = 1.0;
+      if (fit_mesh_to_size_ && mesh_dims.x > 1e-6 && mesh_dims.y > 1e-6 && mesh_dims.z > 1e-6 &&
+          bbox_dims_.x > 0.0 && bbox_dims_.y > 0.0 && bbox_dims_.z > 0.0) {
+        uniform_scale = std::min({bbox_dims_.x / mesh_dims.x, bbox_dims_.y / mesh_dims.y,
+                                  bbox_dims_.z / mesh_dims.z});
+      } else if (mesh_dims.z > 1e-6) {
+        switch (classification_.type) {
+          case ObjectClassification::CAR:
+            uniform_scale = kFixedMeshHeightCar / mesh_dims.z;
+            break;
+          case ObjectClassification::UTILITY:
+            uniform_scale = kFixedMeshHeightUtility / mesh_dims.z;
+            break;
+          case ObjectClassification::BUS:
+            uniform_scale = kFixedMeshHeightBus / mesh_dims.z;
+            break;
+          case ObjectClassification::BICYCLE:
+            uniform_scale = kFixedMeshHeightBicycle / mesh_dims.z;
+            break;
+          case ObjectClassification::MOTORCYCLE:
+            uniform_scale = kFixedMeshHeightMotorcycle / mesh_dims.z;
+            break;
+          case ObjectClassification::PEDESTRIAN:
+            uniform_scale = kFixedMeshHeightPedestrian / mesh_dims.z;
+            break;
+          default:
+            uniform_scale = bbox_dims_.z / mesh_dims.z;
+            break;
+        }
       }
-      double scaling_factor_x = scaling_factor_z;
-      double scaling_factor_y = scaling_factor_z;
 
       entity = scene_manager_->createEntity(mesh);
 
       // Materials are registered once through register_rviz_ogre_media_exports.
       entity->setMaterialName(material);
+      if (colorize_mesh_) {
+        Ogre::MaterialPtr base_material = Ogre::MaterialManager::getSingleton().getByName(material);
+        if (base_material) {
+          const std::string tinted_material_name =
+              "ObjectMesh/Tint/" + entity->getName();
+          Ogre::MaterialPtr tinted_material = base_material->clone(tinted_material_name);
+          Ogre::ColourValue opaque_color = color;
+          opaque_color.a = 1.0f;
+          for (unsigned int technique_index = 0;
+               technique_index < tinted_material->getNumTechniques(); ++technique_index) {
+            Ogre::Technique* technique = tinted_material->getTechnique(technique_index);
+            for (unsigned int pass_index = 0; pass_index < technique->getNumPasses(); ++pass_index) {
+              Ogre::Pass* pass = technique->getPass(pass_index);
+              pass->setAmbient(opaque_color);
+              pass->setDiffuse(opaque_color);
+              pass->setSceneBlending(Ogre::SBT_REPLACE);
+              pass->setDepthWriteEnabled(true);
+            }
+          }
+          entity->setMaterialName(tinted_material_name);
+          mesh_material_names_.push_back(tinted_material_name);
+        }
+      }
 
       mesh_node_ = scene_node_->createChildSceneNode();
       mesh_node_->attachObject(static_cast<Ogre::MovableObject*>(entity));
-      // Offset mesh_node
-      mesh_node_->setPosition(Ogre::Vector3(0.0, 0.0, -bbox_dims_.z / 2.0));
-
-      // Scale mesh_node so it fits the bounding box
-      mesh_node_->setScale(Ogre::Vector3(scaling_factor_x, scaling_factor_y, scaling_factor_z));
+      if (fit_mesh_to_size_) {
+        // Centre the actual mesh bounds in X/Y, but keep its lowest scaled
+        // point on the lower face of the object's bounding box.
+        const Ogre::Vector3 mesh_center = mesh->getBounds().getCenter();
+        const Ogre::Vector3 mesh_minimum = mesh->getBounds().getMinimum();
+        mesh_node_->setPosition(Ogre::Vector3(
+            -mesh_center.x * uniform_scale,
+            -mesh_center.y * uniform_scale,
+            -0.5 * bbox_dims_.z - mesh_minimum.z * uniform_scale));
+      } else {
+        mesh_node_->setPosition(Ogre::Vector3(0.0, 0.0, -bbox_dims_.z / 2.0));
+      }
+      mesh_node_->setScale(Ogre::Vector3(uniform_scale, uniform_scale, uniform_scale));
     }
     else
     {

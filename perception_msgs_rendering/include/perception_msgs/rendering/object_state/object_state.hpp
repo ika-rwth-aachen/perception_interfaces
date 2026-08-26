@@ -232,6 +232,12 @@ class ObjectState {
    */
   void setVisualizeMesh(const bool& val);
 
+  /** @brief Uniformly scale and centre the mesh to fit inside the bounding box. */
+  void setFitMeshToSize(const bool& val);
+
+  /** @brief Tint the mesh with the resolved object/classification color. */
+  void setColorizeMesh(const bool& val);
+
   // Hoverboard visualization
   void setVisualizeHoverboard(const bool& val);
   void setHoverboardThickness(const float& val);
@@ -439,6 +445,8 @@ class ObjectState {
   bool indicate_direction_ = true;
   bool visualize_bounding_box_ = true;
   bool visualize_mesh_ = false;
+  bool fit_mesh_to_size_ = false;
+  bool colorize_mesh_ = false;
   bool visualize_hoverboard_ = false;
   bool visualize_velocity_ = true;
   float velocity_scale_ = 1.0;
@@ -466,6 +474,7 @@ class ObjectState {
   float char_height_prediction_probs_ = 0.5f;
   std::string text_probabilities_;
   std::string material;
+  std::vector<std::string> mesh_material_names_;
 
   // Hoverboard params
   float hoverboard_thickness_ = 0.12f;

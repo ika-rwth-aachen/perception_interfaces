@@ -81,6 +81,7 @@ protected:
   // object appearance properties
   rviz_common::properties::Property *appearance_properties_;
   rviz_common::properties::BoolProperty *viz_bounding_box_, *viz_direction_ind_, *viz_mesh_;
+  rviz_common::properties::BoolProperty *fit_mesh_to_size_, *colorize_mesh_;
   // hoverboard appearance
   rviz_common::properties::BoolProperty *viz_hoverboard_;
   rviz_common::properties::FloatProperty *hoverboard_thickness_;

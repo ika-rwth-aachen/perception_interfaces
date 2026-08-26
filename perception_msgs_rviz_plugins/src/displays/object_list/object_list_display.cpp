@@ -61,6 +61,12 @@ ObjectListDisplay::ObjectListDisplay()
   appearance_properties_ = new rviz_common::properties::Property("Appearance Properties", " ", "Different properties to modify the appearance of objects", this);
   viz_mesh_ = new rviz_common::properties::BoolProperty("Mesh", false,
     "Visualize the object as a mesh.", appearance_properties_);
+  fit_mesh_to_size_ = new rviz_common::properties::BoolProperty(
+    "Fit to size", true,
+    "Uniformly scale and center the mesh to fit inside the object's bounding box.", viz_mesh_);
+  colorize_mesh_ = new rviz_common::properties::BoolProperty(
+    "Colorize", true,
+    "Colorize the opaque mesh with the general or classification color used by the object.", viz_mesh_);
   viz_bounding_box_ = new rviz_common::properties::BoolProperty("Bounding box", false,
     "Visualize the bounding box of an object.", appearance_properties_);
   viz_hoverboard_ = new rviz_common::properties::BoolProperty("Hoverboard", true,
@@ -417,6 +423,8 @@ void ObjectListDisplay::processMessage(perception_msgs::msg::ObjectList::ConstSh
       state_ptr->setVisualizeDirectionIndicator(visualize_direction_indicator);
       state_ptr->setVisualizeBoundingBox(visualize_bounding_box);
       state_ptr->setVisualizeMesh(visualize_mesh);
+      state_ptr->setFitMeshToSize(fit_mesh_to_size_->getBool());
+      state_ptr->setColorizeMesh(colorize_mesh_->getBool());
       // hoverboard settings
       state_ptr->setVisualizeHoverboard(viz_hoverboard_->getBool());
       state_ptr->setHoverboardThickness(hoverboard_thickness_->getFloat());
