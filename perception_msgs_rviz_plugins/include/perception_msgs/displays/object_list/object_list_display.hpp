@@ -81,6 +81,7 @@ protected:
   // object appearance properties
   rviz_common::properties::Property *appearance_properties_;
   rviz_common::properties::BoolProperty *viz_bounding_box_, *viz_direction_ind_, *viz_mesh_;
+  rviz_common::properties::BoolProperty *fit_mesh_to_size_, *colorize_mesh_;
   // hoverboard appearance
   rviz_common::properties::BoolProperty *viz_hoverboard_;
   rviz_common::properties::FloatProperty *hoverboard_thickness_;
@@ -88,6 +89,7 @@ protected:
   rviz_common::properties::EnumProperty *hoverboard_cap_style_;
   rviz_common::properties::IntProperty *hoverboard_corner_segments_;
   rviz_common::properties::BoolProperty *hoverboard_glow_;
+  rviz_common::properties::BoolProperty *hoverboard_glow_fade_out_;
   rviz_common::properties::FloatProperty *hoverboard_glow_height_;
   rviz_common::properties::FloatProperty *hoverboard_glow_intensity_;
   // color by classification (applies to multiple modes)
@@ -117,7 +119,7 @@ protected:
 
   // text properties
   rviz_common::properties::BoolProperty *viz_text_;
-  rviz_common::properties::FloatProperty *char_height_;
+  rviz_common::properties::FloatProperty *char_height_, *text_offset_;
   rviz_common::properties::BoolProperty *use_text_color_class_;
   rviz_common::properties::BoolProperty *print_id_;
   rviz_common::properties::BoolProperty *print_exist_prob_;

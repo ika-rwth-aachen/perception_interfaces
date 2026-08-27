@@ -61,16 +61,24 @@ ObjectListDisplay::ObjectListDisplay()
   appearance_properties_ = new rviz_common::properties::Property("Appearance Properties", " ", "Different properties to modify the appearance of objects", this);
   viz_mesh_ = new rviz_common::properties::BoolProperty("Mesh", false,
     "Visualize the object as a mesh.", appearance_properties_);
-  viz_bounding_box_ = new rviz_common::properties::BoolProperty("Bounding box", true,
+  fit_mesh_to_size_ = new rviz_common::properties::BoolProperty(
+    "Fit to size", true,
+    "Uniformly scale and center the mesh to fit inside the object's bounding box.", viz_mesh_);
+  colorize_mesh_ = new rviz_common::properties::BoolProperty(
+    "Colorize", true,
+    "Colorize the opaque mesh with the general or classification color used by the object.", viz_mesh_);
+  viz_bounding_box_ = new rviz_common::properties::BoolProperty("Bounding box", false,
     "Visualize the bounding box of an object.", appearance_properties_);
-  viz_hoverboard_ = new rviz_common::properties::BoolProperty("Hoverboard", false,
+  viz_hoverboard_ = new rviz_common::properties::BoolProperty("Hoverboard", true,
     "Visualize the object as a flat rounded tile.", appearance_properties_);
   color_property_group_ = new rviz_common::properties::BoolProperty("Classification coloring", true,
     "Use the object classification to set the color for supported visuals.", appearance_properties_);
-    hoverboard_thickness_ = new rviz_common::properties::FloatProperty("Thickness [m]", 0.12,
+  hoverboard_thickness_ = new rviz_common::properties::FloatProperty("Thickness [m]", 0.12,
     "Tile thickness of the hoverboard.", viz_hoverboard_);
+  hoverboard_thickness_->setMin(0.0);
   hoverboard_corner_radius_ = new rviz_common::properties::FloatProperty("Corner Radius [m]", 0.35,
     "Roundness of tile corners.", viz_hoverboard_);
+  hoverboard_corner_radius_->setMin(0.0);
   hoverboard_cap_style_ = new rviz_common::properties::EnumProperty("Corner Style", "Round",
     "Corner cap style for hoverboard tile.", viz_hoverboard_);
   hoverboard_cap_style_->addOption("Square", 0);
@@ -82,10 +90,15 @@ ObjectListDisplay::ObjectListDisplay()
   hoverboard_corner_segments_->setMax(64);
   hoverboard_glow_ = new rviz_common::properties::BoolProperty("Glow", true,
     "Add an upward glow above the tile.", viz_hoverboard_);
-  hoverboard_glow_height_ = new rviz_common::properties::FloatProperty("Glow Height [m]", 0.7,
+  hoverboard_glow_fade_out_ = new rviz_common::properties::BoolProperty("Fade Out", true,
+    "Fade the glow transparency to zero towards the top.", hoverboard_glow_);
+  hoverboard_glow_height_ = new rviz_common::properties::FloatProperty("Glow Height [m]", 0.5,
     "Height of the glow plume.", hoverboard_glow_);
-  hoverboard_glow_intensity_ = new rviz_common::properties::FloatProperty("Glow Intensity [0..1]", 0.6,
+  hoverboard_glow_height_->setMin(0.0);
+  hoverboard_glow_intensity_ = new rviz_common::properties::FloatProperty("Glow Intensity [0..1]", 0.5,
     "Intensity multiplier for glow color.", hoverboard_glow_);
+  hoverboard_glow_intensity_->setMin(0.0);
+  hoverboard_glow_intensity_->setMax(1.0);
   viz_direction_ind_ = new rviz_common::properties::BoolProperty("Orientation Indication", false,
     "Visualize a cone indicating the direction of an object.", viz_bounding_box_);
   // classification color properties
@@ -124,8 +137,9 @@ ObjectListDisplay::ObjectListDisplay()
   viz_velocity_ = new rviz_common::properties::BoolProperty("Velocity arrow", false,
     "Add an arrow visualizing the object's velocity", this);
   velocity_scale_ = new rviz_common::properties::FloatProperty("Velocity scale", 1.0, "Scale the length of the velocity arrows", viz_velocity_);
+  velocity_scale_->setMin(0.0);
   use_velocity_color_ = new rviz_common::properties::BoolProperty("Use velocity color", true,
-    "Visualize the velocity arrow in the bbox color. If not set, use specific color instead.", viz_velocity_);
+    "Use the custom velocity color instead of the bounding-box color.", viz_velocity_);
   velocity_color_property_ = new rviz_common::properties::ColorProperty(
     "Velocity Color", QColor(255, 0, 255),
     "Color to visualize velocity arrow", viz_velocity_);
@@ -134,8 +148,9 @@ ObjectListDisplay::ObjectListDisplay()
   viz_acceleration_ = new rviz_common::properties::BoolProperty("Acceleration arrow", false,
     "Add an arrow visualizing the object's acceleration", this);
   acceleration_scale_ = new rviz_common::properties::FloatProperty("Acceleration scale", 10.0, "Scale the length of the acceleration arrows", viz_acceleration_);
+  acceleration_scale_->setMin(0.0);
   use_acceleration_color_ = new rviz_common::properties::BoolProperty("Use acceleration color", true,
-    "Visualize the acceleration arrow in the bbox color. If not set, use specific color instead.", viz_acceleration_);
+    "Use the custom acceleration color instead of the bounding-box color.", viz_acceleration_);
   acceleration_color_property_ = new rviz_common::properties::ColorProperty(
     "Acceleration Color", QColor(255, 0, 0),
     "Color to visualize acceleration arrow", viz_acceleration_);
@@ -148,9 +163,12 @@ ObjectListDisplay::ObjectListDisplay()
     "Color to visualize prediction lines", viz_predictions_);
   width_property_prediction_ = new rviz_common::properties::FloatProperty("Line Width", 1.0, 
     "Width of the prediction lines", viz_predictions_);
+  width_property_prediction_->setMin(0.001);
   viz_prediction_probabilities_ = new rviz_common::properties::BoolProperty("Probabilities", false, 
     "Visualize the probabilities of the predictions", viz_predictions_);
-  char_height_prediction_probs_ = new rviz_common::properties::FloatProperty("Char height", 4.0, "Height of characters, ~ Font size", viz_prediction_probabilities_);
+  char_height_prediction_probs_ = new rviz_common::properties::FloatProperty(
+    "Char height", 0.5, "Height of characters in metres.", viz_prediction_probabilities_);
+  char_height_prediction_probs_->setMin(0.01);
   viz_prediction_points_ = new rviz_common::properties::BoolProperty("Prediction Points", true, 
     "Visualize the points of the predictions", viz_predictions_);
   color_property_prediction_points_ = new rviz_common::properties::ColorProperty(
@@ -158,13 +176,19 @@ ObjectListDisplay::ObjectListDisplay()
     "Color to visualize prediction points", viz_prediction_points_);
   width_property_prediction_points_ = new rviz_common::properties::FloatProperty("Point Width", 0.5, 
     "Width of the prediction points", viz_prediction_points_);
+  width_property_prediction_points_->setMin(0.001);
   velocity_property_prediction_points_ = new rviz_common::properties::BoolProperty("Velocity-based height", true, 
     "Set the height of the prediction points based on the velocity of the predicted state", viz_prediction_points_);
 
   // text printing options
   viz_text_ = new rviz_common::properties::BoolProperty("Text information", false,
     "Visualize informing text about an object.", this);
-  char_height_ = new rviz_common::properties::FloatProperty("Char height", 4.0, "Height of characters, ~ Font size", viz_text_);
+  char_height_ = new rviz_common::properties::FloatProperty(
+    "Char height", 0.5, "Height of characters in metres.", viz_text_);
+  char_height_->setMin(0.01);
+  text_offset_ = new rviz_common::properties::FloatProperty(
+    "Vertical offset", 1.0, "Clearance between the object roof and the text in metres.", viz_text_);
+  text_offset_->setMin(0.0);
   use_text_color_class_ = new rviz_common::properties::BoolProperty("Classification coloring", true,
     "Visualize the text info with respect to the classification coloring. If not set, use general color instead.", viz_text_);
   print_id_ = new rviz_common::properties::BoolProperty("Object ID", false,
@@ -185,6 +209,7 @@ ObjectListDisplay::ObjectListDisplay()
                                                                  1.0,
                                                                  "Timeout duration in seconds (wall time)",
                                                                  enable_timeout_property_);
+  timeout_property_->setMin(0.001);
 
   alpha_property_->setMin(0);
   alpha_property_->setMax(1);
@@ -210,6 +235,9 @@ void ObjectListDisplay::onInitialize()
 
 void ObjectListDisplay::reset()
 {
+  if (timeout_timer_) {
+    timeout_timer_->cancel();
+  }
   MFDClass::reset();
   viz_object_states_.clear();
 }
@@ -245,9 +273,11 @@ void ObjectListDisplay::processMessage(perception_msgs::msg::ObjectList::ConstSh
 {
 
   // check for supported object model id
-  for (const auto& obj : msg->objects) {
+  for (size_t i = 0; i < msg->objects.size(); ++i) {
+    const auto& obj = msg->objects[i];
     if (obj.state.model_id != perception_msgs::msg::ISCACTR::MODEL_ID && obj.state.model_id != perception_msgs::msg::HEXAMOTION::MODEL_ID) {
-      std::string error_msg = "Model ID not supported"; // TODO: add model_id value and object number (didn't know how to convert int to string offline)
+      const std::string error_msg = "Model ID " + std::to_string(obj.state.model_id) +
+                                    " of object " + std::to_string(i) + " is not supported";
       this->setStatus(rviz_common::properties::StatusProperty::Error, "Model ID", QString::fromStdString(error_msg));
       return;
     }
@@ -271,6 +301,11 @@ void ObjectListDisplay::processMessage(perception_msgs::msg::ObjectList::ConstSh
     return;
   }
   setTransformOk();
+
+  if (timeout_timer_) {
+    timeout_timer_->cancel();
+    timeout_timer_.reset();
+  }
 
   scene_node_->setPosition(position);
   scene_node_->setOrientation(orientation);
@@ -388,6 +423,8 @@ void ObjectListDisplay::processMessage(perception_msgs::msg::ObjectList::ConstSh
       state_ptr->setVisualizeDirectionIndicator(visualize_direction_indicator);
       state_ptr->setVisualizeBoundingBox(visualize_bounding_box);
       state_ptr->setVisualizeMesh(visualize_mesh);
+      state_ptr->setFitMeshToSize(fit_mesh_to_size_->getBool());
+      state_ptr->setColorizeMesh(colorize_mesh_->getBool());
       // hoverboard settings
       state_ptr->setVisualizeHoverboard(viz_hoverboard_->getBool());
       state_ptr->setHoverboardThickness(hoverboard_thickness_->getFloat());
@@ -395,6 +432,7 @@ void ObjectListDisplay::processMessage(perception_msgs::msg::ObjectList::ConstSh
       state_ptr->setHoverboardCapStyle(hoverboard_cap_style_->getOptionInt());
       state_ptr->setHoverboardCornerSegments(hoverboard_corner_segments_->getInt());
       state_ptr->setHoverboardGlow(hoverboard_glow_->getBool());
+      state_ptr->setHoverboardGlowFadeOut(hoverboard_glow_fade_out_->getBool());
       state_ptr->setHoverboardGlowParams(hoverboard_glow_height_->getFloat(), hoverboard_glow_intensity_->getFloat());
       state_ptr->setVisualizeVelocity(visualize_velocity);
       if(visualize_velocity)
@@ -414,6 +452,7 @@ void ObjectListDisplay::processMessage(perception_msgs::msg::ObjectList::ConstSh
       if(visualize_text)
       {
         state_ptr->setCharHeight(char_height);
+        state_ptr->setTextOffset(text_offset_->getFloat());
         state_ptr->setColorTextWithClass(use_text_color_class);
         if(print_id) {
           state_ptr->setObjectId(msg->objects[i].id);
@@ -460,8 +499,9 @@ void ObjectListDisplay::processMessage(perception_msgs::msg::ObjectList::ConstSh
 }
 
 void ObjectListDisplay::timeoutTimerCallback() {
-
-  timeout_timer_->cancel();
+  if (timeout_timer_) {
+    timeout_timer_->cancel();
+  }
   this->reset();
 }
 

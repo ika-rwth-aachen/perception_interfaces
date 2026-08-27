@@ -71,6 +71,41 @@ ObjectState::ObjectState(const std::unordered_map<unsigned int, Ogre::ColourValu
 }
 
 ObjectState::~ObjectState() {
+  // Destroy visuals while their parent node is still valid.  In particular,
+  // Shape and Arrow own child scene nodes of scene_node_.
+  bbox_predictions_.clear();
+  billboard_line_predictions_.clear();
+  for (auto& probability_text : text_prob_vector_) {
+    if (probability_text && probability_text->isAttached()) {
+      probability_text->getParentSceneNode()->detachObject(probability_text.get());
+    }
+  }
+  text_prob_vector_.clear();
+  if (text_ && text_->isAttached()) {
+    text_->getParentSceneNode()->detachObject(text_.get());
+  }
+  text_.reset();
+  vel_arrow_.reset();
+  acc_arrow_.reset();
+  bbox_cone_.reset();
+  bbox_.reset();
+  bbox_mesh_.reset();
+
+  if (mesh_node_) {
+    while (mesh_node_->numAttachedObjects() > 0) {
+      Ogre::MovableObject* object = mesh_node_->getAttachedObject(0);
+      mesh_node_->detachObject(object);
+      scene_manager_->destroyMovableObject(object);
+    }
+    scene_manager_->destroySceneNode(mesh_node_);
+    mesh_node_ = nullptr;
+  }
+  for (const auto& material_name : mesh_material_names_) {
+    if (Ogre::MaterialManager::getSingleton().resourceExists(material_name)) {
+      Ogre::MaterialManager::getSingleton().remove(material_name);
+    }
+  }
+  mesh_material_names_.clear();
   if (hoverboard_mo_) {
     scene_manager_->destroyManualObject(hoverboard_mo_);
     hoverboard_mo_ = nullptr;
@@ -79,7 +114,10 @@ ObjectState::~ObjectState() {
     scene_manager_->destroyManualObject(hoverboard_glow_mo_);
     hoverboard_glow_mo_ = nullptr;
   }
-  scene_manager_->destroySceneNode(scene_node_);
+  if (scene_node_) {
+    scene_manager_->destroySceneNode(scene_node_);
+    scene_node_ = nullptr;
+  }
 }
 
 void ObjectState::setObjectState(const perception_msgs::msg::ObjectState& state) {
@@ -95,9 +133,9 @@ void ObjectState::setObjectState(const perception_msgs::msg::ObjectState& state)
     if (classification_color_map_.count(classification_.type))
       color = classification_color_map_[classification_.type];
     else {  // Set default colour (grey)
-      color.r = 128.0;
-      color.g = 128.0;
-      color.b = 128.0;
+      color.r = 0.5f;
+      color.g = 0.5f;
+      color.b = 0.5f;
       color.a = 1.0;
     }
   }
@@ -149,8 +187,9 @@ void ObjectState::setObjectStatePredictions(
     Ogre::ColourValue line_color = prediction_line_color_;
     Ogre::ColourValue point_color = prediction_point_color_;
     if (predictions[i].probability >= 0.0) {
-      line_color.a = predictions[i].probability;
-      point_color.a = predictions[i].probability;
+      const float probability = std::min(1.0f, static_cast<float>(predictions[i].probability));
+      line_color.a = probability;
+      point_color.a = probability;
     } else {
       line_color.a = 0.0;
       point_color.a = 0.0;
@@ -183,10 +222,15 @@ void ObjectState::setVisualizeBoundingBox(const bool& val) { visualize_bounding_
 
 void ObjectState::setVisualizeMesh(const bool& val) { visualize_mesh_ = val; }
 
+void ObjectState::setFitMeshToSize(const bool& val) { fit_mesh_to_size_ = val; }
+
+void ObjectState::setColorizeMesh(const bool& val) { colorize_mesh_ = val; }
+
 void ObjectState::setVisualizeHoverboard(const bool& val) { visualize_hoverboard_ = val; }
 void ObjectState::setHoverboardThickness(const float& val) { hoverboard_thickness_ = std::max(0.0f, val); }
 void ObjectState::setHoverboardCornerRadius(const float& val) { hoverboard_corner_radius_ = std::max(0.0f, val); }
 void ObjectState::setHoverboardGlow(const bool& val) { hoverboard_glow_ = val; }
+void ObjectState::setHoverboardGlowFadeOut(const bool& val) { hoverboard_glow_fade_out_ = val; }
 void ObjectState::setHoverboardGlowParams(const float& height, const float& intensity) {
   hoverboard_glow_height_ = std::max(0.0f, height);
   hoverboard_glow_intensity_ = std::max(0.0f, std::min(1.0f, intensity));
@@ -221,6 +265,8 @@ void ObjectState::setAccelerationColor(const Ogre::ColourValue& colour) { accele
 void ObjectState::setVisualizeText(const bool& val) { visualize_text_ = val; }
 
 void ObjectState::setCharHeight(const float& val) { char_height_ = val; }
+
+void ObjectState::setTextOffset(const float& val) { text_offset_ = std::max(0.0f, val); }
 
 void ObjectState::setColorTextWithClass(const bool& val) { use_class_color_for_text_ = val; }
 
@@ -284,6 +330,12 @@ void ObjectState::setObjectStateVizDefault(const perception_msgs::msg::ObjectSta
       scene_manager_->destroySceneNode(mesh_node_);
       mesh_node_ = nullptr;
     }
+    for (const auto& material_name : mesh_material_names_) {
+      if (Ogre::MaterialManager::getSingleton().resourceExists(material_name)) {
+        Ogre::MaterialManager::getSingleton().remove(material_name);
+      }
+    }
+    mesh_material_names_.clear();
     //load mesh to render based on classification
     Ogre::Entity* entity;
     Ogre::MeshPtr mesh;
@@ -332,56 +384,82 @@ void ObjectState::setObjectStateVizDefault(const perception_msgs::msg::ObjectSta
     // Check if mesh was loaded successfully (nullptr if loading failed)
     if (mesh)
     {
-      // compute mesh scaling factors to fixed height
+      // Compute either the legacy class-specific scale or a uniform best fit.
       Ogre::Vector3 mesh_dims = mesh->getBounds().getSize();
-      double scaling_factor_z;
-      switch (classification_.type) {
-      case ObjectClassification::CAR:
-        scaling_factor_z = kFixedMeshHeightCar / mesh_dims.z;
-        break;
-      case ObjectClassification::UTILITY:
-        scaling_factor_z = kFixedMeshHeightUtility / mesh_dims.z;
-        break;
-      case ObjectClassification::BUS:
-        scaling_factor_z = kFixedMeshHeightBus / mesh_dims.z;
-        break;
-      case ObjectClassification::BICYCLE:
-        scaling_factor_z = kFixedMeshHeightBicycle / mesh_dims.z;
-        break;
-      case ObjectClassification::MOTORCYCLE:
-        scaling_factor_z = kFixedMeshHeightMotorcycle / mesh_dims.z;
-        break;
-      case ObjectClassification::PEDESTRIAN:
-        scaling_factor_z = kFixedMeshHeightPedestrian / mesh_dims.z;
-        break;
-      default:
-        scaling_factor_z = bbox_dims_.z / mesh_dims.z;
-        break;
+      double uniform_scale = 1.0;
+      if (fit_mesh_to_size_ && mesh_dims.x > 1e-6 && mesh_dims.y > 1e-6 && mesh_dims.z > 1e-6 &&
+          bbox_dims_.x > 0.0 && bbox_dims_.y > 0.0 && bbox_dims_.z > 0.0) {
+        uniform_scale = std::min({bbox_dims_.x / mesh_dims.x, bbox_dims_.y / mesh_dims.y,
+                                  bbox_dims_.z / mesh_dims.z});
+      } else if (mesh_dims.z > 1e-6) {
+        switch (classification_.type) {
+          case ObjectClassification::CAR:
+            uniform_scale = kFixedMeshHeightCar / mesh_dims.z;
+            break;
+          case ObjectClassification::UTILITY:
+            uniform_scale = kFixedMeshHeightUtility / mesh_dims.z;
+            break;
+          case ObjectClassification::BUS:
+            uniform_scale = kFixedMeshHeightBus / mesh_dims.z;
+            break;
+          case ObjectClassification::BICYCLE:
+            uniform_scale = kFixedMeshHeightBicycle / mesh_dims.z;
+            break;
+          case ObjectClassification::MOTORCYCLE:
+            uniform_scale = kFixedMeshHeightMotorcycle / mesh_dims.z;
+            break;
+          case ObjectClassification::PEDESTRIAN:
+            uniform_scale = kFixedMeshHeightPedestrian / mesh_dims.z;
+            break;
+          default:
+            uniform_scale = bbox_dims_.z / mesh_dims.z;
+            break;
+        }
       }
-      double scaling_factor_x = scaling_factor_z;
-      double scaling_factor_y = scaling_factor_z;
 
       entity = scene_manager_->createEntity(mesh);
 
-      // Load material in runtime
-      Ogre::ResourceGroupManager::getSingletonPtr()->createResourceGroup("object_list_materials");
-      Ogre::ResourceGroupManager::getSingleton().addResourceLocation("package://perception_msgs_rendering/materials",
-                                                                     "FileSystem", "UserDefinedMaterials", true);
-      Ogre::ResourceGroupManager::getSingletonPtr()->initialiseResourceGroup("object_list_materials");
-      Ogre::ResourceGroupManager::getSingletonPtr()->loadResourceGroup("object_list_materials");
-      Ogre::ResourceGroupManager::getSingleton().addResourceLocation("package://perception_msgs_rendering/materials",
-                                                                     "FileSystem", "General");
-
+      // Materials are registered once through register_rviz_ogre_media_exports.
       entity->setMaterialName(material);
+      if (colorize_mesh_) {
+        Ogre::MaterialPtr base_material = Ogre::MaterialManager::getSingleton().getByName(material);
+        if (base_material) {
+          const std::string tinted_material_name =
+              "ObjectMesh/Tint/" + entity->getName();
+          Ogre::MaterialPtr tinted_material = base_material->clone(tinted_material_name);
+          Ogre::ColourValue opaque_color = color;
+          opaque_color.a = 1.0f;
+          for (unsigned int technique_index = 0;
+               technique_index < tinted_material->getNumTechniques(); ++technique_index) {
+            Ogre::Technique* technique = tinted_material->getTechnique(technique_index);
+            for (unsigned int pass_index = 0; pass_index < technique->getNumPasses(); ++pass_index) {
+              Ogre::Pass* pass = technique->getPass(pass_index);
+              pass->setAmbient(opaque_color);
+              pass->setDiffuse(opaque_color);
+              pass->setSceneBlending(Ogre::SBT_REPLACE);
+              pass->setDepthWriteEnabled(true);
+            }
+          }
+          entity->setMaterialName(tinted_material_name);
+          mesh_material_names_.push_back(tinted_material_name);
+        }
+      }
 
       mesh_node_ = scene_node_->createChildSceneNode();
       mesh_node_->attachObject(static_cast<Ogre::MovableObject*>(entity));
-      // Offset mesh_node
-      mesh_node_->setPosition(Ogre::Vector3(0.0, 0.0, -bbox_dims_.z / 2.0));
-
-      // Scale mesh_node so it fits the bounding box
-      mesh_node_->setScale(Ogre::Vector3(scaling_factor_x, scaling_factor_y, scaling_factor_z));
-      Ogre::ResourceGroupManager::getSingletonPtr()->destroyResourceGroup("object_list_materials");
+      if (fit_mesh_to_size_) {
+        // Centre the actual mesh bounds in X/Y, but keep its lowest scaled
+        // point on the lower face of the object's bounding box.
+        const Ogre::Vector3 mesh_center = mesh->getBounds().getCenter();
+        const Ogre::Vector3 mesh_minimum = mesh->getBounds().getMinimum();
+        mesh_node_->setPosition(Ogre::Vector3(
+            -mesh_center.x * uniform_scale,
+            -mesh_center.y * uniform_scale,
+            -0.5 * bbox_dims_.z - mesh_minimum.z * uniform_scale));
+      } else {
+        mesh_node_->setPosition(Ogre::Vector3(0.0, 0.0, -bbox_dims_.z / 2.0));
+      }
+      mesh_node_->setScale(Ogre::Vector3(uniform_scale, uniform_scale, uniform_scale));
     }
     else
     {
@@ -421,7 +499,7 @@ void ObjectState::setObjectStateVizDefault(const perception_msgs::msg::ObjectSta
     if (!Ogre::MaterialManager::getSingleton().resourceExists(hoverboard_material_name_)) {
       Ogre::MaterialPtr mat = Ogre::MaterialManager::getSingleton().create(
           hoverboard_material_name_, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-      if (!mat.isNull()) {
+      if (mat) {
         Ogre::Technique* tech = mat->getTechnique(0);
         if (!tech) tech = mat->createTechnique();
         Ogre::Pass* pass = tech->getPass(0);
@@ -437,7 +515,7 @@ void ObjectState::setObjectStateVizDefault(const perception_msgs::msg::ObjectSta
     if (!Ogre::MaterialManager::getSingleton().resourceExists(hoverboard_glow_material_name_)) {
       Ogre::MaterialPtr mat = Ogre::MaterialManager::getSingleton().create(
           hoverboard_glow_material_name_, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-      if (!mat.isNull()) {
+      if (mat) {
         Ogre::Technique* tech = mat->getTechnique(0);
         if (!tech) tech = mat->createTechnique();
         Ogre::Pass* pass = tech->getPass(0);
@@ -546,7 +624,10 @@ void ObjectState::setObjectStateVizDefault(const perception_msgs::msg::ObjectSta
       cBottom.r *= hoverboard_glow_intensity_;
       cBottom.g *= hoverboard_glow_intensity_;
       cBottom.b *= hoverboard_glow_intensity_;
-      Ogre::ColourValue cTop = cBottom; cTop.a = 0.0f;
+      Ogre::ColourValue cTop = cBottom;
+      if (hoverboard_glow_fade_out_) {
+        cTop = Ogre::ColourValue(0.0f, 0.0f, 0.0f, 0.0f);
+      }
       hoverboard_glow_mo_->begin(hoverboard_glow_material_name_, Ogre::RenderOperation::OT_TRIANGLE_LIST);
       const float zG0 = zTop;
       const float zG1 = zTop + hoverboard_glow_height_;
@@ -622,7 +703,7 @@ void ObjectState::setObjectPredictionsVizDefault(
     std::shared_ptr<rviz_rendering::BillboardLine>& billboard_line_prediction,
     std::vector<std::shared_ptr<rviz_rendering::Shape>>& bbox_prediction, const Ogre::ColourValue& line_color,
     const Ogre::ColourValue& point_color) {
-  if (visualize_predictions_) {
+  if (visualize_predictions_ && !states.empty()) {
     billboard_line_prediction = std::make_shared<rviz_rendering::BillboardLine>(scene_manager_, scene_node_);
     billboard_line_prediction->setColor(line_color.r, line_color.g, line_color.b, line_color.a);
     float line_width = prediction_line_width_;
@@ -714,8 +795,9 @@ void ObjectState::setObjectStateTextDefault(const perception_msgs::msg::ObjectSt
   if (!text.size()) return;
   text_ = std::make_shared<rviz_rendering::MovableText>(text, "Liberation Sans", char_height_);
   if (!b_bbox_dims_set_) bbox_dims_.z = perception_msgs::object_access::getHeight(state);
-  double height = bbox_dims_.z;
-  height += text_->getBoundingRadius();
+  // scene_node_ is located at the geometric centre.  Keep label placement
+  // independent of font size so changing Char height only changes the text.
+  const double height = 0.5 * bbox_dims_.z + text_offset_;
   Ogre::Vector3 offs(0.0, 0.0, height);
   // Maybe there is a bug in rviz_rendering::MovableText::setGlobalTranslation
   // Currently only the given y-Position is set
@@ -749,9 +831,17 @@ void ObjectState::setObjectPredictionProbabilityText(const double& probability,
   text_prob = std::make_shared<rviz_rendering::MovableText>(text_probabilities_, "Liberation Sans",
                                                             char_height_prediction_probs_);
   if (!b_bbox_dims_set_) bbox_dims_.z = perception_msgs::object_access::getHeight(state);
-  double height = bbox_dims_.z;
-  height += text_prob->getBoundingRadius();
-  Ogre::Vector3 offs(0.0, 0.0, height);
+
+  // Prediction states are expressed in the same frame as object_state_, while
+  // the label is attached below the current object's scene node.  Transform
+  // the prediction into that local frame before applying the vertical offset.
+  tf2::Transform base_state_tf;
+  tf2::Transform prediction_state_tf;
+  tf2::fromMsg(perception_msgs::object_access::getPose(object_state_), base_state_tf);
+  tf2::fromMsg(perception_msgs::object_access::getPose(state), prediction_state_tf);
+  const auto relative_position = (base_state_tf.inverse() * prediction_state_tf).getOrigin();
+  const double height = relative_position.z() + 0.5 * bbox_dims_.z + text_offset_;
+  Ogre::Vector3 offs(relative_position.x(), relative_position.y(), height);
   text_prob->setGlobalTranslation(offs);
   text_prob->setColor(prediction_line_color_);
   scene_node_->attachObject(text_prob.get());

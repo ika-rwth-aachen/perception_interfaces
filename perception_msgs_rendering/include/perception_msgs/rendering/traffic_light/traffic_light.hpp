@@ -111,8 +111,8 @@ class TrafficLight {
    */
   void setSceneNodePose(const perception_msgs::msg::ObjectState& state);
 
-  Ogre::SceneNode* scene_node_;
-  Ogre::SceneManager* scene_manager_;
+  Ogre::SceneNode* scene_node_ = nullptr;
+  Ogre::SceneManager* scene_manager_ = nullptr;
 
   std::shared_ptr<rviz_rendering::Shape> sphere_;
   std::shared_ptr<rviz_rendering::MovableText> text_;

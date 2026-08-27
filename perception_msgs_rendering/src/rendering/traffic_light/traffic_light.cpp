@@ -52,7 +52,17 @@ TrafficLight::TrafficLight(Ogre::SceneManager* scene_manager, Ogre::SceneNode* p
   scene_node_ = parent_node->createChildSceneNode();
 }
 
-TrafficLight::~TrafficLight() { scene_manager_->destroySceneNode(scene_node_); }
+TrafficLight::~TrafficLight() {
+  if (text_ && text_->isAttached()) {
+    text_->getParentSceneNode()->detachObject(text_.get());
+  }
+  text_.reset();
+  sphere_.reset();
+  if (scene_node_) {
+    scene_manager_->destroySceneNode(scene_node_);
+    scene_node_ = nullptr;
+  }
+}
 
 void TrafficLight::setObjectState(const perception_msgs::msg::ObjectState& state) {
   object_state_ = state;

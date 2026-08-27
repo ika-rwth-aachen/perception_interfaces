@@ -198,6 +198,13 @@ class ObjectState {
   void setCharHeight(const float& val);
 
   /**
+   * @brief Set the clearance between the bounding box and its text label
+   *
+   * @param val clearance in metres
+   */
+  void setTextOffset(const float& val);
+
+  /**
    * @brief Set the visualization color of text with respect to objects classification color
    *
    * @param val
@@ -225,11 +232,18 @@ class ObjectState {
    */
   void setVisualizeMesh(const bool& val);
 
+  /** @brief Uniformly scale and centre the mesh to fit inside the bounding box. */
+  void setFitMeshToSize(const bool& val);
+
+  /** @brief Tint the mesh with the resolved object/classification color. */
+  void setColorizeMesh(const bool& val);
+
   // Hoverboard visualization
   void setVisualizeHoverboard(const bool& val);
   void setHoverboardThickness(const float& val);
   void setHoverboardCornerRadius(const float& val);
   void setHoverboardGlow(const bool& val);
+  void setHoverboardGlowFadeOut(const bool& val);
   void setHoverboardGlowParams(const float& height, const float& intensity);
   void setHoverboardCapStyle(int style);
   void setHoverboardCornerSegments(int segs);
@@ -397,9 +411,9 @@ class ObjectState {
    */
   void velocityToText(const perception_msgs::msg::ObjectState& state, std::string& text);
 
-  Ogre::SceneNode* scene_node_;
-  Ogre::SceneNode* mesh_node_;
-  Ogre::SceneManager* scene_manager_;
+  Ogre::SceneNode* scene_node_ = nullptr;
+  Ogre::SceneNode* mesh_node_ = nullptr;
+  Ogre::SceneManager* scene_manager_ = nullptr;
 
   std::shared_ptr<rviz_rendering::Shape> bbox_;
   std::shared_ptr<rviz_rendering::Shape> bbox_cone_;
@@ -416,7 +430,8 @@ class ObjectState {
   perception_msgs::msg::ObjectState object_state_;
   std::vector<perception_msgs::msg::ObjectStatePrediction> predictions_;
   perception_msgs::msg::ObjectClassification classification_;
-  float char_height_ = 4.0;
+  float char_height_ = 0.5f;
+  float text_offset_ = 1.0f;
   unsigned int id_;
   bool id_set_ = false;
   double existence_probability_ = -1.0;
@@ -430,6 +445,8 @@ class ObjectState {
   bool indicate_direction_ = true;
   bool visualize_bounding_box_ = true;
   bool visualize_mesh_ = false;
+  bool fit_mesh_to_size_ = false;
+  bool colorize_mesh_ = false;
   bool visualize_hoverboard_ = false;
   bool visualize_velocity_ = true;
   float velocity_scale_ = 1.0;
@@ -454,16 +471,18 @@ class ObjectState {
   float prediction_line_width_ = 1.0;
   float prediction_point_width_ = 0.5;
   bool visualize_prediction_probabilities_ = true;
-  float char_height_prediction_probs_ = 4.0;
+  float char_height_prediction_probs_ = 0.5f;
   std::string text_probabilities_;
   std::string material;
+  std::vector<std::string> mesh_material_names_;
 
   // Hoverboard params
   float hoverboard_thickness_ = 0.12f;
   float hoverboard_corner_radius_ = 0.35f;
   bool hoverboard_glow_ = true;
-  float hoverboard_glow_height_ = 0.7f;
-  float hoverboard_glow_intensity_ = 0.6f;
+  bool hoverboard_glow_fade_out_ = true;
+  float hoverboard_glow_height_ = 0.5f;
+  float hoverboard_glow_intensity_ = 0.5f;
   int hoverboard_cap_style_ = 2; // 0=square,1=bevel,2=round
   int hoverboard_corner_segments_ = 12;
   std::string hoverboard_material_name_ = "ObjectHoverboard/Tile";
