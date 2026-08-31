@@ -2,7 +2,7 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>perception_msgs_rendering</name>
-  <version>1.1.0</version>
+  <version>1.2.0</version>
   <description>This package provides rviz renderings for the perception_msgs</description>
   <maintainer email="guido.kueppers@rwth-aachen.de">Guido Küppers</maintainer>
   <author email="guido.kueppers@rwth-aachen.de">Guido Küppers</author>
