@@ -31,6 +31,8 @@ SOFTWARE.
 #include <OgreMaterialManager.h>
 #include <OgreTechnique.h>
 
+#include <exception>
+
 #include "rviz_common/display_context.hpp"
 #include "rviz_common/frame_manager_iface.hpp"
 #include "rviz_common/logging.hpp"
@@ -252,25 +254,34 @@ void ObjectListDisplay::onDisable(){
   MFDClass::onDisable();
 }
 
-bool validateFloats(perception_msgs::msg::ObjectList::ConstSharedPtr msg)
-{
-  bool valid = true;
-  for (int i=0; i<int(msg->objects.size()); i++)
-  {
-    valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getX(msg->objects[i]));
-    valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getY(msg->objects[i]));
-    valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getZ(msg->objects[i]));
-    valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getWidth(msg->objects[i]));
-    valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getLength(msg->objects[i]));
-    valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getHeight(msg->objects[i]));
-    valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getYaw(msg->objects[i]));
-    valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getVelocityMagnitude(msg->objects[i]));
+bool validateFloats(perception_msgs::msg::ObjectList::ConstSharedPtr msg) {
+  try {
+    bool valid = true;
+    for (int i = 0; i < int(msg->objects.size()); i++) {
+      valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getX(msg->objects[i]));
+      valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getY(msg->objects[i]));
+      valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getZ(msg->objects[i]));
+      valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getWidth(msg->objects[i]));
+      valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getLength(msg->objects[i]));
+      valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getHeight(msg->objects[i]));
+      valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getYaw(msg->objects[i]));
+      valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getVelocityMagnitude(msg->objects[i]));
+    }
+    for (const auto &object : msg->objects) {
+      for (const auto &prediction : object.state_predictions) {
+        for (const auto &state : prediction.states) {
+          valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getPose(state));
+          valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getVelocityMagnitude(state));
+        }
+      }
+    }
+    return valid;
+  } catch (const std::exception &) {
+    return false;
   }
-  return valid;
 }
 
-void ObjectListDisplay::processMessage(perception_msgs::msg::ObjectList::ConstSharedPtr msg)
-{
+void ObjectListDisplay::processMessage(perception_msgs::msg::ObjectList::ConstSharedPtr msg) {
 
   // check for supported object model id
   for (size_t i = 0; i < msg->objects.size(); ++i) {

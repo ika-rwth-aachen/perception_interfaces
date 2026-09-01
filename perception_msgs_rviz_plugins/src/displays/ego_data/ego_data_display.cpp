@@ -35,6 +35,7 @@ SOFTWARE.
 #include <OgreTechnique.h>
 #include <algorithm>
 #include <cmath>
+#include <exception>
 
 #include "rviz_common/display_context.hpp"
 #include "rviz_common/frame_manager_iface.hpp"
@@ -207,13 +208,18 @@ void EgoDataDisplay::reset() {
 }
 
 bool validateFloats(perception_msgs::msg::EgoData::ConstSharedPtr msg) {
-  bool valid = true;
-  valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getX(msg->state));
-  valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getY(msg->state));
-  valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getZ(msg->state));
-  valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getYaw(msg->state));
-  valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getVelocityMagnitude(msg->state));
-  return valid;
+  try {
+    bool valid = rviz_common::validateFloats(perception_msgs::object_access::getPose(msg->state));
+    valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getVelocityMagnitude(msg->state));
+    for (const auto& state : msg->trajectory_planned) {
+      valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getPose(state));
+      valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getVelocityMagnitude(state));
+      valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getAccelerationMagnitude(state));
+    }
+    return valid;
+  } catch (const std::exception&) {
+    return false;
+  }
 }
 
 void EgoDataDisplay::processMessage(perception_msgs::msg::EgoData::ConstSharedPtr msg) {
@@ -293,9 +299,6 @@ void EgoDataDisplay::processMessage(perception_msgs::msg::EgoData::ConstSharedPt
   }
 
   bool visualize_z_dimension = viz_z_dim_->getBool();
-  if (!visualize_z_dimension) {
-    viz_ego_state_->setZComponent(msg->height / 2.0);
-  }
 
   bool visualize_text = viz_text_->getBool();
   float char_height = char_height_->getFloat();
@@ -339,6 +342,9 @@ void EgoDataDisplay::processMessage(perception_msgs::msg::EgoData::ConstSharedPt
   Ogre::Vector3 bb_dims(msg->length, msg->width, msg->height);
   viz_ego_state_->setBoundingBoxDimensions(bb_dims);
   viz_ego_state_->setObjectState(msg->state);
+  if (!visualize_z_dimension) {
+    viz_ego_state_->setZComponent(msg->height / 2.0);
+  }
 
   // display trajectory
   if (viz_trajectory_->getBool() && !msg->trajectory_planned.empty()) {
