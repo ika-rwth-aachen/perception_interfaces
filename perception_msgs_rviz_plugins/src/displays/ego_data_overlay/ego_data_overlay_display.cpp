@@ -1,3 +1,6 @@
+// Copyright Institute for Automotive Engineering (ika), RWTH Aachen University
+// SPDX-License-Identifier: MIT
+
 #include "perception_msgs/displays/ego_data_overlay/ego_data_overlay_display.hpp"
 #include <QGuiApplication>
 #include <QScreen>
