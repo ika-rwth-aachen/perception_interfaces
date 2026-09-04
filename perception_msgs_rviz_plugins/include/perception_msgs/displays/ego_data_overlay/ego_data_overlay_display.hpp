@@ -1,3 +1,6 @@
+// Copyright Institute for Automotive Engineering (ika), RWTH Aachen University
+// SPDX-License-Identifier: MIT
+
 #ifndef PERCEPTION_MSGS__DISPLAYS__EGO_DATA_OVERLAY__EGO_DATA_OVERLAY_DISPLAY_HPP_
 #define PERCEPTION_MSGS__DISPLAYS__EGO_DATA_OVERLAY__EGO_DATA_OVERLAY_DISPLAY_HPP_
 
