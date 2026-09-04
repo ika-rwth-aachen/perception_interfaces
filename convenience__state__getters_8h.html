@@ -283,13 +283,6 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Convenience getter functions for object state members. </p>
-<p>============================================================================ MIT License</p>
-<p>Copyright (c) 2025 Institute for Automotive Engineering (ika), RWTH Aachen University</p>
-<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
-<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
-<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE </p>
-<h1><a class="anchor" id="autotoc_md14"></a>
-SOFTWARE.</h1>
 
 <p class="definition">Definition in file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
@@ -326,16 +319,16 @@ SOFTWARE.</h1>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>gm::Vector3 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00425">425</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  425</span>                                                           {</div>
-<div class="line"><span class="lineno">  426</span>  gm::Vector3 acceleration;</div>
-<div class="line"><span class="lineno">  427</span>  acceleration.x = <a class="code hl_function" href="state__getters_8h.html#a7f4f62baaa829090dc8ec1da4d22af87">getAccLon</a>(state);</div>
-<div class="line"><span class="lineno">  428</span>  acceleration.y = <a class="code hl_function" href="state__getters_8h.html#ab470f49e325557e822008c9065bf4ec1">getAccLat</a>(state);</div>
-<div class="line"><span class="lineno">  429</span>  acceleration.z = 0.0;</div>
-<div class="line"><span class="lineno">  430</span>  <span class="keywordflow">return</span> acceleration;</div>
-<div class="line"><span class="lineno">  431</span>}</div>
-<div class="ttc" id="astate__getters_8h_html_a7f4f62baaa829090dc8ec1da4d22af87"><div class="ttname"><a href="state__getters_8h.html#a7f4f62baaa829090dc8ec1da4d22af87">perception_msgs::object_access::getAccLon</a></div><div class="ttdeci">double getAccLon(const ObjectState &amp;state)</div><div class="ttdoc">Get the longitudinal acceleration for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00161">state_getters.h:161</a></div></div>
-<div class="ttc" id="astate__getters_8h_html_ab470f49e325557e822008c9065bf4ec1"><div class="ttname"><a href="state__getters_8h.html#ab470f49e325557e822008c9065bf4ec1">perception_msgs::object_access::getAccLat</a></div><div class="ttdeci">double getAccLat(const ObjectState &amp;state)</div><div class="ttdoc">Get the lateral acceleration for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00184">state_getters.h:184</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00404">404</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  404</span>                                                           {</div>
+<div class="line"><span class="lineno">  405</span>  gm::Vector3 acceleration;</div>
+<div class="line"><span class="lineno">  406</span>  acceleration.x = <a class="code hl_function" href="state__getters_8h.html#a7f4f62baaa829090dc8ec1da4d22af87">getAccLon</a>(state);</div>
+<div class="line"><span class="lineno">  407</span>  acceleration.y = <a class="code hl_function" href="state__getters_8h.html#ab470f49e325557e822008c9065bf4ec1">getAccLat</a>(state);</div>
+<div class="line"><span class="lineno">  408</span>  acceleration.z = 0.0;</div>
+<div class="line"><span class="lineno">  409</span>  <span class="keywordflow">return</span> acceleration;</div>
+<div class="line"><span class="lineno">  410</span>}</div>
+<div class="ttc" id="astate__getters_8h_html_a7f4f62baaa829090dc8ec1da4d22af87"><div class="ttname"><a href="state__getters_8h.html#a7f4f62baaa829090dc8ec1da4d22af87">perception_msgs::object_access::getAccLon</a></div><div class="ttdeci">double getAccLon(const ObjectState &amp;state)</div><div class="ttdoc">Get the longitudinal acceleration for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00140">state_getters.h:140</a></div></div>
+<div class="ttc" id="astate__getters_8h_html_ab470f49e325557e822008c9065bf4ec1"><div class="ttname"><a href="state__getters_8h.html#ab470f49e325557e822008c9065bf4ec1">perception_msgs::object_access::getAccLat</a></div><div class="ttdeci">double getAccLat(const ObjectState &amp;state)</div><div class="ttdoc">Get the lateral acceleration for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00163">state_getters.h:163</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -380,11 +373,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>gm::Vector3 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00441">441</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  441</span>                                               {</div>
-<div class="line"><span class="lineno">  442</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#acb00257d5daebeeae2dc21c3841238b4">getAcceleration</a>(obj.state);</div>
-<div class="line"><span class="lineno">  443</span>}</div>
-<div class="ttc" id="aconvenience__state__getters_8h_html_acb00257d5daebeeae2dc21c3841238b4"><div class="ttname"><a href="convenience__state__getters_8h.html#acb00257d5daebeeae2dc21c3841238b4">perception_msgs::object_access::getAcceleration</a></div><div class="ttdeci">gm::Vector3 getAcceleration(const ObjectState &amp;state)</div><div class="ttdoc">Get the acceleration of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00425">convenience_state_getters.h:425</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00420">420</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  420</span>                                               {</div>
+<div class="line"><span class="lineno">  421</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#acb00257d5daebeeae2dc21c3841238b4">getAcceleration</a>(obj.state);</div>
+<div class="line"><span class="lineno">  422</span>}</div>
+<div class="ttc" id="aconvenience__state__getters_8h_html_acb00257d5daebeeae2dc21c3841238b4"><div class="ttname"><a href="convenience__state__getters_8h.html#acb00257d5daebeeae2dc21c3841238b4">perception_msgs::object_access::getAcceleration</a></div><div class="ttdeci">gm::Vector3 getAcceleration(const ObjectState &amp;state)</div><div class="ttdoc">Get the acceleration of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00404">convenience_state_getters.h:404</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -421,12 +414,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00451">451</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  451</span>                                                                 {</div>
-<div class="line"><span class="lineno">  452</span>  gm::Vector3 acc = <a class="code hl_function" href="convenience__state__getters_8h.html#acb00257d5daebeeae2dc21c3841238b4">getAcceleration</a>(state);</div>
-<div class="line"><span class="lineno">  453</span>  <span class="keyword">using namespace </span>std;</div>
-<div class="line"><span class="lineno">  454</span>  <span class="keywordflow">return</span> sqrt(pow(acc.x, 2) + pow(acc.y, 2) + pow(acc.z, 2));</div>
-<div class="line"><span class="lineno">  455</span>}</div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00430">430</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  430</span>                                                                 {</div>
+<div class="line"><span class="lineno">  431</span>  gm::Vector3 acc = <a class="code hl_function" href="convenience__state__getters_8h.html#acb00257d5daebeeae2dc21c3841238b4">getAcceleration</a>(state);</div>
+<div class="line"><span class="lineno">  432</span>  <span class="keyword">using namespace </span>std;</div>
+<div class="line"><span class="lineno">  433</span>  <span class="keywordflow">return</span> sqrt(pow(acc.x, 2) + pow(acc.y, 2) + pow(acc.z, 2));</div>
+<div class="line"><span class="lineno">  434</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -471,11 +464,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00465">465</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  465</span>                                                     {</div>
-<div class="line"><span class="lineno">  466</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#a55c61546bded8e1f30635e30e80636ef">getAccelerationMagnitude</a>(obj.state);</div>
-<div class="line"><span class="lineno">  467</span>}</div>
-<div class="ttc" id="aconvenience__state__getters_8h_html_a55c61546bded8e1f30635e30e80636ef"><div class="ttname"><a href="convenience__state__getters_8h.html#a55c61546bded8e1f30635e30e80636ef">perception_msgs::object_access::getAccelerationMagnitude</a></div><div class="ttdeci">double getAccelerationMagnitude(const ObjectState &amp;state)</div><div class="ttdoc">Get the acceleration magnitude of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00451">convenience_state_getters.h:451</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00444">444</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  444</span>                                                     {</div>
+<div class="line"><span class="lineno">  445</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#a55c61546bded8e1f30635e30e80636ef">getAccelerationMagnitude</a>(obj.state);</div>
+<div class="line"><span class="lineno">  446</span>}</div>
+<div class="ttc" id="aconvenience__state__getters_8h_html_a55c61546bded8e1f30635e30e80636ef"><div class="ttname"><a href="convenience__state__getters_8h.html#a55c61546bded8e1f30635e30e80636ef">perception_msgs::object_access::getAccelerationMagnitude</a></div><div class="ttdeci">double getAccelerationMagnitude(const ObjectState &amp;state)</div><div class="ttdoc">Get the acceleration magnitude of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00430">convenience_state_getters.h:430</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -512,18 +505,18 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>gm::Vector3 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00730">730</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  730</span>                                                              {</div>
-<div class="line"><span class="lineno">  731</span>  gm::Vector3 acc_lon_lat, acc_xyz;</div>
-<div class="line"><span class="lineno">  732</span>  acc_lon_lat = <a class="code hl_function" href="convenience__state__getters_8h.html#acb00257d5daebeeae2dc21c3841238b4">getAcceleration</a>(state);</div>
-<div class="line"><span class="lineno">  733</span>  tf2::Quaternion q;</div>
-<div class="line"><span class="lineno">  734</span>  q.setRPY(0.0, 0.0, <a class="code hl_function" href="state__getters_8h.html#aa05ce7c3d80795165cbb4830a3f97330">getYaw</a>(state));</div>
-<div class="line"><span class="lineno">  735</span>  gm::TransformStamped tf;</div>
-<div class="line"><span class="lineno">  736</span>  tf.transform.rotation = tf2::toMsg(q);</div>
-<div class="line"><span class="lineno">  737</span>  tf2::doTransform(acc_lon_lat, acc_xyz, tf);</div>
-<div class="line"><span class="lineno">  738</span>  <span class="keywordflow">return</span> acc_xyz;</div>
-<div class="line"><span class="lineno">  739</span>}</div>
-<div class="ttc" id="astate__getters_8h_html_aa05ce7c3d80795165cbb4830a3f97330"><div class="ttname"><a href="state__getters_8h.html#aa05ce7c3d80795165cbb4830a3f97330">perception_msgs::object_access::getYaw</a></div><div class="ttdeci">double getYaw(const ObjectState &amp;state)</div><div class="ttdoc">Get the yaw for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00299">state_getters.h:299</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00709">709</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  709</span>                                                              {</div>
+<div class="line"><span class="lineno">  710</span>  gm::Vector3 acc_lon_lat, acc_xyz;</div>
+<div class="line"><span class="lineno">  711</span>  acc_lon_lat = <a class="code hl_function" href="convenience__state__getters_8h.html#acb00257d5daebeeae2dc21c3841238b4">getAcceleration</a>(state);</div>
+<div class="line"><span class="lineno">  712</span>  tf2::Quaternion q;</div>
+<div class="line"><span class="lineno">  713</span>  q.setRPY(0.0, 0.0, <a class="code hl_function" href="state__getters_8h.html#aa05ce7c3d80795165cbb4830a3f97330">getYaw</a>(state));</div>
+<div class="line"><span class="lineno">  714</span>  gm::TransformStamped tf;</div>
+<div class="line"><span class="lineno">  715</span>  tf.transform.rotation = tf2::toMsg(q);</div>
+<div class="line"><span class="lineno">  716</span>  tf2::doTransform(acc_lon_lat, acc_xyz, tf);</div>
+<div class="line"><span class="lineno">  717</span>  <span class="keywordflow">return</span> acc_xyz;</div>
+<div class="line"><span class="lineno">  718</span>}</div>
+<div class="ttc" id="astate__getters_8h_html_aa05ce7c3d80795165cbb4830a3f97330"><div class="ttname"><a href="state__getters_8h.html#aa05ce7c3d80795165cbb4830a3f97330">perception_msgs::object_access::getYaw</a></div><div class="ttdeci">double getYaw(const ObjectState &amp;state)</div><div class="ttdoc">Get the yaw for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00278">state_getters.h:278</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -568,11 +561,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>gm::Vector3 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00749">749</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  749</span>                                                  {</div>
-<div class="line"><span class="lineno">  750</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#ad97682eeea3775abbb1411821627dcf2">getAccelerationXYZ</a>(obj.state);</div>
-<div class="line"><span class="lineno">  751</span>}</div>
-<div class="ttc" id="aconvenience__state__getters_8h_html_ad97682eeea3775abbb1411821627dcf2"><div class="ttname"><a href="convenience__state__getters_8h.html#ad97682eeea3775abbb1411821627dcf2">perception_msgs::object_access::getAccelerationXYZ</a></div><div class="ttdeci">gm::Vector3 getAccelerationXYZ(const ObjectState &amp;state)</div><div class="ttdoc">Get the acceleration XYZ of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00730">convenience_state_getters.h:730</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00728">728</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  728</span>                                                  {</div>
+<div class="line"><span class="lineno">  729</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#ad97682eeea3775abbb1411821627dcf2">getAccelerationXYZ</a>(obj.state);</div>
+<div class="line"><span class="lineno">  730</span>}</div>
+<div class="ttc" id="aconvenience__state__getters_8h_html_ad97682eeea3775abbb1411821627dcf2"><div class="ttname"><a href="convenience__state__getters_8h.html#ad97682eeea3775abbb1411821627dcf2">perception_msgs::object_access::getAccelerationXYZ</a></div><div class="ttdeci">gm::Vector3 getAccelerationXYZ(const ObjectState &amp;state)</div><div class="ttdoc">Get the acceleration XYZ of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00709">convenience_state_getters.h:709</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -609,54 +602,54 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>gm::PoseWithCovariance </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00669">669</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  669</span>                                                                                       {</div>
-<div class="line"><span class="lineno">  670</span>  gm::PoseWithCovariance acc_lon_lat, acc_xyz;</div>
-<div class="line"><span class="lineno">  671</span>  acc_lon_lat.pose.position.x = <a class="code hl_function" href="state__getters_8h.html#a7f4f62baaa829090dc8ec1da4d22af87">getAccLon</a>(state);</div>
-<div class="line"><span class="lineno">  672</span>  acc_lon_lat.pose.position.y = <a class="code hl_function" href="state__getters_8h.html#ab470f49e325557e822008c9065bf4ec1">getAccLat</a>(state);</div>
-<div class="line"><span class="lineno">  673</span>  acc_lon_lat.pose.position.z = 0.0;</div>
-<div class="line"><span class="lineno">  674</span> </div>
-<div class="line"><span class="lineno">  675</span>  <span class="keywordtype">int</span> ix, jx, n = 2;</div>
-<div class="line"><span class="lineno">  676</span>  <span class="keyword">auto</span> model_id = state.model_id;</div>
-<div class="line"><span class="lineno">  677</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; i++) {</div>
-<div class="line"><span class="lineno">  678</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; n; j++) {</div>
-<div class="line"><span class="lineno">  679</span>      <span class="keywordflow">if</span> (i == 0 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#adfd04fcbbe38ec4ff4e459428effb9c3">hasAccLon</a>(model_id))</div>
-<div class="line"><span class="lineno">  680</span>        ix = <a class="code hl_function" href="state__index_8h.html#ab105e6a60cc8283741f7cf2df3c54910">indexAccLon</a>(model_id);</div>
-<div class="line"><span class="lineno">  681</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (i == 1 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a5b79405148126a55ecfa431389924b59">hasAccLat</a>(model_id))</div>
-<div class="line"><span class="lineno">  682</span>        ix = <a class="code hl_function" href="state__index_8h.html#ad66e47d3ab90373abbed74b2150684b6">indexAccLat</a>(model_id);</div>
-<div class="line"><span class="lineno">  683</span>      <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  684</span>        <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  685</span> </div>
-<div class="line"><span class="lineno">  686</span>      <span class="keywordflow">if</span> (j == 0 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#adfd04fcbbe38ec4ff4e459428effb9c3">hasAccLon</a>(model_id))</div>
-<div class="line"><span class="lineno">  687</span>        jx = <a class="code hl_function" href="state__index_8h.html#ab105e6a60cc8283741f7cf2df3c54910">indexAccLon</a>(model_id);</div>
-<div class="line"><span class="lineno">  688</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (j == 1 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a5b79405148126a55ecfa431389924b59">hasAccLat</a>(model_id))</div>
-<div class="line"><span class="lineno">  689</span>        jx = <a class="code hl_function" href="state__index_8h.html#ad66e47d3ab90373abbed74b2150684b6">indexAccLat</a>(model_id);</div>
-<div class="line"><span class="lineno">  690</span>      <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  691</span>        <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  692</span> </div>
-<div class="line"><span class="lineno">  693</span>      acc_lon_lat.covariance.at(6 * i + j) = <a class="code hl_function" href="convenience__state__getters_8h.html#a8cfa17fdf6b3287ee1970c5d94839f7b">getContinuousStateCovarianceAt</a>(state, ix, jx);</div>
-<div class="line"><span class="lineno">  694</span>    }</div>
-<div class="line"><span class="lineno">  695</span>  }</div>
-<div class="line"><span class="lineno">  696</span> </div>
-<div class="line"><span class="lineno">  697</span>  tf2::Quaternion q;</div>
-<div class="line"><span class="lineno">  698</span>  q.setRPY(0.0, 0.0, <a class="code hl_function" href="state__getters_8h.html#aa05ce7c3d80795165cbb4830a3f97330">getYaw</a>(state));</div>
-<div class="line"><span class="lineno">  699</span>  gm::TransformStamped tf;</div>
-<div class="line"><span class="lineno">  700</span>  tf.transform.rotation = tf2::toMsg(q);</div>
-<div class="line"><span class="lineno">  701</span><span class="preprocessor">#ifdef ROS1</span></div>
-<div class="line"><span class="lineno">  702</span>  gm::PoseWithCovarianceStamped acc_lon_lat_stamped, acc_xyz_stamped;</div>
-<div class="line"><span class="lineno">  703</span>  acc_lon_lat_stamped.pose = acc_lon_lat;</div>
-<div class="line"><span class="lineno">  704</span>  tf2::doTransform(acc_lon_lat_stamped, acc_xyz_stamped, tf);</div>
-<div class="line"><span class="lineno">  705</span>  acc_xyz = acc_xyz_stamped.pose;</div>
-<div class="line"><span class="lineno">  706</span><span class="preprocessor">#else</span></div>
-<div class="line"><span class="lineno">  707</span>  tf2::doTransform(acc_lon_lat, acc_xyz, tf);</div>
-<div class="line"><span class="lineno">  708</span><span class="preprocessor">#endif</span></div>
-<div class="line"><span class="lineno">  709</span>  <span class="keywordflow">return</span> acc_xyz;</div>
-<div class="line"><span class="lineno">  710</span>}</div>
-<div class="ttc" id="aconvenience__state__getters_8h_html_a8cfa17fdf6b3287ee1970c5d94839f7b"><div class="ttname"><a href="convenience__state__getters_8h.html#a8cfa17fdf6b3287ee1970c5d94839f7b">perception_msgs::object_access::getContinuousStateCovarianceAt</a></div><div class="ttdeci">double getContinuousStateCovarianceAt(const ObjectState &amp;state, const unsigned int i, const unsigned int j)</div><div class="ttdoc">Get the continuous state covariance entry (i,j) for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00122">convenience_state_getters.h:122</a></div></div>
-<div class="ttc" id="astate__index_8h_html_a5b79405148126a55ecfa431389924b59"><div class="ttname"><a href="state__index_8h.html#a5b79405148126a55ecfa431389924b59">perception_msgs::object_access::hasAccLat</a></div><div class="ttdeci">bool hasAccLat(const unsigned char &amp;model_id)</div><div class="ttdoc">Indicates if given model contains a lateral acceleration.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00670">state_index.h:670</a></div></div>
-<div class="ttc" id="astate__index_8h_html_ab105e6a60cc8283741f7cf2df3c54910"><div class="ttname"><a href="state__index_8h.html#ab105e6a60cc8283741f7cf2df3c54910">perception_msgs::object_access::indexAccLon</a></div><div class="ttdeci">int indexAccLon(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the longitudinal acceleration for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00156">state_index.h:156</a></div></div>
-<div class="ttc" id="astate__index_8h_html_ad66e47d3ab90373abbed74b2150684b6"><div class="ttname"><a href="state__index_8h.html#ad66e47d3ab90373abbed74b2150684b6">perception_msgs::object_access::indexAccLat</a></div><div class="ttdeci">int indexAccLat(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the lateral acceleration for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00177">state_index.h:177</a></div></div>
-<div class="ttc" id="astate__index_8h_html_adfd04fcbbe38ec4ff4e459428effb9c3"><div class="ttname"><a href="state__index_8h.html#adfd04fcbbe38ec4ff4e459428effb9c3">perception_msgs::object_access::hasAccLon</a></div><div class="ttdeci">bool hasAccLon(const unsigned char &amp;model_id)</div><div class="ttdoc">Indicates if given model contains a longitudinal acceleration.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00648">state_index.h:648</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00648">648</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  648</span>                                                                                       {</div>
+<div class="line"><span class="lineno">  649</span>  gm::PoseWithCovariance acc_lon_lat, acc_xyz;</div>
+<div class="line"><span class="lineno">  650</span>  acc_lon_lat.pose.position.x = <a class="code hl_function" href="state__getters_8h.html#a7f4f62baaa829090dc8ec1da4d22af87">getAccLon</a>(state);</div>
+<div class="line"><span class="lineno">  651</span>  acc_lon_lat.pose.position.y = <a class="code hl_function" href="state__getters_8h.html#ab470f49e325557e822008c9065bf4ec1">getAccLat</a>(state);</div>
+<div class="line"><span class="lineno">  652</span>  acc_lon_lat.pose.position.z = 0.0;</div>
+<div class="line"><span class="lineno">  653</span> </div>
+<div class="line"><span class="lineno">  654</span>  <span class="keywordtype">int</span> ix, jx, n = 2;</div>
+<div class="line"><span class="lineno">  655</span>  <span class="keyword">auto</span> model_id = state.model_id;</div>
+<div class="line"><span class="lineno">  656</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; i++) {</div>
+<div class="line"><span class="lineno">  657</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; n; j++) {</div>
+<div class="line"><span class="lineno">  658</span>      <span class="keywordflow">if</span> (i == 0 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#adfd04fcbbe38ec4ff4e459428effb9c3">hasAccLon</a>(model_id))</div>
+<div class="line"><span class="lineno">  659</span>        ix = <a class="code hl_function" href="state__index_8h.html#ab105e6a60cc8283741f7cf2df3c54910">indexAccLon</a>(model_id);</div>
+<div class="line"><span class="lineno">  660</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (i == 1 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a5b79405148126a55ecfa431389924b59">hasAccLat</a>(model_id))</div>
+<div class="line"><span class="lineno">  661</span>        ix = <a class="code hl_function" href="state__index_8h.html#ad66e47d3ab90373abbed74b2150684b6">indexAccLat</a>(model_id);</div>
+<div class="line"><span class="lineno">  662</span>      <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  663</span>        <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  664</span> </div>
+<div class="line"><span class="lineno">  665</span>      <span class="keywordflow">if</span> (j == 0 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#adfd04fcbbe38ec4ff4e459428effb9c3">hasAccLon</a>(model_id))</div>
+<div class="line"><span class="lineno">  666</span>        jx = <a class="code hl_function" href="state__index_8h.html#ab105e6a60cc8283741f7cf2df3c54910">indexAccLon</a>(model_id);</div>
+<div class="line"><span class="lineno">  667</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (j == 1 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a5b79405148126a55ecfa431389924b59">hasAccLat</a>(model_id))</div>
+<div class="line"><span class="lineno">  668</span>        jx = <a class="code hl_function" href="state__index_8h.html#ad66e47d3ab90373abbed74b2150684b6">indexAccLat</a>(model_id);</div>
+<div class="line"><span class="lineno">  669</span>      <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  670</span>        <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  671</span> </div>
+<div class="line"><span class="lineno">  672</span>      acc_lon_lat.covariance.at(6 * i + j) = <a class="code hl_function" href="convenience__state__getters_8h.html#a8cfa17fdf6b3287ee1970c5d94839f7b">getContinuousStateCovarianceAt</a>(state, ix, jx);</div>
+<div class="line"><span class="lineno">  673</span>    }</div>
+<div class="line"><span class="lineno">  674</span>  }</div>
+<div class="line"><span class="lineno">  675</span> </div>
+<div class="line"><span class="lineno">  676</span>  tf2::Quaternion q;</div>
+<div class="line"><span class="lineno">  677</span>  q.setRPY(0.0, 0.0, <a class="code hl_function" href="state__getters_8h.html#aa05ce7c3d80795165cbb4830a3f97330">getYaw</a>(state));</div>
+<div class="line"><span class="lineno">  678</span>  gm::TransformStamped tf;</div>
+<div class="line"><span class="lineno">  679</span>  tf.transform.rotation = tf2::toMsg(q);</div>
+<div class="line"><span class="lineno">  680</span><span class="preprocessor">#ifdef ROS1</span></div>
+<div class="line"><span class="lineno">  681</span>  gm::PoseWithCovarianceStamped acc_lon_lat_stamped, acc_xyz_stamped;</div>
+<div class="line"><span class="lineno">  682</span>  acc_lon_lat_stamped.pose = acc_lon_lat;</div>
+<div class="line"><span class="lineno">  683</span>  tf2::doTransform(acc_lon_lat_stamped, acc_xyz_stamped, tf);</div>
+<div class="line"><span class="lineno">  684</span>  acc_xyz = acc_xyz_stamped.pose;</div>
+<div class="line"><span class="lineno">  685</span><span class="preprocessor">#else</span></div>
+<div class="line"><span class="lineno">  686</span>  tf2::doTransform(acc_lon_lat, acc_xyz, tf);</div>
+<div class="line"><span class="lineno">  687</span><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="lineno">  688</span>  <span class="keywordflow">return</span> acc_xyz;</div>
+<div class="line"><span class="lineno">  689</span>}</div>
+<div class="ttc" id="aconvenience__state__getters_8h_html_a8cfa17fdf6b3287ee1970c5d94839f7b"><div class="ttname"><a href="convenience__state__getters_8h.html#a8cfa17fdf6b3287ee1970c5d94839f7b">perception_msgs::object_access::getContinuousStateCovarianceAt</a></div><div class="ttdeci">double getContinuousStateCovarianceAt(const ObjectState &amp;state, const unsigned int i, const unsigned int j)</div><div class="ttdoc">Get the continuous state covariance entry (i,j) for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00101">convenience_state_getters.h:101</a></div></div>
+<div class="ttc" id="astate__index_8h_html_a5b79405148126a55ecfa431389924b59"><div class="ttname"><a href="state__index_8h.html#a5b79405148126a55ecfa431389924b59">perception_msgs::object_access::hasAccLat</a></div><div class="ttdeci">bool hasAccLat(const unsigned char &amp;model_id)</div><div class="ttdoc">Indicates if given model contains a lateral acceleration.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00649">state_index.h:649</a></div></div>
+<div class="ttc" id="astate__index_8h_html_ab105e6a60cc8283741f7cf2df3c54910"><div class="ttname"><a href="state__index_8h.html#ab105e6a60cc8283741f7cf2df3c54910">perception_msgs::object_access::indexAccLon</a></div><div class="ttdeci">int indexAccLon(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the longitudinal acceleration for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00135">state_index.h:135</a></div></div>
+<div class="ttc" id="astate__index_8h_html_ad66e47d3ab90373abbed74b2150684b6"><div class="ttname"><a href="state__index_8h.html#ad66e47d3ab90373abbed74b2150684b6">perception_msgs::object_access::indexAccLat</a></div><div class="ttdeci">int indexAccLat(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the lateral acceleration for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00156">state_index.h:156</a></div></div>
+<div class="ttc" id="astate__index_8h_html_adfd04fcbbe38ec4ff4e459428effb9c3"><div class="ttname"><a href="state__index_8h.html#adfd04fcbbe38ec4ff4e459428effb9c3">perception_msgs::object_access::hasAccLon</a></div><div class="ttdeci">bool hasAccLon(const unsigned char &amp;model_id)</div><div class="ttdoc">Indicates if given model contains a longitudinal acceleration.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00627">state_index.h:627</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -701,11 +694,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>gm::PoseWithCovariance </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00720">720</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  720</span>                                                                           {</div>
-<div class="line"><span class="lineno">  721</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#a0b8ca42c1eb66aea25cfd15aba68019f">getAccelerationXYZWithCovariance</a>(obj.state);</div>
-<div class="line"><span class="lineno">  722</span>}</div>
-<div class="ttc" id="aconvenience__state__getters_8h_html_a0b8ca42c1eb66aea25cfd15aba68019f"><div class="ttname"><a href="convenience__state__getters_8h.html#a0b8ca42c1eb66aea25cfd15aba68019f">perception_msgs::object_access::getAccelerationXYZWithCovariance</a></div><div class="ttdeci">gm::PoseWithCovariance getAccelerationXYZWithCovariance(const ObjectState &amp;state)</div><div class="ttdoc">Get the acceleration XYZ with covariance of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00669">convenience_state_getters.h:669</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00699">699</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  699</span>                                                                           {</div>
+<div class="line"><span class="lineno">  700</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#a0b8ca42c1eb66aea25cfd15aba68019f">getAccelerationXYZWithCovariance</a>(obj.state);</div>
+<div class="line"><span class="lineno">  701</span>}</div>
+<div class="ttc" id="aconvenience__state__getters_8h_html_a0b8ca42c1eb66aea25cfd15aba68019f"><div class="ttname"><a href="convenience__state__getters_8h.html#a0b8ca42c1eb66aea25cfd15aba68019f">perception_msgs::object_access::getAccelerationXYZWithCovariance</a></div><div class="ttdeci">gm::PoseWithCovariance getAccelerationXYZWithCovariance(const ObjectState &amp;state)</div><div class="ttdoc">Get the acceleration XYZ with covariance of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00648">convenience_state_getters.h:648</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -742,8 +735,8 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00759">759</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  759</span>{ <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#ad97682eeea3775abbb1411821627dcf2">getAccelerationXYZ</a>(state).x; }</div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00738">738</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  738</span>{ <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#ad97682eeea3775abbb1411821627dcf2">getAccelerationXYZ</a>(state).x; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -788,11 +781,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00769">769</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  769</span>                                    {</div>
-<div class="line"><span class="lineno">  770</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#a0c2b356dadbd0ac70785c724fa4caecb">getAccX</a>(obj.state);</div>
-<div class="line"><span class="lineno">  771</span>}</div>
-<div class="ttc" id="aconvenience__state__getters_8h_html_a0c2b356dadbd0ac70785c724fa4caecb"><div class="ttname"><a href="convenience__state__getters_8h.html#a0c2b356dadbd0ac70785c724fa4caecb">perception_msgs::object_access::getAccX</a></div><div class="ttdeci">double getAccX(const ObjectState &amp;state)</div><div class="ttdoc">Get the x-acceleration of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00759">convenience_state_getters.h:759</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00748">748</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  748</span>                                    {</div>
+<div class="line"><span class="lineno">  749</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#a0c2b356dadbd0ac70785c724fa4caecb">getAccX</a>(obj.state);</div>
+<div class="line"><span class="lineno">  750</span>}</div>
+<div class="ttc" id="aconvenience__state__getters_8h_html_a0c2b356dadbd0ac70785c724fa4caecb"><div class="ttname"><a href="convenience__state__getters_8h.html#a0c2b356dadbd0ac70785c724fa4caecb">perception_msgs::object_access::getAccX</a></div><div class="ttdeci">double getAccX(const ObjectState &amp;state)</div><div class="ttdoc">Get the x-acceleration of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00738">convenience_state_getters.h:738</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -829,8 +822,8 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00779">779</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  779</span>{ <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#ad97682eeea3775abbb1411821627dcf2">getAccelerationXYZ</a>(state).y; }</div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00758">758</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  758</span>{ <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#ad97682eeea3775abbb1411821627dcf2">getAccelerationXYZ</a>(state).y; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -875,11 +868,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00789">789</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  789</span>                                    {</div>
-<div class="line"><span class="lineno">  790</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#a65ff4616d81fb6814ab9f2ac900d69d7">getAccY</a>(obj.state);</div>
-<div class="line"><span class="lineno">  791</span>}</div>
-<div class="ttc" id="aconvenience__state__getters_8h_html_a65ff4616d81fb6814ab9f2ac900d69d7"><div class="ttname"><a href="convenience__state__getters_8h.html#a65ff4616d81fb6814ab9f2ac900d69d7">perception_msgs::object_access::getAccY</a></div><div class="ttdeci">double getAccY(const ObjectState &amp;state)</div><div class="ttdoc">Get the y-acceleration of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00779">convenience_state_getters.h:779</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00768">768</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  768</span>                                    {</div>
+<div class="line"><span class="lineno">  769</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#a65ff4616d81fb6814ab9f2ac900d69d7">getAccY</a>(obj.state);</div>
+<div class="line"><span class="lineno">  770</span>}</div>
+<div class="ttc" id="aconvenience__state__getters_8h_html_a65ff4616d81fb6814ab9f2ac900d69d7"><div class="ttname"><a href="convenience__state__getters_8h.html#a65ff4616d81fb6814ab9f2ac900d69d7">perception_msgs::object_access::getAccY</a></div><div class="ttdeci">double getAccY(const ObjectState &amp;state)</div><div class="ttdoc">Get the y-acceleration of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00758">convenience_state_getters.h:758</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -916,22 +909,22 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>gm::Point The position of the object's geometric center </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00242">242</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  242</span>                                                           {</div>
-<div class="line"><span class="lineno">  243</span>  gm::Point position = <a class="code hl_function" href="convenience__state__getters_8h.html#a80822ec4d1145dd8e31b4e3233be8e90">getPosition</a>(state);</div>
-<div class="line"><span class="lineno">  244</span>  <span class="keyword">const</span> <span class="keyword">auto</span> orientation = <a class="code hl_function" href="convenience__state__getters_8h.html#a83dc419f1567b27653dfba340c8793f7">getOrientation</a>(state);</div>
-<div class="line"><span class="lineno">  245</span>  <span class="keyword">const</span> gm::Vector3 offset_to_center = state.reference_point.translation_to_geometric_center;</div>
-<div class="line"><span class="lineno">  246</span>  tf2::Quaternion q;</div>
-<div class="line"><span class="lineno">  247</span>  tf2::fromMsg(orientation, q);</div>
-<div class="line"><span class="lineno">  248</span>  <span class="keyword">const</span> tf2::Vector3 offset_to_center_tf2(offset_to_center.x, offset_to_center.y, offset_to_center.z);</div>
-<div class="line"><span class="lineno">  249</span>  <span class="keyword">const</span> tf2::Vector3 rotated_offset_to_center = tf2::quatRotate(q, offset_to_center_tf2);</div>
-<div class="line"><span class="lineno">  250</span>  position.x += rotated_offset_to_center.x();</div>
-<div class="line"><span class="lineno">  251</span>  position.y += rotated_offset_to_center.y();</div>
-<div class="line"><span class="lineno">  252</span>  position.z += rotated_offset_to_center.z();</div>
-<div class="line"><span class="lineno">  253</span>  <span class="keywordflow">return</span> position;</div>
-<div class="line"><span class="lineno">  254</span>}</div>
-<div class="ttc" id="aconvenience__state__getters_8h_html_a80822ec4d1145dd8e31b4e3233be8e90"><div class="ttname"><a href="convenience__state__getters_8h.html#a80822ec4d1145dd8e31b4e3233be8e90">perception_msgs::object_access::getPosition</a></div><div class="ttdeci">gm::Point getPosition(const ObjectState &amp;state)</div><div class="ttdoc">Get the position of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00175">convenience_state_getters.h:175</a></div></div>
-<div class="ttc" id="aconvenience__state__getters_8h_html_a83dc419f1567b27653dfba340c8793f7"><div class="ttname"><a href="convenience__state__getters_8h.html#a83dc419f1567b27653dfba340c8793f7">perception_msgs::object_access::getOrientation</a></div><div class="ttdeci">gm::Quaternion getOrientation(const ObjectState &amp;state)</div><div class="ttdoc">Get the orientation of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00201">convenience_state_getters.h:201</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00221">221</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  221</span>                                                           {</div>
+<div class="line"><span class="lineno">  222</span>  gm::Point position = <a class="code hl_function" href="convenience__state__getters_8h.html#a80822ec4d1145dd8e31b4e3233be8e90">getPosition</a>(state);</div>
+<div class="line"><span class="lineno">  223</span>  <span class="keyword">const</span> <span class="keyword">auto</span> orientation = <a class="code hl_function" href="convenience__state__getters_8h.html#a83dc419f1567b27653dfba340c8793f7">getOrientation</a>(state);</div>
+<div class="line"><span class="lineno">  224</span>  <span class="keyword">const</span> gm::Vector3 offset_to_center = state.reference_point.translation_to_geometric_center;</div>
+<div class="line"><span class="lineno">  225</span>  tf2::Quaternion q;</div>
+<div class="line"><span class="lineno">  226</span>  tf2::fromMsg(orientation, q);</div>
+<div class="line"><span class="lineno">  227</span>  <span class="keyword">const</span> tf2::Vector3 offset_to_center_tf2(offset_to_center.x, offset_to_center.y, offset_to_center.z);</div>
+<div class="line"><span class="lineno">  228</span>  <span class="keyword">const</span> tf2::Vector3 rotated_offset_to_center = tf2::quatRotate(q, offset_to_center_tf2);</div>
+<div class="line"><span class="lineno">  229</span>  position.x += rotated_offset_to_center.x();</div>
+<div class="line"><span class="lineno">  230</span>  position.y += rotated_offset_to_center.y();</div>
+<div class="line"><span class="lineno">  231</span>  position.z += rotated_offset_to_center.z();</div>
+<div class="line"><span class="lineno">  232</span>  <span class="keywordflow">return</span> position;</div>
+<div class="line"><span class="lineno">  233</span>}</div>
+<div class="ttc" id="aconvenience__state__getters_8h_html_a80822ec4d1145dd8e31b4e3233be8e90"><div class="ttname"><a href="convenience__state__getters_8h.html#a80822ec4d1145dd8e31b4e3233be8e90">perception_msgs::object_access::getPosition</a></div><div class="ttdeci">gm::Point getPosition(const ObjectState &amp;state)</div><div class="ttdoc">Get the position of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00154">convenience_state_getters.h:154</a></div></div>
+<div class="ttc" id="aconvenience__state__getters_8h_html_a83dc419f1567b27653dfba340c8793f7"><div class="ttname"><a href="convenience__state__getters_8h.html#a83dc419f1567b27653dfba340c8793f7">perception_msgs::object_access::getOrientation</a></div><div class="ttdeci">gm::Quaternion getOrientation(const ObjectState &amp;state)</div><div class="ttdoc">Get the orientation of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00180">convenience_state_getters.h:180</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -976,11 +969,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>gm::Position The position of the object's geometric center </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00264">264</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  264</span>                                                  {</div>
-<div class="line"><span class="lineno">  265</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#a407ce0045d5996ecaf3c8fee59862c83">getCenterPosition</a>(<span class="keywordtype">object</span>.state);</div>
-<div class="line"><span class="lineno">  266</span>}</div>
-<div class="ttc" id="aconvenience__state__getters_8h_html_a407ce0045d5996ecaf3c8fee59862c83"><div class="ttname"><a href="convenience__state__getters_8h.html#a407ce0045d5996ecaf3c8fee59862c83">perception_msgs::object_access::getCenterPosition</a></div><div class="ttdeci">gm::Point getCenterPosition(const ObjectState &amp;state)</div><div class="ttdoc">Get the object's geometric center position.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00242">convenience_state_getters.h:242</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00243">243</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  243</span>                                                  {</div>
+<div class="line"><span class="lineno">  244</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#a407ce0045d5996ecaf3c8fee59862c83">getCenterPosition</a>(<span class="keywordtype">object</span>.state);</div>
+<div class="line"><span class="lineno">  245</span>}</div>
+<div class="ttc" id="aconvenience__state__getters_8h_html_a407ce0045d5996ecaf3c8fee59862c83"><div class="ttname"><a href="convenience__state__getters_8h.html#a407ce0045d5996ecaf3c8fee59862c83">perception_msgs::object_access::getCenterPosition</a></div><div class="ttdeci">gm::Point getCenterPosition(const ObjectState &amp;state)</div><div class="ttdoc">Get the object's geometric center position.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00221">convenience_state_getters.h:221</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1017,20 +1010,20 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ObjectClassification </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00801">801</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  801</span>                                                                                     {</div>
-<div class="line"><span class="lineno">  802</span>  ObjectClassification highest_prob_class;</div>
-<div class="line"><span class="lineno">  803</span>  <span class="keyword">auto</span> highest_prob_class_it = std::max_element(</div>
-<div class="line"><span class="lineno">  804</span>      state.classifications.begin(), state.classifications.end(),</div>
-<div class="line"><span class="lineno">  805</span>      [](<span class="keyword">const</span> ObjectClassification&amp; c1, <span class="keyword">const</span> ObjectClassification&amp; c2) { return c1.probability &lt; c2.probability; });</div>
-<div class="line"><span class="lineno">  806</span>  <span class="keywordflow">if</span> (highest_prob_class_it == state.classifications.end()) {</div>
-<div class="line"><span class="lineno">  807</span>    highest_prob_class.probability = -1.0;</div>
-<div class="line"><span class="lineno">  808</span>    highest_prob_class.type = ObjectClassification::UNKNOWN;</div>
-<div class="line"><span class="lineno">  809</span>  } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  810</span>    highest_prob_class = *highest_prob_class_it;</div>
-<div class="line"><span class="lineno">  811</span>  }</div>
-<div class="line"><span class="lineno">  812</span>  <span class="keywordflow">return</span> highest_prob_class;</div>
-<div class="line"><span class="lineno">  813</span>}</div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00780">780</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  780</span>                                                                                     {</div>
+<div class="line"><span class="lineno">  781</span>  ObjectClassification highest_prob_class;</div>
+<div class="line"><span class="lineno">  782</span>  <span class="keyword">auto</span> highest_prob_class_it = std::max_element(</div>
+<div class="line"><span class="lineno">  783</span>      state.classifications.begin(), state.classifications.end(),</div>
+<div class="line"><span class="lineno">  784</span>      [](<span class="keyword">const</span> ObjectClassification&amp; c1, <span class="keyword">const</span> ObjectClassification&amp; c2) { return c1.probability &lt; c2.probability; });</div>
+<div class="line"><span class="lineno">  785</span>  <span class="keywordflow">if</span> (highest_prob_class_it == state.classifications.end()) {</div>
+<div class="line"><span class="lineno">  786</span>    highest_prob_class.probability = -1.0;</div>
+<div class="line"><span class="lineno">  787</span>    highest_prob_class.type = ObjectClassification::UNKNOWN;</div>
+<div class="line"><span class="lineno">  788</span>  } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  789</span>    highest_prob_class = *highest_prob_class_it;</div>
+<div class="line"><span class="lineno">  790</span>  }</div>
+<div class="line"><span class="lineno">  791</span>  <span class="keywordflow">return</span> highest_prob_class;</div>
+<div class="line"><span class="lineno">  792</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1075,11 +1068,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>ObjectClassification </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00823">823</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  823</span>                                                                         {</div>
-<div class="line"><span class="lineno">  824</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#a0df5f4b1432f61c35f0623718bd5ac2a">getClassWithHighestProbability</a>(obj.state);</div>
-<div class="line"><span class="lineno">  825</span>}</div>
-<div class="ttc" id="aconvenience__state__getters_8h_html_a0df5f4b1432f61c35f0623718bd5ac2a"><div class="ttname"><a href="convenience__state__getters_8h.html#a0df5f4b1432f61c35f0623718bd5ac2a">perception_msgs::object_access::getClassWithHighestProbability</a></div><div class="ttdeci">ObjectClassification getClassWithHighestProbability(const ObjectState &amp;state)</div><div class="ttdoc">Get the classification with highest probability of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00801">convenience_state_getters.h:801</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00802">802</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  802</span>                                                                         {</div>
+<div class="line"><span class="lineno">  803</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#a0df5f4b1432f61c35f0623718bd5ac2a">getClassWithHighestProbability</a>(obj.state);</div>
+<div class="line"><span class="lineno">  804</span>}</div>
+<div class="ttc" id="aconvenience__state__getters_8h_html_a0df5f4b1432f61c35f0623718bd5ac2a"><div class="ttname"><a href="convenience__state__getters_8h.html#a0df5f4b1432f61c35f0623718bd5ac2a">perception_msgs::object_access::getClassWithHighestProbability</a></div><div class="ttdeci">ObjectClassification getClassWithHighestProbability(const ObjectState &amp;state)</div><div class="ttdoc">Get the classification with highest probability of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00780">convenience_state_getters.h:780</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1116,12 +1109,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>std::vector&lt;double&gt; </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00051">51</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   51</span>                                                                      {</div>
-<div class="line"><span class="lineno">   52</span>  <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
-<div class="line"><span class="lineno">   53</span>  <span class="keywordflow">return</span> state.continuous_state;</div>
-<div class="line"><span class="lineno">   54</span>}</div>
-<div class="ttc" id="achecks_8h_html_a2c46c886f8f96032a876a3734b6f142f"><div class="ttname"><a href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">perception_msgs::object_access::sanityCheckContinuousState</a></div><div class="ttdeci">void sanityCheckContinuousState(const ObjectState &amp;state)</div><div class="ttdoc">Perform sanity check on continuous state of given object state.</div><div class="ttdef"><b>Definition</b> <a href="checks_8h_source.html#l00084">checks.h:84</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00030">30</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   30</span>                                                                      {</div>
+<div class="line"><span class="lineno">   31</span>  <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
+<div class="line"><span class="lineno">   32</span>  <span class="keywordflow">return</span> state.continuous_state;</div>
+<div class="line"><span class="lineno">   33</span>}</div>
+<div class="ttc" id="achecks_8h_html_a2c46c886f8f96032a876a3734b6f142f"><div class="ttname"><a href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">perception_msgs::object_access::sanityCheckContinuousState</a></div><div class="ttdeci">void sanityCheckContinuousState(const ObjectState &amp;state)</div><div class="ttdoc">Perform sanity check on continuous state of given object state.</div><div class="ttdef"><b>Definition</b> <a href="checks_8h_source.html#l00063">checks.h:63</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1166,11 +1159,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>std::vector&lt;double&gt; </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00064">64</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   64</span>                                                          {</div>
-<div class="line"><span class="lineno">   65</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#a660e241c5426ed73f6a66f46282b463f">getContinuousState</a>(obj.state);</div>
-<div class="line"><span class="lineno">   66</span>}</div>
-<div class="ttc" id="aconvenience__state__getters_8h_html_a660e241c5426ed73f6a66f46282b463f"><div class="ttname"><a href="convenience__state__getters_8h.html#a660e241c5426ed73f6a66f46282b463f">perception_msgs::object_access::getContinuousState</a></div><div class="ttdeci">std::vector&lt; double &gt; getContinuousState(const ObjectState &amp;state)</div><div class="ttdoc">Get the continuous state for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00051">convenience_state_getters.h:51</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00043">43</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   43</span>                                                          {</div>
+<div class="line"><span class="lineno">   44</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#a660e241c5426ed73f6a66f46282b463f">getContinuousState</a>(obj.state);</div>
+<div class="line"><span class="lineno">   45</span>}</div>
+<div class="ttc" id="aconvenience__state__getters_8h_html_a660e241c5426ed73f6a66f46282b463f"><div class="ttname"><a href="convenience__state__getters_8h.html#a660e241c5426ed73f6a66f46282b463f">perception_msgs::object_access::getContinuousState</a></div><div class="ttdeci">std::vector&lt; double &gt; getContinuousState(const ObjectState &amp;state)</div><div class="ttdoc">Get the continuous state for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00030">convenience_state_getters.h:30</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1207,11 +1200,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>std::vector&lt;double&gt; </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00097">97</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   97</span>                                                                                {</div>
-<div class="line"><span class="lineno">   98</span>  <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
-<div class="line"><span class="lineno">   99</span>  <span class="keywordflow">return</span> state.continuous_state_covariance;</div>
-<div class="line"><span class="lineno">  100</span>}</div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00076">76</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   76</span>                                                                                {</div>
+<div class="line"><span class="lineno">   77</span>  <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
+<div class="line"><span class="lineno">   78</span>  <span class="keywordflow">return</span> state.continuous_state_covariance;</div>
+<div class="line"><span class="lineno">   79</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1256,11 +1249,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>std::vector&lt;double&gt; </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00110">110</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  110</span>                                                                    {</div>
-<div class="line"><span class="lineno">  111</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#a3dedad0790e892ef68f0abbed463a1fa">getContinuousStateCovariance</a>(obj.state);</div>
-<div class="line"><span class="lineno">  112</span>}</div>
-<div class="ttc" id="aconvenience__state__getters_8h_html_a3dedad0790e892ef68f0abbed463a1fa"><div class="ttname"><a href="convenience__state__getters_8h.html#a3dedad0790e892ef68f0abbed463a1fa">perception_msgs::object_access::getContinuousStateCovariance</a></div><div class="ttdeci">std::vector&lt; double &gt; getContinuousStateCovariance(const ObjectState &amp;state)</div><div class="ttdoc">Get the continuous state covariance for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00097">convenience_state_getters.h:97</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00089">89</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   89</span>                                                                    {</div>
+<div class="line"><span class="lineno">   90</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#a3dedad0790e892ef68f0abbed463a1fa">getContinuousStateCovariance</a>(obj.state);</div>
+<div class="line"><span class="lineno">   91</span>}</div>
+<div class="ttc" id="aconvenience__state__getters_8h_html_a3dedad0790e892ef68f0abbed463a1fa"><div class="ttname"><a href="convenience__state__getters_8h.html#a3dedad0790e892ef68f0abbed463a1fa">perception_msgs::object_access::getContinuousStateCovariance</a></div><div class="ttdeci">std::vector&lt; double &gt; getContinuousStateCovariance(const ObjectState &amp;state)</div><div class="ttdoc">Get the continuous state covariance for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00076">convenience_state_getters.h:76</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1315,13 +1308,13 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00122">122</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  122</span>                                                                                                                   {</div>
-<div class="line"><span class="lineno">  123</span>  <span class="keyword">const</span> <span class="keywordtype">int</span> n = <a class="code hl_function" href="utils_8h.html#a6bf2062b73ede62ff74997408ed00bd7">getContinuousStateSize</a>(state);</div>
-<div class="line"><span class="lineno">  124</span>  <span class="keyword">const</span> std::vector&lt;double&gt; covariance = <a class="code hl_function" href="convenience__state__getters_8h.html#a3dedad0790e892ef68f0abbed463a1fa">getContinuousStateCovariance</a>(state);</div>
-<div class="line"><span class="lineno">  125</span>  <span class="keywordflow">return</span> covariance[n * i + j];</div>
-<div class="line"><span class="lineno">  126</span>}</div>
-<div class="ttc" id="autils_8h_html_a6bf2062b73ede62ff74997408ed00bd7"><div class="ttname"><a href="utils_8h.html#a6bf2062b73ede62ff74997408ed00bd7">perception_msgs::object_access::getContinuousStateSize</a></div><div class="ttdeci">int getContinuousStateSize(const ObjectState &amp;state)</div><div class="ttdoc">Get the continuous state size for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="utils_8h_source.html#l00051">utils.h:51</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00101">101</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  101</span>                                                                                                                   {</div>
+<div class="line"><span class="lineno">  102</span>  <span class="keyword">const</span> <span class="keywordtype">int</span> n = <a class="code hl_function" href="utils_8h.html#a6bf2062b73ede62ff74997408ed00bd7">getContinuousStateSize</a>(state);</div>
+<div class="line"><span class="lineno">  103</span>  <span class="keyword">const</span> std::vector&lt;double&gt; covariance = <a class="code hl_function" href="convenience__state__getters_8h.html#a3dedad0790e892ef68f0abbed463a1fa">getContinuousStateCovariance</a>(state);</div>
+<div class="line"><span class="lineno">  104</span>  <span class="keywordflow">return</span> covariance[n * i + j];</div>
+<div class="line"><span class="lineno">  105</span>}</div>
+<div class="ttc" id="autils_8h_html_a6bf2062b73ede62ff74997408ed00bd7"><div class="ttname"><a href="utils_8h.html#a6bf2062b73ede62ff74997408ed00bd7">perception_msgs::object_access::getContinuousStateSize</a></div><div class="ttdeci">int getContinuousStateSize(const ObjectState &amp;state)</div><div class="ttdoc">Get the continuous state size for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="utils_8h_source.html#l00030">utils.h:30</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1384,10 +1377,10 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00138">138</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  138</span>                                                                                                       {</div>
-<div class="line"><span class="lineno">  139</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#a8cfa17fdf6b3287ee1970c5d94839f7b">getContinuousStateCovarianceAt</a>(obj.state, i, j);</div>
-<div class="line"><span class="lineno">  140</span>}</div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00117">117</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  117</span>                                                                                                       {</div>
+<div class="line"><span class="lineno">  118</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#a8cfa17fdf6b3287ee1970c5d94839f7b">getContinuousStateCovarianceAt</a>(obj.state, i, j);</div>
+<div class="line"><span class="lineno">  119</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1424,13 +1417,13 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>std::vector&lt;double&gt; </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00148">148</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  148</span>                                                                                        {</div>
-<div class="line"><span class="lineno">  149</span>  <span class="keyword">const</span> <span class="keywordtype">int</span> n = <a class="code hl_function" href="utils_8h.html#a6bf2062b73ede62ff74997408ed00bd7">getContinuousStateSize</a>(state);</div>
-<div class="line"><span class="lineno">  150</span>  std::vector&lt;double&gt; diagonal(n);</div>
-<div class="line"><span class="lineno">  151</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; i++) diagonal[i] = <a class="code hl_function" href="convenience__state__getters_8h.html#a8cfa17fdf6b3287ee1970c5d94839f7b">getContinuousStateCovarianceAt</a>(state, i, i);</div>
-<div class="line"><span class="lineno">  152</span>  <span class="keywordflow">return</span> diagonal;</div>
-<div class="line"><span class="lineno">  153</span>}</div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00127">127</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  127</span>                                                                                        {</div>
+<div class="line"><span class="lineno">  128</span>  <span class="keyword">const</span> <span class="keywordtype">int</span> n = <a class="code hl_function" href="utils_8h.html#a6bf2062b73ede62ff74997408ed00bd7">getContinuousStateSize</a>(state);</div>
+<div class="line"><span class="lineno">  129</span>  std::vector&lt;double&gt; diagonal(n);</div>
+<div class="line"><span class="lineno">  130</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; i++) diagonal[i] = <a class="code hl_function" href="convenience__state__getters_8h.html#a8cfa17fdf6b3287ee1970c5d94839f7b">getContinuousStateCovarianceAt</a>(state, i, i);</div>
+<div class="line"><span class="lineno">  131</span>  <span class="keywordflow">return</span> diagonal;</div>
+<div class="line"><span class="lineno">  132</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1475,11 +1468,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>std::vector&lt;double&gt; </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00163">163</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  163</span>                                                                            {</div>
-<div class="line"><span class="lineno">  164</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#ae04c350616f75e0a94bf356854c7328d">getContinuousStateCovarianceDiagonal</a>(obj.state);</div>
-<div class="line"><span class="lineno">  165</span>}</div>
-<div class="ttc" id="aconvenience__state__getters_8h_html_ae04c350616f75e0a94bf356854c7328d"><div class="ttname"><a href="convenience__state__getters_8h.html#ae04c350616f75e0a94bf356854c7328d">perception_msgs::object_access::getContinuousStateCovarianceDiagonal</a></div><div class="ttdeci">std::vector&lt; double &gt; getContinuousStateCovarianceDiagonal(const ObjectState &amp;state)</div><div class="ttdoc">Get the continuous state covariance diagonal for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00148">convenience_state_getters.h:148</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00142">142</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  142</span>                                                                            {</div>
+<div class="line"><span class="lineno">  143</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#ae04c350616f75e0a94bf356854c7328d">getContinuousStateCovarianceDiagonal</a>(obj.state);</div>
+<div class="line"><span class="lineno">  144</span>}</div>
+<div class="ttc" id="aconvenience__state__getters_8h_html_ae04c350616f75e0a94bf356854c7328d"><div class="ttname"><a href="convenience__state__getters_8h.html#ae04c350616f75e0a94bf356854c7328d">perception_msgs::object_access::getContinuousStateCovarianceDiagonal</a></div><div class="ttdeci">std::vector&lt; double &gt; getContinuousStateCovarianceDiagonal(const ObjectState &amp;state)</div><div class="ttdoc">Get the continuous state covariance diagonal for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00127">convenience_state_getters.h:127</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1516,11 +1509,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>std::vector&lt;long int&gt; </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00074">74</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   74</span>                                                                      {</div>
-<div class="line"><span class="lineno">   75</span>  <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
-<div class="line"><span class="lineno">   76</span>  <span class="keywordflow">return</span> state.discrete_state;</div>
-<div class="line"><span class="lineno">   77</span>}</div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00053">53</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   53</span>                                                                      {</div>
+<div class="line"><span class="lineno">   54</span>  <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
+<div class="line"><span class="lineno">   55</span>  <span class="keywordflow">return</span> state.discrete_state;</div>
+<div class="line"><span class="lineno">   56</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1565,11 +1558,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>std::vector&lt;long int&gt; </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00087">87</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   87</span>                                                          {</div>
-<div class="line"><span class="lineno">   88</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#ae86d5b78d80b979f6bc34257a04b3576">getDiscreteState</a>(obj.state);</div>
-<div class="line"><span class="lineno">   89</span>}</div>
-<div class="ttc" id="aconvenience__state__getters_8h_html_ae86d5b78d80b979f6bc34257a04b3576"><div class="ttname"><a href="convenience__state__getters_8h.html#ae86d5b78d80b979f6bc34257a04b3576">perception_msgs::object_access::getDiscreteState</a></div><div class="ttdeci">std::vector&lt; long int &gt; getDiscreteState(const ObjectState &amp;state)</div><div class="ttdoc">Get the discrete state for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00074">convenience_state_getters.h:74</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00066">66</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   66</span>                                                          {</div>
+<div class="line"><span class="lineno">   67</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#ae86d5b78d80b979f6bc34257a04b3576">getDiscreteState</a>(obj.state);</div>
+<div class="line"><span class="lineno">   68</span>}</div>
+<div class="ttc" id="aconvenience__state__getters_8h_html_ae86d5b78d80b979f6bc34257a04b3576"><div class="ttname"><a href="convenience__state__getters_8h.html#ae86d5b78d80b979f6bc34257a04b3576">perception_msgs::object_access::getDiscreteState</a></div><div class="ttdeci">std::vector&lt; long int &gt; getDiscreteState(const ObjectState &amp;state)</div><div class="ttdoc">Get the discrete state for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00053">convenience_state_getters.h:53</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1606,21 +1599,21 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>gm::Quaternion </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00201">201</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  201</span>                                                             {</div>
-<div class="line"><span class="lineno">  202</span>  tf2::Quaternion q;</div>
-<div class="line"><span class="lineno">  203</span>  <span class="keywordtype">double</span> roll{0}, pitch{0}, yaw{0};</div>
-<div class="line"><span class="lineno">  204</span>  <span class="keywordflow">if</span> (<a class="code hl_function" href="state__index_8h.html#a82437731316873a1570d4c282a2290e0">hasRoll</a>(state.model_id)) roll = <a class="code hl_function" href="state__getters_8h.html#a255367277a33bce850202984931fbba9">getRoll</a>(state);</div>
-<div class="line"><span class="lineno">  205</span>  <span class="keywordflow">if</span> (<a class="code hl_function" href="state__index_8h.html#ad1844d1739475a3fac56b0858a53bb61">hasPitch</a>(state.model_id)) pitch = <a class="code hl_function" href="state__getters_8h.html#a94f384d26e33582f653bec2ac8c047c9">getPitch</a>(state);</div>
-<div class="line"><span class="lineno">  206</span>  <span class="keywordflow">if</span> (<a class="code hl_function" href="state__index_8h.html#a0d2fed65738ffb859d258d3853ae0a9d">hasYaw</a>(state.model_id)) yaw = <a class="code hl_function" href="state__getters_8h.html#aa05ce7c3d80795165cbb4830a3f97330">getYaw</a>(state);</div>
-<div class="line"><span class="lineno">  207</span>  q.setRPY(roll, pitch, yaw);</div>
-<div class="line"><span class="lineno">  208</span>  <span class="keywordflow">return</span> tf2::toMsg(q);</div>
-<div class="line"><span class="lineno">  209</span>}</div>
-<div class="ttc" id="astate__getters_8h_html_a255367277a33bce850202984931fbba9"><div class="ttname"><a href="state__getters_8h.html#a255367277a33bce850202984931fbba9">perception_msgs::object_access::getRoll</a></div><div class="ttdeci">double getRoll(const ObjectState &amp;state)</div><div class="ttdoc">Get the roll for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00207">state_getters.h:207</a></div></div>
-<div class="ttc" id="astate__getters_8h_html_a94f384d26e33582f653bec2ac8c047c9"><div class="ttname"><a href="state__getters_8h.html#a94f384d26e33582f653bec2ac8c047c9">perception_msgs::object_access::getPitch</a></div><div class="ttdeci">double getPitch(const ObjectState &amp;state)</div><div class="ttdoc">Get the pitch for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00253">state_getters.h:253</a></div></div>
-<div class="ttc" id="astate__index_8h_html_a0d2fed65738ffb859d258d3853ae0a9d"><div class="ttname"><a href="state__index_8h.html#a0d2fed65738ffb859d258d3853ae0a9d">perception_msgs::object_access::hasYaw</a></div><div class="ttdeci">bool hasYaw(const unsigned char &amp;model_id)</div><div class="ttdoc">Indicates if given model contains a yaw.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00780">state_index.h:780</a></div></div>
-<div class="ttc" id="astate__index_8h_html_a82437731316873a1570d4c282a2290e0"><div class="ttname"><a href="state__index_8h.html#a82437731316873a1570d4c282a2290e0">perception_msgs::object_access::hasRoll</a></div><div class="ttdeci">bool hasRoll(const unsigned char &amp;model_id)</div><div class="ttdoc">Indicates if given model contains a roll.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00692">state_index.h:692</a></div></div>
-<div class="ttc" id="astate__index_8h_html_ad1844d1739475a3fac56b0858a53bb61"><div class="ttname"><a href="state__index_8h.html#ad1844d1739475a3fac56b0858a53bb61">perception_msgs::object_access::hasPitch</a></div><div class="ttdeci">bool hasPitch(const unsigned char &amp;model_id)</div><div class="ttdoc">Indicates if given model contains a pitch.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00736">state_index.h:736</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00180">180</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  180</span>                                                             {</div>
+<div class="line"><span class="lineno">  181</span>  tf2::Quaternion q;</div>
+<div class="line"><span class="lineno">  182</span>  <span class="keywordtype">double</span> roll{0}, pitch{0}, yaw{0};</div>
+<div class="line"><span class="lineno">  183</span>  <span class="keywordflow">if</span> (<a class="code hl_function" href="state__index_8h.html#a82437731316873a1570d4c282a2290e0">hasRoll</a>(state.model_id)) roll = <a class="code hl_function" href="state__getters_8h.html#a255367277a33bce850202984931fbba9">getRoll</a>(state);</div>
+<div class="line"><span class="lineno">  184</span>  <span class="keywordflow">if</span> (<a class="code hl_function" href="state__index_8h.html#ad1844d1739475a3fac56b0858a53bb61">hasPitch</a>(state.model_id)) pitch = <a class="code hl_function" href="state__getters_8h.html#a94f384d26e33582f653bec2ac8c047c9">getPitch</a>(state);</div>
+<div class="line"><span class="lineno">  185</span>  <span class="keywordflow">if</span> (<a class="code hl_function" href="state__index_8h.html#a0d2fed65738ffb859d258d3853ae0a9d">hasYaw</a>(state.model_id)) yaw = <a class="code hl_function" href="state__getters_8h.html#aa05ce7c3d80795165cbb4830a3f97330">getYaw</a>(state);</div>
+<div class="line"><span class="lineno">  186</span>  q.setRPY(roll, pitch, yaw);</div>
+<div class="line"><span class="lineno">  187</span>  <span class="keywordflow">return</span> tf2::toMsg(q);</div>
+<div class="line"><span class="lineno">  188</span>}</div>
+<div class="ttc" id="astate__getters_8h_html_a255367277a33bce850202984931fbba9"><div class="ttname"><a href="state__getters_8h.html#a255367277a33bce850202984931fbba9">perception_msgs::object_access::getRoll</a></div><div class="ttdeci">double getRoll(const ObjectState &amp;state)</div><div class="ttdoc">Get the roll for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00186">state_getters.h:186</a></div></div>
+<div class="ttc" id="astate__getters_8h_html_a94f384d26e33582f653bec2ac8c047c9"><div class="ttname"><a href="state__getters_8h.html#a94f384d26e33582f653bec2ac8c047c9">perception_msgs::object_access::getPitch</a></div><div class="ttdeci">double getPitch(const ObjectState &amp;state)</div><div class="ttdoc">Get the pitch for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00232">state_getters.h:232</a></div></div>
+<div class="ttc" id="astate__index_8h_html_a0d2fed65738ffb859d258d3853ae0a9d"><div class="ttname"><a href="state__index_8h.html#a0d2fed65738ffb859d258d3853ae0a9d">perception_msgs::object_access::hasYaw</a></div><div class="ttdeci">bool hasYaw(const unsigned char &amp;model_id)</div><div class="ttdoc">Indicates if given model contains a yaw.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00759">state_index.h:759</a></div></div>
+<div class="ttc" id="astate__index_8h_html_a82437731316873a1570d4c282a2290e0"><div class="ttname"><a href="state__index_8h.html#a82437731316873a1570d4c282a2290e0">perception_msgs::object_access::hasRoll</a></div><div class="ttdeci">bool hasRoll(const unsigned char &amp;model_id)</div><div class="ttdoc">Indicates if given model contains a roll.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00671">state_index.h:671</a></div></div>
+<div class="ttc" id="astate__index_8h_html_ad1844d1739475a3fac56b0858a53bb61"><div class="ttname"><a href="state__index_8h.html#ad1844d1739475a3fac56b0858a53bb61">perception_msgs::object_access::hasPitch</a></div><div class="ttdeci">bool hasPitch(const unsigned char &amp;model_id)</div><div class="ttdoc">Indicates if given model contains a pitch.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00715">state_index.h:715</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1665,10 +1658,10 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>gm::Quaternion </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00219">219</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  219</span>                                                 {</div>
-<div class="line"><span class="lineno">  220</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#a83dc419f1567b27653dfba340c8793f7">getOrientation</a>(obj.state);</div>
-<div class="line"><span class="lineno">  221</span>}</div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00198">198</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  198</span>                                                 {</div>
+<div class="line"><span class="lineno">  199</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#a83dc419f1567b27653dfba340c8793f7">getOrientation</a>(obj.state);</div>
+<div class="line"><span class="lineno">  200</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1705,8 +1698,8 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00497">497</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  497</span>{ <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a94f384d26e33582f653bec2ac8c047c9">getPitch</a>(state) * 180.0 / M_PI; }</div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00476">476</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  476</span>{ <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a94f384d26e33582f653bec2ac8c047c9">getPitch</a>(state) * 180.0 / M_PI; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1751,11 +1744,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00507">507</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  507</span>                                          {</div>
-<div class="line"><span class="lineno">  508</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#a4619d3a7ccc84770ab9c4ee61ec4d221">getPitchInDeg</a>(obj.state);</div>
-<div class="line"><span class="lineno">  509</span>}</div>
-<div class="ttc" id="aconvenience__state__getters_8h_html_a4619d3a7ccc84770ab9c4ee61ec4d221"><div class="ttname"><a href="convenience__state__getters_8h.html#a4619d3a7ccc84770ab9c4ee61ec4d221">perception_msgs::object_access::getPitchInDeg</a></div><div class="ttdeci">double getPitchInDeg(const ObjectState &amp;state)</div><div class="ttdoc">Get the pitch in degree of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00497">convenience_state_getters.h:497</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00486">486</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  486</span>                                          {</div>
+<div class="line"><span class="lineno">  487</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#a4619d3a7ccc84770ab9c4ee61ec4d221">getPitchInDeg</a>(obj.state);</div>
+<div class="line"><span class="lineno">  488</span>}</div>
+<div class="ttc" id="aconvenience__state__getters_8h_html_a4619d3a7ccc84770ab9c4ee61ec4d221"><div class="ttname"><a href="convenience__state__getters_8h.html#a4619d3a7ccc84770ab9c4ee61ec4d221">perception_msgs::object_access::getPitchInDeg</a></div><div class="ttdeci">double getPitchInDeg(const ObjectState &amp;state)</div><div class="ttdoc">Get the pitch in degree of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00476">convenience_state_getters.h:476</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1792,13 +1785,13 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>gm::Pose </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00229">229</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  229</span>                                                {</div>
-<div class="line"><span class="lineno">  230</span>  gm::Pose pose;</div>
-<div class="line"><span class="lineno">  231</span>  pose.position = <a class="code hl_function" href="convenience__state__getters_8h.html#a80822ec4d1145dd8e31b4e3233be8e90">getPosition</a>(state);</div>
-<div class="line"><span class="lineno">  232</span>  pose.orientation = <a class="code hl_function" href="convenience__state__getters_8h.html#a83dc419f1567b27653dfba340c8793f7">getOrientation</a>(state);</div>
-<div class="line"><span class="lineno">  233</span>  <span class="keywordflow">return</span> pose;</div>
-<div class="line"><span class="lineno">  234</span>}</div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00208">208</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  208</span>                                                {</div>
+<div class="line"><span class="lineno">  209</span>  gm::Pose pose;</div>
+<div class="line"><span class="lineno">  210</span>  pose.position = <a class="code hl_function" href="convenience__state__getters_8h.html#a80822ec4d1145dd8e31b4e3233be8e90">getPosition</a>(state);</div>
+<div class="line"><span class="lineno">  211</span>  pose.orientation = <a class="code hl_function" href="convenience__state__getters_8h.html#a83dc419f1567b27653dfba340c8793f7">getOrientation</a>(state);</div>
+<div class="line"><span class="lineno">  212</span>  <span class="keywordflow">return</span> pose;</div>
+<div class="line"><span class="lineno">  213</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1843,11 +1836,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>gm::Pose </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00276">276</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  276</span>                                    {</div>
-<div class="line"><span class="lineno">  277</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#acb3319700f5059df3108f218119f9b90">getPose</a>(obj.state);</div>
-<div class="line"><span class="lineno">  278</span>}</div>
-<div class="ttc" id="aconvenience__state__getters_8h_html_acb3319700f5059df3108f218119f9b90"><div class="ttname"><a href="convenience__state__getters_8h.html#acb3319700f5059df3108f218119f9b90">perception_msgs::object_access::getPose</a></div><div class="ttdeci">gm::Pose getPose(const ObjectState &amp;state)</div><div class="ttdoc">Get the pose of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00229">convenience_state_getters.h:229</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00255">255</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  255</span>                                    {</div>
+<div class="line"><span class="lineno">  256</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#acb3319700f5059df3108f218119f9b90">getPose</a>(obj.state);</div>
+<div class="line"><span class="lineno">  257</span>}</div>
+<div class="ttc" id="aconvenience__state__getters_8h_html_acb3319700f5059df3108f218119f9b90"><div class="ttname"><a href="convenience__state__getters_8h.html#acb3319700f5059df3108f218119f9b90">perception_msgs::object_access::getPose</a></div><div class="ttdeci">gm::Pose getPose(const ObjectState &amp;state)</div><div class="ttdoc">Get the pose of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00208">convenience_state_getters.h:208</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1884,58 +1877,58 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>std::vector&lt;double&gt; </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00286">286</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  286</span>                                                                     {</div>
-<div class="line"><span class="lineno">  287</span>  <span class="keyword">const</span> <span class="keywordtype">int</span> n = 6;</div>
-<div class="line"><span class="lineno">  288</span>  <span class="keyword">const</span> <span class="keywordtype">int</span> model_id = state.model_id;</div>
-<div class="line"><span class="lineno">  289</span>  std::vector&lt;double&gt; pose_covariance(n * n, 0.0);</div>
-<div class="line"><span class="lineno">  290</span>  <span class="keywordtype">int</span> ix, jx;</div>
-<div class="line"><span class="lineno">  291</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; i++) {</div>
-<div class="line"><span class="lineno">  292</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; n; j++) {</div>
-<div class="line"><span class="lineno">  293</span>      <span class="keywordflow">if</span> (i == 0 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a92aa04d852092ab388c3a96b46c87df1">hasX</a>(model_id))</div>
-<div class="line"><span class="lineno">  294</span>        ix = <a class="code hl_function" href="state__index_8h.html#ad76745fdc3a049874f52c174add5e4b1">indexX</a>(model_id);</div>
-<div class="line"><span class="lineno">  295</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (i == 1 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a62a2d683882f03a9dc8a62272e2d02f0">hasY</a>(model_id))</div>
-<div class="line"><span class="lineno">  296</span>        ix = <a class="code hl_function" href="state__index_8h.html#a9041c0ba2939e915f6bfd0eaa6ab7aab">indexY</a>(model_id);</div>
-<div class="line"><span class="lineno">  297</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (i == 2 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a36864ae5caa628a3c588cd9b3b7ab0f6">hasZ</a>(model_id))</div>
-<div class="line"><span class="lineno">  298</span>        ix = <a class="code hl_function" href="state__index_8h.html#aa827038964981f04ab5186befee299dc">indexZ</a>(model_id);</div>
-<div class="line"><span class="lineno">  299</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (i == 3 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a82437731316873a1570d4c282a2290e0">hasRoll</a>(model_id))</div>
-<div class="line"><span class="lineno">  300</span>        ix = <a class="code hl_function" href="state__index_8h.html#a232fcc2a2ab81f1b80785de88cc66b15">indexRoll</a>(model_id);</div>
-<div class="line"><span class="lineno">  301</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (i == 4 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#ad1844d1739475a3fac56b0858a53bb61">hasPitch</a>(model_id))</div>
-<div class="line"><span class="lineno">  302</span>        ix = <a class="code hl_function" href="state__index_8h.html#ad1d90e19c680994d595ca0430ff2af89">indexPitch</a>(model_id);</div>
-<div class="line"><span class="lineno">  303</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (i == 5 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a0d2fed65738ffb859d258d3853ae0a9d">hasYaw</a>(model_id))</div>
-<div class="line"><span class="lineno">  304</span>        ix = <a class="code hl_function" href="state__index_8h.html#ae0db1580f8971d9ca5d44f06a641618d">indexYaw</a>(model_id);</div>
-<div class="line"><span class="lineno">  305</span>      <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  306</span>        <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  307</span> </div>
-<div class="line"><span class="lineno">  308</span>      <span class="keywordflow">if</span> (j == 0 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a92aa04d852092ab388c3a96b46c87df1">hasX</a>(model_id))</div>
-<div class="line"><span class="lineno">  309</span>        jx = <a class="code hl_function" href="state__index_8h.html#ad76745fdc3a049874f52c174add5e4b1">indexX</a>(model_id);</div>
-<div class="line"><span class="lineno">  310</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (j == 1 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a62a2d683882f03a9dc8a62272e2d02f0">hasY</a>(model_id))</div>
-<div class="line"><span class="lineno">  311</span>        jx = <a class="code hl_function" href="state__index_8h.html#a9041c0ba2939e915f6bfd0eaa6ab7aab">indexY</a>(model_id);</div>
-<div class="line"><span class="lineno">  312</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (j == 2 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a36864ae5caa628a3c588cd9b3b7ab0f6">hasZ</a>(model_id))</div>
-<div class="line"><span class="lineno">  313</span>        jx = <a class="code hl_function" href="state__index_8h.html#aa827038964981f04ab5186befee299dc">indexZ</a>(model_id);</div>
-<div class="line"><span class="lineno">  314</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (j == 3 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a82437731316873a1570d4c282a2290e0">hasRoll</a>(model_id))</div>
-<div class="line"><span class="lineno">  315</span>        jx = <a class="code hl_function" href="state__index_8h.html#a232fcc2a2ab81f1b80785de88cc66b15">indexRoll</a>(model_id);</div>
-<div class="line"><span class="lineno">  316</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (j == 4 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#ad1844d1739475a3fac56b0858a53bb61">hasPitch</a>(model_id))</div>
-<div class="line"><span class="lineno">  317</span>        jx = <a class="code hl_function" href="state__index_8h.html#ad1d90e19c680994d595ca0430ff2af89">indexPitch</a>(model_id);</div>
-<div class="line"><span class="lineno">  318</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (j == 5 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a0d2fed65738ffb859d258d3853ae0a9d">hasYaw</a>(model_id))</div>
-<div class="line"><span class="lineno">  319</span>        jx = <a class="code hl_function" href="state__index_8h.html#ae0db1580f8971d9ca5d44f06a641618d">indexYaw</a>(model_id);</div>
-<div class="line"><span class="lineno">  320</span>      <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  321</span>        <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  322</span> </div>
-<div class="line"><span class="lineno">  323</span>      pose_covariance[n * i + j] = <a class="code hl_function" href="convenience__state__getters_8h.html#a8cfa17fdf6b3287ee1970c5d94839f7b">getContinuousStateCovarianceAt</a>(state, ix, jx);</div>
-<div class="line"><span class="lineno">  324</span>    }</div>
-<div class="line"><span class="lineno">  325</span>  }</div>
-<div class="line"><span class="lineno">  326</span>  <span class="keywordflow">return</span> pose_covariance;</div>
-<div class="line"><span class="lineno">  327</span>}</div>
-<div class="ttc" id="astate__index_8h_html_a232fcc2a2ab81f1b80785de88cc66b15"><div class="ttname"><a href="state__index_8h.html#a232fcc2a2ab81f1b80785de88cc66b15">perception_msgs::object_access::indexRoll</a></div><div class="ttdeci">int indexRoll(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the roll for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00198">state_index.h:198</a></div></div>
-<div class="ttc" id="astate__index_8h_html_a36864ae5caa628a3c588cd9b3b7ab0f6"><div class="ttname"><a href="state__index_8h.html#a36864ae5caa628a3c588cd9b3b7ab0f6">perception_msgs::object_access::hasZ</a></div><div class="ttdeci">bool hasZ(const unsigned char &amp;model_id)</div><div class="ttdoc">Indicates if given model contains a z-position.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00580">state_index.h:580</a></div></div>
-<div class="ttc" id="astate__index_8h_html_a62a2d683882f03a9dc8a62272e2d02f0"><div class="ttname"><a href="state__index_8h.html#a62a2d683882f03a9dc8a62272e2d02f0">perception_msgs::object_access::hasY</a></div><div class="ttdeci">bool hasY(const unsigned char &amp;model_id)</div><div class="ttdoc">Indicates if given model contains a y-position.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00556">state_index.h:556</a></div></div>
-<div class="ttc" id="astate__index_8h_html_a9041c0ba2939e915f6bfd0eaa6ab7aab"><div class="ttname"><a href="state__index_8h.html#a9041c0ba2939e915f6bfd0eaa6ab7aab">perception_msgs::object_access::indexY</a></div><div class="ttdeci">int indexY(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the y-position for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00068">state_index.h:68</a></div></div>
-<div class="ttc" id="astate__index_8h_html_a92aa04d852092ab388c3a96b46c87df1"><div class="ttname"><a href="state__index_8h.html#a92aa04d852092ab388c3a96b46c87df1">perception_msgs::object_access::hasX</a></div><div class="ttdeci">bool hasX(const unsigned char &amp;model_id)</div><div class="ttdoc">Indicates if given model contains an x-position.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00532">state_index.h:532</a></div></div>
-<div class="ttc" id="astate__index_8h_html_aa827038964981f04ab5186befee299dc"><div class="ttname"><a href="state__index_8h.html#aa827038964981f04ab5186befee299dc">perception_msgs::object_access::indexZ</a></div><div class="ttdeci">int indexZ(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the z-position for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00091">state_index.h:91</a></div></div>
-<div class="ttc" id="astate__index_8h_html_ad1d90e19c680994d595ca0430ff2af89"><div class="ttname"><a href="state__index_8h.html#ad1d90e19c680994d595ca0430ff2af89">perception_msgs::object_access::indexPitch</a></div><div class="ttdeci">int indexPitch(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the pitch for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00232">state_index.h:232</a></div></div>
-<div class="ttc" id="astate__index_8h_html_ad76745fdc3a049874f52c174add5e4b1"><div class="ttname"><a href="state__index_8h.html#ad76745fdc3a049874f52c174add5e4b1">perception_msgs::object_access::indexX</a></div><div class="ttdeci">int indexX(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the x-position for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00045">state_index.h:45</a></div></div>
-<div class="ttc" id="astate__index_8h_html_ae0db1580f8971d9ca5d44f06a641618d"><div class="ttname"><a href="state__index_8h.html#ae0db1580f8971d9ca5d44f06a641618d">perception_msgs::object_access::indexYaw</a></div><div class="ttdeci">int indexYaw(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the yaw for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00266">state_index.h:266</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00265">265</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  265</span>                                                                     {</div>
+<div class="line"><span class="lineno">  266</span>  <span class="keyword">const</span> <span class="keywordtype">int</span> n = 6;</div>
+<div class="line"><span class="lineno">  267</span>  <span class="keyword">const</span> <span class="keywordtype">int</span> model_id = state.model_id;</div>
+<div class="line"><span class="lineno">  268</span>  std::vector&lt;double&gt; pose_covariance(n * n, 0.0);</div>
+<div class="line"><span class="lineno">  269</span>  <span class="keywordtype">int</span> ix, jx;</div>
+<div class="line"><span class="lineno">  270</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; i++) {</div>
+<div class="line"><span class="lineno">  271</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; n; j++) {</div>
+<div class="line"><span class="lineno">  272</span>      <span class="keywordflow">if</span> (i == 0 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a92aa04d852092ab388c3a96b46c87df1">hasX</a>(model_id))</div>
+<div class="line"><span class="lineno">  273</span>        ix = <a class="code hl_function" href="state__index_8h.html#ad76745fdc3a049874f52c174add5e4b1">indexX</a>(model_id);</div>
+<div class="line"><span class="lineno">  274</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (i == 1 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a62a2d683882f03a9dc8a62272e2d02f0">hasY</a>(model_id))</div>
+<div class="line"><span class="lineno">  275</span>        ix = <a class="code hl_function" href="state__index_8h.html#a9041c0ba2939e915f6bfd0eaa6ab7aab">indexY</a>(model_id);</div>
+<div class="line"><span class="lineno">  276</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (i == 2 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a36864ae5caa628a3c588cd9b3b7ab0f6">hasZ</a>(model_id))</div>
+<div class="line"><span class="lineno">  277</span>        ix = <a class="code hl_function" href="state__index_8h.html#aa827038964981f04ab5186befee299dc">indexZ</a>(model_id);</div>
+<div class="line"><span class="lineno">  278</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (i == 3 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a82437731316873a1570d4c282a2290e0">hasRoll</a>(model_id))</div>
+<div class="line"><span class="lineno">  279</span>        ix = <a class="code hl_function" href="state__index_8h.html#a232fcc2a2ab81f1b80785de88cc66b15">indexRoll</a>(model_id);</div>
+<div class="line"><span class="lineno">  280</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (i == 4 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#ad1844d1739475a3fac56b0858a53bb61">hasPitch</a>(model_id))</div>
+<div class="line"><span class="lineno">  281</span>        ix = <a class="code hl_function" href="state__index_8h.html#ad1d90e19c680994d595ca0430ff2af89">indexPitch</a>(model_id);</div>
+<div class="line"><span class="lineno">  282</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (i == 5 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a0d2fed65738ffb859d258d3853ae0a9d">hasYaw</a>(model_id))</div>
+<div class="line"><span class="lineno">  283</span>        ix = <a class="code hl_function" href="state__index_8h.html#ae0db1580f8971d9ca5d44f06a641618d">indexYaw</a>(model_id);</div>
+<div class="line"><span class="lineno">  284</span>      <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  285</span>        <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  286</span> </div>
+<div class="line"><span class="lineno">  287</span>      <span class="keywordflow">if</span> (j == 0 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a92aa04d852092ab388c3a96b46c87df1">hasX</a>(model_id))</div>
+<div class="line"><span class="lineno">  288</span>        jx = <a class="code hl_function" href="state__index_8h.html#ad76745fdc3a049874f52c174add5e4b1">indexX</a>(model_id);</div>
+<div class="line"><span class="lineno">  289</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (j == 1 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a62a2d683882f03a9dc8a62272e2d02f0">hasY</a>(model_id))</div>
+<div class="line"><span class="lineno">  290</span>        jx = <a class="code hl_function" href="state__index_8h.html#a9041c0ba2939e915f6bfd0eaa6ab7aab">indexY</a>(model_id);</div>
+<div class="line"><span class="lineno">  291</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (j == 2 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a36864ae5caa628a3c588cd9b3b7ab0f6">hasZ</a>(model_id))</div>
+<div class="line"><span class="lineno">  292</span>        jx = <a class="code hl_function" href="state__index_8h.html#aa827038964981f04ab5186befee299dc">indexZ</a>(model_id);</div>
+<div class="line"><span class="lineno">  293</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (j == 3 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a82437731316873a1570d4c282a2290e0">hasRoll</a>(model_id))</div>
+<div class="line"><span class="lineno">  294</span>        jx = <a class="code hl_function" href="state__index_8h.html#a232fcc2a2ab81f1b80785de88cc66b15">indexRoll</a>(model_id);</div>
+<div class="line"><span class="lineno">  295</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (j == 4 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#ad1844d1739475a3fac56b0858a53bb61">hasPitch</a>(model_id))</div>
+<div class="line"><span class="lineno">  296</span>        jx = <a class="code hl_function" href="state__index_8h.html#ad1d90e19c680994d595ca0430ff2af89">indexPitch</a>(model_id);</div>
+<div class="line"><span class="lineno">  297</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (j == 5 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a0d2fed65738ffb859d258d3853ae0a9d">hasYaw</a>(model_id))</div>
+<div class="line"><span class="lineno">  298</span>        jx = <a class="code hl_function" href="state__index_8h.html#ae0db1580f8971d9ca5d44f06a641618d">indexYaw</a>(model_id);</div>
+<div class="line"><span class="lineno">  299</span>      <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  300</span>        <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  301</span> </div>
+<div class="line"><span class="lineno">  302</span>      pose_covariance[n * i + j] = <a class="code hl_function" href="convenience__state__getters_8h.html#a8cfa17fdf6b3287ee1970c5d94839f7b">getContinuousStateCovarianceAt</a>(state, ix, jx);</div>
+<div class="line"><span class="lineno">  303</span>    }</div>
+<div class="line"><span class="lineno">  304</span>  }</div>
+<div class="line"><span class="lineno">  305</span>  <span class="keywordflow">return</span> pose_covariance;</div>
+<div class="line"><span class="lineno">  306</span>}</div>
+<div class="ttc" id="astate__index_8h_html_a232fcc2a2ab81f1b80785de88cc66b15"><div class="ttname"><a href="state__index_8h.html#a232fcc2a2ab81f1b80785de88cc66b15">perception_msgs::object_access::indexRoll</a></div><div class="ttdeci">int indexRoll(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the roll for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00177">state_index.h:177</a></div></div>
+<div class="ttc" id="astate__index_8h_html_a36864ae5caa628a3c588cd9b3b7ab0f6"><div class="ttname"><a href="state__index_8h.html#a36864ae5caa628a3c588cd9b3b7ab0f6">perception_msgs::object_access::hasZ</a></div><div class="ttdeci">bool hasZ(const unsigned char &amp;model_id)</div><div class="ttdoc">Indicates if given model contains a z-position.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00559">state_index.h:559</a></div></div>
+<div class="ttc" id="astate__index_8h_html_a62a2d683882f03a9dc8a62272e2d02f0"><div class="ttname"><a href="state__index_8h.html#a62a2d683882f03a9dc8a62272e2d02f0">perception_msgs::object_access::hasY</a></div><div class="ttdeci">bool hasY(const unsigned char &amp;model_id)</div><div class="ttdoc">Indicates if given model contains a y-position.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00535">state_index.h:535</a></div></div>
+<div class="ttc" id="astate__index_8h_html_a9041c0ba2939e915f6bfd0eaa6ab7aab"><div class="ttname"><a href="state__index_8h.html#a9041c0ba2939e915f6bfd0eaa6ab7aab">perception_msgs::object_access::indexY</a></div><div class="ttdeci">int indexY(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the y-position for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00047">state_index.h:47</a></div></div>
+<div class="ttc" id="astate__index_8h_html_a92aa04d852092ab388c3a96b46c87df1"><div class="ttname"><a href="state__index_8h.html#a92aa04d852092ab388c3a96b46c87df1">perception_msgs::object_access::hasX</a></div><div class="ttdeci">bool hasX(const unsigned char &amp;model_id)</div><div class="ttdoc">Indicates if given model contains an x-position.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00511">state_index.h:511</a></div></div>
+<div class="ttc" id="astate__index_8h_html_aa827038964981f04ab5186befee299dc"><div class="ttname"><a href="state__index_8h.html#aa827038964981f04ab5186befee299dc">perception_msgs::object_access::indexZ</a></div><div class="ttdeci">int indexZ(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the z-position for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00070">state_index.h:70</a></div></div>
+<div class="ttc" id="astate__index_8h_html_ad1d90e19c680994d595ca0430ff2af89"><div class="ttname"><a href="state__index_8h.html#ad1d90e19c680994d595ca0430ff2af89">perception_msgs::object_access::indexPitch</a></div><div class="ttdeci">int indexPitch(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the pitch for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00211">state_index.h:211</a></div></div>
+<div class="ttc" id="astate__index_8h_html_ad76745fdc3a049874f52c174add5e4b1"><div class="ttname"><a href="state__index_8h.html#ad76745fdc3a049874f52c174add5e4b1">perception_msgs::object_access::indexX</a></div><div class="ttdeci">int indexX(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the x-position for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00024">state_index.h:24</a></div></div>
+<div class="ttc" id="astate__index_8h_html_ae0db1580f8971d9ca5d44f06a641618d"><div class="ttname"><a href="state__index_8h.html#ae0db1580f8971d9ca5d44f06a641618d">perception_msgs::object_access::indexYaw</a></div><div class="ttdeci">int indexYaw(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the yaw for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00245">state_index.h:245</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1980,11 +1973,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>std::vector&lt;double&gt; </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00337">337</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  337</span>                                                         {</div>
-<div class="line"><span class="lineno">  338</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#acfc331b3b435673bd62702f2c2d8fb4f">getPoseCovariance</a>(obj.state);</div>
-<div class="line"><span class="lineno">  339</span>}</div>
-<div class="ttc" id="aconvenience__state__getters_8h_html_acfc331b3b435673bd62702f2c2d8fb4f"><div class="ttname"><a href="convenience__state__getters_8h.html#acfc331b3b435673bd62702f2c2d8fb4f">perception_msgs::object_access::getPoseCovariance</a></div><div class="ttdeci">std::vector&lt; double &gt; getPoseCovariance(const ObjectState &amp;state)</div><div class="ttdoc">Get the pose covariance of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00286">convenience_state_getters.h:286</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00316">316</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  316</span>                                                         {</div>
+<div class="line"><span class="lineno">  317</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#acfc331b3b435673bd62702f2c2d8fb4f">getPoseCovariance</a>(obj.state);</div>
+<div class="line"><span class="lineno">  318</span>}</div>
+<div class="ttc" id="aconvenience__state__getters_8h_html_acfc331b3b435673bd62702f2c2d8fb4f"><div class="ttname"><a href="convenience__state__getters_8h.html#acfc331b3b435673bd62702f2c2d8fb4f">perception_msgs::object_access::getPoseCovariance</a></div><div class="ttdeci">std::vector&lt; double &gt; getPoseCovariance(const ObjectState &amp;state)</div><div class="ttdoc">Get the pose covariance of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00265">convenience_state_getters.h:265</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2021,16 +2014,16 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>gm::PoseWithCovariance </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00348">348</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  348</span>                                                                            {</div>
-<div class="line"><span class="lineno">  349</span>  gm::PoseWithCovariance pose_with_covariance;</div>
-<div class="line"><span class="lineno">  350</span>  pose_with_covariance.pose = <a class="code hl_function" href="convenience__state__getters_8h.html#acb3319700f5059df3108f218119f9b90">getPose</a>(state);</div>
-<div class="line"><span class="lineno">  351</span>  std::vector&lt;double&gt; covariance_vector = <a class="code hl_function" href="convenience__state__getters_8h.html#acfc331b3b435673bd62702f2c2d8fb4f">getPoseCovariance</a>(state);</div>
-<div class="line"><span class="lineno">  352</span>  gm::PoseWithCovariance::_covariance_type covariance;</div>
-<div class="line"><span class="lineno">  353</span>  std::copy(covariance_vector.begin(), covariance_vector.end(), covariance.begin());</div>
-<div class="line"><span class="lineno">  354</span>  pose_with_covariance.covariance = covariance;</div>
-<div class="line"><span class="lineno">  355</span>  <span class="keywordflow">return</span> pose_with_covariance;</div>
-<div class="line"><span class="lineno">  356</span>}</div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00327">327</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  327</span>                                                                            {</div>
+<div class="line"><span class="lineno">  328</span>  gm::PoseWithCovariance pose_with_covariance;</div>
+<div class="line"><span class="lineno">  329</span>  pose_with_covariance.pose = <a class="code hl_function" href="convenience__state__getters_8h.html#acb3319700f5059df3108f218119f9b90">getPose</a>(state);</div>
+<div class="line"><span class="lineno">  330</span>  std::vector&lt;double&gt; covariance_vector = <a class="code hl_function" href="convenience__state__getters_8h.html#acfc331b3b435673bd62702f2c2d8fb4f">getPoseCovariance</a>(state);</div>
+<div class="line"><span class="lineno">  331</span>  gm::PoseWithCovariance::_covariance_type covariance;</div>
+<div class="line"><span class="lineno">  332</span>  std::copy(covariance_vector.begin(), covariance_vector.end(), covariance.begin());</div>
+<div class="line"><span class="lineno">  333</span>  pose_with_covariance.covariance = covariance;</div>
+<div class="line"><span class="lineno">  334</span>  <span class="keywordflow">return</span> pose_with_covariance;</div>
+<div class="line"><span class="lineno">  335</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2075,11 +2068,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>gm::PoseWithCovariance </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00366">366</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  366</span>                                                                {</div>
-<div class="line"><span class="lineno">  367</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#aca58309c3b7739a19ea6e55f36749f01">getPoseWithCovariance</a>(obj.state);</div>
-<div class="line"><span class="lineno">  368</span>}</div>
-<div class="ttc" id="aconvenience__state__getters_8h_html_aca58309c3b7739a19ea6e55f36749f01"><div class="ttname"><a href="convenience__state__getters_8h.html#aca58309c3b7739a19ea6e55f36749f01">perception_msgs::object_access::getPoseWithCovariance</a></div><div class="ttdeci">gm::PoseWithCovariance getPoseWithCovariance(const ObjectState &amp;state)</div><div class="ttdoc">Get the pose with covariance of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00348">convenience_state_getters.h:348</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00345">345</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  345</span>                                                                {</div>
+<div class="line"><span class="lineno">  346</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#aca58309c3b7739a19ea6e55f36749f01">getPoseWithCovariance</a>(obj.state);</div>
+<div class="line"><span class="lineno">  347</span>}</div>
+<div class="ttc" id="aconvenience__state__getters_8h_html_aca58309c3b7739a19ea6e55f36749f01"><div class="ttname"><a href="convenience__state__getters_8h.html#aca58309c3b7739a19ea6e55f36749f01">perception_msgs::object_access::getPoseWithCovariance</a></div><div class="ttdeci">gm::PoseWithCovariance getPoseWithCovariance(const ObjectState &amp;state)</div><div class="ttdoc">Get the pose with covariance of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00327">convenience_state_getters.h:327</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2116,17 +2109,17 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>gm::Point </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00175">175</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  175</span>                                                     {</div>
-<div class="line"><span class="lineno">  176</span>  gm::Point position;</div>
-<div class="line"><span class="lineno">  177</span>  position.x = <a class="code hl_function" href="state__getters_8h.html#adc7fc228d8c90a882d216f258c329984">getX</a>(state);</div>
-<div class="line"><span class="lineno">  178</span>  position.y = <a class="code hl_function" href="state__getters_8h.html#ab5fdbe447513ad8515a5149a22d95551">getY</a>(state);</div>
-<div class="line"><span class="lineno">  179</span>  position.z = <a class="code hl_function" href="state__getters_8h.html#a167f05e0c5006cdc69b4cb985466d142">getZ</a>(state);</div>
-<div class="line"><span class="lineno">  180</span>  <span class="keywordflow">return</span> position;</div>
-<div class="line"><span class="lineno">  181</span>}</div>
-<div class="ttc" id="astate__getters_8h_html_a167f05e0c5006cdc69b4cb985466d142"><div class="ttname"><a href="state__getters_8h.html#a167f05e0c5006cdc69b4cb985466d142">perception_msgs::object_access::getZ</a></div><div class="ttdeci">double getZ(const ObjectState &amp;state)</div><div class="ttdoc">Get the z-position for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00092">state_getters.h:92</a></div></div>
-<div class="ttc" id="astate__getters_8h_html_ab5fdbe447513ad8515a5149a22d95551"><div class="ttname"><a href="state__getters_8h.html#ab5fdbe447513ad8515a5149a22d95551">perception_msgs::object_access::getY</a></div><div class="ttdeci">double getY(const ObjectState &amp;state)</div><div class="ttdoc">Get the y-position for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00069">state_getters.h:69</a></div></div>
-<div class="ttc" id="astate__getters_8h_html_adc7fc228d8c90a882d216f258c329984"><div class="ttname"><a href="state__getters_8h.html#adc7fc228d8c90a882d216f258c329984">perception_msgs::object_access::getX</a></div><div class="ttdeci">double getX(const ObjectState &amp;state)</div><div class="ttdoc">Get the x-position for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00045">state_getters.h:45</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00154">154</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  154</span>                                                     {</div>
+<div class="line"><span class="lineno">  155</span>  gm::Point position;</div>
+<div class="line"><span class="lineno">  156</span>  position.x = <a class="code hl_function" href="state__getters_8h.html#adc7fc228d8c90a882d216f258c329984">getX</a>(state);</div>
+<div class="line"><span class="lineno">  157</span>  position.y = <a class="code hl_function" href="state__getters_8h.html#ab5fdbe447513ad8515a5149a22d95551">getY</a>(state);</div>
+<div class="line"><span class="lineno">  158</span>  position.z = <a class="code hl_function" href="state__getters_8h.html#a167f05e0c5006cdc69b4cb985466d142">getZ</a>(state);</div>
+<div class="line"><span class="lineno">  159</span>  <span class="keywordflow">return</span> position;</div>
+<div class="line"><span class="lineno">  160</span>}</div>
+<div class="ttc" id="astate__getters_8h_html_a167f05e0c5006cdc69b4cb985466d142"><div class="ttname"><a href="state__getters_8h.html#a167f05e0c5006cdc69b4cb985466d142">perception_msgs::object_access::getZ</a></div><div class="ttdeci">double getZ(const ObjectState &amp;state)</div><div class="ttdoc">Get the z-position for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00071">state_getters.h:71</a></div></div>
+<div class="ttc" id="astate__getters_8h_html_ab5fdbe447513ad8515a5149a22d95551"><div class="ttname"><a href="state__getters_8h.html#ab5fdbe447513ad8515a5149a22d95551">perception_msgs::object_access::getY</a></div><div class="ttdeci">double getY(const ObjectState &amp;state)</div><div class="ttdoc">Get the y-position for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00048">state_getters.h:48</a></div></div>
+<div class="ttc" id="astate__getters_8h_html_adc7fc228d8c90a882d216f258c329984"><div class="ttname"><a href="state__getters_8h.html#adc7fc228d8c90a882d216f258c329984">perception_msgs::object_access::getX</a></div><div class="ttdeci">double getX(const ObjectState &amp;state)</div><div class="ttdoc">Get the x-position for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00024">state_getters.h:24</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2171,10 +2164,10 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>gm::Point </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00191">191</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  191</span>                                         {</div>
-<div class="line"><span class="lineno">  192</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#a80822ec4d1145dd8e31b4e3233be8e90">getPosition</a>(obj.state);</div>
-<div class="line"><span class="lineno">  193</span>}</div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00170">170</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  170</span>                                         {</div>
+<div class="line"><span class="lineno">  171</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#a80822ec4d1145dd8e31b4e3233be8e90">getPosition</a>(obj.state);</div>
+<div class="line"><span class="lineno">  172</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2211,8 +2204,8 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00477">477</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  477</span>{ <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a255367277a33bce850202984931fbba9">getRoll</a>(state) * 180.0 / M_PI; }</div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00456">456</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  456</span>{ <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a255367277a33bce850202984931fbba9">getRoll</a>(state) * 180.0 / M_PI; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2257,11 +2250,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00487">487</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  487</span>                                         {</div>
-<div class="line"><span class="lineno">  488</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#adc42e7b16da76da8b40b5a0d83a5b3a3">getRollInDeg</a>(obj.state);</div>
-<div class="line"><span class="lineno">  489</span>}</div>
-<div class="ttc" id="aconvenience__state__getters_8h_html_adc42e7b16da76da8b40b5a0d83a5b3a3"><div class="ttname"><a href="convenience__state__getters_8h.html#adc42e7b16da76da8b40b5a0d83a5b3a3">perception_msgs::object_access::getRollInDeg</a></div><div class="ttdeci">double getRollInDeg(const ObjectState &amp;state)</div><div class="ttdoc">Get the roll in degree of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00477">convenience_state_getters.h:477</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00466">466</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  466</span>                                         {</div>
+<div class="line"><span class="lineno">  467</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#adc42e7b16da76da8b40b5a0d83a5b3a3">getRollInDeg</a>(obj.state);</div>
+<div class="line"><span class="lineno">  468</span>}</div>
+<div class="ttc" id="aconvenience__state__getters_8h_html_adc42e7b16da76da8b40b5a0d83a5b3a3"><div class="ttname"><a href="convenience__state__getters_8h.html#adc42e7b16da76da8b40b5a0d83a5b3a3">perception_msgs::object_access::getRollInDeg</a></div><div class="ttdeci">double getRollInDeg(const ObjectState &amp;state)</div><div class="ttdoc">Get the roll in degree of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00456">convenience_state_getters.h:456</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2298,16 +2291,16 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>gm::Vector3 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00376">376</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  376</span>                                                       {</div>
-<div class="line"><span class="lineno">  377</span>  gm::Vector3 velocity;</div>
-<div class="line"><span class="lineno">  378</span>  velocity.x = <a class="code hl_function" href="state__getters_8h.html#a3d7f152af4551dda66b92a3ff94d06d7">getVelLon</a>(state);</div>
-<div class="line"><span class="lineno">  379</span>  velocity.y = <a class="code hl_function" href="state__getters_8h.html#afabf71343941d9ec7f1abe197d95e334">getVelLat</a>(state);</div>
-<div class="line"><span class="lineno">  380</span>  velocity.z = 0.0;</div>
-<div class="line"><span class="lineno">  381</span>  <span class="keywordflow">return</span> velocity;</div>
-<div class="line"><span class="lineno">  382</span>}</div>
-<div class="ttc" id="astate__getters_8h_html_a3d7f152af4551dda66b92a3ff94d06d7"><div class="ttname"><a href="state__getters_8h.html#a3d7f152af4551dda66b92a3ff94d06d7">perception_msgs::object_access::getVelLon</a></div><div class="ttdeci">double getVelLon(const ObjectState &amp;state)</div><div class="ttdoc">Get the longitudinal velocity for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00115">state_getters.h:115</a></div></div>
-<div class="ttc" id="astate__getters_8h_html_afabf71343941d9ec7f1abe197d95e334"><div class="ttname"><a href="state__getters_8h.html#afabf71343941d9ec7f1abe197d95e334">perception_msgs::object_access::getVelLat</a></div><div class="ttdeci">double getVelLat(const ObjectState &amp;state)</div><div class="ttdoc">Get the longitudinal velocity for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00138">state_getters.h:138</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00355">355</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  355</span>                                                       {</div>
+<div class="line"><span class="lineno">  356</span>  gm::Vector3 velocity;</div>
+<div class="line"><span class="lineno">  357</span>  velocity.x = <a class="code hl_function" href="state__getters_8h.html#a3d7f152af4551dda66b92a3ff94d06d7">getVelLon</a>(state);</div>
+<div class="line"><span class="lineno">  358</span>  velocity.y = <a class="code hl_function" href="state__getters_8h.html#afabf71343941d9ec7f1abe197d95e334">getVelLat</a>(state);</div>
+<div class="line"><span class="lineno">  359</span>  velocity.z = 0.0;</div>
+<div class="line"><span class="lineno">  360</span>  <span class="keywordflow">return</span> velocity;</div>
+<div class="line"><span class="lineno">  361</span>}</div>
+<div class="ttc" id="astate__getters_8h_html_a3d7f152af4551dda66b92a3ff94d06d7"><div class="ttname"><a href="state__getters_8h.html#a3d7f152af4551dda66b92a3ff94d06d7">perception_msgs::object_access::getVelLon</a></div><div class="ttdeci">double getVelLon(const ObjectState &amp;state)</div><div class="ttdoc">Get the longitudinal velocity for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00094">state_getters.h:94</a></div></div>
+<div class="ttc" id="astate__getters_8h_html_afabf71343941d9ec7f1abe197d95e334"><div class="ttname"><a href="state__getters_8h.html#afabf71343941d9ec7f1abe197d95e334">perception_msgs::object_access::getVelLat</a></div><div class="ttdeci">double getVelLat(const ObjectState &amp;state)</div><div class="ttdoc">Get the longitudinal velocity for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00117">state_getters.h:117</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2352,11 +2345,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>gm::Vector3 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00392">392</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  392</span>                                           {</div>
-<div class="line"><span class="lineno">  393</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#ad69bbe265884d9ecbd02e4042b0adc51">getVelocity</a>(obj.state);</div>
-<div class="line"><span class="lineno">  394</span>}</div>
-<div class="ttc" id="aconvenience__state__getters_8h_html_ad69bbe265884d9ecbd02e4042b0adc51"><div class="ttname"><a href="convenience__state__getters_8h.html#ad69bbe265884d9ecbd02e4042b0adc51">perception_msgs::object_access::getVelocity</a></div><div class="ttdeci">gm::Vector3 getVelocity(const ObjectState &amp;state)</div><div class="ttdoc">Get the velocity of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00376">convenience_state_getters.h:376</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00371">371</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  371</span>                                           {</div>
+<div class="line"><span class="lineno">  372</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#ad69bbe265884d9ecbd02e4042b0adc51">getVelocity</a>(obj.state);</div>
+<div class="line"><span class="lineno">  373</span>}</div>
+<div class="ttc" id="aconvenience__state__getters_8h_html_ad69bbe265884d9ecbd02e4042b0adc51"><div class="ttname"><a href="convenience__state__getters_8h.html#ad69bbe265884d9ecbd02e4042b0adc51">perception_msgs::object_access::getVelocity</a></div><div class="ttdeci">gm::Vector3 getVelocity(const ObjectState &amp;state)</div><div class="ttdoc">Get the velocity of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00355">convenience_state_getters.h:355</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2393,12 +2386,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00402">402</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  402</span>                                                             {</div>
-<div class="line"><span class="lineno">  403</span>  gm::Vector3 vel = <a class="code hl_function" href="convenience__state__getters_8h.html#ad69bbe265884d9ecbd02e4042b0adc51">getVelocity</a>(state);</div>
-<div class="line"><span class="lineno">  404</span>  <span class="keyword">using namespace </span>std;</div>
-<div class="line"><span class="lineno">  405</span>  <span class="keywordflow">return</span> sqrt(pow(vel.x, 2) + pow(vel.y, 2) + pow(vel.z, 2));</div>
-<div class="line"><span class="lineno">  406</span>}</div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00381">381</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  381</span>                                                             {</div>
+<div class="line"><span class="lineno">  382</span>  gm::Vector3 vel = <a class="code hl_function" href="convenience__state__getters_8h.html#ad69bbe265884d9ecbd02e4042b0adc51">getVelocity</a>(state);</div>
+<div class="line"><span class="lineno">  383</span>  <span class="keyword">using namespace </span>std;</div>
+<div class="line"><span class="lineno">  384</span>  <span class="keywordflow">return</span> sqrt(pow(vel.x, 2) + pow(vel.y, 2) + pow(vel.z, 2));</div>
+<div class="line"><span class="lineno">  385</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2443,11 +2436,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00416">416</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  416</span>                                                 {</div>
-<div class="line"><span class="lineno">  417</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#a503ab5426ff3bf89ccca8a256f2d619d">getVelocityMagnitude</a>(obj.state);</div>
-<div class="line"><span class="lineno">  418</span>}</div>
-<div class="ttc" id="aconvenience__state__getters_8h_html_a503ab5426ff3bf89ccca8a256f2d619d"><div class="ttname"><a href="convenience__state__getters_8h.html#a503ab5426ff3bf89ccca8a256f2d619d">perception_msgs::object_access::getVelocityMagnitude</a></div><div class="ttdeci">double getVelocityMagnitude(const ObjectState &amp;state)</div><div class="ttdoc">Get the velocity magnitude of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00402">convenience_state_getters.h:402</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00395">395</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  395</span>                                                 {</div>
+<div class="line"><span class="lineno">  396</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#a503ab5426ff3bf89ccca8a256f2d619d">getVelocityMagnitude</a>(obj.state);</div>
+<div class="line"><span class="lineno">  397</span>}</div>
+<div class="ttc" id="aconvenience__state__getters_8h_html_a503ab5426ff3bf89ccca8a256f2d619d"><div class="ttname"><a href="convenience__state__getters_8h.html#a503ab5426ff3bf89ccca8a256f2d619d">perception_msgs::object_access::getVelocityMagnitude</a></div><div class="ttdeci">double getVelocityMagnitude(const ObjectState &amp;state)</div><div class="ttdoc">Get the velocity magnitude of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00381">convenience_state_getters.h:381</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2484,17 +2477,17 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>gm::Vector3 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00600">600</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  600</span>                                                          {</div>
-<div class="line"><span class="lineno">  601</span>  gm::Vector3 vel_lon_lat, vel_xyz;</div>
-<div class="line"><span class="lineno">  602</span>  vel_lon_lat = <a class="code hl_function" href="convenience__state__getters_8h.html#ad69bbe265884d9ecbd02e4042b0adc51">getVelocity</a>(state);</div>
-<div class="line"><span class="lineno">  603</span>  tf2::Quaternion q;</div>
-<div class="line"><span class="lineno">  604</span>  q.setRPY(0.0, 0.0, <a class="code hl_function" href="state__getters_8h.html#aa05ce7c3d80795165cbb4830a3f97330">getYaw</a>(state));</div>
-<div class="line"><span class="lineno">  605</span>  gm::TransformStamped tf;</div>
-<div class="line"><span class="lineno">  606</span>  tf.transform.rotation = tf2::toMsg(q);</div>
-<div class="line"><span class="lineno">  607</span>  tf2::doTransform(vel_lon_lat, vel_xyz, tf);</div>
-<div class="line"><span class="lineno">  608</span>  <span class="keywordflow">return</span> vel_xyz;</div>
-<div class="line"><span class="lineno">  609</span>}</div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00579">579</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  579</span>                                                          {</div>
+<div class="line"><span class="lineno">  580</span>  gm::Vector3 vel_lon_lat, vel_xyz;</div>
+<div class="line"><span class="lineno">  581</span>  vel_lon_lat = <a class="code hl_function" href="convenience__state__getters_8h.html#ad69bbe265884d9ecbd02e4042b0adc51">getVelocity</a>(state);</div>
+<div class="line"><span class="lineno">  582</span>  tf2::Quaternion q;</div>
+<div class="line"><span class="lineno">  583</span>  q.setRPY(0.0, 0.0, <a class="code hl_function" href="state__getters_8h.html#aa05ce7c3d80795165cbb4830a3f97330">getYaw</a>(state));</div>
+<div class="line"><span class="lineno">  584</span>  gm::TransformStamped tf;</div>
+<div class="line"><span class="lineno">  585</span>  tf.transform.rotation = tf2::toMsg(q);</div>
+<div class="line"><span class="lineno">  586</span>  tf2::doTransform(vel_lon_lat, vel_xyz, tf);</div>
+<div class="line"><span class="lineno">  587</span>  <span class="keywordflow">return</span> vel_xyz;</div>
+<div class="line"><span class="lineno">  588</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2539,11 +2532,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>gm::Vector3 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00619">619</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  619</span>                                              {</div>
-<div class="line"><span class="lineno">  620</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#aacfcb595845b92232a4fe7d5ffe654ff">getVelocityXYZ</a>(obj.state);</div>
-<div class="line"><span class="lineno">  621</span>}</div>
-<div class="ttc" id="aconvenience__state__getters_8h_html_aacfcb595845b92232a4fe7d5ffe654ff"><div class="ttname"><a href="convenience__state__getters_8h.html#aacfcb595845b92232a4fe7d5ffe654ff">perception_msgs::object_access::getVelocityXYZ</a></div><div class="ttdeci">gm::Vector3 getVelocityXYZ(const ObjectState &amp;state)</div><div class="ttdoc">Get the velocity XYZ of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00600">convenience_state_getters.h:600</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00598">598</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  598</span>                                              {</div>
+<div class="line"><span class="lineno">  599</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#aacfcb595845b92232a4fe7d5ffe654ff">getVelocityXYZ</a>(obj.state);</div>
+<div class="line"><span class="lineno">  600</span>}</div>
+<div class="ttc" id="aconvenience__state__getters_8h_html_aacfcb595845b92232a4fe7d5ffe654ff"><div class="ttname"><a href="convenience__state__getters_8h.html#aacfcb595845b92232a4fe7d5ffe654ff">perception_msgs::object_access::getVelocityXYZ</a></div><div class="ttdeci">gm::Vector3 getVelocityXYZ(const ObjectState &amp;state)</div><div class="ttdoc">Get the velocity XYZ of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00579">convenience_state_getters.h:579</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2580,55 +2573,55 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>gm::PoseWithCovariance </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00537">537</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  537</span>                                                                                   {</div>
-<div class="line"><span class="lineno">  538</span>  gm::PoseWithCovariance vel_lon_lat, vel_xyz;</div>
-<div class="line"><span class="lineno">  539</span>  vel_lon_lat.pose.position.x = <a class="code hl_function" href="state__getters_8h.html#a3d7f152af4551dda66b92a3ff94d06d7">getVelLon</a>(state);</div>
-<div class="line"><span class="lineno">  540</span>  vel_lon_lat.pose.position.y = <a class="code hl_function" href="state__getters_8h.html#afabf71343941d9ec7f1abe197d95e334">getVelLat</a>(state);</div>
-<div class="line"><span class="lineno">  541</span>  vel_lon_lat.pose.position.z = 0.0;</div>
-<div class="line"><span class="lineno">  542</span> </div>
-<div class="line"><span class="lineno">  543</span>  <span class="keywordtype">int</span> ix, jx, n = 2;</div>
-<div class="line"><span class="lineno">  544</span>  <span class="keyword">auto</span> model_id = state.model_id;</div>
-<div class="line"><span class="lineno">  545</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; i++) {</div>
-<div class="line"><span class="lineno">  546</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; n; j++) {</div>
-<div class="line"><span class="lineno">  547</span>      <span class="keywordflow">if</span> (i == 0 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a953db4801f459612218f2e73d8f6c3ad">hasVelLon</a>(model_id))</div>
-<div class="line"><span class="lineno">  548</span>        ix = <a class="code hl_function" href="state__index_8h.html#a1fac50efe4b53fbb2dcc563c864e9e10">indexVelLon</a>(model_id);</div>
-<div class="line"><span class="lineno">  549</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (i == 1 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a5cbf588fcd551f3ebcdfd9c3d1e3ccb4">hasVelLat</a>(model_id))</div>
-<div class="line"><span class="lineno">  550</span>        ix = <a class="code hl_function" href="state__index_8h.html#a622af9de6932bfd7a510a135bde277a9">indexVelLat</a>(model_id);</div>
-<div class="line"><span class="lineno">  551</span>      <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  552</span>        <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  553</span> </div>
-<div class="line"><span class="lineno">  554</span>      <span class="keywordflow">if</span> (j == 0 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a953db4801f459612218f2e73d8f6c3ad">hasVelLon</a>(model_id))</div>
-<div class="line"><span class="lineno">  555</span>        jx = <a class="code hl_function" href="state__index_8h.html#a1fac50efe4b53fbb2dcc563c864e9e10">indexVelLon</a>(model_id);</div>
-<div class="line"><span class="lineno">  556</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (j == 1 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a5cbf588fcd551f3ebcdfd9c3d1e3ccb4">hasVelLat</a>(model_id))</div>
-<div class="line"><span class="lineno">  557</span>        jx = <a class="code hl_function" href="state__index_8h.html#a622af9de6932bfd7a510a135bde277a9">indexVelLat</a>(model_id);</div>
-<div class="line"><span class="lineno">  558</span>      <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  559</span>        <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  560</span> </div>
-<div class="line"><span class="lineno">  561</span>      vel_lon_lat.covariance.at(6 * i + j) = <a class="code hl_function" href="convenience__state__getters_8h.html#a8cfa17fdf6b3287ee1970c5d94839f7b">getContinuousStateCovarianceAt</a>(state, ix, jx);</div>
-<div class="line"><span class="lineno">  562</span>    }</div>
-<div class="line"><span class="lineno">  563</span>  }</div>
-<div class="line"><span class="lineno">  564</span> </div>
-<div class="line"><span class="lineno">  565</span>  tf2::Quaternion q;</div>
-<div class="line"><span class="lineno">  566</span>  q.setRPY(0.0, 0.0, <a class="code hl_function" href="state__getters_8h.html#aa05ce7c3d80795165cbb4830a3f97330">getYaw</a>(state));</div>
-<div class="line"><span class="lineno">  567</span>  gm::TransformStamped tf;</div>
-<div class="line"><span class="lineno">  568</span>  tf.transform.rotation = tf2::toMsg(q);</div>
-<div class="line"><span class="lineno">  569</span> </div>
-<div class="line"><span class="lineno">  570</span><span class="preprocessor">#ifdef ROS1</span></div>
-<div class="line"><span class="lineno">  571</span>  gm::PoseWithCovarianceStamped vel_lon_lat_stamped, vel_xyz_stamped;</div>
-<div class="line"><span class="lineno">  572</span>  vel_lon_lat_stamped.pose = vel_lon_lat;</div>
-<div class="line"><span class="lineno">  573</span>  tf2::doTransform(vel_lon_lat_stamped, vel_xyz_stamped, tf);</div>
-<div class="line"><span class="lineno">  574</span>  vel_xyz = vel_xyz_stamped.pose;</div>
-<div class="line"><span class="lineno">  575</span><span class="preprocessor">#else</span></div>
-<div class="line"><span class="lineno">  576</span>  tf2::doTransform(vel_lon_lat, vel_xyz, tf);</div>
-<div class="line"><span class="lineno">  577</span><span class="preprocessor">#endif</span></div>
-<div class="line"><span class="lineno">  578</span> </div>
-<div class="line"><span class="lineno">  579</span>  <span class="keywordflow">return</span> vel_xyz;</div>
-<div class="line"><span class="lineno">  580</span>}</div>
-<div class="ttc" id="astate__index_8h_html_a1fac50efe4b53fbb2dcc563c864e9e10"><div class="ttname"><a href="state__index_8h.html#a1fac50efe4b53fbb2dcc563c864e9e10">perception_msgs::object_access::indexVelLon</a></div><div class="ttdeci">int indexVelLon(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the longitudinal velocity for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00114">state_index.h:114</a></div></div>
-<div class="ttc" id="astate__index_8h_html_a5cbf588fcd551f3ebcdfd9c3d1e3ccb4"><div class="ttname"><a href="state__index_8h.html#a5cbf588fcd551f3ebcdfd9c3d1e3ccb4">perception_msgs::object_access::hasVelLat</a></div><div class="ttdeci">bool hasVelLat(const unsigned char &amp;model_id)</div><div class="ttdoc">Indicates if given model contains a lateral velocity.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00626">state_index.h:626</a></div></div>
-<div class="ttc" id="astate__index_8h_html_a622af9de6932bfd7a510a135bde277a9"><div class="ttname"><a href="state__index_8h.html#a622af9de6932bfd7a510a135bde277a9">perception_msgs::object_access::indexVelLat</a></div><div class="ttdeci">int indexVelLat(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the lateral velocity for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00135">state_index.h:135</a></div></div>
-<div class="ttc" id="astate__index_8h_html_a953db4801f459612218f2e73d8f6c3ad"><div class="ttname"><a href="state__index_8h.html#a953db4801f459612218f2e73d8f6c3ad">perception_msgs::object_access::hasVelLon</a></div><div class="ttdeci">bool hasVelLon(const unsigned char &amp;model_id)</div><div class="ttdoc">Indicates if given model contains a longitudinal velocity.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00604">state_index.h:604</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00516">516</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  516</span>                                                                                   {</div>
+<div class="line"><span class="lineno">  517</span>  gm::PoseWithCovariance vel_lon_lat, vel_xyz;</div>
+<div class="line"><span class="lineno">  518</span>  vel_lon_lat.pose.position.x = <a class="code hl_function" href="state__getters_8h.html#a3d7f152af4551dda66b92a3ff94d06d7">getVelLon</a>(state);</div>
+<div class="line"><span class="lineno">  519</span>  vel_lon_lat.pose.position.y = <a class="code hl_function" href="state__getters_8h.html#afabf71343941d9ec7f1abe197d95e334">getVelLat</a>(state);</div>
+<div class="line"><span class="lineno">  520</span>  vel_lon_lat.pose.position.z = 0.0;</div>
+<div class="line"><span class="lineno">  521</span> </div>
+<div class="line"><span class="lineno">  522</span>  <span class="keywordtype">int</span> ix, jx, n = 2;</div>
+<div class="line"><span class="lineno">  523</span>  <span class="keyword">auto</span> model_id = state.model_id;</div>
+<div class="line"><span class="lineno">  524</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; i++) {</div>
+<div class="line"><span class="lineno">  525</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; n; j++) {</div>
+<div class="line"><span class="lineno">  526</span>      <span class="keywordflow">if</span> (i == 0 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a953db4801f459612218f2e73d8f6c3ad">hasVelLon</a>(model_id))</div>
+<div class="line"><span class="lineno">  527</span>        ix = <a class="code hl_function" href="state__index_8h.html#a1fac50efe4b53fbb2dcc563c864e9e10">indexVelLon</a>(model_id);</div>
+<div class="line"><span class="lineno">  528</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (i == 1 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a5cbf588fcd551f3ebcdfd9c3d1e3ccb4">hasVelLat</a>(model_id))</div>
+<div class="line"><span class="lineno">  529</span>        ix = <a class="code hl_function" href="state__index_8h.html#a622af9de6932bfd7a510a135bde277a9">indexVelLat</a>(model_id);</div>
+<div class="line"><span class="lineno">  530</span>      <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  531</span>        <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  532</span> </div>
+<div class="line"><span class="lineno">  533</span>      <span class="keywordflow">if</span> (j == 0 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a953db4801f459612218f2e73d8f6c3ad">hasVelLon</a>(model_id))</div>
+<div class="line"><span class="lineno">  534</span>        jx = <a class="code hl_function" href="state__index_8h.html#a1fac50efe4b53fbb2dcc563c864e9e10">indexVelLon</a>(model_id);</div>
+<div class="line"><span class="lineno">  535</span>      <span class="keywordflow">else</span> <span class="keywordflow">if</span> (j == 1 &amp;&amp; <a class="code hl_function" href="state__index_8h.html#a5cbf588fcd551f3ebcdfd9c3d1e3ccb4">hasVelLat</a>(model_id))</div>
+<div class="line"><span class="lineno">  536</span>        jx = <a class="code hl_function" href="state__index_8h.html#a622af9de6932bfd7a510a135bde277a9">indexVelLat</a>(model_id);</div>
+<div class="line"><span class="lineno">  537</span>      <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  538</span>        <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  539</span> </div>
+<div class="line"><span class="lineno">  540</span>      vel_lon_lat.covariance.at(6 * i + j) = <a class="code hl_function" href="convenience__state__getters_8h.html#a8cfa17fdf6b3287ee1970c5d94839f7b">getContinuousStateCovarianceAt</a>(state, ix, jx);</div>
+<div class="line"><span class="lineno">  541</span>    }</div>
+<div class="line"><span class="lineno">  542</span>  }</div>
+<div class="line"><span class="lineno">  543</span> </div>
+<div class="line"><span class="lineno">  544</span>  tf2::Quaternion q;</div>
+<div class="line"><span class="lineno">  545</span>  q.setRPY(0.0, 0.0, <a class="code hl_function" href="state__getters_8h.html#aa05ce7c3d80795165cbb4830a3f97330">getYaw</a>(state));</div>
+<div class="line"><span class="lineno">  546</span>  gm::TransformStamped tf;</div>
+<div class="line"><span class="lineno">  547</span>  tf.transform.rotation = tf2::toMsg(q);</div>
+<div class="line"><span class="lineno">  548</span> </div>
+<div class="line"><span class="lineno">  549</span><span class="preprocessor">#ifdef ROS1</span></div>
+<div class="line"><span class="lineno">  550</span>  gm::PoseWithCovarianceStamped vel_lon_lat_stamped, vel_xyz_stamped;</div>
+<div class="line"><span class="lineno">  551</span>  vel_lon_lat_stamped.pose = vel_lon_lat;</div>
+<div class="line"><span class="lineno">  552</span>  tf2::doTransform(vel_lon_lat_stamped, vel_xyz_stamped, tf);</div>
+<div class="line"><span class="lineno">  553</span>  vel_xyz = vel_xyz_stamped.pose;</div>
+<div class="line"><span class="lineno">  554</span><span class="preprocessor">#else</span></div>
+<div class="line"><span class="lineno">  555</span>  tf2::doTransform(vel_lon_lat, vel_xyz, tf);</div>
+<div class="line"><span class="lineno">  556</span><span class="preprocessor">#endif</span></div>
+<div class="line"><span class="lineno">  557</span> </div>
+<div class="line"><span class="lineno">  558</span>  <span class="keywordflow">return</span> vel_xyz;</div>
+<div class="line"><span class="lineno">  559</span>}</div>
+<div class="ttc" id="astate__index_8h_html_a1fac50efe4b53fbb2dcc563c864e9e10"><div class="ttname"><a href="state__index_8h.html#a1fac50efe4b53fbb2dcc563c864e9e10">perception_msgs::object_access::indexVelLon</a></div><div class="ttdeci">int indexVelLon(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the longitudinal velocity for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00093">state_index.h:93</a></div></div>
+<div class="ttc" id="astate__index_8h_html_a5cbf588fcd551f3ebcdfd9c3d1e3ccb4"><div class="ttname"><a href="state__index_8h.html#a5cbf588fcd551f3ebcdfd9c3d1e3ccb4">perception_msgs::object_access::hasVelLat</a></div><div class="ttdeci">bool hasVelLat(const unsigned char &amp;model_id)</div><div class="ttdoc">Indicates if given model contains a lateral velocity.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00605">state_index.h:605</a></div></div>
+<div class="ttc" id="astate__index_8h_html_a622af9de6932bfd7a510a135bde277a9"><div class="ttname"><a href="state__index_8h.html#a622af9de6932bfd7a510a135bde277a9">perception_msgs::object_access::indexVelLat</a></div><div class="ttdeci">int indexVelLat(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the lateral velocity for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00114">state_index.h:114</a></div></div>
+<div class="ttc" id="astate__index_8h_html_a953db4801f459612218f2e73d8f6c3ad"><div class="ttname"><a href="state__index_8h.html#a953db4801f459612218f2e73d8f6c3ad">perception_msgs::object_access::hasVelLon</a></div><div class="ttdeci">bool hasVelLon(const unsigned char &amp;model_id)</div><div class="ttdoc">Indicates if given model contains a longitudinal velocity.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00583">state_index.h:583</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2673,11 +2666,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>gm::PoseWithCovariance </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00590">590</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  590</span>                                                                       {</div>
-<div class="line"><span class="lineno">  591</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#ad3179327bbfb5e27bdca023ac1e3e798">getVelocityXYZWithCovariance</a>(obj.state);</div>
-<div class="line"><span class="lineno">  592</span>}</div>
-<div class="ttc" id="aconvenience__state__getters_8h_html_ad3179327bbfb5e27bdca023ac1e3e798"><div class="ttname"><a href="convenience__state__getters_8h.html#ad3179327bbfb5e27bdca023ac1e3e798">perception_msgs::object_access::getVelocityXYZWithCovariance</a></div><div class="ttdeci">gm::PoseWithCovariance getVelocityXYZWithCovariance(const ObjectState &amp;state)</div><div class="ttdoc">Get the velocity XYZ with covariance of a object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00537">convenience_state_getters.h:537</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00569">569</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  569</span>                                                                       {</div>
+<div class="line"><span class="lineno">  570</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#ad3179327bbfb5e27bdca023ac1e3e798">getVelocityXYZWithCovariance</a>(obj.state);</div>
+<div class="line"><span class="lineno">  571</span>}</div>
+<div class="ttc" id="aconvenience__state__getters_8h_html_ad3179327bbfb5e27bdca023ac1e3e798"><div class="ttname"><a href="convenience__state__getters_8h.html#ad3179327bbfb5e27bdca023ac1e3e798">perception_msgs::object_access::getVelocityXYZWithCovariance</a></div><div class="ttdeci">gm::PoseWithCovariance getVelocityXYZWithCovariance(const ObjectState &amp;state)</div><div class="ttdoc">Get the velocity XYZ with covariance of a object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00516">convenience_state_getters.h:516</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2714,8 +2707,8 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00629">629</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  629</span>{ <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#aacfcb595845b92232a4fe7d5ffe654ff">getVelocityXYZ</a>(state).x; }</div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00608">608</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  608</span>{ <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#aacfcb595845b92232a4fe7d5ffe654ff">getVelocityXYZ</a>(state).x; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2760,11 +2753,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00639">639</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  639</span>                                    {</div>
-<div class="line"><span class="lineno">  640</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#aee01bb6b9ea576daa0ff2337e458048f">getVelX</a>(obj.state);</div>
-<div class="line"><span class="lineno">  641</span>}</div>
-<div class="ttc" id="aconvenience__state__getters_8h_html_aee01bb6b9ea576daa0ff2337e458048f"><div class="ttname"><a href="convenience__state__getters_8h.html#aee01bb6b9ea576daa0ff2337e458048f">perception_msgs::object_access::getVelX</a></div><div class="ttdeci">double getVelX(const ObjectState &amp;state)</div><div class="ttdoc">Get the x-velocity of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00629">convenience_state_getters.h:629</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00618">618</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  618</span>                                    {</div>
+<div class="line"><span class="lineno">  619</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#aee01bb6b9ea576daa0ff2337e458048f">getVelX</a>(obj.state);</div>
+<div class="line"><span class="lineno">  620</span>}</div>
+<div class="ttc" id="aconvenience__state__getters_8h_html_aee01bb6b9ea576daa0ff2337e458048f"><div class="ttname"><a href="convenience__state__getters_8h.html#aee01bb6b9ea576daa0ff2337e458048f">perception_msgs::object_access::getVelX</a></div><div class="ttdeci">double getVelX(const ObjectState &amp;state)</div><div class="ttdoc">Get the x-velocity of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00608">convenience_state_getters.h:608</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2801,8 +2794,8 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00649">649</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  649</span>{ <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#aacfcb595845b92232a4fe7d5ffe654ff">getVelocityXYZ</a>(state).y; }</div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00628">628</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  628</span>{ <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#aacfcb595845b92232a4fe7d5ffe654ff">getVelocityXYZ</a>(state).y; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2847,11 +2840,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00659">659</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  659</span>                                    {</div>
-<div class="line"><span class="lineno">  660</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#ae70ac60b4e3252cc7822de9fd7ed8939">getVelY</a>(obj.state);</div>
-<div class="line"><span class="lineno">  661</span>}</div>
-<div class="ttc" id="aconvenience__state__getters_8h_html_ae70ac60b4e3252cc7822de9fd7ed8939"><div class="ttname"><a href="convenience__state__getters_8h.html#ae70ac60b4e3252cc7822de9fd7ed8939">perception_msgs::object_access::getVelY</a></div><div class="ttdeci">double getVelY(const ObjectState &amp;state)</div><div class="ttdoc">Get the y-velocity of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00649">convenience_state_getters.h:649</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00638">638</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  638</span>                                    {</div>
+<div class="line"><span class="lineno">  639</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#ae70ac60b4e3252cc7822de9fd7ed8939">getVelY</a>(obj.state);</div>
+<div class="line"><span class="lineno">  640</span>}</div>
+<div class="ttc" id="aconvenience__state__getters_8h_html_ae70ac60b4e3252cc7822de9fd7ed8939"><div class="ttname"><a href="convenience__state__getters_8h.html#ae70ac60b4e3252cc7822de9fd7ed8939">perception_msgs::object_access::getVelY</a></div><div class="ttdeci">double getVelY(const ObjectState &amp;state)</div><div class="ttdoc">Get the y-velocity of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00628">convenience_state_getters.h:628</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2888,8 +2881,8 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00517">517</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  517</span>{ <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#aa05ce7c3d80795165cbb4830a3f97330">getYaw</a>(state) * 180.0 / M_PI; }</div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00496">496</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  496</span>{ <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#aa05ce7c3d80795165cbb4830a3f97330">getYaw</a>(state) * 180.0 / M_PI; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2934,11 +2927,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00527">527</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  527</span>                                        {</div>
-<div class="line"><span class="lineno">  528</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#a92095d5935864c70f586a7f515fa8310">getYawInDeg</a>(obj.state);</div>
-<div class="line"><span class="lineno">  529</span>}</div>
-<div class="ttc" id="aconvenience__state__getters_8h_html_a92095d5935864c70f586a7f515fa8310"><div class="ttname"><a href="convenience__state__getters_8h.html#a92095d5935864c70f586a7f515fa8310">perception_msgs::object_access::getYawInDeg</a></div><div class="ttdeci">double getYawInDeg(const ObjectState &amp;state)</div><div class="ttdoc">Get the yaw in degree of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00517">convenience_state_getters.h:517</a></div></div>
+<p class="definition">Definition at line <a class="el" href="convenience__state__getters_8h_source.html#l00506">506</a> of file <a class="el" href="convenience__state__getters_8h_source.html">convenience_state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  506</span>                                        {</div>
+<div class="line"><span class="lineno">  507</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="convenience__state__getters_8h.html#a92095d5935864c70f586a7f515fa8310">getYawInDeg</a>(obj.state);</div>
+<div class="line"><span class="lineno">  508</span>}</div>
+<div class="ttc" id="aconvenience__state__getters_8h_html_a92095d5935864c70f586a7f515fa8310"><div class="ttname"><a href="convenience__state__getters_8h.html#a92095d5935864c70f586a7f515fa8310">perception_msgs::object_access::getYawInDeg</a></div><div class="ttdeci">double getYawInDeg(const ObjectState &amp;state)</div><div class="ttdoc">Get the yaw in degree of a given object state.</div><div class="ttdef"><b>Definition</b> <a href="convenience__state__getters_8h_source.html#l00496">convenience_state_getters.h:496</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>

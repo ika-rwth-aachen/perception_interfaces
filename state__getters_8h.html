@@ -273,13 +273,6 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Getter functions for objects state members. </p>
-<p>============================================================================ MIT License</p>
-<p>Copyright (c) 2025 Institute for Automotive Engineering (ika), RWTH Aachen University</p>
-<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
-<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
-<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE </p>
-<h1><a class="anchor" id="autotoc_md18"></a>
-SOFTWARE.</h1>
 
 <p class="definition">Definition in file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
@@ -316,13 +309,13 @@ SOFTWARE.</h1>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00184">184</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  184</span>                                                    {</div>
-<div class="line"><span class="lineno">  185</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
-<div class="line"><span class="lineno">  186</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#ad66e47d3ab90373abbed74b2150684b6">indexAccLat</a>(state.model_id)];</div>
-<div class="line"><span class="lineno">  187</span>  }</div>
-<div class="ttc" id="achecks_8h_html_a2c46c886f8f96032a876a3734b6f142f"><div class="ttname"><a href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">perception_msgs::object_access::sanityCheckContinuousState</a></div><div class="ttdeci">void sanityCheckContinuousState(const ObjectState &amp;state)</div><div class="ttdoc">Perform sanity check on continuous state of given object state.</div><div class="ttdef"><b>Definition</b> <a href="checks_8h_source.html#l00084">checks.h:84</a></div></div>
-<div class="ttc" id="astate__index_8h_html_ad66e47d3ab90373abbed74b2150684b6"><div class="ttname"><a href="state__index_8h.html#ad66e47d3ab90373abbed74b2150684b6">perception_msgs::object_access::indexAccLat</a></div><div class="ttdeci">int indexAccLat(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the lateral acceleration for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00177">state_index.h:177</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00163">163</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  163</span>                                                    {</div>
+<div class="line"><span class="lineno">  164</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
+<div class="line"><span class="lineno">  165</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#ad66e47d3ab90373abbed74b2150684b6">indexAccLat</a>(state.model_id)];</div>
+<div class="line"><span class="lineno">  166</span>  }</div>
+<div class="ttc" id="achecks_8h_html_a2c46c886f8f96032a876a3734b6f142f"><div class="ttname"><a href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">perception_msgs::object_access::sanityCheckContinuousState</a></div><div class="ttdeci">void sanityCheckContinuousState(const ObjectState &amp;state)</div><div class="ttdoc">Perform sanity check on continuous state of given object state.</div><div class="ttdef"><b>Definition</b> <a href="checks_8h_source.html#l00063">checks.h:63</a></div></div>
+<div class="ttc" id="astate__index_8h_html_ad66e47d3ab90373abbed74b2150684b6"><div class="ttname"><a href="state__index_8h.html#ad66e47d3ab90373abbed74b2150684b6">perception_msgs::object_access::indexAccLat</a></div><div class="ttdeci">int indexAccLat(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the lateral acceleration for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00156">state_index.h:156</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -367,11 +360,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00197">197</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  197</span>                                        {</div>
-<div class="line"><span class="lineno">  198</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#ab470f49e325557e822008c9065bf4ec1">getAccLat</a>(obj.state);</div>
-<div class="line"><span class="lineno">  199</span>  }</div>
-<div class="ttc" id="astate__getters_8h_html_ab470f49e325557e822008c9065bf4ec1"><div class="ttname"><a href="state__getters_8h.html#ab470f49e325557e822008c9065bf4ec1">perception_msgs::object_access::getAccLat</a></div><div class="ttdeci">double getAccLat(const ObjectState &amp;state)</div><div class="ttdoc">Get the lateral acceleration for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00184">state_getters.h:184</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00176">176</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  176</span>                                        {</div>
+<div class="line"><span class="lineno">  177</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#ab470f49e325557e822008c9065bf4ec1">getAccLat</a>(obj.state);</div>
+<div class="line"><span class="lineno">  178</span>  }</div>
+<div class="ttc" id="astate__getters_8h_html_ab470f49e325557e822008c9065bf4ec1"><div class="ttname"><a href="state__getters_8h.html#ab470f49e325557e822008c9065bf4ec1">perception_msgs::object_access::getAccLat</a></div><div class="ttdeci">double getAccLat(const ObjectState &amp;state)</div><div class="ttdoc">Get the lateral acceleration for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00163">state_getters.h:163</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -408,12 +401,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00161">161</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  161</span>                                                    {</div>
-<div class="line"><span class="lineno">  162</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
-<div class="line"><span class="lineno">  163</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#ab105e6a60cc8283741f7cf2df3c54910">indexAccLon</a>(state.model_id)];</div>
-<div class="line"><span class="lineno">  164</span>  }</div>
-<div class="ttc" id="astate__index_8h_html_ab105e6a60cc8283741f7cf2df3c54910"><div class="ttname"><a href="state__index_8h.html#ab105e6a60cc8283741f7cf2df3c54910">perception_msgs::object_access::indexAccLon</a></div><div class="ttdeci">int indexAccLon(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the longitudinal acceleration for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00156">state_index.h:156</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00140">140</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  140</span>                                                    {</div>
+<div class="line"><span class="lineno">  141</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
+<div class="line"><span class="lineno">  142</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#ab105e6a60cc8283741f7cf2df3c54910">indexAccLon</a>(state.model_id)];</div>
+<div class="line"><span class="lineno">  143</span>  }</div>
+<div class="ttc" id="astate__index_8h_html_ab105e6a60cc8283741f7cf2df3c54910"><div class="ttname"><a href="state__index_8h.html#ab105e6a60cc8283741f7cf2df3c54910">perception_msgs::object_access::indexAccLon</a></div><div class="ttdeci">int indexAccLon(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the longitudinal acceleration for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00135">state_index.h:135</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -458,11 +451,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00174">174</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  174</span>                                        {</div>
-<div class="line"><span class="lineno">  175</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a7f4f62baaa829090dc8ec1da4d22af87">getAccLon</a>(obj.state);</div>
-<div class="line"><span class="lineno">  176</span>  }</div>
-<div class="ttc" id="astate__getters_8h_html_a7f4f62baaa829090dc8ec1da4d22af87"><div class="ttname"><a href="state__getters_8h.html#a7f4f62baaa829090dc8ec1da4d22af87">perception_msgs::object_access::getAccLon</a></div><div class="ttdeci">double getAccLon(const ObjectState &amp;state)</div><div class="ttdoc">Get the longitudinal acceleration for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00161">state_getters.h:161</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00153">153</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  153</span>                                        {</div>
+<div class="line"><span class="lineno">  154</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a7f4f62baaa829090dc8ec1da4d22af87">getAccLon</a>(obj.state);</div>
+<div class="line"><span class="lineno">  155</span>  }</div>
+<div class="ttc" id="astate__getters_8h_html_a7f4f62baaa829090dc8ec1da4d22af87"><div class="ttname"><a href="state__getters_8h.html#a7f4f62baaa829090dc8ec1da4d22af87">perception_msgs::object_access::getAccLon</a></div><div class="ttdeci">double getAccLon(const ObjectState &amp;state)</div><div class="ttdoc">Get the longitudinal acceleration for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00140">state_getters.h:140</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -499,13 +492,13 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>uint8_t </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00554">554</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  554</span>                                                         {</div>
-<div class="line"><span class="lineno">  555</span>    <a class="code hl_function" href="checks_8h.html#af6ab65e0f0dbd9681391761c184dee94">sanityCheckDiscreteState</a>(state);</div>
-<div class="line"><span class="lineno">  556</span>    <span class="keywordflow">return</span> state.discrete_state[<a class="code hl_function" href="state__index_8h.html#a0df2bf49e8e9cfd2eb2aab726a36266b">indexBrakeLight</a>(state.model_id)];</div>
-<div class="line"><span class="lineno">  557</span>  }</div>
-<div class="ttc" id="achecks_8h_html_af6ab65e0f0dbd9681391761c184dee94"><div class="ttname"><a href="checks_8h.html#af6ab65e0f0dbd9681391761c184dee94">perception_msgs::object_access::sanityCheckDiscreteState</a></div><div class="ttdeci">void sanityCheckDiscreteState(const ObjectState &amp;state)</div><div class="ttdoc">Perform sanity check on discrete state of given object state.</div><div class="ttdef"><b>Definition</b> <a href="checks_8h_source.html#l00104">checks.h:104</a></div></div>
-<div class="ttc" id="astate__index_8h_html_a0df2bf49e8e9cfd2eb2aab726a36266b"><div class="ttname"><a href="state__index_8h.html#a0df2bf49e8e9cfd2eb2aab726a36266b">perception_msgs::object_access::indexBrakeLight</a></div><div class="ttdeci">int indexBrakeLight(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the brake light state for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00457">state_index.h:457</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00533">533</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  533</span>                                                         {</div>
+<div class="line"><span class="lineno">  534</span>    <a class="code hl_function" href="checks_8h.html#af6ab65e0f0dbd9681391761c184dee94">sanityCheckDiscreteState</a>(state);</div>
+<div class="line"><span class="lineno">  535</span>    <span class="keywordflow">return</span> state.discrete_state[<a class="code hl_function" href="state__index_8h.html#a0df2bf49e8e9cfd2eb2aab726a36266b">indexBrakeLight</a>(state.model_id)];</div>
+<div class="line"><span class="lineno">  536</span>  }</div>
+<div class="ttc" id="achecks_8h_html_af6ab65e0f0dbd9681391761c184dee94"><div class="ttname"><a href="checks_8h.html#af6ab65e0f0dbd9681391761c184dee94">perception_msgs::object_access::sanityCheckDiscreteState</a></div><div class="ttdeci">void sanityCheckDiscreteState(const ObjectState &amp;state)</div><div class="ttdoc">Perform sanity check on discrete state of given object state.</div><div class="ttdef"><b>Definition</b> <a href="checks_8h_source.html#l00083">checks.h:83</a></div></div>
+<div class="ttc" id="astate__index_8h_html_a0df2bf49e8e9cfd2eb2aab726a36266b"><div class="ttname"><a href="state__index_8h.html#a0df2bf49e8e9cfd2eb2aab726a36266b">perception_msgs::object_access::indexBrakeLight</a></div><div class="ttdeci">int indexBrakeLight(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the brake light state for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00436">state_index.h:436</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -550,11 +543,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>uint8_t </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00567">567</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  567</span>                                             {</div>
-<div class="line"><span class="lineno">  568</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a5ef427d08ad7b24337cdd0386846770b">getBrakeLight</a>(obj.state);</div>
-<div class="line"><span class="lineno">  569</span>  }</div>
-<div class="ttc" id="astate__getters_8h_html_a5ef427d08ad7b24337cdd0386846770b"><div class="ttname"><a href="state__getters_8h.html#a5ef427d08ad7b24337cdd0386846770b">perception_msgs::object_access::getBrakeLight</a></div><div class="ttdeci">uint8_t getBrakeLight(const ObjectState &amp;state)</div><div class="ttdoc">Get the brake light state for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00554">state_getters.h:554</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00546">546</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  546</span>                                             {</div>
+<div class="line"><span class="lineno">  547</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a5ef427d08ad7b24337cdd0386846770b">getBrakeLight</a>(obj.state);</div>
+<div class="line"><span class="lineno">  548</span>  }</div>
+<div class="ttc" id="astate__getters_8h_html_a5ef427d08ad7b24337cdd0386846770b"><div class="ttname"><a href="state__getters_8h.html#a5ef427d08ad7b24337cdd0386846770b">perception_msgs::object_access::getBrakeLight</a></div><div class="ttdeci">uint8_t getBrakeLight(const ObjectState &amp;state)</div><div class="ttdoc">Get the brake light state for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00533">state_getters.h:533</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -591,12 +584,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00483">483</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  483</span>                                                    {</div>
-<div class="line"><span class="lineno">  484</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
-<div class="line"><span class="lineno">  485</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#a5f0f9fc675ca238fe249f552c0094bc9">indexHeight</a>(state.model_id)];</div>
-<div class="line"><span class="lineno">  486</span>  }</div>
-<div class="ttc" id="astate__index_8h_html_a5f0f9fc675ca238fe249f552c0094bc9"><div class="ttname"><a href="state__index_8h.html#a5f0f9fc675ca238fe249f552c0094bc9">perception_msgs::object_access::indexHeight</a></div><div class="ttdeci">int indexHeight(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the height for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00402">state_index.h:402</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00462">462</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  462</span>                                                    {</div>
+<div class="line"><span class="lineno">  463</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
+<div class="line"><span class="lineno">  464</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#a5f0f9fc675ca238fe249f552c0094bc9">indexHeight</a>(state.model_id)];</div>
+<div class="line"><span class="lineno">  465</span>  }</div>
+<div class="ttc" id="astate__index_8h_html_a5f0f9fc675ca238fe249f552c0094bc9"><div class="ttname"><a href="state__index_8h.html#a5f0f9fc675ca238fe249f552c0094bc9">perception_msgs::object_access::indexHeight</a></div><div class="ttdeci">int indexHeight(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the height for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00381">state_index.h:381</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -641,11 +634,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00496">496</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  496</span>                                        {</div>
-<div class="line"><span class="lineno">  497</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a22b9be1ea33d06eabae40a842b5be455">getHeight</a>(obj.state);</div>
-<div class="line"><span class="lineno">  498</span>  }</div>
-<div class="ttc" id="astate__getters_8h_html_a22b9be1ea33d06eabae40a842b5be455"><div class="ttname"><a href="state__getters_8h.html#a22b9be1ea33d06eabae40a842b5be455">perception_msgs::object_access::getHeight</a></div><div class="ttdeci">double getHeight(const ObjectState &amp;state)</div><div class="ttdoc">Get the height for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00483">state_getters.h:483</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00475">475</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  475</span>                                        {</div>
+<div class="line"><span class="lineno">  476</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a22b9be1ea33d06eabae40a842b5be455">getHeight</a>(obj.state);</div>
+<div class="line"><span class="lineno">  477</span>  }</div>
+<div class="ttc" id="astate__getters_8h_html_a22b9be1ea33d06eabae40a842b5be455"><div class="ttname"><a href="state__getters_8h.html#a22b9be1ea33d06eabae40a842b5be455">perception_msgs::object_access::getHeight</a></div><div class="ttdeci">double getHeight(const ObjectState &amp;state)</div><div class="ttdoc">Get the height for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00462">state_getters.h:462</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -682,12 +675,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00460">460</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  460</span>                                                    {</div>
-<div class="line"><span class="lineno">  461</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
-<div class="line"><span class="lineno">  462</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#a292cea1ab3e305eb9346fcfe5bface7d">indexLength</a>(state.model_id)];</div>
-<div class="line"><span class="lineno">  463</span>  }</div>
-<div class="ttc" id="astate__index_8h_html_a292cea1ab3e305eb9346fcfe5bface7d"><div class="ttname"><a href="state__index_8h.html#a292cea1ab3e305eb9346fcfe5bface7d">perception_msgs::object_access::indexLength</a></div><div class="ttdeci">int indexLength(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the length for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00385">state_index.h:385</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00439">439</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  439</span>                                                    {</div>
+<div class="line"><span class="lineno">  440</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
+<div class="line"><span class="lineno">  441</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#a292cea1ab3e305eb9346fcfe5bface7d">indexLength</a>(state.model_id)];</div>
+<div class="line"><span class="lineno">  442</span>  }</div>
+<div class="ttc" id="astate__index_8h_html_a292cea1ab3e305eb9346fcfe5bface7d"><div class="ttname"><a href="state__index_8h.html#a292cea1ab3e305eb9346fcfe5bface7d">perception_msgs::object_access::indexLength</a></div><div class="ttdeci">int indexLength(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the length for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00364">state_index.h:364</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -732,11 +725,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00473">473</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  473</span>                                        {</div>
-<div class="line"><span class="lineno">  474</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#ae94f00068266de35b8b4c516c85268a7">getLength</a>(obj.state);</div>
-<div class="line"><span class="lineno">  475</span>  }</div>
-<div class="ttc" id="astate__getters_8h_html_ae94f00068266de35b8b4c516c85268a7"><div class="ttname"><a href="state__getters_8h.html#ae94f00068266de35b8b4c516c85268a7">perception_msgs::object_access::getLength</a></div><div class="ttdeci">double getLength(const ObjectState &amp;state)</div><div class="ttdoc">Get the length for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00460">state_getters.h:460</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00452">452</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  452</span>                                        {</div>
+<div class="line"><span class="lineno">  453</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#ae94f00068266de35b8b4c516c85268a7">getLength</a>(obj.state);</div>
+<div class="line"><span class="lineno">  454</span>  }</div>
+<div class="ttc" id="astate__getters_8h_html_ae94f00068266de35b8b4c516c85268a7"><div class="ttname"><a href="state__getters_8h.html#ae94f00068266de35b8b4c516c85268a7">perception_msgs::object_access::getLength</a></div><div class="ttdeci">double getLength(const ObjectState &amp;state)</div><div class="ttdoc">Get the length for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00439">state_getters.h:439</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -773,12 +766,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00253">253</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  253</span>                                                   {</div>
-<div class="line"><span class="lineno">  254</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
-<div class="line"><span class="lineno">  255</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#ad1d90e19c680994d595ca0430ff2af89">indexPitch</a>(state.model_id)];</div>
-<div class="line"><span class="lineno">  256</span>  }</div>
-<div class="ttc" id="astate__index_8h_html_ad1d90e19c680994d595ca0430ff2af89"><div class="ttname"><a href="state__index_8h.html#ad1d90e19c680994d595ca0430ff2af89">perception_msgs::object_access::indexPitch</a></div><div class="ttdeci">int indexPitch(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the pitch for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00232">state_index.h:232</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00232">232</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  232</span>                                                   {</div>
+<div class="line"><span class="lineno">  233</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
+<div class="line"><span class="lineno">  234</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#ad1d90e19c680994d595ca0430ff2af89">indexPitch</a>(state.model_id)];</div>
+<div class="line"><span class="lineno">  235</span>  }</div>
+<div class="ttc" id="astate__index_8h_html_ad1d90e19c680994d595ca0430ff2af89"><div class="ttname"><a href="state__index_8h.html#ad1d90e19c680994d595ca0430ff2af89">perception_msgs::object_access::indexPitch</a></div><div class="ttdeci">int indexPitch(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the pitch for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00211">state_index.h:211</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -823,11 +816,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00266">266</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  266</span>                                       {</div>
-<div class="line"><span class="lineno">  267</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a94f384d26e33582f653bec2ac8c047c9">getPitch</a>(obj.state);</div>
-<div class="line"><span class="lineno">  268</span>  }</div>
-<div class="ttc" id="astate__getters_8h_html_a94f384d26e33582f653bec2ac8c047c9"><div class="ttname"><a href="state__getters_8h.html#a94f384d26e33582f653bec2ac8c047c9">perception_msgs::object_access::getPitch</a></div><div class="ttdeci">double getPitch(const ObjectState &amp;state)</div><div class="ttdoc">Get the pitch for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00253">state_getters.h:253</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00245">245</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  245</span>                                       {</div>
+<div class="line"><span class="lineno">  246</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a94f384d26e33582f653bec2ac8c047c9">getPitch</a>(obj.state);</div>
+<div class="line"><span class="lineno">  247</span>  }</div>
+<div class="ttc" id="astate__getters_8h_html_a94f384d26e33582f653bec2ac8c047c9"><div class="ttname"><a href="state__getters_8h.html#a94f384d26e33582f653bec2ac8c047c9">perception_msgs::object_access::getPitch</a></div><div class="ttdeci">double getPitch(const ObjectState &amp;state)</div><div class="ttdoc">Get the pitch for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00232">state_getters.h:232</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -864,12 +857,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00276">276</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  276</span>                                                       {</div>
-<div class="line"><span class="lineno">  277</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
-<div class="line"><span class="lineno">  278</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#a2e81bde94b6562e3fcb1133156f7350d">indexPitchRate</a>(state.model_id)];</div>
-<div class="line"><span class="lineno">  279</span>  }</div>
-<div class="ttc" id="astate__index_8h_html_a2e81bde94b6562e3fcb1133156f7350d"><div class="ttname"><a href="state__index_8h.html#a2e81bde94b6562e3fcb1133156f7350d">perception_msgs::object_access::indexPitchRate</a></div><div class="ttdeci">int indexPitchRate(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the pitch rate for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00251">state_index.h:251</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00255">255</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  255</span>                                                       {</div>
+<div class="line"><span class="lineno">  256</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
+<div class="line"><span class="lineno">  257</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#a2e81bde94b6562e3fcb1133156f7350d">indexPitchRate</a>(state.model_id)];</div>
+<div class="line"><span class="lineno">  258</span>  }</div>
+<div class="ttc" id="astate__index_8h_html_a2e81bde94b6562e3fcb1133156f7350d"><div class="ttname"><a href="state__index_8h.html#a2e81bde94b6562e3fcb1133156f7350d">perception_msgs::object_access::indexPitchRate</a></div><div class="ttdeci">int indexPitchRate(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the pitch rate for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00230">state_index.h:230</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -914,11 +907,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00289">289</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  289</span>                                           {</div>
-<div class="line"><span class="lineno">  290</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a8ff9a156eb2d7760ef300e9cb4ac88df">getPitchRate</a>(obj.state);</div>
-<div class="line"><span class="lineno">  291</span>  }</div>
-<div class="ttc" id="astate__getters_8h_html_a8ff9a156eb2d7760ef300e9cb4ac88df"><div class="ttname"><a href="state__getters_8h.html#a8ff9a156eb2d7760ef300e9cb4ac88df">perception_msgs::object_access::getPitchRate</a></div><div class="ttdeci">double getPitchRate(const ObjectState &amp;state)</div><div class="ttdoc">Get the pitch-rate for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00276">state_getters.h:276</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00268">268</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  268</span>                                           {</div>
+<div class="line"><span class="lineno">  269</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a8ff9a156eb2d7760ef300e9cb4ac88df">getPitchRate</a>(obj.state);</div>
+<div class="line"><span class="lineno">  270</span>  }</div>
+<div class="ttc" id="astate__getters_8h_html_a8ff9a156eb2d7760ef300e9cb4ac88df"><div class="ttname"><a href="state__getters_8h.html#a8ff9a156eb2d7760ef300e9cb4ac88df">perception_msgs::object_access::getPitchRate</a></div><div class="ttdeci">double getPitchRate(const ObjectState &amp;state)</div><div class="ttdoc">Get the pitch-rate for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00255">state_getters.h:255</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -955,12 +948,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>uint8_t </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00577">577</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  577</span>                                                           {</div>
-<div class="line"><span class="lineno">  578</span>    <a class="code hl_function" href="checks_8h.html#af6ab65e0f0dbd9681391761c184dee94">sanityCheckDiscreteState</a>(state);</div>
-<div class="line"><span class="lineno">  579</span>    <span class="keywordflow">return</span> state.discrete_state[<a class="code hl_function" href="state__index_8h.html#aa5aa148c04a6fbb0e37ae8c981f9094b">indexReverseLight</a>(state.model_id)];</div>
-<div class="line"><span class="lineno">  580</span>  }</div>
-<div class="ttc" id="astate__index_8h_html_aa5aa148c04a6fbb0e37ae8c981f9094b"><div class="ttname"><a href="state__index_8h.html#aa5aa148c04a6fbb0e37ae8c981f9094b">perception_msgs::object_access::indexReverseLight</a></div><div class="ttdeci">int indexReverseLight(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the reverse light state for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00478">state_index.h:478</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00556">556</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  556</span>                                                           {</div>
+<div class="line"><span class="lineno">  557</span>    <a class="code hl_function" href="checks_8h.html#af6ab65e0f0dbd9681391761c184dee94">sanityCheckDiscreteState</a>(state);</div>
+<div class="line"><span class="lineno">  558</span>    <span class="keywordflow">return</span> state.discrete_state[<a class="code hl_function" href="state__index_8h.html#aa5aa148c04a6fbb0e37ae8c981f9094b">indexReverseLight</a>(state.model_id)];</div>
+<div class="line"><span class="lineno">  559</span>  }</div>
+<div class="ttc" id="astate__index_8h_html_aa5aa148c04a6fbb0e37ae8c981f9094b"><div class="ttname"><a href="state__index_8h.html#aa5aa148c04a6fbb0e37ae8c981f9094b">perception_msgs::object_access::indexReverseLight</a></div><div class="ttdeci">int indexReverseLight(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the reverse light state for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00457">state_index.h:457</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1005,11 +998,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>uint8_t </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00590">590</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  590</span>                                               {</div>
-<div class="line"><span class="lineno">  591</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#aac707017f9443bd505c4013550249209">getReverseLight</a>(obj.state);</div>
-<div class="line"><span class="lineno">  592</span>  }</div>
-<div class="ttc" id="astate__getters_8h_html_aac707017f9443bd505c4013550249209"><div class="ttname"><a href="state__getters_8h.html#aac707017f9443bd505c4013550249209">perception_msgs::object_access::getReverseLight</a></div><div class="ttdeci">uint8_t getReverseLight(const ObjectState &amp;state)</div><div class="ttdoc">Get the reverse light state for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00577">state_getters.h:577</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00569">569</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  569</span>                                               {</div>
+<div class="line"><span class="lineno">  570</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#aac707017f9443bd505c4013550249209">getReverseLight</a>(obj.state);</div>
+<div class="line"><span class="lineno">  571</span>  }</div>
+<div class="ttc" id="astate__getters_8h_html_aac707017f9443bd505c4013550249209"><div class="ttname"><a href="state__getters_8h.html#aac707017f9443bd505c4013550249209">perception_msgs::object_access::getReverseLight</a></div><div class="ttdeci">uint8_t getReverseLight(const ObjectState &amp;state)</div><div class="ttdoc">Get the reverse light state for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00556">state_getters.h:556</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1046,12 +1039,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00207">207</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  207</span>                                                  {</div>
-<div class="line"><span class="lineno">  208</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
-<div class="line"><span class="lineno">  209</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#a232fcc2a2ab81f1b80785de88cc66b15">indexRoll</a>(state.model_id)];</div>
-<div class="line"><span class="lineno">  210</span>  }</div>
-<div class="ttc" id="astate__index_8h_html_a232fcc2a2ab81f1b80785de88cc66b15"><div class="ttname"><a href="state__index_8h.html#a232fcc2a2ab81f1b80785de88cc66b15">perception_msgs::object_access::indexRoll</a></div><div class="ttdeci">int indexRoll(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the roll for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00198">state_index.h:198</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00186">186</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  186</span>                                                  {</div>
+<div class="line"><span class="lineno">  187</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
+<div class="line"><span class="lineno">  188</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#a232fcc2a2ab81f1b80785de88cc66b15">indexRoll</a>(state.model_id)];</div>
+<div class="line"><span class="lineno">  189</span>  }</div>
+<div class="ttc" id="astate__index_8h_html_a232fcc2a2ab81f1b80785de88cc66b15"><div class="ttname"><a href="state__index_8h.html#a232fcc2a2ab81f1b80785de88cc66b15">perception_msgs::object_access::indexRoll</a></div><div class="ttdeci">int indexRoll(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the roll for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00177">state_index.h:177</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1096,11 +1089,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00220">220</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  220</span>                                      {</div>
-<div class="line"><span class="lineno">  221</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a255367277a33bce850202984931fbba9">getRoll</a>(obj.state);</div>
-<div class="line"><span class="lineno">  222</span>  }</div>
-<div class="ttc" id="astate__getters_8h_html_a255367277a33bce850202984931fbba9"><div class="ttname"><a href="state__getters_8h.html#a255367277a33bce850202984931fbba9">perception_msgs::object_access::getRoll</a></div><div class="ttdeci">double getRoll(const ObjectState &amp;state)</div><div class="ttdoc">Get the roll for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00207">state_getters.h:207</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00199">199</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  199</span>                                      {</div>
+<div class="line"><span class="lineno">  200</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a255367277a33bce850202984931fbba9">getRoll</a>(obj.state);</div>
+<div class="line"><span class="lineno">  201</span>  }</div>
+<div class="ttc" id="astate__getters_8h_html_a255367277a33bce850202984931fbba9"><div class="ttname"><a href="state__getters_8h.html#a255367277a33bce850202984931fbba9">perception_msgs::object_access::getRoll</a></div><div class="ttdeci">double getRoll(const ObjectState &amp;state)</div><div class="ttdoc">Get the roll for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00186">state_getters.h:186</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1137,12 +1130,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00230">230</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  230</span>                                                      {</div>
-<div class="line"><span class="lineno">  231</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
-<div class="line"><span class="lineno">  232</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#a109490cd56b5e46dd86f034db7f0c898">indexRollRate</a>(state.model_id)];</div>
-<div class="line"><span class="lineno">  233</span>  }</div>
-<div class="ttc" id="astate__index_8h_html_a109490cd56b5e46dd86f034db7f0c898"><div class="ttname"><a href="state__index_8h.html#a109490cd56b5e46dd86f034db7f0c898">perception_msgs::object_access::indexRollRate</a></div><div class="ttdeci">int indexRollRate(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the roll rate for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00217">state_index.h:217</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00209">209</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  209</span>                                                      {</div>
+<div class="line"><span class="lineno">  210</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
+<div class="line"><span class="lineno">  211</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#a109490cd56b5e46dd86f034db7f0c898">indexRollRate</a>(state.model_id)];</div>
+<div class="line"><span class="lineno">  212</span>  }</div>
+<div class="ttc" id="astate__index_8h_html_a109490cd56b5e46dd86f034db7f0c898"><div class="ttname"><a href="state__index_8h.html#a109490cd56b5e46dd86f034db7f0c898">perception_msgs::object_access::indexRollRate</a></div><div class="ttdeci">int indexRollRate(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the roll rate for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00196">state_index.h:196</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1187,11 +1180,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00243">243</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  243</span>                                          {</div>
-<div class="line"><span class="lineno">  244</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a81a84803578f3cb4f57d9af221cb4e34">getRollRate</a>(obj.state);</div>
-<div class="line"><span class="lineno">  245</span>  }</div>
-<div class="ttc" id="astate__getters_8h_html_a81a84803578f3cb4f57d9af221cb4e34"><div class="ttname"><a href="state__getters_8h.html#a81a84803578f3cb4f57d9af221cb4e34">perception_msgs::object_access::getRollRate</a></div><div class="ttdeci">double getRollRate(const ObjectState &amp;state)</div><div class="ttdoc">Get the roll-rate for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00230">state_getters.h:230</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00222">222</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  222</span>                                          {</div>
+<div class="line"><span class="lineno">  223</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a81a84803578f3cb4f57d9af221cb4e34">getRollRate</a>(obj.state);</div>
+<div class="line"><span class="lineno">  224</span>  }</div>
+<div class="ttc" id="astate__getters_8h_html_a81a84803578f3cb4f57d9af221cb4e34"><div class="ttname"><a href="state__getters_8h.html#a81a84803578f3cb4f57d9af221cb4e34">perception_msgs::object_access::getRollRate</a></div><div class="ttdeci">double getRollRate(const ObjectState &amp;state)</div><div class="ttdoc">Get the roll-rate for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00209">state_getters.h:209</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1230,12 +1223,12 @@ template&lt;typename T &gt; </div>
 <dd>
 false </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00507">507</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  507</span>                                                      {</div>
-<div class="line"><span class="lineno">  508</span>    <a class="code hl_function" href="checks_8h.html#af6ab65e0f0dbd9681391761c184dee94">sanityCheckDiscreteState</a>(state);</div>
-<div class="line"><span class="lineno">  509</span>    <span class="keywordflow">return</span> state.discrete_state[<a class="code hl_function" href="state__index_8h.html#ab44cd7311f7046ec2ff9d6756de749a2">indexStandstill</a>(state.model_id)];</div>
-<div class="line"><span class="lineno">  510</span>  }</div>
-<div class="ttc" id="astate__index_8h_html_ab44cd7311f7046ec2ff9d6756de749a2"><div class="ttname"><a href="state__index_8h.html#ab44cd7311f7046ec2ff9d6756de749a2">perception_msgs::object_access::indexStandstill</a></div><div class="ttdeci">int indexStandstill(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the standstill indication for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00419">state_index.h:419</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00486">486</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  486</span>                                                      {</div>
+<div class="line"><span class="lineno">  487</span>    <a class="code hl_function" href="checks_8h.html#af6ab65e0f0dbd9681391761c184dee94">sanityCheckDiscreteState</a>(state);</div>
+<div class="line"><span class="lineno">  488</span>    <span class="keywordflow">return</span> state.discrete_state[<a class="code hl_function" href="state__index_8h.html#ab44cd7311f7046ec2ff9d6756de749a2">indexStandstill</a>(state.model_id)];</div>
+<div class="line"><span class="lineno">  489</span>  }</div>
+<div class="ttc" id="astate__index_8h_html_ab44cd7311f7046ec2ff9d6756de749a2"><div class="ttname"><a href="state__index_8h.html#ab44cd7311f7046ec2ff9d6756de749a2">perception_msgs::object_access::indexStandstill</a></div><div class="ttdeci">int indexStandstill(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the standstill indication for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00398">state_index.h:398</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1282,11 +1275,11 @@ template&lt;typename T &gt; </div>
 <dd>
 false </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00521">521</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  521</span>                                          {</div>
-<div class="line"><span class="lineno">  522</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#ab711daf86b2400dda630461b993ac7c7">getStandstill</a>(obj.state);</div>
-<div class="line"><span class="lineno">  523</span>  }</div>
-<div class="ttc" id="astate__getters_8h_html_ab711daf86b2400dda630461b993ac7c7"><div class="ttname"><a href="state__getters_8h.html#ab711daf86b2400dda630461b993ac7c7">perception_msgs::object_access::getStandstill</a></div><div class="ttdeci">bool getStandstill(const ObjectState &amp;state)</div><div class="ttdoc">Get standstill indication for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00507">state_getters.h:507</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00500">500</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  500</span>                                          {</div>
+<div class="line"><span class="lineno">  501</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#ab711daf86b2400dda630461b993ac7c7">getStandstill</a>(obj.state);</div>
+<div class="line"><span class="lineno">  502</span>  }</div>
+<div class="ttc" id="astate__getters_8h_html_ab711daf86b2400dda630461b993ac7c7"><div class="ttname"><a href="state__getters_8h.html#ab711daf86b2400dda630461b993ac7c7">perception_msgs::object_access::getStandstill</a></div><div class="ttdeci">bool getStandstill(const ObjectState &amp;state)</div><div class="ttdoc">Get standstill indication for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00486">state_getters.h:486</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1323,12 +1316,12 @@ false </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00345">345</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  345</span>                                                              {</div>
-<div class="line"><span class="lineno">  346</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
-<div class="line"><span class="lineno">  347</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#ad6e9466b0021530dcbc17b1e11afdac7">indexSteeringAngleAck</a>(state.model_id)];</div>
-<div class="line"><span class="lineno">  348</span>  }</div>
-<div class="ttc" id="astate__index_8h_html_ad6e9466b0021530dcbc17b1e11afdac7"><div class="ttname"><a href="state__index_8h.html#ad6e9466b0021530dcbc17b1e11afdac7">perception_msgs::object_access::indexSteeringAngleAck</a></div><div class="ttdeci">int indexSteeringAngleAck(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the ackermann steering angle for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00308">state_index.h:308</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00324">324</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  324</span>                                                              {</div>
+<div class="line"><span class="lineno">  325</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
+<div class="line"><span class="lineno">  326</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#ad6e9466b0021530dcbc17b1e11afdac7">indexSteeringAngleAck</a>(state.model_id)];</div>
+<div class="line"><span class="lineno">  327</span>  }</div>
+<div class="ttc" id="astate__index_8h_html_ad6e9466b0021530dcbc17b1e11afdac7"><div class="ttname"><a href="state__index_8h.html#ad6e9466b0021530dcbc17b1e11afdac7">perception_msgs::object_access::indexSteeringAngleAck</a></div><div class="ttdeci">int indexSteeringAngleAck(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the ackermann steering angle for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00287">state_index.h:287</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1373,11 +1366,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00358">358</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  358</span>                                                  {</div>
-<div class="line"><span class="lineno">  359</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a0cd5d5ff80caf338abb7db3589444d66">getSteeringAngleAck</a>(obj.state);</div>
-<div class="line"><span class="lineno">  360</span>  }</div>
-<div class="ttc" id="astate__getters_8h_html_a0cd5d5ff80caf338abb7db3589444d66"><div class="ttname"><a href="state__getters_8h.html#a0cd5d5ff80caf338abb7db3589444d66">perception_msgs::object_access::getSteeringAngleAck</a></div><div class="ttdeci">double getSteeringAngleAck(const ObjectState &amp;state)</div><div class="ttdoc">Get the ackermann steering angle for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00345">state_getters.h:345</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00337">337</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  337</span>                                                  {</div>
+<div class="line"><span class="lineno">  338</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a0cd5d5ff80caf338abb7db3589444d66">getSteeringAngleAck</a>(obj.state);</div>
+<div class="line"><span class="lineno">  339</span>  }</div>
+<div class="ttc" id="astate__getters_8h_html_a0cd5d5ff80caf338abb7db3589444d66"><div class="ttname"><a href="state__getters_8h.html#a0cd5d5ff80caf338abb7db3589444d66">perception_msgs::object_access::getSteeringAngleAck</a></div><div class="ttdeci">double getSteeringAngleAck(const ObjectState &amp;state)</div><div class="ttdoc">Get the ackermann steering angle for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00324">state_getters.h:324</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1414,12 +1407,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00391">391</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  391</span>                                                                {</div>
-<div class="line"><span class="lineno">  392</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
-<div class="line"><span class="lineno">  393</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#a921d58a89929f56da52911a461b8955e">indexSteeringAngleFront</a>(state.model_id)];</div>
-<div class="line"><span class="lineno">  394</span>  }</div>
-<div class="ttc" id="astate__index_8h_html_a921d58a89929f56da52911a461b8955e"><div class="ttname"><a href="state__index_8h.html#a921d58a89929f56da52911a461b8955e">perception_msgs::object_access::indexSteeringAngleFront</a></div><div class="ttdeci">int indexSteeringAngleFront(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the front wheel angle for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00338">state_index.h:338</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00370">370</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  370</span>                                                                {</div>
+<div class="line"><span class="lineno">  371</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
+<div class="line"><span class="lineno">  372</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#a921d58a89929f56da52911a461b8955e">indexSteeringAngleFront</a>(state.model_id)];</div>
+<div class="line"><span class="lineno">  373</span>  }</div>
+<div class="ttc" id="astate__index_8h_html_a921d58a89929f56da52911a461b8955e"><div class="ttname"><a href="state__index_8h.html#a921d58a89929f56da52911a461b8955e">perception_msgs::object_access::indexSteeringAngleFront</a></div><div class="ttdeci">int indexSteeringAngleFront(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the front wheel angle for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00317">state_index.h:317</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1464,11 +1457,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00404">404</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  404</span>                                                    {</div>
-<div class="line"><span class="lineno">  405</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a8f0d284d434b08639c4751e1de768c28">getSteeringAngleFront</a>(obj.state);</div>
-<div class="line"><span class="lineno">  406</span>  }</div>
-<div class="ttc" id="astate__getters_8h_html_a8f0d284d434b08639c4751e1de768c28"><div class="ttname"><a href="state__getters_8h.html#a8f0d284d434b08639c4751e1de768c28">perception_msgs::object_access::getSteeringAngleFront</a></div><div class="ttdeci">double getSteeringAngleFront(const ObjectState &amp;state)</div><div class="ttdoc">Get the front wheel angle for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00391">state_getters.h:391</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00383">383</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  383</span>                                                    {</div>
+<div class="line"><span class="lineno">  384</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a8f0d284d434b08639c4751e1de768c28">getSteeringAngleFront</a>(obj.state);</div>
+<div class="line"><span class="lineno">  385</span>  }</div>
+<div class="ttc" id="astate__getters_8h_html_a8f0d284d434b08639c4751e1de768c28"><div class="ttname"><a href="state__getters_8h.html#a8f0d284d434b08639c4751e1de768c28">perception_msgs::object_access::getSteeringAngleFront</a></div><div class="ttdeci">double getSteeringAngleFront(const ObjectState &amp;state)</div><div class="ttdoc">Get the front wheel angle for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00370">state_getters.h:370</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1505,12 +1498,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00368">368</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  368</span>                                                                  {</div>
-<div class="line"><span class="lineno">  369</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
-<div class="line"><span class="lineno">  370</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#acdfc811289b962d939e9409286095a6c">indexSteeringAngleRateAck</a>(state.model_id)];</div>
-<div class="line"><span class="lineno">  371</span>  }</div>
-<div class="ttc" id="astate__index_8h_html_acdfc811289b962d939e9409286095a6c"><div class="ttname"><a href="state__index_8h.html#acdfc811289b962d939e9409286095a6c">perception_msgs::object_access::indexSteeringAngleRateAck</a></div><div class="ttdeci">int indexSteeringAngleRateAck(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the steering angle rate for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00323">state_index.h:323</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00347">347</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  347</span>                                                                  {</div>
+<div class="line"><span class="lineno">  348</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
+<div class="line"><span class="lineno">  349</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#acdfc811289b962d939e9409286095a6c">indexSteeringAngleRateAck</a>(state.model_id)];</div>
+<div class="line"><span class="lineno">  350</span>  }</div>
+<div class="ttc" id="astate__index_8h_html_acdfc811289b962d939e9409286095a6c"><div class="ttname"><a href="state__index_8h.html#acdfc811289b962d939e9409286095a6c">perception_msgs::object_access::indexSteeringAngleRateAck</a></div><div class="ttdeci">int indexSteeringAngleRateAck(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the steering angle rate for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00302">state_index.h:302</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1555,11 +1548,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00381">381</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  381</span>                                                      {</div>
-<div class="line"><span class="lineno">  382</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#ac887805c5c4dd405e0ab7c22938f8796">getSteeringAngleRateAck</a>(obj.state);</div>
-<div class="line"><span class="lineno">  383</span>  }</div>
-<div class="ttc" id="astate__getters_8h_html_ac887805c5c4dd405e0ab7c22938f8796"><div class="ttname"><a href="state__getters_8h.html#ac887805c5c4dd405e0ab7c22938f8796">perception_msgs::object_access::getSteeringAngleRateAck</a></div><div class="ttdeci">double getSteeringAngleRateAck(const ObjectState &amp;state)</div><div class="ttdoc">Get the steering angle rate for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00368">state_getters.h:368</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00360">360</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  360</span>                                                      {</div>
+<div class="line"><span class="lineno">  361</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#ac887805c5c4dd405e0ab7c22938f8796">getSteeringAngleRateAck</a>(obj.state);</div>
+<div class="line"><span class="lineno">  362</span>  }</div>
+<div class="ttc" id="astate__getters_8h_html_ac887805c5c4dd405e0ab7c22938f8796"><div class="ttname"><a href="state__getters_8h.html#ac887805c5c4dd405e0ab7c22938f8796">perception_msgs::object_access::getSteeringAngleRateAck</a></div><div class="ttdeci">double getSteeringAngleRateAck(const ObjectState &amp;state)</div><div class="ttdoc">Get the steering angle rate for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00347">state_getters.h:347</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1596,12 +1589,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00414">414</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  414</span>                                                               {</div>
-<div class="line"><span class="lineno">  415</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
-<div class="line"><span class="lineno">  416</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#a9527ece016113c8011daca5dbf41095d">indexSteeringAngleRear</a>(state.model_id)];</div>
-<div class="line"><span class="lineno">  417</span>  }</div>
-<div class="ttc" id="astate__index_8h_html_a9527ece016113c8011daca5dbf41095d"><div class="ttname"><a href="state__index_8h.html#a9527ece016113c8011daca5dbf41095d">perception_msgs::object_access::indexSteeringAngleRear</a></div><div class="ttdeci">int indexSteeringAngleRear(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the rear wheel angle for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00353">state_index.h:353</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00393">393</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  393</span>                                                               {</div>
+<div class="line"><span class="lineno">  394</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
+<div class="line"><span class="lineno">  395</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#a9527ece016113c8011daca5dbf41095d">indexSteeringAngleRear</a>(state.model_id)];</div>
+<div class="line"><span class="lineno">  396</span>  }</div>
+<div class="ttc" id="astate__index_8h_html_a9527ece016113c8011daca5dbf41095d"><div class="ttname"><a href="state__index_8h.html#a9527ece016113c8011daca5dbf41095d">perception_msgs::object_access::indexSteeringAngleRear</a></div><div class="ttdeci">int indexSteeringAngleRear(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the rear wheel angle for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00332">state_index.h:332</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1646,11 +1639,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00427">427</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  427</span>                                                   {</div>
-<div class="line"><span class="lineno">  428</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a66cf9eea8af0dfed98fcfc5107a9dc5b">getSteeringAngleRear</a>(obj.state);</div>
-<div class="line"><span class="lineno">  429</span>  }</div>
-<div class="ttc" id="astate__getters_8h_html_a66cf9eea8af0dfed98fcfc5107a9dc5b"><div class="ttname"><a href="state__getters_8h.html#a66cf9eea8af0dfed98fcfc5107a9dc5b">perception_msgs::object_access::getSteeringAngleRear</a></div><div class="ttdeci">double getSteeringAngleRear(const ObjectState &amp;state)</div><div class="ttdoc">Get the rear wheel angle for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00414">state_getters.h:414</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00406">406</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  406</span>                                                   {</div>
+<div class="line"><span class="lineno">  407</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a66cf9eea8af0dfed98fcfc5107a9dc5b">getSteeringAngleRear</a>(obj.state);</div>
+<div class="line"><span class="lineno">  408</span>  }</div>
+<div class="ttc" id="astate__getters_8h_html_a66cf9eea8af0dfed98fcfc5107a9dc5b"><div class="ttname"><a href="state__getters_8h.html#a66cf9eea8af0dfed98fcfc5107a9dc5b">perception_msgs::object_access::getSteeringAngleRear</a></div><div class="ttdeci">double getSteeringAngleRear(const ObjectState &amp;state)</div><div class="ttdoc">Get the rear wheel angle for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00393">state_getters.h:393</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1687,12 +1680,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>uint8_t </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00601">601</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  601</span>                                                                {</div>
-<div class="line"><span class="lineno">  602</span>    <a class="code hl_function" href="checks_8h.html#af6ab65e0f0dbd9681391761c184dee94">sanityCheckDiscreteState</a>(state);</div>
-<div class="line"><span class="lineno">  603</span>    <span class="keywordflow">return</span> state.discrete_state[<a class="code hl_function" href="state__index_8h.html#ae00bb2746db62f3d28647d1672b78fe8">indexTrafficLightState</a>(state.model_id)];</div>
-<div class="line"><span class="lineno">  604</span>  }</div>
-<div class="ttc" id="astate__index_8h_html_ae00bb2746db62f3d28647d1672b78fe8"><div class="ttname"><a href="state__index_8h.html#ae00bb2746db62f3d28647d1672b78fe8">perception_msgs::object_access::indexTrafficLightState</a></div><div class="ttdeci">int indexTrafficLightState(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the traffic light state for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00500">state_index.h:500</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00580">580</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  580</span>                                                                {</div>
+<div class="line"><span class="lineno">  581</span>    <a class="code hl_function" href="checks_8h.html#af6ab65e0f0dbd9681391761c184dee94">sanityCheckDiscreteState</a>(state);</div>
+<div class="line"><span class="lineno">  582</span>    <span class="keywordflow">return</span> state.discrete_state[<a class="code hl_function" href="state__index_8h.html#ae00bb2746db62f3d28647d1672b78fe8">indexTrafficLightState</a>(state.model_id)];</div>
+<div class="line"><span class="lineno">  583</span>  }</div>
+<div class="ttc" id="astate__index_8h_html_ae00bb2746db62f3d28647d1672b78fe8"><div class="ttname"><a href="state__index_8h.html#ae00bb2746db62f3d28647d1672b78fe8">perception_msgs::object_access::indexTrafficLightState</a></div><div class="ttdeci">int indexTrafficLightState(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the traffic light state for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00479">state_index.h:479</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1737,11 +1730,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>uint8_t </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00616">616</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  616</span>                                                    {</div>
-<div class="line"><span class="lineno">  617</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a7ac90c784f69d97ddf5e76534dab59f7">getTrafficLightState</a>(obj.state);</div>
-<div class="line"><span class="lineno">  618</span>  }</div>
-<div class="ttc" id="astate__getters_8h_html_a7ac90c784f69d97ddf5e76534dab59f7"><div class="ttname"><a href="state__getters_8h.html#a7ac90c784f69d97ddf5e76534dab59f7">perception_msgs::object_access::getTrafficLightState</a></div><div class="ttdeci">uint8_t getTrafficLightState(const ObjectState &amp;state)</div><div class="ttdoc">Get the traffic light state for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00601">state_getters.h:601</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00595">595</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  595</span>                                                    {</div>
+<div class="line"><span class="lineno">  596</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a7ac90c784f69d97ddf5e76534dab59f7">getTrafficLightState</a>(obj.state);</div>
+<div class="line"><span class="lineno">  597</span>  }</div>
+<div class="ttc" id="astate__getters_8h_html_a7ac90c784f69d97ddf5e76534dab59f7"><div class="ttname"><a href="state__getters_8h.html#a7ac90c784f69d97ddf5e76534dab59f7">perception_msgs::object_access::getTrafficLightState</a></div><div class="ttdeci">uint8_t getTrafficLightState(const ObjectState &amp;state)</div><div class="ttdoc">Get the traffic light state for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00580">state_getters.h:580</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1778,12 +1771,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>uint8_t </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00627">627</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  627</span>                                                               {</div>
-<div class="line"><span class="lineno">  628</span>    <a class="code hl_function" href="checks_8h.html#af6ab65e0f0dbd9681391761c184dee94">sanityCheckDiscreteState</a>(state);</div>
-<div class="line"><span class="lineno">  629</span>    <span class="keywordflow">return</span> state.discrete_state[<a class="code hl_function" href="state__index_8h.html#abbae13c7c16baa398128de8b6b4505e1">indexTrafficLightType</a>(state.model_id)];</div>
-<div class="line"><span class="lineno">  630</span>  }</div>
-<div class="ttc" id="astate__index_8h_html_abbae13c7c16baa398128de8b6b4505e1"><div class="ttname"><a href="state__index_8h.html#abbae13c7c16baa398128de8b6b4505e1">perception_msgs::object_access::indexTrafficLightType</a></div><div class="ttdeci">int indexTrafficLightType(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the traffic light type for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00516">state_index.h:516</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00606">606</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  606</span>                                                               {</div>
+<div class="line"><span class="lineno">  607</span>    <a class="code hl_function" href="checks_8h.html#af6ab65e0f0dbd9681391761c184dee94">sanityCheckDiscreteState</a>(state);</div>
+<div class="line"><span class="lineno">  608</span>    <span class="keywordflow">return</span> state.discrete_state[<a class="code hl_function" href="state__index_8h.html#abbae13c7c16baa398128de8b6b4505e1">indexTrafficLightType</a>(state.model_id)];</div>
+<div class="line"><span class="lineno">  609</span>  }</div>
+<div class="ttc" id="astate__index_8h_html_abbae13c7c16baa398128de8b6b4505e1"><div class="ttname"><a href="state__index_8h.html#abbae13c7c16baa398128de8b6b4505e1">perception_msgs::object_access::indexTrafficLightType</a></div><div class="ttdeci">int indexTrafficLightType(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the traffic light type for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00495">state_index.h:495</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1828,11 +1821,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>uint8_t </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00642">642</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  642</span>                                                   {</div>
-<div class="line"><span class="lineno">  643</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#aecd783643ed02efd7ab272cd97ebb4dc">getTrafficLightType</a>(obj.state);</div>
-<div class="line"><span class="lineno">  644</span>  }</div>
-<div class="ttc" id="astate__getters_8h_html_aecd783643ed02efd7ab272cd97ebb4dc"><div class="ttname"><a href="state__getters_8h.html#aecd783643ed02efd7ab272cd97ebb4dc">perception_msgs::object_access::getTrafficLightType</a></div><div class="ttdeci">uint8_t getTrafficLightType(const ObjectState &amp;state)</div><div class="ttdoc">Get the traffic light type for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00627">state_getters.h:627</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00621">621</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  621</span>                                                   {</div>
+<div class="line"><span class="lineno">  622</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#aecd783643ed02efd7ab272cd97ebb4dc">getTrafficLightType</a>(obj.state);</div>
+<div class="line"><span class="lineno">  623</span>  }</div>
+<div class="ttc" id="astate__getters_8h_html_aecd783643ed02efd7ab272cd97ebb4dc"><div class="ttname"><a href="state__getters_8h.html#aecd783643ed02efd7ab272cd97ebb4dc">perception_msgs::object_access::getTrafficLightType</a></div><div class="ttdeci">uint8_t getTrafficLightType(const ObjectState &amp;state)</div><div class="ttdoc">Get the traffic light type for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00606">state_getters.h:606</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1869,12 +1862,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>uint8_t </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00531">531</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  531</span>                                                            {</div>
-<div class="line"><span class="lineno">  532</span>    <a class="code hl_function" href="checks_8h.html#af6ab65e0f0dbd9681391761c184dee94">sanityCheckDiscreteState</a>(state);</div>
-<div class="line"><span class="lineno">  533</span>    <span class="keywordflow">return</span> state.discrete_state[<a class="code hl_function" href="state__index_8h.html#a88ada415cb78a77d625b08348960f1a2">indexTurnIndicator</a>(state.model_id)];</div>
-<div class="line"><span class="lineno">  534</span>  }</div>
-<div class="ttc" id="astate__index_8h_html_a88ada415cb78a77d625b08348960f1a2"><div class="ttname"><a href="state__index_8h.html#a88ada415cb78a77d625b08348960f1a2">perception_msgs::object_access::indexTurnIndicator</a></div><div class="ttdeci">int indexTurnIndicator(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the turn indicator state for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00436">state_index.h:436</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00510">510</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  510</span>                                                            {</div>
+<div class="line"><span class="lineno">  511</span>    <a class="code hl_function" href="checks_8h.html#af6ab65e0f0dbd9681391761c184dee94">sanityCheckDiscreteState</a>(state);</div>
+<div class="line"><span class="lineno">  512</span>    <span class="keywordflow">return</span> state.discrete_state[<a class="code hl_function" href="state__index_8h.html#a88ada415cb78a77d625b08348960f1a2">indexTurnIndicator</a>(state.model_id)];</div>
+<div class="line"><span class="lineno">  513</span>  }</div>
+<div class="ttc" id="astate__index_8h_html_a88ada415cb78a77d625b08348960f1a2"><div class="ttname"><a href="state__index_8h.html#a88ada415cb78a77d625b08348960f1a2">perception_msgs::object_access::indexTurnIndicator</a></div><div class="ttdeci">int indexTurnIndicator(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the turn indicator state for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00415">state_index.h:415</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1919,11 +1912,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>uint8_t </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00544">544</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  544</span>                                                {</div>
-<div class="line"><span class="lineno">  545</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a5cb87942e06f657b5d2973f3a7a7d1d3">getTurnIndicator</a>(obj.state);</div>
-<div class="line"><span class="lineno">  546</span>  }</div>
-<div class="ttc" id="astate__getters_8h_html_a5cb87942e06f657b5d2973f3a7a7d1d3"><div class="ttname"><a href="state__getters_8h.html#a5cb87942e06f657b5d2973f3a7a7d1d3">perception_msgs::object_access::getTurnIndicator</a></div><div class="ttdeci">uint8_t getTurnIndicator(const ObjectState &amp;state)</div><div class="ttdoc">Get the turn indicator state for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00531">state_getters.h:531</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00523">523</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  523</span>                                                {</div>
+<div class="line"><span class="lineno">  524</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a5cb87942e06f657b5d2973f3a7a7d1d3">getTurnIndicator</a>(obj.state);</div>
+<div class="line"><span class="lineno">  525</span>  }</div>
+<div class="ttc" id="astate__getters_8h_html_a5cb87942e06f657b5d2973f3a7a7d1d3"><div class="ttname"><a href="state__getters_8h.html#a5cb87942e06f657b5d2973f3a7a7d1d3">perception_msgs::object_access::getTurnIndicator</a></div><div class="ttdeci">uint8_t getTurnIndicator(const ObjectState &amp;state)</div><div class="ttdoc">Get the turn indicator state for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00510">state_getters.h:510</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1960,12 +1953,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00138">138</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  138</span>                                                    {</div>
-<div class="line"><span class="lineno">  139</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
-<div class="line"><span class="lineno">  140</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#a622af9de6932bfd7a510a135bde277a9">indexVelLat</a>(state.model_id)];</div>
-<div class="line"><span class="lineno">  141</span>  }</div>
-<div class="ttc" id="astate__index_8h_html_a622af9de6932bfd7a510a135bde277a9"><div class="ttname"><a href="state__index_8h.html#a622af9de6932bfd7a510a135bde277a9">perception_msgs::object_access::indexVelLat</a></div><div class="ttdeci">int indexVelLat(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the lateral velocity for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00135">state_index.h:135</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00117">117</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  117</span>                                                    {</div>
+<div class="line"><span class="lineno">  118</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
+<div class="line"><span class="lineno">  119</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#a622af9de6932bfd7a510a135bde277a9">indexVelLat</a>(state.model_id)];</div>
+<div class="line"><span class="lineno">  120</span>  }</div>
+<div class="ttc" id="astate__index_8h_html_a622af9de6932bfd7a510a135bde277a9"><div class="ttname"><a href="state__index_8h.html#a622af9de6932bfd7a510a135bde277a9">perception_msgs::object_access::indexVelLat</a></div><div class="ttdeci">int indexVelLat(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the lateral velocity for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00114">state_index.h:114</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2010,11 +2003,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00151">151</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  151</span>                                        {</div>
-<div class="line"><span class="lineno">  152</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#afabf71343941d9ec7f1abe197d95e334">getVelLat</a>(obj.state);</div>
-<div class="line"><span class="lineno">  153</span>  }</div>
-<div class="ttc" id="astate__getters_8h_html_afabf71343941d9ec7f1abe197d95e334"><div class="ttname"><a href="state__getters_8h.html#afabf71343941d9ec7f1abe197d95e334">perception_msgs::object_access::getVelLat</a></div><div class="ttdeci">double getVelLat(const ObjectState &amp;state)</div><div class="ttdoc">Get the longitudinal velocity for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00138">state_getters.h:138</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00130">130</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  130</span>                                        {</div>
+<div class="line"><span class="lineno">  131</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#afabf71343941d9ec7f1abe197d95e334">getVelLat</a>(obj.state);</div>
+<div class="line"><span class="lineno">  132</span>  }</div>
+<div class="ttc" id="astate__getters_8h_html_afabf71343941d9ec7f1abe197d95e334"><div class="ttname"><a href="state__getters_8h.html#afabf71343941d9ec7f1abe197d95e334">perception_msgs::object_access::getVelLat</a></div><div class="ttdeci">double getVelLat(const ObjectState &amp;state)</div><div class="ttdoc">Get the longitudinal velocity for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00117">state_getters.h:117</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2051,12 +2044,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00115">115</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  115</span>                                                    {</div>
-<div class="line"><span class="lineno">  116</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
-<div class="line"><span class="lineno">  117</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#a1fac50efe4b53fbb2dcc563c864e9e10">indexVelLon</a>(state.model_id)];</div>
-<div class="line"><span class="lineno">  118</span>  }</div>
-<div class="ttc" id="astate__index_8h_html_a1fac50efe4b53fbb2dcc563c864e9e10"><div class="ttname"><a href="state__index_8h.html#a1fac50efe4b53fbb2dcc563c864e9e10">perception_msgs::object_access::indexVelLon</a></div><div class="ttdeci">int indexVelLon(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the longitudinal velocity for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00114">state_index.h:114</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00094">94</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   94</span>                                                    {</div>
+<div class="line"><span class="lineno">   95</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
+<div class="line"><span class="lineno">   96</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#a1fac50efe4b53fbb2dcc563c864e9e10">indexVelLon</a>(state.model_id)];</div>
+<div class="line"><span class="lineno">   97</span>  }</div>
+<div class="ttc" id="astate__index_8h_html_a1fac50efe4b53fbb2dcc563c864e9e10"><div class="ttname"><a href="state__index_8h.html#a1fac50efe4b53fbb2dcc563c864e9e10">perception_msgs::object_access::indexVelLon</a></div><div class="ttdeci">int indexVelLon(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the longitudinal velocity for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00093">state_index.h:93</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2101,11 +2094,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00128">128</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  128</span>                                        {</div>
-<div class="line"><span class="lineno">  129</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a3d7f152af4551dda66b92a3ff94d06d7">getVelLon</a>(obj.state);</div>
-<div class="line"><span class="lineno">  130</span>  }</div>
-<div class="ttc" id="astate__getters_8h_html_a3d7f152af4551dda66b92a3ff94d06d7"><div class="ttname"><a href="state__getters_8h.html#a3d7f152af4551dda66b92a3ff94d06d7">perception_msgs::object_access::getVelLon</a></div><div class="ttdeci">double getVelLon(const ObjectState &amp;state)</div><div class="ttdoc">Get the longitudinal velocity for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00115">state_getters.h:115</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00107">107</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  107</span>                                        {</div>
+<div class="line"><span class="lineno">  108</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a3d7f152af4551dda66b92a3ff94d06d7">getVelLon</a>(obj.state);</div>
+<div class="line"><span class="lineno">  109</span>  }</div>
+<div class="ttc" id="astate__getters_8h_html_a3d7f152af4551dda66b92a3ff94d06d7"><div class="ttname"><a href="state__getters_8h.html#a3d7f152af4551dda66b92a3ff94d06d7">perception_msgs::object_access::getVelLon</a></div><div class="ttdeci">double getVelLon(const ObjectState &amp;state)</div><div class="ttdoc">Get the longitudinal velocity for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00094">state_getters.h:94</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2142,12 +2135,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00437">437</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  437</span>                                                   {</div>
-<div class="line"><span class="lineno">  438</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
-<div class="line"><span class="lineno">  439</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#a226ff3d1e885997a3b446eb554ee8095">indexWidth</a>(state.model_id)];</div>
-<div class="line"><span class="lineno">  440</span>  }</div>
-<div class="ttc" id="astate__index_8h_html_a226ff3d1e885997a3b446eb554ee8095"><div class="ttname"><a href="state__index_8h.html#a226ff3d1e885997a3b446eb554ee8095">perception_msgs::object_access::indexWidth</a></div><div class="ttdeci">int indexWidth(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the width for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00368">state_index.h:368</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00416">416</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  416</span>                                                   {</div>
+<div class="line"><span class="lineno">  417</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
+<div class="line"><span class="lineno">  418</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#a226ff3d1e885997a3b446eb554ee8095">indexWidth</a>(state.model_id)];</div>
+<div class="line"><span class="lineno">  419</span>  }</div>
+<div class="ttc" id="astate__index_8h_html_a226ff3d1e885997a3b446eb554ee8095"><div class="ttname"><a href="state__index_8h.html#a226ff3d1e885997a3b446eb554ee8095">perception_msgs::object_access::indexWidth</a></div><div class="ttdeci">int indexWidth(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the width for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00347">state_index.h:347</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2192,11 +2185,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00450">450</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  450</span>                                       {</div>
-<div class="line"><span class="lineno">  451</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#ad4969984ce56f12b364da7f0a0059b4e">getWidth</a>(obj.state);</div>
-<div class="line"><span class="lineno">  452</span>  }</div>
-<div class="ttc" id="astate__getters_8h_html_ad4969984ce56f12b364da7f0a0059b4e"><div class="ttname"><a href="state__getters_8h.html#ad4969984ce56f12b364da7f0a0059b4e">perception_msgs::object_access::getWidth</a></div><div class="ttdeci">double getWidth(const ObjectState &amp;state)</div><div class="ttdoc">Get the width for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00437">state_getters.h:437</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00429">429</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  429</span>                                       {</div>
+<div class="line"><span class="lineno">  430</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#ad4969984ce56f12b364da7f0a0059b4e">getWidth</a>(obj.state);</div>
+<div class="line"><span class="lineno">  431</span>  }</div>
+<div class="ttc" id="astate__getters_8h_html_ad4969984ce56f12b364da7f0a0059b4e"><div class="ttname"><a href="state__getters_8h.html#ad4969984ce56f12b364da7f0a0059b4e">perception_msgs::object_access::getWidth</a></div><div class="ttdeci">double getWidth(const ObjectState &amp;state)</div><div class="ttdoc">Get the width for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00416">state_getters.h:416</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2233,12 +2226,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00045">45</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   45</span>                                               {</div>
-<div class="line"><span class="lineno">   46</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
-<div class="line"><span class="lineno">   47</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#ad76745fdc3a049874f52c174add5e4b1">indexX</a>(state.model_id)];</div>
-<div class="line"><span class="lineno">   48</span>  }</div>
-<div class="ttc" id="astate__index_8h_html_ad76745fdc3a049874f52c174add5e4b1"><div class="ttname"><a href="state__index_8h.html#ad76745fdc3a049874f52c174add5e4b1">perception_msgs::object_access::indexX</a></div><div class="ttdeci">int indexX(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the x-position for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00045">state_index.h:45</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00024">24</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   24</span>                                               {</div>
+<div class="line"><span class="lineno">   25</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
+<div class="line"><span class="lineno">   26</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#ad76745fdc3a049874f52c174add5e4b1">indexX</a>(state.model_id)];</div>
+<div class="line"><span class="lineno">   27</span>  }</div>
+<div class="ttc" id="astate__index_8h_html_ad76745fdc3a049874f52c174add5e4b1"><div class="ttname"><a href="state__index_8h.html#ad76745fdc3a049874f52c174add5e4b1">perception_msgs::object_access::indexX</a></div><div class="ttdeci">int indexX(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the x-position for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00024">state_index.h:24</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2283,11 +2276,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00059">59</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   59</span>                                   {</div>
-<div class="line"><span class="lineno">   60</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#adc7fc228d8c90a882d216f258c329984">getX</a>(obj.state);</div>
-<div class="line"><span class="lineno">   61</span>  }</div>
-<div class="ttc" id="astate__getters_8h_html_adc7fc228d8c90a882d216f258c329984"><div class="ttname"><a href="state__getters_8h.html#adc7fc228d8c90a882d216f258c329984">perception_msgs::object_access::getX</a></div><div class="ttdeci">double getX(const ObjectState &amp;state)</div><div class="ttdoc">Get the x-position for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00045">state_getters.h:45</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00038">38</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   38</span>                                   {</div>
+<div class="line"><span class="lineno">   39</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#adc7fc228d8c90a882d216f258c329984">getX</a>(obj.state);</div>
+<div class="line"><span class="lineno">   40</span>  }</div>
+<div class="ttc" id="astate__getters_8h_html_adc7fc228d8c90a882d216f258c329984"><div class="ttname"><a href="state__getters_8h.html#adc7fc228d8c90a882d216f258c329984">perception_msgs::object_access::getX</a></div><div class="ttdeci">double getX(const ObjectState &amp;state)</div><div class="ttdoc">Get the x-position for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00024">state_getters.h:24</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2324,12 +2317,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00069">69</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   69</span>                                               {</div>
-<div class="line"><span class="lineno">   70</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
-<div class="line"><span class="lineno">   71</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#a9041c0ba2939e915f6bfd0eaa6ab7aab">indexY</a>(state.model_id)];</div>
-<div class="line"><span class="lineno">   72</span>  }</div>
-<div class="ttc" id="astate__index_8h_html_a9041c0ba2939e915f6bfd0eaa6ab7aab"><div class="ttname"><a href="state__index_8h.html#a9041c0ba2939e915f6bfd0eaa6ab7aab">perception_msgs::object_access::indexY</a></div><div class="ttdeci">int indexY(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the y-position for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00068">state_index.h:68</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00048">48</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   48</span>                                               {</div>
+<div class="line"><span class="lineno">   49</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
+<div class="line"><span class="lineno">   50</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#a9041c0ba2939e915f6bfd0eaa6ab7aab">indexY</a>(state.model_id)];</div>
+<div class="line"><span class="lineno">   51</span>  }</div>
+<div class="ttc" id="astate__index_8h_html_a9041c0ba2939e915f6bfd0eaa6ab7aab"><div class="ttname"><a href="state__index_8h.html#a9041c0ba2939e915f6bfd0eaa6ab7aab">perception_msgs::object_access::indexY</a></div><div class="ttdeci">int indexY(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the y-position for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00047">state_index.h:47</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2374,11 +2367,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00082">82</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   82</span>                                   {</div>
-<div class="line"><span class="lineno">   83</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#ab5fdbe447513ad8515a5149a22d95551">getY</a>(obj.state);</div>
-<div class="line"><span class="lineno">   84</span>  }</div>
-<div class="ttc" id="astate__getters_8h_html_ab5fdbe447513ad8515a5149a22d95551"><div class="ttname"><a href="state__getters_8h.html#ab5fdbe447513ad8515a5149a22d95551">perception_msgs::object_access::getY</a></div><div class="ttdeci">double getY(const ObjectState &amp;state)</div><div class="ttdoc">Get the y-position for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00069">state_getters.h:69</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00061">61</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   61</span>                                   {</div>
+<div class="line"><span class="lineno">   62</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#ab5fdbe447513ad8515a5149a22d95551">getY</a>(obj.state);</div>
+<div class="line"><span class="lineno">   63</span>  }</div>
+<div class="ttc" id="astate__getters_8h_html_ab5fdbe447513ad8515a5149a22d95551"><div class="ttname"><a href="state__getters_8h.html#ab5fdbe447513ad8515a5149a22d95551">perception_msgs::object_access::getY</a></div><div class="ttdeci">double getY(const ObjectState &amp;state)</div><div class="ttdoc">Get the y-position for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00048">state_getters.h:48</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2415,12 +2408,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00299">299</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  299</span>                                                 {</div>
-<div class="line"><span class="lineno">  300</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
-<div class="line"><span class="lineno">  301</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#ae0db1580f8971d9ca5d44f06a641618d">indexYaw</a>(state.model_id)];</div>
-<div class="line"><span class="lineno">  302</span>  }</div>
-<div class="ttc" id="astate__index_8h_html_ae0db1580f8971d9ca5d44f06a641618d"><div class="ttname"><a href="state__index_8h.html#ae0db1580f8971d9ca5d44f06a641618d">perception_msgs::object_access::indexYaw</a></div><div class="ttdeci">int indexYaw(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the yaw for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00266">state_index.h:266</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00278">278</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  278</span>                                                 {</div>
+<div class="line"><span class="lineno">  279</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
+<div class="line"><span class="lineno">  280</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#ae0db1580f8971d9ca5d44f06a641618d">indexYaw</a>(state.model_id)];</div>
+<div class="line"><span class="lineno">  281</span>  }</div>
+<div class="ttc" id="astate__index_8h_html_ae0db1580f8971d9ca5d44f06a641618d"><div class="ttname"><a href="state__index_8h.html#ae0db1580f8971d9ca5d44f06a641618d">perception_msgs::object_access::indexYaw</a></div><div class="ttdeci">int indexYaw(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the yaw for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00245">state_index.h:245</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2465,11 +2458,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00312">312</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  312</span>                                     {</div>
-<div class="line"><span class="lineno">  313</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#aa05ce7c3d80795165cbb4830a3f97330">getYaw</a>(obj.state);</div>
-<div class="line"><span class="lineno">  314</span>  }</div>
-<div class="ttc" id="astate__getters_8h_html_aa05ce7c3d80795165cbb4830a3f97330"><div class="ttname"><a href="state__getters_8h.html#aa05ce7c3d80795165cbb4830a3f97330">perception_msgs::object_access::getYaw</a></div><div class="ttdeci">double getYaw(const ObjectState &amp;state)</div><div class="ttdoc">Get the yaw for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00299">state_getters.h:299</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00291">291</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  291</span>                                     {</div>
+<div class="line"><span class="lineno">  292</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#aa05ce7c3d80795165cbb4830a3f97330">getYaw</a>(obj.state);</div>
+<div class="line"><span class="lineno">  293</span>  }</div>
+<div class="ttc" id="astate__getters_8h_html_aa05ce7c3d80795165cbb4830a3f97330"><div class="ttname"><a href="state__getters_8h.html#aa05ce7c3d80795165cbb4830a3f97330">perception_msgs::object_access::getYaw</a></div><div class="ttdeci">double getYaw(const ObjectState &amp;state)</div><div class="ttdoc">Get the yaw for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00278">state_getters.h:278</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2506,12 +2499,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00322">322</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  322</span>                                                     {</div>
-<div class="line"><span class="lineno">  323</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
-<div class="line"><span class="lineno">  324</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#a41d3dfc4672a562d545550457685a4da">indexYawRate</a>(state.model_id)];</div>
-<div class="line"><span class="lineno">  325</span>  }</div>
-<div class="ttc" id="astate__index_8h_html_a41d3dfc4672a562d545550457685a4da"><div class="ttname"><a href="state__index_8h.html#a41d3dfc4672a562d545550457685a4da">perception_msgs::object_access::indexYawRate</a></div><div class="ttdeci">int indexYawRate(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the yaw-rate for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00287">state_index.h:287</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00301">301</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  301</span>                                                     {</div>
+<div class="line"><span class="lineno">  302</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
+<div class="line"><span class="lineno">  303</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#a41d3dfc4672a562d545550457685a4da">indexYawRate</a>(state.model_id)];</div>
+<div class="line"><span class="lineno">  304</span>  }</div>
+<div class="ttc" id="astate__index_8h_html_a41d3dfc4672a562d545550457685a4da"><div class="ttname"><a href="state__index_8h.html#a41d3dfc4672a562d545550457685a4da">perception_msgs::object_access::indexYawRate</a></div><div class="ttdeci">int indexYawRate(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the yaw-rate for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00266">state_index.h:266</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2556,11 +2549,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00335">335</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  335</span>                                         {</div>
-<div class="line"><span class="lineno">  336</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a323f3506df93c47472ca1047f5b306f8">getYawRate</a>(obj.state);</div>
-<div class="line"><span class="lineno">  337</span>  }</div>
-<div class="ttc" id="astate__getters_8h_html_a323f3506df93c47472ca1047f5b306f8"><div class="ttname"><a href="state__getters_8h.html#a323f3506df93c47472ca1047f5b306f8">perception_msgs::object_access::getYawRate</a></div><div class="ttdeci">double getYawRate(const ObjectState &amp;state)</div><div class="ttdoc">Get the yaw-rate for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00322">state_getters.h:322</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00314">314</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  314</span>                                         {</div>
+<div class="line"><span class="lineno">  315</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a323f3506df93c47472ca1047f5b306f8">getYawRate</a>(obj.state);</div>
+<div class="line"><span class="lineno">  316</span>  }</div>
+<div class="ttc" id="astate__getters_8h_html_a323f3506df93c47472ca1047f5b306f8"><div class="ttname"><a href="state__getters_8h.html#a323f3506df93c47472ca1047f5b306f8">perception_msgs::object_access::getYawRate</a></div><div class="ttdeci">double getYawRate(const ObjectState &amp;state)</div><div class="ttdoc">Get the yaw-rate for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00301">state_getters.h:301</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2597,12 +2590,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00092">92</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   92</span>                                               {</div>
-<div class="line"><span class="lineno">   93</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
-<div class="line"><span class="lineno">   94</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#aa827038964981f04ab5186befee299dc">indexZ</a>(state.model_id)];</div>
-<div class="line"><span class="lineno">   95</span>  }</div>
-<div class="ttc" id="astate__index_8h_html_aa827038964981f04ab5186befee299dc"><div class="ttname"><a href="state__index_8h.html#aa827038964981f04ab5186befee299dc">perception_msgs::object_access::indexZ</a></div><div class="ttdeci">int indexZ(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the z-position for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00091">state_index.h:91</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00071">71</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   71</span>                                               {</div>
+<div class="line"><span class="lineno">   72</span>    <a class="code hl_function" href="checks_8h.html#a2c46c886f8f96032a876a3734b6f142f">sanityCheckContinuousState</a>(state);</div>
+<div class="line"><span class="lineno">   73</span>    <span class="keywordflow">return</span> state.continuous_state[<a class="code hl_function" href="state__index_8h.html#aa827038964981f04ab5186befee299dc">indexZ</a>(state.model_id)];</div>
+<div class="line"><span class="lineno">   74</span>  }</div>
+<div class="ttc" id="astate__index_8h_html_aa827038964981f04ab5186befee299dc"><div class="ttname"><a href="state__index_8h.html#aa827038964981f04ab5186befee299dc">perception_msgs::object_access::indexZ</a></div><div class="ttdeci">int indexZ(const unsigned char &amp;model_id)</div><div class="ttdoc">Get the vector-index that stores the z-position for a given model-id.</div><div class="ttdef"><b>Definition</b> <a href="state__index_8h_source.html#l00070">state_index.h:70</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -2647,11 +2640,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>double </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00105">105</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  105</span>                                   {</div>
-<div class="line"><span class="lineno">  106</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a167f05e0c5006cdc69b4cb985466d142">getZ</a>(obj.state);</div>
-<div class="line"><span class="lineno">  107</span>  }</div>
-<div class="ttc" id="astate__getters_8h_html_a167f05e0c5006cdc69b4cb985466d142"><div class="ttname"><a href="state__getters_8h.html#a167f05e0c5006cdc69b4cb985466d142">perception_msgs::object_access::getZ</a></div><div class="ttdeci">double getZ(const ObjectState &amp;state)</div><div class="ttdoc">Get the z-position for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00092">state_getters.h:92</a></div></div>
+<p class="definition">Definition at line <a class="el" href="state__getters_8h_source.html#l00084">84</a> of file <a class="el" href="state__getters_8h_source.html">state_getters.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   84</span>                                   {</div>
+<div class="line"><span class="lineno">   85</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="state__getters_8h.html#a167f05e0c5006cdc69b4cb985466d142">getZ</a>(obj.state);</div>
+<div class="line"><span class="lineno">   86</span>  }</div>
+<div class="ttc" id="astate__getters_8h_html_a167f05e0c5006cdc69b4cb985466d142"><div class="ttname"><a href="state__getters_8h.html#a167f05e0c5006cdc69b4cb985466d142">perception_msgs::object_access::getZ</a></div><div class="ttdeci">double getZ(const ObjectState &amp;state)</div><div class="ttdoc">Get the z-position for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="state__getters_8h_source.html#l00071">state_getters.h:71</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>

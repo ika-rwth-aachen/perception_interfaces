@@ -130,13 +130,6 @@ Variables</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Object state utility functions. </p>
-<p>============================================================================ MIT License</p>
-<p>Copyright (c) 2025 Institute for Automotive Engineering (ika), RWTH Aachen University</p>
-<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
-<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
-<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE </p>
-<h1><a class="anchor" id="autotoc_md21"></a>
-SOFTWARE.</h1>
 
 <p class="definition">Definition in file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
@@ -173,10 +166,10 @@ SOFTWARE.</h1>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>int </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="utils_8h_source.html#l00141">141</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  141</span>                                                                        {</div>
-<div class="line"><span class="lineno">  142</span>    <span class="keywordflow">return</span> state.continuous_state_covariance.size();</div>
-<div class="line"><span class="lineno">  143</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="utils_8h_source.html#l00120">120</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  120</span>                                                                        {</div>
+<div class="line"><span class="lineno">  121</span>    <span class="keywordflow">return</span> state.continuous_state_covariance.size();</div>
+<div class="line"><span class="lineno">  122</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -221,11 +214,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>int </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="utils_8h_source.html#l00153">153</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  153</span>                                                            {</div>
-<div class="line"><span class="lineno">  154</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="utils_8h.html#ae6e0fcb36ab397bff75af95a6c90163d">getContinuousStateCovarianceSize</a>(obj.state);</div>
-<div class="line"><span class="lineno">  155</span>  }</div>
-<div class="ttc" id="autils_8h_html_ae6e0fcb36ab397bff75af95a6c90163d"><div class="ttname"><a href="utils_8h.html#ae6e0fcb36ab397bff75af95a6c90163d">perception_msgs::object_access::getContinuousStateCovarianceSize</a></div><div class="ttdeci">int getContinuousStateCovarianceSize(const ObjectState &amp;state)</div><div class="ttdoc">Get the continuous state covariance size for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="utils_8h_source.html#l00141">utils.h:141</a></div></div>
+<p class="definition">Definition at line <a class="el" href="utils_8h_source.html#l00132">132</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  132</span>                                                            {</div>
+<div class="line"><span class="lineno">  133</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="utils_8h.html#ae6e0fcb36ab397bff75af95a6c90163d">getContinuousStateCovarianceSize</a>(obj.state);</div>
+<div class="line"><span class="lineno">  134</span>  }</div>
+<div class="ttc" id="autils_8h_html_ae6e0fcb36ab397bff75af95a6c90163d"><div class="ttname"><a href="utils_8h.html#ae6e0fcb36ab397bff75af95a6c90163d">perception_msgs::object_access::getContinuousStateCovarianceSize</a></div><div class="ttdeci">int getContinuousStateCovarianceSize(const ObjectState &amp;state)</div><div class="ttdoc">Get the continuous state covariance size for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="utils_8h_source.html#l00120">utils.h:120</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -262,11 +255,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>int </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="utils_8h_source.html#l00163">163</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  163</span>                                                                             {</div>
-<div class="line"><span class="lineno">  164</span>    <span class="keywordflow">return</span> std::pow(<a class="code hl_function" href="utils_8h.html#a6bf2062b73ede62ff74997408ed00bd7">getContinuousStateSize</a>(model_id), 2);</div>
-<div class="line"><span class="lineno">  165</span>  }</div>
-<div class="ttc" id="autils_8h_html_a6bf2062b73ede62ff74997408ed00bd7"><div class="ttname"><a href="utils_8h.html#a6bf2062b73ede62ff74997408ed00bd7">perception_msgs::object_access::getContinuousStateSize</a></div><div class="ttdeci">int getContinuousStateSize(const ObjectState &amp;state)</div><div class="ttdoc">Get the continuous state size for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="utils_8h_source.html#l00051">utils.h:51</a></div></div>
+<p class="definition">Definition at line <a class="el" href="utils_8h_source.html#l00142">142</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  142</span>                                                                             {</div>
+<div class="line"><span class="lineno">  143</span>    <span class="keywordflow">return</span> std::pow(<a class="code hl_function" href="utils_8h.html#a6bf2062b73ede62ff74997408ed00bd7">getContinuousStateSize</a>(model_id), 2);</div>
+<div class="line"><span class="lineno">  144</span>  }</div>
+<div class="ttc" id="autils_8h_html_a6bf2062b73ede62ff74997408ed00bd7"><div class="ttname"><a href="utils_8h.html#a6bf2062b73ede62ff74997408ed00bd7">perception_msgs::object_access::getContinuousStateSize</a></div><div class="ttdeci">int getContinuousStateSize(const ObjectState &amp;state)</div><div class="ttdoc">Get the continuous state size for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="utils_8h_source.html#l00030">utils.h:30</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -303,10 +296,10 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>int </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="utils_8h_source.html#l00051">51</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   51</span>                                                              {</div>
-<div class="line"><span class="lineno">   52</span>    <span class="keywordflow">return</span> state.continuous_state.size();</div>
-<div class="line"><span class="lineno">   53</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="utils_8h_source.html#l00030">30</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   30</span>                                                              {</div>
+<div class="line"><span class="lineno">   31</span>    <span class="keywordflow">return</span> state.continuous_state.size();</div>
+<div class="line"><span class="lineno">   32</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -351,10 +344,10 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>int </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="utils_8h_source.html#l00063">63</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   63</span>                                                  {</div>
-<div class="line"><span class="lineno">   64</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="utils_8h.html#a6bf2062b73ede62ff74997408ed00bd7">getContinuousStateSize</a>(obj.state);</div>
-<div class="line"><span class="lineno">   65</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="utils_8h_source.html#l00042">42</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   42</span>                                                  {</div>
+<div class="line"><span class="lineno">   43</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="utils_8h.html#a6bf2062b73ede62ff74997408ed00bd7">getContinuousStateSize</a>(obj.state);</div>
+<div class="line"><span class="lineno">   44</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -391,23 +384,23 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>int </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="utils_8h_source.html#l00073">73</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   73</span>                                                                   {</div>
-<div class="line"><span class="lineno">   74</span>    <span class="keywordflow">switch</span>(model_id) {</div>
-<div class="line"><span class="lineno">   75</span>      <span class="keywordflow">case</span> EGO::MODEL_ID:</div>
-<div class="line"><span class="lineno">   76</span>        <span class="keywordflow">return</span> EGO::CONTINUOUS_STATE_SIZE;</div>
-<div class="line"><span class="lineno">   77</span>      <span class="keywordflow">case</span> EGORWS::MODEL_ID:</div>
-<div class="line"><span class="lineno">   78</span>        <span class="keywordflow">return</span> EGORWS::CONTINUOUS_STATE_SIZE;</div>
-<div class="line"><span class="lineno">   79</span>      <span class="keywordflow">case</span> ISCACTR::MODEL_ID:</div>
-<div class="line"><span class="lineno">   80</span>        <span class="keywordflow">return</span> ISCACTR::CONTINUOUS_STATE_SIZE;</div>
-<div class="line"><span class="lineno">   81</span>      <span class="keywordflow">case</span> HEXAMOTION::MODEL_ID:</div>
-<div class="line"><span class="lineno">   82</span>        <span class="keywordflow">return</span> HEXAMOTION::CONTINUOUS_STATE_SIZE;</div>
-<div class="line"><span class="lineno">   83</span>      <span class="keywordflow">case</span> TRAFFICLIGHT::MODEL_ID:</div>
-<div class="line"><span class="lineno">   84</span>        <span class="keywordflow">return</span> TRAFFICLIGHT::CONTINUOUS_STATE_SIZE;</div>
-<div class="line"><span class="lineno">   85</span>      <span class="keywordflow">default</span>:</div>
-<div class="line"><span class="lineno">   86</span>        <span class="keywordflow">throw</span> std::invalid_argument(kExceptionUnknownModel + std::to_string(model_id));</div>
-<div class="line"><span class="lineno">   87</span>    }</div>
-<div class="line"><span class="lineno">   88</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="utils_8h_source.html#l00052">52</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   52</span>                                                                   {</div>
+<div class="line"><span class="lineno">   53</span>    <span class="keywordflow">switch</span>(model_id) {</div>
+<div class="line"><span class="lineno">   54</span>      <span class="keywordflow">case</span> EGO::MODEL_ID:</div>
+<div class="line"><span class="lineno">   55</span>        <span class="keywordflow">return</span> EGO::CONTINUOUS_STATE_SIZE;</div>
+<div class="line"><span class="lineno">   56</span>      <span class="keywordflow">case</span> EGORWS::MODEL_ID:</div>
+<div class="line"><span class="lineno">   57</span>        <span class="keywordflow">return</span> EGORWS::CONTINUOUS_STATE_SIZE;</div>
+<div class="line"><span class="lineno">   58</span>      <span class="keywordflow">case</span> ISCACTR::MODEL_ID:</div>
+<div class="line"><span class="lineno">   59</span>        <span class="keywordflow">return</span> ISCACTR::CONTINUOUS_STATE_SIZE;</div>
+<div class="line"><span class="lineno">   60</span>      <span class="keywordflow">case</span> HEXAMOTION::MODEL_ID:</div>
+<div class="line"><span class="lineno">   61</span>        <span class="keywordflow">return</span> HEXAMOTION::CONTINUOUS_STATE_SIZE;</div>
+<div class="line"><span class="lineno">   62</span>      <span class="keywordflow">case</span> TRAFFICLIGHT::MODEL_ID:</div>
+<div class="line"><span class="lineno">   63</span>        <span class="keywordflow">return</span> TRAFFICLIGHT::CONTINUOUS_STATE_SIZE;</div>
+<div class="line"><span class="lineno">   64</span>      <span class="keywordflow">default</span>:</div>
+<div class="line"><span class="lineno">   65</span>        <span class="keywordflow">throw</span> std::invalid_argument(kExceptionUnknownModel + std::to_string(model_id));</div>
+<div class="line"><span class="lineno">   66</span>    }</div>
+<div class="line"><span class="lineno">   67</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -444,10 +437,10 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>int </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="utils_8h_source.html#l00096">96</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   96</span>                                                            {</div>
-<div class="line"><span class="lineno">   97</span>    <span class="keywordflow">return</span> state.discrete_state.size();</div>
-<div class="line"><span class="lineno">   98</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="utils_8h_source.html#l00075">75</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   75</span>                                                            {</div>
+<div class="line"><span class="lineno">   76</span>    <span class="keywordflow">return</span> state.discrete_state.size();</div>
+<div class="line"><span class="lineno">   77</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -492,11 +485,11 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>int </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="utils_8h_source.html#l00108">108</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  108</span>                                                {</div>
-<div class="line"><span class="lineno">  109</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="utils_8h.html#a048ee89df96912fd3de765b205f71004">getDiscreteStateSize</a>(obj.state);</div>
-<div class="line"><span class="lineno">  110</span>  }</div>
-<div class="ttc" id="autils_8h_html_a048ee89df96912fd3de765b205f71004"><div class="ttname"><a href="utils_8h.html#a048ee89df96912fd3de765b205f71004">perception_msgs::object_access::getDiscreteStateSize</a></div><div class="ttdeci">int getDiscreteStateSize(const ObjectState &amp;state)</div><div class="ttdoc">Get the discrete state size for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="utils_8h_source.html#l00096">utils.h:96</a></div></div>
+<p class="definition">Definition at line <a class="el" href="utils_8h_source.html#l00087">87</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   87</span>                                                {</div>
+<div class="line"><span class="lineno">   88</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="utils_8h.html#a048ee89df96912fd3de765b205f71004">getDiscreteStateSize</a>(obj.state);</div>
+<div class="line"><span class="lineno">   89</span>  }</div>
+<div class="ttc" id="autils_8h_html_a048ee89df96912fd3de765b205f71004"><div class="ttname"><a href="utils_8h.html#a048ee89df96912fd3de765b205f71004">perception_msgs::object_access::getDiscreteStateSize</a></div><div class="ttdeci">int getDiscreteStateSize(const ObjectState &amp;state)</div><div class="ttdoc">Get the discrete state size for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="utils_8h_source.html#l00075">utils.h:75</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -533,23 +526,23 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>int </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="utils_8h_source.html#l00118">118</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  118</span>                                                                 {</div>
-<div class="line"><span class="lineno">  119</span>    <span class="keywordflow">switch</span>(model_id) {</div>
-<div class="line"><span class="lineno">  120</span>      <span class="keywordflow">case</span> EGO::MODEL_ID:</div>
-<div class="line"><span class="lineno">  121</span>        <span class="keywordflow">return</span> EGO::DISCRETE_STATE_SIZE;</div>
-<div class="line"><span class="lineno">  122</span>      <span class="keywordflow">case</span> EGORWS::MODEL_ID:</div>
-<div class="line"><span class="lineno">  123</span>        <span class="keywordflow">return</span> EGORWS::DISCRETE_STATE_SIZE;</div>
-<div class="line"><span class="lineno">  124</span>      <span class="keywordflow">case</span> ISCACTR::MODEL_ID:</div>
-<div class="line"><span class="lineno">  125</span>        <span class="keywordflow">return</span> ISCACTR::DISCRETE_STATE_SIZE;</div>
-<div class="line"><span class="lineno">  126</span>      <span class="keywordflow">case</span> HEXAMOTION::MODEL_ID:</div>
-<div class="line"><span class="lineno">  127</span>        <span class="keywordflow">return</span> HEXAMOTION::DISCRETE_STATE_SIZE;</div>
-<div class="line"><span class="lineno">  128</span>      <span class="keywordflow">case</span> TRAFFICLIGHT::MODEL_ID:</div>
-<div class="line"><span class="lineno">  129</span>        <span class="keywordflow">return</span> TRAFFICLIGHT::DISCRETE_STATE_SIZE;</div>
-<div class="line"><span class="lineno">  130</span>      <span class="keywordflow">default</span>:</div>
-<div class="line"><span class="lineno">  131</span>        <span class="keywordflow">throw</span> std::invalid_argument(kExceptionUnknownModel + std::to_string(model_id));</div>
-<div class="line"><span class="lineno">  132</span>    }</div>
-<div class="line"><span class="lineno">  133</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="utils_8h_source.html#l00097">97</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   97</span>                                                                 {</div>
+<div class="line"><span class="lineno">   98</span>    <span class="keywordflow">switch</span>(model_id) {</div>
+<div class="line"><span class="lineno">   99</span>      <span class="keywordflow">case</span> EGO::MODEL_ID:</div>
+<div class="line"><span class="lineno">  100</span>        <span class="keywordflow">return</span> EGO::DISCRETE_STATE_SIZE;</div>
+<div class="line"><span class="lineno">  101</span>      <span class="keywordflow">case</span> EGORWS::MODEL_ID:</div>
+<div class="line"><span class="lineno">  102</span>        <span class="keywordflow">return</span> EGORWS::DISCRETE_STATE_SIZE;</div>
+<div class="line"><span class="lineno">  103</span>      <span class="keywordflow">case</span> ISCACTR::MODEL_ID:</div>
+<div class="line"><span class="lineno">  104</span>        <span class="keywordflow">return</span> ISCACTR::DISCRETE_STATE_SIZE;</div>
+<div class="line"><span class="lineno">  105</span>      <span class="keywordflow">case</span> HEXAMOTION::MODEL_ID:</div>
+<div class="line"><span class="lineno">  106</span>        <span class="keywordflow">return</span> HEXAMOTION::DISCRETE_STATE_SIZE;</div>
+<div class="line"><span class="lineno">  107</span>      <span class="keywordflow">case</span> TRAFFICLIGHT::MODEL_ID:</div>
+<div class="line"><span class="lineno">  108</span>        <span class="keywordflow">return</span> TRAFFICLIGHT::DISCRETE_STATE_SIZE;</div>
+<div class="line"><span class="lineno">  109</span>      <span class="keywordflow">default</span>:</div>
+<div class="line"><span class="lineno">  110</span>        <span class="keywordflow">throw</span> std::invalid_argument(kExceptionUnknownModel + std::to_string(model_id));</div>
+<div class="line"><span class="lineno">  111</span>    }</div>
+<div class="line"><span class="lineno">  112</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -603,11 +596,11 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="utils_8h_source.html#l00174">174</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  174</span>                                                                                                                      {</div>
-<div class="line"><span class="lineno">  175</span>    <span class="keyword">const</span> <span class="keywordtype">int</span> n = <a class="code hl_function" href="utils_8h.html#a6bf2062b73ede62ff74997408ed00bd7">getContinuousStateSize</a>(state);</div>
-<div class="line"><span class="lineno">  176</span>    state.continuous_state_covariance[n * i + j] = CONTINUOUS_STATE_COVARIANCE_UNKNOWN;</div>
-<div class="line"><span class="lineno">  177</span>  }</div>
+<p class="definition">Definition at line <a class="el" href="utils_8h_source.html#l00153">153</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  153</span>                                                                                                                      {</div>
+<div class="line"><span class="lineno">  154</span>    <span class="keyword">const</span> <span class="keywordtype">int</span> n = <a class="code hl_function" href="utils_8h.html#a6bf2062b73ede62ff74997408ed00bd7">getContinuousStateSize</a>(state);</div>
+<div class="line"><span class="lineno">  155</span>    state.continuous_state_covariance[n * i + j] = CONTINUOUS_STATE_COVARIANCE_UNKNOWN;</div>
+<div class="line"><span class="lineno">  156</span>  }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -624,7 +617,7 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="utils_8h_source.html#l00043">43</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="utils_8h_source.html#l00022">22</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
 
 </div>
 </div>
