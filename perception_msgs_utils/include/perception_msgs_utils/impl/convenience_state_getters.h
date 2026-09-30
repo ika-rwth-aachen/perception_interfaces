@@ -75,6 +75,7 @@ inline std::vector<long int> getDiscreteState(const T& obj) {
  */
 inline std::vector<double> getContinuousStateCovariance(const ObjectState& state) {
   sanityCheckContinuousState(state);
+  sanityCheckContinuousStateCovariance(state);
   return state.continuous_state_covariance;
 }
 
@@ -101,7 +102,8 @@ inline std::vector<double> getContinuousStateCovariance(const T& obj) {
 inline double getContinuousStateCovarianceAt(const ObjectState& state, const unsigned int i, const unsigned int j) {
   const int n = getContinuousStateSize(state);
   const std::vector<double> covariance = getContinuousStateCovariance(state);
-  return covariance[n * i + j];
+  if (covariance.empty()) return i == j ? CONTINUOUS_STATE_COVARIANCE_UNKNOWN : 0.0;
+  return covariance.at(n * i + j);
 }
 
 /**

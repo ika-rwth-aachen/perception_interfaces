@@ -116,5 +116,7 @@ def set_continuous_state_covariance_to_unknown_at(obj: T, i: int, j: int) -> Non
         j: Column index
     """
     state = obj if isinstance(obj, ObjectState) else obj.state
+    if not state.continuous_state_covariance:
+        return
     n = get_continuous_state_size(state)
     state.continuous_state_covariance[n * i + j] = CONTINUOUS_STATE_COVARIANCE_UNKNOWN 

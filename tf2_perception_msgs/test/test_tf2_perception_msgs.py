@@ -1,9 +1,10 @@
 # Copyright Institute for Automotive Engineering (ika), RWTH Aachen University
 # SPDX-License-Identifier: MIT
 
+import copy
 import math
 import pytest
-from perception_msgs.msg import Object, ISCACTR, HEXAMOTION, EGO, EGORWS
+from perception_msgs.msg import Object, ObjectStatePrediction, ISCACTR, HEXAMOTION, EGO, EGORWS
 from perception_msgs_utils.init import initialize_state
 from perception_msgs_utils.utils import get_continuous_state_size
 from perception_msgs_utils.convenience_state_setters import set_position_from_list, set_velocity_from_list, set_acceleration_from_list, set_continuous_state_covariance_diagonal
@@ -228,3 +229,23 @@ def test_doTransform_Object_EGORWS():
 
 if __name__ == "__main__":
     pytest.main()
+
+
+def test_transform_prediction_without_covariance():
+    obj = Object()
+    initialize_state(obj, ISCACTR.MODEL_ID)
+    set_position_from_list(obj, [1.0, 2.0, 3.0])
+    prediction = ObjectStatePrediction()
+    prediction.states.append(copy.deepcopy(obj.state))
+    prediction.states[0].continuous_state_covariance = []
+    obj.state_predictions.append(prediction)
+
+    transform = TransformStamped()
+    transform.transform.translation.x = 10.0
+    transform.transform.rotation.w = 1.0
+    transformed = do_transform_object(obj, transform)
+
+    assert math.isclose(get_x(transformed.state), 11.0, abs_tol=EPS)
+    assert transformed.state.continuous_state_covariance
+    assert math.isclose(get_x(transformed.state_predictions[0].states[0]), 11.0, abs_tol=EPS)
+    assert len(transformed.state_predictions[0].states[0].continuous_state_covariance) == 0

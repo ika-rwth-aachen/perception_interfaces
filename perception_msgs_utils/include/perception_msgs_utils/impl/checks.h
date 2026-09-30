@@ -51,7 +51,7 @@ namespace object_access {
   inline void sanityCheckContinuousStateCovarianceSize(const ObjectState& state) {
     int exp_state_cov_size = getContinuousStateCovarianceSize(state.model_id);
     int state_cov_size = getContinuousStateCovarianceSize(state);
-    if (state_cov_size != exp_state_cov_size)
+    if (state_cov_size != 0 && state_cov_size != exp_state_cov_size)
       throw std::invalid_argument(kExceptionInvalidStateCovarianceSize + std::to_string(state.model_id) + ", " + std::to_string(state_cov_size) + " != " + std::to_string(exp_state_cov_size));
   }
 

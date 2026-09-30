@@ -18,7 +18,7 @@ float64[] continuous_state
 # discrete state vector (M) for discrete int/bool/string quantitites
 int64[] discrete_state
 
-# continuous state covariance matrix (N*N flattened)
+# continuous state covariance matrix (N*N flattened); an empty array means covariance is not provided
 # CONTINUOUS_STATE_COVARIANCE_INVALID (-1): state value is invalid / not set
 # CONTINUOUS_STATE_COVARIANCE_UNKNOWN (max): state value is set, but covariance is unknown
 float64[] continuous_state_covariance

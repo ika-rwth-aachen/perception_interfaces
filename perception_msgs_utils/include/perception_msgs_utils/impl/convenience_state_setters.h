@@ -110,7 +110,12 @@ inline void setContinuousStateCovarianceAt(
 {
   sanityCheckContinuousStateCovariance(state);
   const int n = getContinuousStateSize(state);
-  state.continuous_state_covariance[n * i + j] = val;
+  if (state.continuous_state_covariance.empty()) {
+    state.continuous_state_covariance.resize(n * n, 0.0);
+    for (int k = 0; k < n; ++k)
+      state.continuous_state_covariance[n * k + k] = CONTINUOUS_STATE_COVARIANCE_UNKNOWN;
+  }
+  state.continuous_state_covariance.at(n * i + j) = val;
 }
 
 /**

@@ -151,8 +151,9 @@ namespace object_access {
    * @param j
    */
   inline void setContinuousStateCovarianceToUnknownAt(ObjectState& state, const unsigned int i, const unsigned int j) {
+    if (state.continuous_state_covariance.empty()) return;
     const int n = getContinuousStateSize(state);
-    state.continuous_state_covariance[n * i + j] = CONTINUOUS_STATE_COVARIANCE_UNKNOWN;
+    state.continuous_state_covariance.at(n * i + j) = CONTINUOUS_STATE_COVARIANCE_UNKNOWN;
   }
 
 } // namespace object_access

@@ -233,3 +233,25 @@ int main(int argc, char *argv[]) {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
+
+TEST(tf2_perception_msgs, transforms_prediction_without_covariance) {
+  Object object, transformed;
+  initializeState(object, ISCACTR::MODEL_ID);
+  setPosition(object, {1.0, 2.0, 3.0});
+  object.state_predictions.emplace_back();
+  object.state_predictions.back().states.push_back(object.state);
+  object.state_predictions.back().states.back().continuous_state_covariance.clear();
+
+  gm::TransformStamped transform;
+  transform.transform.translation.x = 10.0;
+  transform.transform.rotation.w = 1.0;
+  tf2::doTransform(object, transformed, transform);
+
+  EXPECT_NEAR(getX(transformed.state), 11.0, EPS);
+  EXPECT_FALSE(transformed.state.continuous_state_covariance.empty());
+  ASSERT_EQ(transformed.state_predictions.size(), 1u);
+  ASSERT_EQ(transformed.state_predictions.front().states.size(), 1u);
+  const auto& predicted = transformed.state_predictions.front().states.front();
+  EXPECT_NEAR(getX(predicted), 11.0, EPS);
+  EXPECT_TRUE(predicted.continuous_state_covariance.empty());
+}
