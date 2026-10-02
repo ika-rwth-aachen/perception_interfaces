@@ -4,6 +4,9 @@
 #pragma once
 
 #include <atomic>
+#include <chrono>
+#include <memory>
+
 #include "perception_msgs/msg/object_list.hpp"
 #include "perception_msgs/rendering/object_state/object_state.hpp"
 #include "perception_msgs_utils/object_access.hpp"
@@ -43,13 +46,13 @@ public:
   void onInitialize() override;
 
   void reset() override;
+  void update(float wall_dt, float ros_dt) override;
 
   void onEnable() override;
   void onDisable() override;
 
-  void timeoutTimerCallback();
-
 protected:
+  void processTypeErasedMessage(std::shared_ptr<const void> msg) override;
   void processMessage(perception_msgs::msg::ObjectList::ConstSharedPtr msg) override;
 
   // properties
@@ -124,7 +127,9 @@ protected:
   std::vector<std::unique_ptr<perception_msgs::rendering::ObjectState>> viz_object_states_;
   std::atomic<bool> is_reset{true};
 
-  rclcpp::TimerBase::SharedPtr timeout_timer_;
+  std::shared_ptr<const void> pending_message_;
+  std::chrono::steady_clock::time_point last_message_time_;
+  bool has_visualization_ = false;
 };
 
 }  // namespace displays
