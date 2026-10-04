@@ -255,3 +255,47 @@ TEST(tf2_perception_msgs, transforms_prediction_without_covariance) {
   EXPECT_NEAR(getX(predicted), 11.0, EPS);
   EXPECT_TRUE(predicted.continuous_state_covariance.empty());
 }
+
+
+TEST(tf2_perception_msgs, transforms_ego_trajectories_with_optional_covariance) {
+  for (const auto model : {EGO::MODEL_ID, EGORWS::MODEL_ID}) {
+    EgoData ego, transformed;
+    initializeState(ego, model);
+    setPose(ego, {1.0, 2.0, 3.0}, {0.0, 0.0, 0.0});
+    setVelLon(ego, 4.0);
+    setContinuousStateCovarianceDiagonal(ego, std::vector<double>(getContinuousStateSize(ego.state), 0.1));
+    ego.trajectory_planned = {ego.state, ego.state};
+    ego.trajectory_planned.front().continuous_state_covariance.clear();
+    ego.trajectory_past = ego.trajectory_planned;
+
+    gm::TransformStamped transform;
+    transform.header.frame_id = "map";
+    transform.transform.translation.x = 10.0;
+    transform.transform.translation.y = 20.0;
+    transform.transform.rotation.z = 1.0;
+    transform.transform.rotation.w = 0.0;
+    tf2::doTransform(ego, transformed, transform);
+
+    EXPECT_EQ(transformed.header.frame_id, "map");
+    EXPECT_NEAR(getX(transformed.state), 9.0, EPS);
+    EXPECT_NEAR(getY(transformed.state), 18.0, EPS);
+    EXPECT_NEAR(getContinuousStateCovarianceAt(transformed.state, 0, 0), 0.1, EPS);
+    for (const auto& trajectory : {transformed.trajectory_planned, transformed.trajectory_past}) {
+      ASSERT_EQ(trajectory.size(), 2u);
+      EXPECT_TRUE(trajectory.front().continuous_state_covariance.empty());
+      EXPECT_EQ(trajectory.back().continuous_state_covariance.size(), ego.state.continuous_state_covariance.size());
+      for (const auto& state : trajectory) {
+        EXPECT_EQ(state.header.frame_id, "map");
+        EXPECT_NEAR(getX(state), 9.0, EPS);
+        EXPECT_NEAR(getY(state), 18.0, EPS);
+        EXPECT_NEAR(std::abs(getYaw(state)), M_PI, EPS);
+        EXPECT_NEAR(getVelLon(state), 4.0, EPS);
+      }
+      EXPECT_DOUBLE_EQ(getContinuousStateCovarianceAt(trajectory.front(), 0, 0), CONTINUOUS_STATE_COVARIANCE_UNKNOWN);
+      EXPECT_NEAR(getContinuousStateCovarianceAt(trajectory.back(), 0, 0), 0.1, EPS);
+    }
+    EXPECT_FALSE(ego.state.continuous_state_covariance.empty());
+    EXPECT_TRUE(ego.trajectory_planned.front().continuous_state_covariance.empty());
+    EXPECT_NEAR(getX(ego.state), 1.0, EPS);
+  }
+}

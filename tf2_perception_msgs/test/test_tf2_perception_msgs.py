@@ -4,14 +4,14 @@
 import copy
 import math
 import pytest
-from perception_msgs.msg import Object, ObjectStatePrediction, ISCACTR, HEXAMOTION, EGO, EGORWS
+from perception_msgs.msg import EgoData, Object, ObjectStatePrediction, ISCACTR, HEXAMOTION, EGO, EGORWS
 from perception_msgs_utils.init import initialize_state
 from perception_msgs_utils.utils import get_continuous_state_size
 from perception_msgs_utils.convenience_state_setters import set_position_from_list, set_velocity_from_list, set_acceleration_from_list, set_continuous_state_covariance_diagonal
 from perception_msgs_utils.convenience_state_getters import get_continuous_state_covariance_diagonal, get_vel_x, get_vel_y, get_acc_x, get_acc_y
 from perception_msgs_utils.state_setters import set_yaw, set_yaw_rate, set_width, set_length, set_height, set_roll, set_pitch, set_yaw, set_roll_rate, set_pitch_rate, set_yaw_rate, set_width, set_length, set_height, set_steering_angle_ack, set_steering_angle_rate_ack, set_steering_angle_front, set_steering_angle_rear
 from perception_msgs_utils.state_getters import get_x, get_y, get_z, get_yaw, get_vel_lon, get_vel_lat, get_acc_lon, get_acc_lat, get_yaw_rate, get_roll, get_pitch, get_roll_rate, get_pitch_rate, get_yaw_rate, get_width, get_length, get_height, get_steering_angle_ack, get_steering_angle_rate_ack, get_steering_angle_front, get_steering_angle_rear
-from tf2_perception_msgs import do_transform_object
+from tf2_perception_msgs import do_transform_ego_data, do_transform_object
 from geometry_msgs.msg import TransformStamped
 
 EPS = 1e-12
@@ -249,3 +249,42 @@ def test_transform_prediction_without_covariance():
     assert transformed.state.continuous_state_covariance
     assert math.isclose(get_x(transformed.state_predictions[0].states[0]), 11.0, abs_tol=EPS)
     assert len(transformed.state_predictions[0].states[0].continuous_state_covariance) == 0
+
+
+@pytest.mark.parametrize("model", [EGO.MODEL_ID, EGORWS.MODEL_ID])
+def test_transform_ego_trajectories_with_optional_covariance(model):
+    ego = EgoData()
+    initialize_state(ego, model)
+    set_position_from_list(ego, [1.0, 2.0, 3.0])
+    set_velocity_from_list(ego, [4.0, 0.0])
+    set_continuous_state_covariance_diagonal(ego, [0.1] * get_continuous_state_size(ego.state))
+    ego.trajectory_planned = [copy.deepcopy(ego.state), copy.deepcopy(ego.state)]
+    ego.trajectory_planned[0].continuous_state_covariance = []
+    ego.trajectory_past = copy.deepcopy(ego.trajectory_planned)
+
+    transform = TransformStamped()
+    transform.header.frame_id = "map"
+    transform.transform.translation.x = 10.0
+    transform.transform.translation.y = 20.0
+    transform.transform.rotation.z = 1.0
+    transform.transform.rotation.w = 0.0
+    transformed = do_transform_ego_data(copy.deepcopy(ego), transform)
+
+    assert transformed.header.frame_id == "map"
+    assert get_x(transformed.state) == pytest.approx(9.0)
+    assert get_y(transformed.state) == pytest.approx(18.0)
+    assert get_continuous_state_covariance_diagonal(transformed.state)[0] == pytest.approx(0.1)
+    for trajectory in [transformed.trajectory_planned, transformed.trajectory_past]:
+        assert len(trajectory) == 2
+        assert len(trajectory[0].continuous_state_covariance) == 0
+        assert len(trajectory[1].continuous_state_covariance) == len(ego.state.continuous_state_covariance)
+        for state in trajectory:
+            assert state.header.frame_id == "map"
+            assert get_x(state) == pytest.approx(9.0)
+            assert get_y(state) == pytest.approx(18.0)
+            assert abs(get_yaw(state)) == pytest.approx(math.pi)
+            assert get_vel_lon(state) == pytest.approx(4.0)
+        assert get_continuous_state_covariance_diagonal(trajectory[0])[0] > 1e300
+        assert get_continuous_state_covariance_diagonal(trajectory[1])[0] == pytest.approx(0.1)
+    assert get_x(ego.state) == pytest.approx(1.0)
+    assert ego.state.continuous_state_covariance
