@@ -781,3 +781,45 @@ TEST(perception_msgs_utils, covariance_coordinates_are_checked_before_access_or_
     EXPECT_DOUBLE_EQ(getContinuousStateCovarianceAt(state, n - 1, n - 1), 2.0);
   }
 }
+
+
+TEST(perception_msgs_utils, initialization_can_omit_covariance_without_changing_the_default) {
+  for (const auto model : std::vector<unsigned char>{EGO::MODEL_ID, HEXAMOTION::MODEL_ID}) {
+    ObjectState legacy, state;
+    initializeState(legacy, model);
+    const auto n = getContinuousStateSize(legacy);
+    ASSERT_EQ(legacy.continuous_state_covariance.size(), static_cast<std::size_t>(n * n));
+    for (int i = 0; i < n; ++i) {
+      for (int j = 0; j < n; ++j) {
+        EXPECT_DOUBLE_EQ(getContinuousStateCovarianceAt(legacy, i, j),
+                         i == j ? CONTINUOUS_STATE_COVARIANCE_INVALID : CONTINUOUS_STATE_COVARIANCE_INIT);
+      }
+    }
+
+    initializeState(state, model);
+    setX(state, 3.0);
+    setContinuousStateCovarianceAt(state, 0, 0, 2.0);
+    initializeState(state, model, false);
+    EXPECT_EQ(state.model_id, legacy.model_id);
+    EXPECT_EQ(state.continuous_state, legacy.continuous_state);
+    EXPECT_EQ(state.discrete_state, legacy.discrete_state);
+    EXPECT_TRUE(state.continuous_state_covariance.empty());
+    setX(state, 4.0);
+    EXPECT_TRUE(state.continuous_state_covariance.empty());
+    setContinuousStateCovarianceAt(state, 0, 0, 2.0);
+    EXPECT_DOUBLE_EQ(getContinuousStateCovarianceAt(state, 0, 0), 2.0);
+    initializeState(state, model, true);
+    EXPECT_EQ(state.continuous_state_covariance, legacy.continuous_state_covariance);
+
+    Object object;
+    EgoData ego;
+    initializeState(object, model, false);
+    initializeState(ego, model, false);
+    EXPECT_TRUE(object.state.continuous_state_covariance.empty());
+    EXPECT_TRUE(ego.state.continuous_state_covariance.empty());
+    initializeState(object, model);
+    initializeState(ego, model);
+    EXPECT_EQ(object.state.continuous_state_covariance, legacy.continuous_state_covariance);
+    EXPECT_EQ(ego.state.continuous_state_covariance, legacy.continuous_state_covariance);
+  }
+}

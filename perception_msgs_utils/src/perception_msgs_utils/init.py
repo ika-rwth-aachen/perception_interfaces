@@ -15,13 +15,14 @@ from .constants import CONTINUOUS_STATE_INIT, DISCRETE_STATE_INIT, CONTINUOUS_ST
 
 T = TypeVar('T', bound=Union[Object, ObjectState, EgoData])
 
-def initialize_state(obj: T, model_id: int) -> ObjectState:
+def initialize_state(obj: T, model_id: int, initialize_covariance: bool = True) -> ObjectState:
     """
     Initialize an object state message from an object.
 
     Args:
         obj: The object to initialize the state from.
         model_id: The model ID to assign to the state.
+        initialize_covariance: whether to initialize the full covariance matrix (default True).
 
     Returns:
         The initialized object state message.
@@ -30,8 +31,11 @@ def initialize_state(obj: T, model_id: int) -> ObjectState:
     state.model_id = model_id
     set_continuous_state(state, [CONTINUOUS_STATE_INIT] * get_continuous_state_size(model_id))
     set_discrete_state(state, [DISCRETE_STATE_INIT] * get_discrete_state_size(model_id))
-    set_continuous_state_covariance(state, [CONTINUOUS_STATE_COVARIANCE_INIT] * get_continuous_state_covariance_size(model_id))
-    set_continuous_state_covariance_diagonal(state, [CONTINUOUS_STATE_COVARIANCE_INVALID] * get_continuous_state_size(model_id))  
+    if initialize_covariance:
+        set_continuous_state_covariance(state, [CONTINUOUS_STATE_COVARIANCE_INIT] * get_continuous_state_covariance_size(model_id))
+        set_continuous_state_covariance_diagonal(state, [CONTINUOUS_STATE_COVARIANCE_INVALID] * get_continuous_state_size(model_id))
+    else:
+        set_continuous_state_covariance(state, [])
     if isinstance(obj, ObjectState):
         return state
     else:
