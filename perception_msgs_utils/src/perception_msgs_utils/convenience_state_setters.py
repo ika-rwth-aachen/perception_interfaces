@@ -68,6 +68,8 @@ def set_continuous_state_covariance_at(obj: T, i: int, j: int, val: float) -> No
     state = obj if isinstance(obj, ObjectState) else obj.state
     sanity_check_continuous_state_covariance(state)
     n = get_continuous_state_size(state)
+    if not (0 <= i < n and 0 <= j < n):
+        raise IndexError("Covariance coordinates out of range")
     if not state.continuous_state_covariance:
         state.continuous_state_covariance = [0.0] * (n * n)
         for k in range(n):

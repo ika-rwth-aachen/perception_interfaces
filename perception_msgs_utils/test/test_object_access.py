@@ -662,3 +662,21 @@ def test_empty_covariance_is_valid_and_can_be_populated():
     obj.state.continuous_state_covariance = [1.0]
     with pytest.raises(InvalidStateCovarianceSizeError):
         sanity_check_continuous_state_covariance(obj)
+
+
+@pytest.mark.parametrize("omitted", [False, True])
+def test_covariance_coordinates_are_checked_before_access_or_allocation(omitted):
+    obj = Object()
+    initialize_state(obj, EGO.MODEL_ID)
+    if omitted:
+        obj.state.continuous_state_covariance = []
+    original = list(obj.state.continuous_state_covariance)
+    n = get_continuous_state_size(obj)
+    for i, j in [(n, 0), (0, n), (n, n), (0, n * n), (-1, 0), (0, -1)]:
+        with pytest.raises(IndexError):
+            get_continuous_state_covariance_at(obj, i, j)
+        with pytest.raises(IndexError):
+            set_continuous_state_covariance_at(obj, i, j, 2.0)
+        assert list(obj.state.continuous_state_covariance) == original
+    set_continuous_state_covariance_at(obj, n - 1, n - 1, 2.0)
+    assert get_continuous_state_covariance_at(obj, n - 1, n - 1) == 2.0

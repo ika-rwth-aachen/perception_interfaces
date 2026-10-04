@@ -101,6 +101,8 @@ inline std::vector<double> getContinuousStateCovariance(const T& obj) {
  */
 inline double getContinuousStateCovarianceAt(const ObjectState& state, const unsigned int i, const unsigned int j) {
   const int n = getContinuousStateSize(state);
+  if (i >= static_cast<unsigned int>(n) || j >= static_cast<unsigned int>(n))
+    throw std::out_of_range("Covariance coordinates out of range");
   const std::vector<double> covariance = getContinuousStateCovariance(state);
   if (covariance.empty()) return i == j ? CONTINUOUS_STATE_COVARIANCE_UNKNOWN : 0.0;
   return covariance.at(n * i + j);

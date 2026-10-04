@@ -258,7 +258,7 @@ TEST(tf2_perception_msgs, transforms_prediction_without_covariance) {
 
 
 TEST(tf2_perception_msgs, transforms_ego_trajectories_with_optional_covariance) {
-  for (const auto model : {EGO::MODEL_ID, EGORWS::MODEL_ID}) {
+  for (const auto model : std::vector<unsigned char>{EGO::MODEL_ID, EGORWS::MODEL_ID}) {
     EgoData ego, transformed;
     initializeState(ego, model);
     setPose(ego, {1.0, 2.0, 3.0}, {0.0, 0.0, 0.0});

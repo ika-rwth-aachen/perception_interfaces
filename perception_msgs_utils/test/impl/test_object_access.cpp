@@ -760,3 +760,24 @@ TEST(perception_msgs_utils, empty_covariance_is_valid_and_can_be_populated) {
   state.continuous_state_covariance.resize(1);
   EXPECT_THROW(sanityCheckContinuousStateCovariance(state), std::invalid_argument);
 }
+
+
+TEST(perception_msgs_utils, covariance_coordinates_are_checked_before_access_or_allocation) {
+  for (const bool omitted : {false, true}) {
+    ObjectState state;
+    initializeState(state, EGO::MODEL_ID);
+    if (omitted) state.continuous_state_covariance.clear();
+    const auto original = state.continuous_state_covariance;
+    const auto n = static_cast<unsigned int>(getContinuousStateSize(state));
+    const auto max_index = std::numeric_limits<unsigned int>::max();
+    const std::vector<std::pair<unsigned int, unsigned int>> invalid_coordinates = {
+      {n, 0}, {0, n}, {n, n}, {0, n * n}, {max_index, 0}, {0, max_index}};
+    for (const auto& coordinate : invalid_coordinates) {
+      EXPECT_THROW(getContinuousStateCovarianceAt(state, coordinate.first, coordinate.second), std::out_of_range);
+      EXPECT_THROW(setContinuousStateCovarianceAt(state, coordinate.first, coordinate.second, 2.0), std::out_of_range);
+      EXPECT_EQ(state.continuous_state_covariance, original);
+    }
+    setContinuousStateCovarianceAt(state, n - 1, n - 1, 2.0);
+    EXPECT_DOUBLE_EQ(getContinuousStateCovarianceAt(state, n - 1, n - 1), 2.0);
+  }
+}

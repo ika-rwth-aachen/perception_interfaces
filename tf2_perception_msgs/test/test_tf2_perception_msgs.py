@@ -227,8 +227,6 @@ def test_doTransform_Object_EGORWS():
     for i in range(n):
         assert math.isclose(covariance_diagonal[i], covariance_diagonal_tf[i], abs_tol=EPS), f"i={i}"
 
-if __name__ == "__main__":
-    pytest.main()
 
 
 def test_transform_prediction_without_covariance():
@@ -288,3 +286,7 @@ def test_transform_ego_trajectories_with_optional_covariance(model):
         assert get_continuous_state_covariance_diagonal(trajectory[1])[0] == pytest.approx(0.1)
     assert get_x(ego.state) == pytest.approx(1.0)
     assert ego.state.continuous_state_covariance
+
+
+if __name__ == "__main__":
+    pytest.main()

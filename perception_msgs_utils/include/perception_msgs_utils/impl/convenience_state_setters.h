@@ -110,6 +110,8 @@ inline void setContinuousStateCovarianceAt(
 {
   sanityCheckContinuousStateCovariance(state);
   const int n = getContinuousStateSize(state);
+  if (i >= static_cast<unsigned int>(n) || j >= static_cast<unsigned int>(n))
+    throw std::out_of_range("Covariance coordinates out of range");
   if (state.continuous_state_covariance.empty()) {
     state.continuous_state_covariance.resize(n * n, 0.0);
     for (int k = 0; k < n; ++k)
