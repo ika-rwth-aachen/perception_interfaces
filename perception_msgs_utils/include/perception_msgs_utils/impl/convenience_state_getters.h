@@ -546,14 +546,7 @@ inline gm::PoseWithCovariance getVelocityXYZWithCovariance(const ObjectState& st
   gm::TransformStamped tf;
   tf.transform.rotation = tf2::toMsg(q);
 
-#ifdef ROS1
-  gm::PoseWithCovarianceStamped vel_lon_lat_stamped, vel_xyz_stamped;
-  vel_lon_lat_stamped.pose = vel_lon_lat;
-  tf2::doTransform(vel_lon_lat_stamped, vel_xyz_stamped, tf);
-  vel_xyz = vel_xyz_stamped.pose;
-#else
   tf2::doTransform(vel_lon_lat, vel_xyz, tf);
-#endif
 
   return vel_xyz;
 }
@@ -677,14 +670,7 @@ inline gm::PoseWithCovariance getAccelerationXYZWithCovariance(const ObjectState
   q.setRPY(0.0, 0.0, getYaw(state));
   gm::TransformStamped tf;
   tf.transform.rotation = tf2::toMsg(q);
-#ifdef ROS1
-  gm::PoseWithCovarianceStamped acc_lon_lat_stamped, acc_xyz_stamped;
-  acc_lon_lat_stamped.pose = acc_lon_lat;
-  tf2::doTransform(acc_lon_lat_stamped, acc_xyz_stamped, tf);
-  acc_xyz = acc_xyz_stamped.pose;
-#else
   tf2::doTransform(acc_lon_lat, acc_xyz, tf);
-#endif
   return acc_xyz;
 }
 
