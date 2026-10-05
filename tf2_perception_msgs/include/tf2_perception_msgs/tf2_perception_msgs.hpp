@@ -16,12 +16,9 @@ namespace tf2 {
   namespace gm = geometry_msgs::msg;
   using namespace perception_msgs::msg;
   using Time = tf2::TimePoint;
-#ifndef STAMP2TIME
-#define STAMP2TIME
   inline Time stampToTime(const builtin_interfaces::msg::Time& t) {
     return tf2_ros::fromMsg(t);
   }
-#endif
 }
 
 #include <tf2_perception_msgs/impl/tf2_perception_msgs.h>

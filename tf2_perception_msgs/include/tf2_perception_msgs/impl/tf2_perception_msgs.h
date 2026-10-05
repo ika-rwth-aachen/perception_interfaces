@@ -73,52 +73,41 @@ namespace tf2 {
       doTransform(ego_in.route_planned[i], ego_out.route_planned[i], transform);
     }
   }
-  #ifdef ROS1
-  #define TF2_PERCEPTION_MSGS_TIME_TYPE const Time&
-  #else
-  #define TF2_PERCEPTION_MSGS_TIME_TYPE Time
-  #endif
   template <>
-  inline TF2_PERCEPTION_MSGS_TIME_TYPE getTimestamp(const ObjectState& state) {
-    TF2_PERCEPTION_MSGS_TIME_TYPE t = stampToTime(state.header.stamp);
+  inline Time getTimestamp(const ObjectState& state) {
+    Time t = stampToTime(state.header.stamp);
     return t;
   }
   template <>
-  inline TF2_PERCEPTION_MSGS_TIME_TYPE getTimestamp(const Object& obj) {
-    TF2_PERCEPTION_MSGS_TIME_TYPE t = stampToTime(obj.state.header.stamp);
+  inline Time getTimestamp(const Object& obj) {
+    Time t = stampToTime(obj.state.header.stamp);
     return t;
   }
   template <>
-  inline TF2_PERCEPTION_MSGS_TIME_TYPE getTimestamp(const ObjectList& obj_list) {
-    TF2_PERCEPTION_MSGS_TIME_TYPE t = stampToTime(obj_list.header.stamp);
+  inline Time getTimestamp(const ObjectList& obj_list) {
+    Time t = stampToTime(obj_list.header.stamp);
     return t;
   }
   template <>
-  inline TF2_PERCEPTION_MSGS_TIME_TYPE getTimestamp(const EgoData& ego) {
-    TF2_PERCEPTION_MSGS_TIME_TYPE t = stampToTime(ego.header.stamp);
+  inline Time getTimestamp(const EgoData& ego) {
+    Time t = stampToTime(ego.header.stamp);
     return t;
   }
 
-  #ifdef ROS1
-  #define TF2_PERCEPTION_MSGS_FRAME_TYPE const std::string&
-  #else
-  #define TF2_PERCEPTION_MSGS_FRAME_TYPE std::string
-  #endif
-
   template <>
-  inline TF2_PERCEPTION_MSGS_FRAME_TYPE getFrameId(const ObjectState& state) {
+  inline std::string getFrameId(const ObjectState& state) {
     return state.header.frame_id;
   }
   template <>
-  inline TF2_PERCEPTION_MSGS_FRAME_TYPE getFrameId(const Object& obj) {
+  inline std::string getFrameId(const Object& obj) {
     return obj.state.header.frame_id;
   }
   template <>
-  inline TF2_PERCEPTION_MSGS_FRAME_TYPE getFrameId(const ObjectList& obj_list) {
+  inline std::string getFrameId(const ObjectList& obj_list) {
     return obj_list.header.frame_id;
   }
   template <>
-  inline TF2_PERCEPTION_MSGS_FRAME_TYPE getFrameId(const EgoData& ego) {
+  inline std::string getFrameId(const EgoData& ego) {
     return ego.header.frame_id;
   }
 }

@@ -624,14 +624,7 @@ inline void setVelocityXYZYawWithCovariance(
   gm::TransformStamped tf;
   tf.transform.rotation = tf2::toMsg(q);
 
-#ifdef ROS1
-  gm::PoseWithCovarianceStamped vel_lon_lat_stamped, vel_xyz_stamped;
-  vel_xyz_stamped.pose = vel_xyz;
-  tf2::doTransform(vel_xyz_stamped, vel_lon_lat_stamped, tf);
-  vel_lon_lat = vel_lon_lat_stamped.pose;
-#else
   tf2::doTransform(vel_xyz, vel_lon_lat, tf);
-#endif
 
   setVelocity(state, {vel_lon_lat.pose.position.x, vel_lon_lat.pose.position.y}, false);
   setYaw(state, yaw, false);
@@ -743,14 +736,7 @@ inline void setAccelerationXYZYawWithCovariance(
   gm::TransformStamped tf;
   tf.transform.rotation = tf2::toMsg(q);
 
-#ifdef ROS1
-  gm::PoseWithCovarianceStamped acc_lon_lat_stamped, acc_xyz_stamped;
-  acc_xyz_stamped.pose = acc_xyz;
-  tf2::doTransform(acc_xyz_stamped, acc_lon_lat_stamped, tf);
-  acc_lon_lat = acc_lon_lat_stamped.pose;
-#else
   tf2::doTransform(acc_xyz, acc_lon_lat, tf);
-#endif
 
   setAcceleration(state, {acc_lon_lat.pose.position.x, acc_lon_lat.pose.position.y}, false);
   setYaw(state, yaw, false);
