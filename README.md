@@ -95,10 +95,6 @@ The `uint8` fields below the continuous and discrete state vectors of a state mo
 
 However, this convenience comes at a cost. We are able to receive data via the state vector that does not adhere to our definition and ROS would not be able to detect this out of the box, because the checksums of the message files may still be identical. Changes in the state model definitions, especially reordering, should therefore be handled with extreme care!
 
-## Optional state covariance
-
-`ObjectState.continuous_state_covariance` may be empty when no covariance estimate is provided. Otherwise it must contain the full flattened `N × N` matrix for the state model. An empty array is distinct from a known zero covariance. Covariance-aware accessors expose unknown diagonal entries and zero cross terms for an omitted matrix; ordinary state setters keep an omitted matrix empty, while explicit covariance setters create a full matrix. Coordinate transforms preserve an empty covariance array and transform the pose alone. Initialization keeps its existing behavior by default: `initializeState(state, model_id)` / `initialize_state(state, model_id)` create the full matrix. Pass `false` / `initialize_covariance=False` to omit covariance without allocating it; this also clears any previous covariance when reinitializing a state. This contract also applies independently to the current state and every planned/past trajectory state in `EgoData`. Empty covariance conveys no covariance estimate, like populated unknown/invalid placeholders; it does not imply a valid zero matrix or preserve per-element validity markers. Populated matrices retain their existing unknown/invalid marker semantics.
-
 ## Access functions
 
 Working with hierarchical ROS messages, especially in C++, can be challenging sometimes due to the many nested subfields and certain requirements posed at how fields should be filled. For this reason, with [perception_msgs_utils](perception_msgs_utils), we provide a ROS package with access functions defined in C++ header files as well as Python equivalents. These enable developers to read and write fields of the perception_msgs more easily.

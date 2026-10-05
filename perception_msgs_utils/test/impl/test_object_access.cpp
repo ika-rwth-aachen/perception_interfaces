@@ -748,14 +748,14 @@ TEST(perception_msgs_utils, empty_covariance_is_valid_and_can_be_populated) {
 
   setX(state, 3.0);
   EXPECT_TRUE(state.continuous_state_covariance.empty());
-  EXPECT_DOUBLE_EQ(getContinuousStateCovarianceAt(state, 0, 0), CONTINUOUS_STATE_COVARIANCE_UNKNOWN);
+  EXPECT_DOUBLE_EQ(getContinuousStateCovarianceAt(state, 0, 0), CONTINUOUS_STATE_COVARIANCE_INVALID);
   EXPECT_DOUBLE_EQ(getContinuousStateCovarianceAt(state, 0, 1), 0.0);
   EXPECT_EQ(getPoseWithCovariance(state).covariance.size(), 36u);
 
   setContinuousStateCovarianceAt(state, 0, 0, 2.0);
   EXPECT_EQ(state.continuous_state_covariance.size(), static_cast<std::size_t>(getContinuousStateCovarianceSize(state.model_id)));
   EXPECT_DOUBLE_EQ(getContinuousStateCovarianceAt(state, 0, 0), 2.0);
-  EXPECT_DOUBLE_EQ(getContinuousStateCovarianceAt(state, 1, 1), CONTINUOUS_STATE_COVARIANCE_UNKNOWN);
+  EXPECT_DOUBLE_EQ(getContinuousStateCovarianceAt(state, 1, 1), CONTINUOUS_STATE_COVARIANCE_INVALID);
 
   state.continuous_state_covariance.resize(1);
   EXPECT_THROW(sanityCheckContinuousStateCovariance(state), std::invalid_argument);
@@ -804,10 +804,19 @@ TEST(perception_msgs_utils, initialization_can_omit_covariance_without_changing_
     EXPECT_EQ(state.continuous_state, legacy.continuous_state);
     EXPECT_EQ(state.discrete_state, legacy.discrete_state);
     EXPECT_TRUE(state.continuous_state_covariance.empty());
+    for (int i = 0; i < n; ++i) {
+      for (int j = 0; j < n; ++j) {
+        EXPECT_DOUBLE_EQ(getContinuousStateCovarianceAt(state, i, j),
+                         getContinuousStateCovarianceAt(legacy, i, j));
+      }
+    }
     setX(state, 4.0);
     EXPECT_TRUE(state.continuous_state_covariance.empty());
     setContinuousStateCovarianceAt(state, 0, 0, 2.0);
     EXPECT_DOUBLE_EQ(getContinuousStateCovarianceAt(state, 0, 0), 2.0);
+    auto expected_covariance = legacy.continuous_state_covariance;
+    expected_covariance[0] = 2.0;
+    EXPECT_EQ(state.continuous_state_covariance, expected_covariance);
     initializeState(state, model, true);
     EXPECT_EQ(state.continuous_state_covariance, legacy.continuous_state_covariance);
 

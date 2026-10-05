@@ -291,7 +291,7 @@ TEST(tf2_perception_msgs, transforms_ego_trajectories_with_optional_covariance) 
         EXPECT_NEAR(std::abs(getYaw(state)), M_PI, EPS);
         EXPECT_NEAR(getVelLon(state), 4.0, EPS);
       }
-      EXPECT_DOUBLE_EQ(getContinuousStateCovarianceAt(trajectory.front(), 0, 0), CONTINUOUS_STATE_COVARIANCE_UNKNOWN);
+      EXPECT_DOUBLE_EQ(getContinuousStateCovarianceAt(trajectory.front(), 0, 0), CONTINUOUS_STATE_COVARIANCE_INVALID);
       EXPECT_NEAR(getContinuousStateCovarianceAt(trajectory.back(), 0, 0), 0.1, EPS);
     }
     EXPECT_FALSE(ego.state.continuous_state_covariance.empty());

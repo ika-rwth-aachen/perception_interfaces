@@ -5,10 +5,10 @@ std_msgs/Header header
 # Dynamic motion state estimate of the ego vehicle
 ObjectState state
 
-# planned trajectory of the ego_vehicle; each state may omit unavailable covariance
+# Planned trajectory of the ego_vehicle
 ObjectState[] trajectory_planned
 
-# past trajectory of the ego_vehicle; each state may omit unavailable covariance
+# Past trajectory of the ego_vehicle
 ObjectState[] trajectory_past
 
 # Planned route of the ego_vehicle

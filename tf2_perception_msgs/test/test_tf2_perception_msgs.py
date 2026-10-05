@@ -8,6 +8,7 @@ from perception_msgs.msg import EgoData, Object, ObjectStatePrediction, ISCACTR,
 from perception_msgs_utils.init import initialize_state
 from perception_msgs_utils.utils import get_continuous_state_size
 from perception_msgs_utils.convenience_state_setters import set_position_from_list, set_velocity_from_list, set_acceleration_from_list, set_continuous_state_covariance_diagonal
+from perception_msgs_utils.constants import CONTINUOUS_STATE_COVARIANCE_INVALID
 from perception_msgs_utils.convenience_state_getters import get_continuous_state_covariance_diagonal, get_vel_x, get_vel_y, get_acc_x, get_acc_y
 from perception_msgs_utils.state_setters import set_yaw, set_yaw_rate, set_width, set_length, set_height, set_roll, set_pitch, set_yaw, set_roll_rate, set_pitch_rate, set_yaw_rate, set_width, set_length, set_height, set_steering_angle_ack, set_steering_angle_rate_ack, set_steering_angle_front, set_steering_angle_rear
 from perception_msgs_utils.state_getters import get_x, get_y, get_z, get_yaw, get_vel_lon, get_vel_lat, get_acc_lon, get_acc_lat, get_yaw_rate, get_roll, get_pitch, get_roll_rate, get_pitch_rate, get_yaw_rate, get_width, get_length, get_height, get_steering_angle_ack, get_steering_angle_rate_ack, get_steering_angle_front, get_steering_angle_rear
@@ -282,7 +283,7 @@ def test_transform_ego_trajectories_with_optional_covariance(model):
             assert get_y(state) == pytest.approx(18.0)
             assert abs(get_yaw(state)) == pytest.approx(math.pi)
             assert get_vel_lon(state) == pytest.approx(4.0)
-        assert get_continuous_state_covariance_diagonal(trajectory[0])[0] > 1e300
+        assert get_continuous_state_covariance_diagonal(trajectory[0])[0] == CONTINUOUS_STATE_COVARIANCE_INVALID
         assert get_continuous_state_covariance_diagonal(trajectory[1])[0] == pytest.approx(0.1)
     assert get_x(ego.state) == pytest.approx(1.0)
     assert ego.state.continuous_state_covariance

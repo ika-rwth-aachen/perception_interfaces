@@ -74,7 +74,6 @@ inline std::vector<long int> getDiscreteState(const T& obj) {
  * @return std::vector<double> 
  */
 inline std::vector<double> getContinuousStateCovariance(const ObjectState& state) {
-  sanityCheckContinuousState(state);
   sanityCheckContinuousStateCovariance(state);
   return state.continuous_state_covariance;
 }
@@ -104,7 +103,7 @@ inline double getContinuousStateCovarianceAt(const ObjectState& state, const uns
   if (i >= static_cast<unsigned int>(n) || j >= static_cast<unsigned int>(n))
     throw std::out_of_range("Covariance coordinates out of range");
   const std::vector<double> covariance = getContinuousStateCovariance(state);
-  if (covariance.empty()) return i == j ? CONTINUOUS_STATE_COVARIANCE_UNKNOWN : 0.0;
+  if (covariance.empty()) return i == j ? CONTINUOUS_STATE_COVARIANCE_INVALID : 0.0;
   return covariance.at(n * i + j);
 }
 

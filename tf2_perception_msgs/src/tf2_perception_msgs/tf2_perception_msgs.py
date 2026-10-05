@@ -46,10 +46,10 @@ def do_transform_state(
     state_out.header.frame_id = transform.header.frame_id
 
     if not state.continuous_state_covariance:
-        pose = PoseStamped()
-        pose.pose = get_pose(state)
-        pose_tf = tf2_geometry_msgs.do_transform_pose_stamped(pose, transform)
-        set_pose_from_gm_pose(state_out, pose_tf.pose, False)
+        xyz_rpy = PoseStamped()
+        xyz_rpy.pose = get_pose(state)
+        xyz_rpy_tf = tf2_geometry_msgs.do_transform_pose_stamped(xyz_rpy, transform)
+        set_pose_from_gm_pose(state_out, xyz_rpy_tf.pose, False)
     else:
         xyz_rpy_cov = PoseWithCovarianceStamped()
         xyz_rpy_cov.pose = get_pose_with_covariance(state)

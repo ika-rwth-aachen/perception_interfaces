@@ -8,7 +8,7 @@ import numpy as np
 from perception_msgs.msg import ObjectState, EgoData, EGO, EGORWS, Object, ISCACTR, HEXAMOTION, TRAFFICLIGHT, ObjectClassification
 from geometry_msgs.msg import PoseWithCovariance, Vector3, Point
 from perception_msgs_utils.init import initialize_state
-from perception_msgs_utils.constants import CONTINUOUS_STATE_COVARIANCE_UNKNOWN, CONTINUOUS_STATE_COVARIANCE_INVALID, CONTINUOUS_STATE_COVARIANCE_INIT
+from perception_msgs_utils.constants import CONTINUOUS_STATE_COVARIANCE_INVALID, CONTINUOUS_STATE_COVARIANCE_INIT
 from perception_msgs_utils.checks import InvalidStateCovarianceSizeError, sanity_check_continuous_state_covariance
 from perception_msgs_utils.utils import get_continuous_state_size, get_discrete_state_size, get_continuous_state_covariance_size
 from perception_msgs_utils.convenience_state_getters import get_continuous_state_covariance_at, get_continuous_state, get_discrete_state, get_continuous_state_covariance, get_class_with_highest_probability, get_pose_with_covariance, get_velocity, get_acceleration, get_roll_in_deg, get_pitch_in_deg, get_yaw_in_deg, get_velocity_xyz, get_velocity_magnitude, get_acceleration_magnitude, get_velocity_xyz_with_covariance, get_acceleration_xyz_with_covariance, get_acceleration_xyz, get_center_position
@@ -650,14 +650,14 @@ def test_empty_covariance_is_valid_and_can_be_populated():
     set_continuous_state_covariance(obj, [])
     set_x(obj, 3.0)
     assert len(obj.state.continuous_state_covariance) == 0
-    assert get_continuous_state_covariance_at(obj, 0, 0) == CONTINUOUS_STATE_COVARIANCE_UNKNOWN
+    assert get_continuous_state_covariance_at(obj, 0, 0) == CONTINUOUS_STATE_COVARIANCE_INVALID
     assert get_continuous_state_covariance_at(obj, 0, 1) == 0.0
     assert len(get_pose_with_covariance(obj).covariance) == 36
 
     set_continuous_state_covariance_at(obj, 0, 0, 2.0)
     assert len(obj.state.continuous_state_covariance) == get_continuous_state_covariance_size(obj.state.model_id)
     assert get_continuous_state_covariance_at(obj, 0, 0) == 2.0
-    assert get_continuous_state_covariance_at(obj, 1, 1) == CONTINUOUS_STATE_COVARIANCE_UNKNOWN
+    assert get_continuous_state_covariance_at(obj, 1, 1) == CONTINUOUS_STATE_COVARIANCE_INVALID
 
     obj.state.continuous_state_covariance = [1.0]
     with pytest.raises(InvalidStateCovarianceSizeError):
@@ -705,9 +705,15 @@ def test_initialization_can_omit_covariance_without_changing_the_default(message
     assert list(state.continuous_state) == legacy_continuous
     assert list(state.discrete_state) == legacy_discrete
     assert len(state.continuous_state_covariance) == 0
+    for i in range(n):
+        for j in range(n):
+            assert get_continuous_state_covariance_at(obj, i, j) == legacy_covariance[n * i + j]
     set_x(obj, 4.0)
     assert len(state.continuous_state_covariance) == 0
     set_continuous_state_covariance_at(obj, 0, 0, 2.0)
     assert get_continuous_state_covariance_at(obj, 0, 0) == 2.0
+    expected_covariance = legacy_covariance.copy()
+    expected_covariance[0] = 2.0
+    assert list(state.continuous_state_covariance) == expected_covariance
     initialize_state(obj, model, initialize_covariance=True)
     assert list(state.continuous_state_covariance) == legacy_covariance
