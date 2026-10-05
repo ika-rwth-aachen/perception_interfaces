@@ -237,6 +237,7 @@ int main(int argc, char *argv[]) {
 TEST(tf2_perception_msgs, transforms_prediction_without_covariance) {
   Object object, transformed;
   initializeState(object, ISCACTR::MODEL_ID);
+  setContinuousStateCovarianceDiagonal(object, std::vector<double>(getContinuousStateSize(object), 0.1));
   setPosition(object, {1.0, 2.0, 3.0});
   object.state_predictions.emplace_back();
   object.state_predictions.back().states.push_back(object.state);

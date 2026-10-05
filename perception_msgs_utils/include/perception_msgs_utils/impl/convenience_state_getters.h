@@ -68,14 +68,19 @@ inline std::vector<long int> getDiscreteState(const T& obj) {
 }
 
 /**
- * @brief Get the continuous state covariance for a given object state.
+ * @brief Get the full continuous state covariance for a given object state.
+ * Empty storage yields INVALID diagonals and zero cross terms without modifying the state.
  * 
  * @param state 
  * @return std::vector<double> 
  */
 inline std::vector<double> getContinuousStateCovariance(const ObjectState& state) {
   sanityCheckContinuousStateCovariance(state);
-  return state.continuous_state_covariance;
+  if (!state.continuous_state_covariance.empty()) return state.continuous_state_covariance;
+  const int n = getContinuousStateSize(state.model_id);
+  std::vector<double> covariance(n * n, CONTINUOUS_STATE_COVARIANCE_INIT);
+  for (int i = 0; i < n; ++i) covariance[n * i + i] = CONTINUOUS_STATE_COVARIANCE_INVALID;
+  return covariance;
 }
 
 /**
@@ -102,7 +107,8 @@ inline double getContinuousStateCovarianceAt(const ObjectState& state, const uns
   const int n = getContinuousStateSize(state);
   if (i >= static_cast<unsigned int>(n) || j >= static_cast<unsigned int>(n))
     throw std::out_of_range("Covariance coordinates out of range");
-  const std::vector<double> covariance = getContinuousStateCovariance(state);
+  sanityCheckContinuousStateCovariance(state);
+  const auto& covariance = state.continuous_state_covariance;
   if (covariance.empty()) return i == j ? CONTINUOUS_STATE_COVARIANCE_INVALID : 0.0;
   return covariance.at(n * i + j);
 }

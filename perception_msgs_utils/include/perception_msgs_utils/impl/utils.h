@@ -113,12 +113,15 @@ namespace object_access {
 
   /**
    * @brief Get the continuous state covariance size for a given object state.
+   * Empty storage exposes the full model matrix size.
    *
    * @param state
    * @return int
    */
   inline int getContinuousStateCovarianceSize(const ObjectState& state) {
-    return state.continuous_state_covariance.size();
+    if (!state.continuous_state_covariance.empty()) return state.continuous_state_covariance.size();
+    const int n = getContinuousStateSize(state.model_id);
+    return n * n;
   }
 
   /**
@@ -145,6 +148,7 @@ namespace object_access {
 
   /**
    * @brief Set the continuous state covariance to unknown at (i,j) for a given object state.
+   * Empty storage remains empty; per-component validity markers are not recorded.
    *
    * @param state
    * @param i

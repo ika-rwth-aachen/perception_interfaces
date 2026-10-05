@@ -8,7 +8,7 @@ import numpy as np
 from perception_msgs.msg import ObjectState, EgoData, EGO, EGORWS, Object, ISCACTR, HEXAMOTION, TRAFFICLIGHT, ObjectClassification
 from geometry_msgs.msg import PoseWithCovariance, Vector3, Point
 from perception_msgs_utils.init import initialize_state
-from perception_msgs_utils.constants import CONTINUOUS_STATE_COVARIANCE_INVALID, CONTINUOUS_STATE_COVARIANCE_INIT
+from perception_msgs_utils.constants import CONTINUOUS_STATE_COVARIANCE_INVALID, CONTINUOUS_STATE_COVARIANCE_INIT, CONTINUOUS_STATE_INIT
 from perception_msgs_utils.checks import InvalidStateCovarianceSizeError, sanity_check_continuous_state_covariance
 from perception_msgs_utils.utils import get_continuous_state_size, get_discrete_state_size, get_continuous_state_covariance_size
 from perception_msgs_utils.convenience_state_getters import get_continuous_state_covariance_at, get_continuous_state, get_discrete_state, get_continuous_state_covariance, get_class_with_highest_probability, get_pose_with_covariance, get_velocity, get_acceleration, get_roll_in_deg, get_pitch_in_deg, get_yaw_in_deg, get_velocity_xyz, get_velocity_magnitude, get_acceleration_magnitude, get_velocity_xyz_with_covariance, get_acceleration_xyz_with_covariance, get_acceleration_xyz, get_center_position
@@ -50,6 +50,8 @@ def test_init():
 def test_set_get_EGO():
     obj = Object()
     initialize_state(obj, EGO.MODEL_ID)
+    # Exercise UNKNOWN resets on a populated covariance matrix.
+    set_continuous_state_covariance(obj, get_continuous_state_covariance(obj))
 
     val = random_value()
     set_x(obj, val)
@@ -127,6 +129,8 @@ def test_set_get_EGO():
 def test_set_get_EGORWS():
     obj = Object()
     initialize_state(obj, EGORWS.MODEL_ID)
+    # Exercise UNKNOWN resets on a populated covariance matrix.
+    set_continuous_state_covariance(obj, get_continuous_state_covariance(obj))
 
     val = random_value()
     set_x(obj, val)
@@ -204,6 +208,8 @@ def test_set_get_EGORWS():
 def test_set_get_ISCACTR():
     obj = Object()
     initialize_state(obj, ISCACTR.MODEL_ID)
+    # Exercise UNKNOWN resets on a populated covariance matrix.
+    set_continuous_state_covariance(obj, get_continuous_state_covariance(obj))
 
     val = random_value()
     set_x(obj, val)
@@ -668,8 +674,8 @@ def test_empty_covariance_is_valid_and_can_be_populated():
 def test_covariance_coordinates_are_checked_before_access_or_allocation(omitted):
     obj = Object()
     initialize_state(obj, EGO.MODEL_ID)
-    if omitted:
-        obj.state.continuous_state_covariance = []
+    if not omitted:
+        set_continuous_state_covariance(obj, get_continuous_state_covariance(obj))
     original = list(obj.state.continuous_state_covariance)
     n = get_continuous_state_size(obj)
     for i, j in [(n, 0), (0, n), (n, n), (0, n * n), (-1, 0), (0, -1)]:
@@ -684,36 +690,30 @@ def test_covariance_coordinates_are_checked_before_access_or_allocation(omitted)
 
 @pytest.mark.parametrize("message_type", [ObjectState, Object, EgoData])
 @pytest.mark.parametrize("model", [EGO.MODEL_ID, HEXAMOTION.MODEL_ID])
-def test_initialization_can_omit_covariance_without_changing_the_default(message_type, model):
+def test_initialization_omits_covariance_and_getters_expose_defaults(message_type, model):
     obj = message_type()
     assert initialize_state(obj, model) is obj
     state = obj if isinstance(obj, ObjectState) else obj.state
     n = get_continuous_state_size(state)
-    legacy_covariance = list(state.continuous_state_covariance)
-    assert len(legacy_covariance) == n * n
+    defaults = list(get_continuous_state_covariance(obj))
+    assert len(defaults) == n * n
+    assert get_continuous_state_covariance_size(obj) == n * n
     for i in range(n):
         for j in range(n):
             expected = CONTINUOUS_STATE_COVARIANCE_INVALID if i == j else CONTINUOUS_STATE_COVARIANCE_INIT
+            assert defaults[n * i + j] == expected
             assert get_continuous_state_covariance_at(obj, i, j) == expected
-    legacy_continuous = list(state.continuous_state)
-    legacy_discrete = list(state.discrete_state)
-    set_x(obj, 3.0)
-    set_continuous_state_covariance_at(obj, 0, 0, 2.0)
-
-    assert initialize_state(obj, model, initialize_covariance=False) is obj
-    assert state.model_id == model
-    assert list(state.continuous_state) == legacy_continuous
-    assert list(state.discrete_state) == legacy_discrete
     assert len(state.continuous_state_covariance) == 0
-    for i in range(n):
-        for j in range(n):
-            assert get_continuous_state_covariance_at(obj, i, j) == legacy_covariance[n * i + j]
     set_x(obj, 4.0)
     assert len(state.continuous_state_covariance) == 0
+    assert list(get_continuous_state_covariance(obj)) == defaults
     set_continuous_state_covariance_at(obj, 0, 0, 2.0)
-    assert get_continuous_state_covariance_at(obj, 0, 0) == 2.0
-    expected_covariance = legacy_covariance.copy()
+    expected_covariance = defaults.copy()
     expected_covariance[0] = 2.0
     assert list(state.continuous_state_covariance) == expected_covariance
-    initialize_state(obj, model, initialize_covariance=True)
-    assert list(state.continuous_state_covariance) == legacy_covariance
+    set_x(obj, 5.0)
+    assert get_continuous_state_covariance_at(obj, 0, 0) == np.finfo(float).max
+    assert initialize_state(obj, model) is obj
+    assert len(state.continuous_state_covariance) == 0
+    assert get_x(obj) == CONTINUOUS_STATE_INIT
+    assert list(get_continuous_state_covariance(obj)) == defaults

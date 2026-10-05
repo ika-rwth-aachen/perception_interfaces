@@ -18,22 +18,17 @@ namespace perception_msgs {
 namespace object_access {
   
   /**
-   * @brief This function initializes a given object state.
+   * @brief Initialize an object state with empty covariance storage.
+   * Covariance getters expose INVALID diagonals and zero cross terms.
    * 
    * @param state 
    * @param model_id 
-   * @param initialize_covariance whether to initialize the full covariance matrix (default true)
    */
-  inline void initializeState(ObjectState& state, const unsigned char& model_id, const bool initialize_covariance = true) {
+  inline void initializeState(ObjectState& state, const unsigned char& model_id) {
     state.model_id = model_id;
     setContinuousState(state, std::vector<double>(getContinuousStateSize(model_id), CONTINUOUS_STATE_INIT));
     setDiscreteState(state, std::vector<long int>(getDiscreteStateSize(model_id), DISCRETE_STATE_INIT));
-    if (initialize_covariance) {
-      setContinuousStateCovariance(state, std::vector<double>(getContinuousStateCovarianceSize(model_id), CONTINUOUS_STATE_COVARIANCE_INIT));
-      setContinuousStateCovarianceDiagonal(state, std::vector<double>(getContinuousStateSize(model_id), CONTINUOUS_STATE_COVARIANCE_INVALID));
-    } else {
-      state.continuous_state_covariance.clear();
-    }
+    state.continuous_state_covariance.clear();
   }
 
   /**
@@ -42,11 +37,10 @@ namespace object_access {
    * @tparam T 
    * @param obj 
    * @param model_id 
-   * @param initialize_covariance whether to initialize the full covariance matrix (default true)
    */
   template <typename T>
-  inline void initializeState(T& obj, const unsigned char& model_id, const bool initialize_covariance = true) {
-    initializeState(obj.state, model_id, initialize_covariance);
+  inline void initializeState(T& obj, const unsigned char& model_id) {
+    initializeState(obj.state, model_id);
   }
 
 } // namespace object_access

@@ -233,6 +233,7 @@ def test_doTransform_Object_EGORWS():
 def test_transform_prediction_without_covariance():
     obj = Object()
     initialize_state(obj, ISCACTR.MODEL_ID)
+    set_continuous_state_covariance_diagonal(obj, [0.1] * get_continuous_state_size(obj))
     set_position_from_list(obj, [1.0, 2.0, 3.0])
     prediction = ObjectStatePrediction()
     prediction.states.append(copy.deepcopy(obj.state))
