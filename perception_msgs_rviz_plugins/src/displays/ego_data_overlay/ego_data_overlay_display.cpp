@@ -74,7 +74,7 @@ void EgoDataOverlay::onInitialize()
   // Create overlay object
   static int count = 0;
   std::string overlay_name = "EgoDataOverlayDisplayOverlay" + std::to_string(count++);
-  overlay_ = std::make_shared<rviz_2d_overlay_plugins::OverlayObject>(overlay_name);
+  overlay_ = std::make_shared<rviz_2d_overlay_plugins::OverlayObject>(overlay_name, this);
   
   // DPI based scaling (350x80 on every screen)
   QScreen* screen = QGuiApplication::primaryScreen();
