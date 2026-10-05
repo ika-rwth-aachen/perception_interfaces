@@ -97,9 +97,12 @@ def get_continuous_state_covariance_size(obj: Union[T, int]) -> int:
     Returns:
         int: Size of the continuous state covariance matrix (flattened)
     """
-    if isinstance(obj, (Object, ObjectState)):
+    if isinstance(obj, (Object, ObjectState, EgoData)):
         state = obj if isinstance(obj, ObjectState) else obj.state
-        return len(state.continuous_state_covariance)
+        if state.continuous_state_covariance:
+            return len(state.continuous_state_covariance)
+        n = get_continuous_state_size(state.model_id)
+        return n * n
     elif isinstance(obj, int):
         model_id = obj
         n = get_continuous_state_size(model_id)
@@ -109,6 +112,8 @@ def get_continuous_state_covariance_size(obj: Union[T, int]) -> int:
 
 def set_continuous_state_covariance_to_unknown_at(obj: T, i: int, j: int) -> None:
     """Set the continuous state covariance to unknown at position (i,j).
+
+    Empty storage remains empty; per-component validity markers are not recorded.
     
     Args:
         obj: Object or ObjectState instance
@@ -116,5 +121,7 @@ def set_continuous_state_covariance_to_unknown_at(obj: T, i: int, j: int) -> Non
         j: Column index
     """
     state = obj if isinstance(obj, ObjectState) else obj.state
+    if not state.continuous_state_covariance:
+        return
     n = get_continuous_state_size(state)
     state.continuous_state_covariance[n * i + j] = CONTINUOUS_STATE_COVARIANCE_UNKNOWN 

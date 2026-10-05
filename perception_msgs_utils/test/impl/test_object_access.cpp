@@ -50,6 +50,8 @@ TEST(perception_msgs, test_set_get_EGO)
 {
   Object obj;
   initializeState(obj, EGO::MODEL_ID);
+  // Exercise UNKNOWN resets on a populated covariance matrix.
+  setContinuousStateCovariance(obj, getContinuousStateCovariance(obj));
 
   double val;
 
@@ -152,6 +154,8 @@ TEST(perception_msgs, test_set_get_EGORWS)
 {
   Object obj;
   initializeState(obj, EGORWS::MODEL_ID);
+  // Exercise UNKNOWN resets on a populated covariance matrix.
+  setContinuousStateCovariance(obj, getContinuousStateCovariance(obj));
 
   double val;
 
@@ -254,6 +258,8 @@ TEST(perception_msgs, test_set_get_ISCACTR)
 {
   Object obj;
   initializeState(obj, ISCACTR::MODEL_ID);
+  // Exercise UNKNOWN resets on a populated covariance matrix.
+  setContinuousStateCovariance(obj, getContinuousStateCovariance(obj));
 
   double val;
 
@@ -738,4 +744,90 @@ int main(int argc, char * argv[])
 {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
+}
+
+TEST(perception_msgs_utils, empty_covariance_is_valid_and_can_be_populated) {
+  ObjectState state;
+  initializeState(state, ISCACTR::MODEL_ID);
+  setContinuousStateCovariance(state, {});
+  EXPECT_NO_THROW(sanityCheckContinuousStateCovariance(state));
+
+  setX(state, 3.0);
+  EXPECT_TRUE(state.continuous_state_covariance.empty());
+  EXPECT_DOUBLE_EQ(getContinuousStateCovarianceAt(state, 0, 0), CONTINUOUS_STATE_COVARIANCE_INVALID);
+  EXPECT_DOUBLE_EQ(getContinuousStateCovarianceAt(state, 0, 1), 0.0);
+  EXPECT_EQ(getPoseWithCovariance(state).covariance.size(), 36u);
+
+  setContinuousStateCovarianceAt(state, 0, 0, 2.0);
+  EXPECT_EQ(state.continuous_state_covariance.size(), static_cast<std::size_t>(getContinuousStateCovarianceSize(state.model_id)));
+  EXPECT_DOUBLE_EQ(getContinuousStateCovarianceAt(state, 0, 0), 2.0);
+  EXPECT_DOUBLE_EQ(getContinuousStateCovarianceAt(state, 1, 1), CONTINUOUS_STATE_COVARIANCE_INVALID);
+
+  state.continuous_state_covariance.resize(1);
+  EXPECT_THROW(sanityCheckContinuousStateCovariance(state), std::invalid_argument);
+}
+
+
+TEST(perception_msgs_utils, covariance_coordinates_are_checked_before_access_or_allocation) {
+  for (const bool omitted : {false, true}) {
+    ObjectState state;
+    initializeState(state, EGO::MODEL_ID);
+    if (!omitted) setContinuousStateCovariance(state, getContinuousStateCovariance(state));
+    const auto original = state.continuous_state_covariance;
+    const auto n = static_cast<unsigned int>(getContinuousStateSize(state));
+    const auto max_index = std::numeric_limits<unsigned int>::max();
+    const std::vector<std::pair<unsigned int, unsigned int>> invalid_coordinates = {
+      {n, 0}, {0, n}, {n, n}, {0, n * n}, {max_index, 0}, {0, max_index}};
+    for (const auto& coordinate : invalid_coordinates) {
+      EXPECT_THROW(getContinuousStateCovarianceAt(state, coordinate.first, coordinate.second), std::out_of_range);
+      EXPECT_THROW(setContinuousStateCovarianceAt(state, coordinate.first, coordinate.second, 2.0), std::out_of_range);
+      EXPECT_EQ(state.continuous_state_covariance, original);
+    }
+    setContinuousStateCovarianceAt(state, n - 1, n - 1, 2.0);
+    EXPECT_DOUBLE_EQ(getContinuousStateCovarianceAt(state, n - 1, n - 1), 2.0);
+  }
+}
+
+
+TEST(perception_msgs_utils, initialization_omits_covariance_and_getters_expose_defaults) {
+  for (const auto model : std::vector<unsigned char>{EGO::MODEL_ID, HEXAMOTION::MODEL_ID}) {
+    ObjectState state;
+    initializeState(state, model);
+    const int n = getContinuousStateSize(state);
+    const auto defaults = getContinuousStateCovariance(state);
+    ASSERT_EQ(defaults.size(), static_cast<std::size_t>(n * n));
+    EXPECT_EQ(getContinuousStateCovarianceSize(state), n * n);
+    for (int i = 0; i < n; ++i) {
+      for (int j = 0; j < n; ++j) {
+        const auto expected = i == j ? CONTINUOUS_STATE_COVARIANCE_INVALID : CONTINUOUS_STATE_COVARIANCE_INIT;
+        EXPECT_DOUBLE_EQ(defaults[n * i + j], expected);
+        EXPECT_DOUBLE_EQ(getContinuousStateCovarianceAt(state, i, j), expected);
+      }
+    }
+    EXPECT_TRUE(state.continuous_state_covariance.empty());
+    setX(state, 4.0);
+    EXPECT_TRUE(state.continuous_state_covariance.empty());
+    EXPECT_EQ(getContinuousStateCovariance(state), defaults);
+    setContinuousStateCovarianceAt(state, 0, 0, 2.0);
+    auto expected_covariance = defaults;
+    expected_covariance[0] = 2.0;
+    EXPECT_EQ(state.continuous_state_covariance, expected_covariance);
+    setX(state, 5.0);
+    EXPECT_DOUBLE_EQ(getContinuousStateCovarianceAt(state, indexX(model), indexX(model)), CONTINUOUS_STATE_COVARIANCE_UNKNOWN);
+    initializeState(state, model);
+    EXPECT_TRUE(state.continuous_state_covariance.empty());
+    EXPECT_DOUBLE_EQ(getX(state), CONTINUOUS_STATE_INIT);
+    EXPECT_EQ(getContinuousStateCovariance(state), defaults);
+
+    Object object;
+    EgoData ego;
+    initializeState(object, model);
+    initializeState(ego, model);
+    EXPECT_TRUE(object.state.continuous_state_covariance.empty());
+    EXPECT_TRUE(ego.state.continuous_state_covariance.empty());
+    EXPECT_EQ(getContinuousStateCovariance(object), defaults);
+    EXPECT_EQ(getContinuousStateCovariance(ego), defaults);
+    EXPECT_EQ(getContinuousStateCovarianceSize(object), n * n);
+    EXPECT_EQ(getContinuousStateCovarianceSize(ego), n * n);
+  }
 }

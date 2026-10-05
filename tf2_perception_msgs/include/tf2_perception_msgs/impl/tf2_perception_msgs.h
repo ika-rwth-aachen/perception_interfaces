@@ -14,10 +14,17 @@ namespace tf2 {
     state_out.header.stamp = transform.header.stamp;
     state_out.header.frame_id = transform.header.frame_id;
 
-    gm::PoseWithCovarianceStamped xyz_rpy_cov, xyz_rpy_cov_tf;
-    xyz_rpy_cov.pose = getPoseWithCovariance(state_in);
-    doTransform(xyz_rpy_cov, xyz_rpy_cov_tf, transform);
-    setPoseWithCovariance(state_out, xyz_rpy_cov_tf.pose);
+    if (state_in.continuous_state_covariance.empty()) {
+      gm::PoseStamped xyz_rpy, xyz_rpy_tf;
+      xyz_rpy.pose = getPose(state_in);
+      doTransform(xyz_rpy, xyz_rpy_tf, transform);
+      setPose(state_out, xyz_rpy_tf.pose, false);
+    } else {
+      gm::PoseWithCovarianceStamped xyz_rpy_cov, xyz_rpy_cov_tf;
+      xyz_rpy_cov.pose = getPoseWithCovariance(state_in);
+      doTransform(xyz_rpy_cov, xyz_rpy_cov_tf, transform);
+      setPoseWithCovariance(state_out, xyz_rpy_cov_tf.pose);
+    }
   }
 
   template <>

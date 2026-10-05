@@ -1,11 +1,11 @@
 # Copyright Institute for Automotive Engineering (ika), RWTH Aachen University
 # SPDX-License-Identifier: MIT
 
-from geometry_msgs.msg import TransformStamped, PoseWithCovarianceStamped
+from geometry_msgs.msg import TransformStamped, PoseStamped, PoseWithCovarianceStamped
 
 from perception_msgs.msg import ObjectState, Object, ObjectList, EgoData
-from perception_msgs_utils.convenience_state_getters import get_pose_with_covariance
-from perception_msgs_utils.convenience_state_setters import set_pose_with_covariance_from_gm_pose_with_covariance
+from perception_msgs_utils.convenience_state_getters import get_pose, get_pose_with_covariance
+from perception_msgs_utils.convenience_state_setters import set_pose_from_gm_pose, set_pose_with_covariance_from_gm_pose_with_covariance
 from std_msgs.msg import Header
 import tf2_ros
 import tf2_geometry_msgs
@@ -45,11 +45,16 @@ def do_transform_state(
     state_out.header.stamp = transform.header.stamp
     state_out.header.frame_id = transform.header.frame_id
 
-    xyz_rpy_cov = PoseWithCovarianceStamped()
-    xyz_rpy_cov_tf = PoseWithCovarianceStamped()
-    xyz_rpy_cov.pose = get_pose_with_covariance(state)
-    xyz_rpy_cov_tf = tf2_geometry_msgs.do_transform_pose_with_covariance_stamped(xyz_rpy_cov, transform)
-    set_pose_with_covariance_from_gm_pose_with_covariance(state_out, xyz_rpy_cov_tf.pose)
+    if not state.continuous_state_covariance:
+        xyz_rpy = PoseStamped()
+        xyz_rpy.pose = get_pose(state)
+        xyz_rpy_tf = tf2_geometry_msgs.do_transform_pose_stamped(xyz_rpy, transform)
+        set_pose_from_gm_pose(state_out, xyz_rpy_tf.pose, False)
+    else:
+        xyz_rpy_cov = PoseWithCovarianceStamped()
+        xyz_rpy_cov.pose = get_pose_with_covariance(state)
+        xyz_rpy_cov_tf = tf2_geometry_msgs.do_transform_pose_with_covariance_stamped(xyz_rpy_cov, transform)
+        set_pose_with_covariance_from_gm_pose_with_covariance(state_out, xyz_rpy_cov_tf.pose)
     return state_out
 
 tf2_ros.TransformRegistration().add(ObjectState, do_transform_state)

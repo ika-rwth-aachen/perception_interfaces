@@ -73,8 +73,8 @@ def sanity_check_continuous_state_covariance_size(state: ObjectState) -> None:
         InvalidStateCovarianceSizeError: If the covariance size doesn't match the expected size
     """
     exp_state_cov_size = get_continuous_state_covariance_size(state.model_id)
-    state_cov_size = get_continuous_state_covariance_size(state)
-    if state_cov_size != exp_state_cov_size:
+    state_cov_size = len(state.continuous_state_covariance)
+    if state_cov_size not in (0, exp_state_cov_size):
         raise InvalidStateCovarianceSizeError(
             f"Invalid continuous state covariance size for model with ID: {state.model_id}, "
             f"{state_cov_size} != {exp_state_cov_size}"

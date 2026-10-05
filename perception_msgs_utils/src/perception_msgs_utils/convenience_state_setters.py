@@ -14,6 +14,7 @@ from tf_transformations import euler_from_quaternion, quaternion_from_euler
 
 from .checks import sanity_check_continuous_state, sanity_check_discrete_state, sanity_check_continuous_state_covariance
 from .utils import get_continuous_state_size
+from .constants import CONTINUOUS_STATE_COVARIANCE_INIT, CONTINUOUS_STATE_COVARIANCE_INVALID
 from .state_getters import get_roll, get_pitch, get_yaw
 from .state_setters import set_x, set_y, set_z, set_roll, set_pitch, set_yaw, set_vel_lon, set_vel_lat, set_acc_lon, set_acc_lat
 from .state_index import has_x, has_y, has_z, has_roll, has_pitch, has_yaw, has_vel_lon, has_vel_lat, has_acc_lon, has_acc_lat
@@ -65,9 +66,14 @@ def set_continuous_state_covariance_at(obj: T, i: int, j: int, val: float) -> No
         val: Value to set
     """
     state = obj if isinstance(obj, ObjectState) else obj.state
-    n = get_continuous_state_size(state)
-    state.continuous_state_covariance[n * i + j] = val
     sanity_check_continuous_state_covariance(state)
+    n = get_continuous_state_size(state)
+    if not (0 <= i < n and 0 <= j < n):
+        raise IndexError("Covariance coordinates out of range")
+    if not state.continuous_state_covariance:
+        set_continuous_state_covariance(state, [CONTINUOUS_STATE_COVARIANCE_INIT] * (n * n))
+        set_continuous_state_covariance_diagonal(state, [CONTINUOUS_STATE_COVARIANCE_INVALID] * n)
+    state.continuous_state_covariance[n * i + j] = val
 
 def set_continuous_state_covariance_diagonal(obj: T, val: List[float]) -> None:
     """Set the diagonal of the continuous state covariance matrix.

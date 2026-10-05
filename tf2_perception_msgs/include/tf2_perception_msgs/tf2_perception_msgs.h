@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/PoseWithCovariance.h>
 #include <geometry_msgs/TransformStamped.h>
 #include <perception_msgs/EgoData.h>

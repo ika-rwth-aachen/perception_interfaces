@@ -18,7 +18,8 @@ namespace perception_msgs {
 namespace object_access {
   
   /**
-   * @brief This function initializes a given object state.
+   * @brief Initialize an object state with empty covariance storage.
+   * Covariance getters expose INVALID diagonals and zero cross terms.
    * 
    * @param state 
    * @param model_id 
@@ -27,8 +28,7 @@ namespace object_access {
     state.model_id = model_id;
     setContinuousState(state, std::vector<double>(getContinuousStateSize(model_id), CONTINUOUS_STATE_INIT));
     setDiscreteState(state, std::vector<long int>(getDiscreteStateSize(model_id), DISCRETE_STATE_INIT));
-    setContinuousStateCovariance(state, std::vector<double>(getContinuousStateCovarianceSize(model_id), CONTINUOUS_STATE_COVARIANCE_INIT));
-    setContinuousStateCovarianceDiagonal(state, std::vector<double>(getContinuousStateSize(model_id), CONTINUOUS_STATE_COVARIANCE_INVALID));
+    state.continuous_state_covariance.clear();
   }
 
   /**
