@@ -19,8 +19,9 @@ float64[] continuous_state
 int64[] discrete_state
 
 # continuous state covariance matrix (N*N flattened); empty array is equivalent to diagonal of `CONTINUOUS_STATE_COVARIANCE_INVALID`
-# CONTINUOUS_STATE_COVARIANCE_INVALID (-1): state value is invalid / not set
-# CONTINUOUS_STATE_COVARIANCE_UNKNOWN (max): state value is set, but covariance is unknown
+float64 CONTINUOUS_STATE_COVARIANCE_INIT=0.0 # initial value of non-diagonal terms
+float64 CONTINUOUS_STATE_COVARIANCE_INVALID=-1.0 # state value invalid or not set
+float64 CONTINUOUS_STATE_COVARIANCE_UNKNOWN=1.7976931348623157e+308 # state value set, but covariance unknown (float64 max)
 float64[] continuous_state_covariance
 
 # classification incl. probabilities

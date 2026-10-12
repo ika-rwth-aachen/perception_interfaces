@@ -20,9 +20,9 @@ namespace object_access {
 
     const long int DISCRETE_STATE_INIT = 0;
 
-    const double CONTINUOUS_STATE_COVARIANCE_INIT = 0;
-    const double CONTINUOUS_STATE_COVARIANCE_INVALID = -1;
-    const double CONTINUOUS_STATE_COVARIANCE_UNKNOWN = std::numeric_limits<double>::max();
+    const double CONTINUOUS_STATE_COVARIANCE_INIT = ObjectState::CONTINUOUS_STATE_COVARIANCE_INIT;
+    const double CONTINUOUS_STATE_COVARIANCE_INVALID = ObjectState::CONTINUOUS_STATE_COVARIANCE_INVALID;
+    const double CONTINUOUS_STATE_COVARIANCE_UNKNOWN = ObjectState::CONTINUOUS_STATE_COVARIANCE_UNKNOWN;
 
 } // namespace object_access
 
