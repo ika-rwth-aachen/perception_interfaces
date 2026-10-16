@@ -2,26 +2,26 @@
 // SPDX-License-Identifier: MIT
 
 /**
- * @file init.h
+ * @file init.hpp
  * @brief Object state initializers
  */
 
 #pragma once
 
-#include <perception_msgs_utils/impl/constants.h>
-#include <perception_msgs_utils/impl/convenience_state_setters.h>
-#include <perception_msgs_utils/impl/utils.h>
+#include <perception_msgs_utils/constants.hpp>
+#include <perception_msgs_utils/convenience_state_setters.hpp>
+#include <perception_msgs_utils/utils.hpp>
 
 
 namespace perception_msgs {
 
 namespace object_access {
-  
+
   /**
    * @brief This function initializes a given object state.
-   * 
-   * @param state 
-   * @param model_id 
+   *
+   * @param state
+   * @param model_id
    */
   inline void initializeState(ObjectState& state, const unsigned char& model_id) {
     state.model_id = model_id;
@@ -33,10 +33,10 @@ namespace object_access {
 
   /**
    * @brief This function initializes a given template object that contains an object state.
-   * 
-   * @tparam T 
-   * @param obj 
-   * @param model_id 
+   *
+   * @tparam T
+   * @param obj
+   * @param model_id
    */
   template <typename T>
   inline void initializeState(T& obj, const unsigned char& model_id) {

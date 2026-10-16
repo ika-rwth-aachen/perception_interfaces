@@ -2,7 +2,7 @@
 
 <p align="left">
   <img src="./assets/teaser.png" alt="Teaser" align="right" height="200" />
-  This repository provides a set of ROS packages (ROS <em>and</em> ROS 2) with common messages and tools relating to the perception task in automated driving and C-ITS. The perception task here refers to both environment perception and self perception.
+  This repository provides a set of ROS 2 packages with common messages and tools relating to the perception task in automated driving and C-ITS. The perception task here refers to both environment perception and self perception.
 </p>
 
 <br clear="right" />
@@ -99,7 +99,7 @@ However, this convenience comes at a cost. We are able to receive data via the s
 
 Working with hierarchical ROS messages, especially in C++, can be challenging sometimes due to the many nested subfields and certain requirements posed at how fields should be filled. For this reason, with [perception_msgs_utils](perception_msgs_utils), we provide a ROS package with access functions defined in C++ header files as well as Python equivalents. These enable developers to read and write fields of the perception_msgs more easily.
 
-A list of all access functions can be found in [convenience_state_getters.h](perception_msgs_utils/include/perception_msgs_utils/impl/convenience_state_getters.h) and [convenience_state_setters.h](perception_msgs_utils/include/perception_msgs_utils/impl/convenience_state_setters.h).
+A list of all access functions can be found in [convenience_state_getters.hpp](perception_msgs_utils/include/perception_msgs_utils/convenience_state_getters.hpp) and [convenience_state_setters.hpp](perception_msgs_utils/include/perception_msgs_utils/convenience_state_setters.hpp).
 
 In your C++ code, just include them like this
 
@@ -121,14 +121,14 @@ import perception_msgs_utils
 
 The coordinate system in which all subsequent fields of a message are given is defined in the top-level header, i.e. in [EgoData.msg](perception_msgs/msg/EgoData.msg#L11) and in [ObjectList.msg](perception_msgs/msg/ObjectList.msg#L16). Headers are a common ROS interface defined [here](https://github.com/ros2/common_interfaces/blob/rolling/std_msgs/msg/Header.msg). The definitions of the coordinate systems themselves may for example be determined by an [URDF](https://docs.ros.org/en/iron/Tutorials/Intermediate/URDF/URDF-Main.html) file.
 
-Transformations between coordinate frames are often needed in robotics applications. There exists the [tf2](http://wiki.ros.org/tf2) ROS package ([GitHub](https://github.com/ros2/geometry2)) that provides a lot of functions and tools around coordinate frames and transformations. It is the de facto standard for related tasks in ROS. Since the package does not know how the messages files in this repository are structured, we need to define functions that allow us to integrate our messages into the existing framework provided by the tf2 ROS package. For this purpose, we need to especially write a specialized `doTransform()` function for our messages.
+Transformations between coordinate frames are often needed in robotics applications. There exists the [tf2](https://github.com/ros2/geometry2) ROS 2 package that provides a lot of functions and tools around coordinate frames and transformations. It is the de facto standard for related tasks in ROS. Since the package does not know how the messages files in this repository are structured, we need to define functions that allow us to integrate our messages into the existing framework provided by the tf2 ROS package. For this purpose, we need to especially write a specialized `doTransform()` function for our messages.
 
 The implementation can be found in [tf2_perception_msgs](tf2_perception_msgs). Available implementations include the provided [EgoData.msg](perception_msgs/msg/EgoData.msg) with the [EGO.msg](perception_msgs/msg/EGO.msg) and [EGORWS.msg](perception_msgs/msg/EGORWS.msg) state models, and the [ObjectList.msg](perception_msgs/msg/ObjectList.msg) with the [ISCACTR.msg](perception_msgs/msg/ISCACTR.msg) and [HEXAMOTION.msg](perception_msgs/msg/HEXAMOTION.msg) state models.
 
 
 ## RViz Plugins
 
-This repository provides ROS packages [perception_msgs_rendering](perception_msgs_rendering) and [perception_msgs_rviz_plugins](perception_msgs_rviz_plugins) that, together, allow to visualize [ObjectList.msg](perception_msgs/msg/ObjectList.msg) with the [ISCACTR.msg](perception_msgs/msg/ISCACTR.msg) and [HEXAMOTION.msg](perception_msgs/msg/HEXAMOTION.msg) state models and [EgoData.msg](perception_msgs/msg/EgoData.msg) with the [EGO.msg](perception_msgs/msg/EGO.msg) and [EGORWS.msg](perception_msgs/msg/EGORWS.msg) state models in RViz (only supported for ROS 2).
+This repository provides ROS packages [perception_msgs_rendering](perception_msgs_rendering) and [perception_msgs_rviz_plugins](perception_msgs_rviz_plugins) that, together, allow to visualize [ObjectList.msg](perception_msgs/msg/ObjectList.msg) with the [ISCACTR.msg](perception_msgs/msg/ISCACTR.msg) and [HEXAMOTION.msg](perception_msgs/msg/HEXAMOTION.msg) state models and [EgoData.msg](perception_msgs/msg/EgoData.msg) with the [EGO.msg](perception_msgs/msg/EGO.msg) and [EGORWS.msg](perception_msgs/msg/EGORWS.msg) state models in RViz.
 
 To further extend the object list, a workflow for visualizing new meshes has been established:
 
@@ -144,7 +144,7 @@ Many of the fields in the messages are optional. If you use the messages in this
 - the top-level header, and
 - the object state(s)
 
-where the object states should be initialized with [`initializeState()`](perception_msgs_utils/include/perception_msgs_utils/impl/init.h#L47) and then filled as much as possible.
+where the object states should be initialized with [`initializeState()`](perception_msgs_utils/include/perception_msgs_utils/init.hpp) and then filled as much as possible.
 
 
 ## Acknowledgements
