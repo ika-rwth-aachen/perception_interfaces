@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['object_5faccess_2eh_0',['object_access.h',['../impl_2object__access_8h.html',1,'(Global Namespace)'],['../object__access_8h.html',1,'(Global Namespace)']]],
-  ['object_5faccess_2ehpp_1',['object_access.hpp',['../object__access_8hpp.html',1,'']]]
+  ['object_5faccess_2ehpp_0',['object_access.hpp',['../object__access_8hpp.html',1,'']]]
 ];

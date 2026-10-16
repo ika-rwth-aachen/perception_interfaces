@@ -73,7 +73,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p align="left"><a class="anchor" id="md_README"></a> </p>
-<p><img src="./assets/teaser.png" alt="Teaser" align="right" height="200" class="inline"/> This repository provides a set of ROS packages (ROS <em>and</em> ROS 2) with common messages and tools relating to the perception task in automated driving and C-ITS. The perception task here refers to both environment perception and self perception. </p>
+<p><img src="./assets/teaser.png" alt="Teaser" align="right" height="200" class="inline"/> This repository provides a set of ROS 2 packages with common messages and tools relating to the perception task in automated driving and C-ITS. The perception task here refers to both environment perception and self perception. </p>
 <p><br  clear="right" />
 </p>
 <blockquote class="doxtable">
@@ -157,7 +157,7 @@ Important:</h2>
 <h1><a class="anchor" id="autotoc_md7"></a>
 Access functions</h1>
 <p>Working with hierarchical ROS messages, especially in C++, can be challenging sometimes due to the many nested subfields and certain requirements posed at how fields should be filled. For this reason, with [perception_msgs_utils](perception_msgs_utils), we provide a ROS package with access functions defined in C++ header files as well as Python equivalents. These enable developers to read and write fields of the perception_msgs more easily.</p>
-<p>A list of all access functions can be found in <a href="perception_msgs_utils/include/perception_msgs_utils/impl/convenience_state_getters.h">convenience_state_getters.h</a> and <a href="perception_msgs_utils/include/perception_msgs_utils/impl/convenience_state_setters.h">convenience_state_setters.h</a>.</p>
+<p>A list of all access functions can be found in <a href="perception_msgs_utils/include/perception_msgs_utils/convenience_state_getters.hpp">convenience_state_getters.hpp</a> and <a href="perception_msgs_utils/include/perception_msgs_utils/convenience_state_setters.hpp">convenience_state_setters.hpp</a>.</p>
 <p>In your C++ code, just include them like this</p>
 <div class="fragment"><div class="line"> ++</div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="object__access_8hpp.html">perception_msgs_utils/object_access.hpp</a>&gt;</span></div>
@@ -169,11 +169,11 @@ Access functions</h1>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md8"></a>
 Coordinate Systems and Transformations</h1>
 <p>The coordinate system in which all subsequent fields of a message are given is defined in the top-level header, i.e. in <a href="perception_msgs/msg/EgoData.msg#L11">EgoData.msg</a> and in <a href="perception_msgs/msg/ObjectList.msg#L16">ObjectList.msg</a>. Headers are a common ROS interface defined <a href="https://github.com/ros2/common_interfaces/blob/rolling/std_msgs/msg/Header.msg">here</a>. The definitions of the coordinate systems themselves may for example be determined by an <a href="https://docs.ros.org/en/iron/Tutorials/Intermediate/URDF/URDF-Main.html">URDF</a> file.</p>
-<p>Transformations between coordinate frames are often needed in robotics applications. There exists the <a href="http://wiki.ros.org/tf2">tf2</a> ROS package (<a href="https://github.com/ros2/geometry2">GitHub</a>) that provides a lot of functions and tools around coordinate frames and transformations. It is the de facto standard for related tasks in ROS. Since the package does not know how the messages files in this repository are structured, we need to define functions that allow us to integrate our messages into the existing framework provided by the tf2 ROS package. For this purpose, we need to especially write a specialized <code>doTransform()</code> function for our messages.</p>
+<p>Transformations between coordinate frames are often needed in robotics applications. There exists the <a href="https://github.com/ros2/geometry2">tf2</a> ROS 2 package that provides a lot of functions and tools around coordinate frames and transformations. It is the de facto standard for related tasks in ROS. Since the package does not know how the messages files in this repository are structured, we need to define functions that allow us to integrate our messages into the existing framework provided by the tf2 ROS package. For this purpose, we need to especially write a specialized <code>doTransform()</code> function for our messages.</p>
 <p>The implementation can be found in [tf2_perception_msgs](tf2_perception_msgs). Available implementations include the provided <a href="perception_msgs/msg/EgoData.msg">EgoData.msg</a> with the <a href="perception_msgs/msg/EGO.msg">EGO.msg</a> and <a href="perception_msgs/msg/EGORWS.msg">EGORWS.msg</a> state models, and the <a href="perception_msgs/msg/ObjectList.msg">ObjectList.msg</a> with the <a href="perception_msgs/msg/ISCACTR.msg">ISCACTR.msg</a> and <a href="perception_msgs/msg/HEXAMOTION.msg">HEXAMOTION.msg</a> state models.</p>
 <h1><a class="anchor" id="autotoc_md9"></a>
 RViz Plugins</h1>
-<p>This repository provides ROS packages [perception_msgs_rendering](perception_msgs_rendering) and [perception_msgs_rviz_plugins](perception_msgs_rviz_plugins) that, together, allow to visualize <a href="perception_msgs/msg/ObjectList.msg">ObjectList.msg</a> with the <a href="perception_msgs/msg/ISCACTR.msg">ISCACTR.msg</a> and <a href="perception_msgs/msg/HEXAMOTION.msg">HEXAMOTION.msg</a> state models and <a href="perception_msgs/msg/EgoData.msg">EgoData.msg</a> with the <a href="perception_msgs/msg/EGO.msg">EGO.msg</a> and <a href="perception_msgs/msg/EGORWS.msg">EGORWS.msg</a> state models in RViz (only supported for ROS 2).</p>
+<p>This repository provides ROS packages [perception_msgs_rendering](perception_msgs_rendering) and [perception_msgs_rviz_plugins](perception_msgs_rviz_plugins) that, together, allow to visualize <a href="perception_msgs/msg/ObjectList.msg">ObjectList.msg</a> with the <a href="perception_msgs/msg/ISCACTR.msg">ISCACTR.msg</a> and <a href="perception_msgs/msg/HEXAMOTION.msg">HEXAMOTION.msg</a> state models and <a href="perception_msgs/msg/EgoData.msg">EgoData.msg</a> with the <a href="perception_msgs/msg/EGO.msg">EGO.msg</a> and <a href="perception_msgs/msg/EGORWS.msg">EGORWS.msg</a> state models in RViz.</p>
 <p>To further extend the object list, a workflow for visualizing new meshes has been established:</p>
 <ol type="1">
 <li>Import new meshes as .stl-files in Blender. (File → Import → Stl)</li>
@@ -188,7 +188,7 @@ Minimal implementation</h1>
 <li>the top-level header, and</li>
 <li>the object state(s)</li>
 </ul>
-<p>where the object states should be initialized with <a href="perception_msgs_utils/include/perception_msgs_utils/impl/init.h#L47"><code>initializeState()</code></a> and then filled as much as possible.</p>
+<p>where the object states should be initialized with <a href="perception_msgs_utils/include/perception_msgs_utils/init.hpp"><code>initializeState()</code></a> and then filled as much as possible.</p>
 <h1><a class="anchor" id="autotoc_md11"></a>
 Acknowledgements</h1>
 <p>This research is accomplished within the research projects ”<a href="https://www.autotechagil.de/">autotech.agil</a>” (FKZ 1IS22088A), ”<a href="https://www.unicaragil.de/en/">UNICAR*agil*</a>” (FKZ 16EMO0284K), ”<a href="https://www.6gem.de/en/">6GEM</a>” (FKZ 16KISK036K), and ”<a href="https://aithena.eu/">AIthena</a>” (Grant Agreement No. 101076754). We acknowledge the financial support by the Federal Ministry of Education and Research of Germany (BMBF) and by the European Union under its Horizon Europe funding programme for research and innovation. </p>

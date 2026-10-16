@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>perception_interfaces: perception_msgs_utils/include/perception_msgs_utils/impl/utils.h Source File</title>
+<title>perception_interfaces: perception_msgs_utils/include/perception_msgs_utils/utils.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -74,21 +74,21 @@ $(document).ready(function() { init_codefold(0); });
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_1139d5a0e957d30dd05dae9e12970b29.html">perception_msgs_utils</a></li><li class="navelem"><a class="el" href="dir_8687d9c34cab75b3594e74d3da1776d1.html">include</a></li><li class="navelem"><a class="el" href="dir_978d8a0b307ba884c0ff988e91538a50.html">perception_msgs_utils</a></li><li class="navelem"><a class="el" href="dir_199bb4fb34a442991fa42fbdd234a229.html">impl</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_1139d5a0e957d30dd05dae9e12970b29.html">perception_msgs_utils</a></li><li class="navelem"><a class="el" href="dir_8687d9c34cab75b3594e74d3da1776d1.html">include</a></li><li class="navelem"><a class="el" href="dir_978d8a0b307ba884c0ff988e91538a50.html">perception_msgs_utils</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
-  <div class="headertitle"><div class="title">utils.h</div></div>
+  <div class="headertitle"><div class="title">utils.hpp</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="utils_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// Copyright Institute for Automotive Engineering (ika), RWTH Aachen University</span></div>
+<a href="utils_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// Copyright Institute for Automotive Engineering (ika), RWTH Aachen University</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// SPDX-License-Identifier: MIT</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;cmath&gt;</span></div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;<a class="code" href="constants_8h.html">perception_msgs_utils/impl/constants.h</a>&gt;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;<a class="code" href="constants_8hpp.html">perception_msgs_utils/constants.hpp</a>&gt;</span></div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">namespace </span>perception_msgs {</div>
@@ -100,20 +100,20 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>  <span class="keyword">const</span> std::string kExceptionUnknownModel = <span class="stringliteral">&quot;Unknown model ID: &quot;</span>;</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
 <div class="foldopen" id="foldopen00030" data-start="{" data-end="}">
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="utils_8h.html#a6bf2062b73ede62ff74997408ed00bd7">   30</a></span>  <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="utils_8h.html#a6bf2062b73ede62ff74997408ed00bd7">getContinuousStateSize</a>(<span class="keyword">const</span> ObjectState&amp; state) {</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="utils_8hpp.html#a6bf2062b73ede62ff74997408ed00bd7">   30</a></span>  <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="utils_8hpp.html#a6bf2062b73ede62ff74997408ed00bd7">getContinuousStateSize</a>(<span class="keyword">const</span> ObjectState&amp; state) {</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keywordflow">return</span> state.continuous_state.size();</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>  }</div>
 </div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="foldopen" id="foldopen00042" data-start="{" data-end="}">
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="utils_8h.html#a15e9d44fb04fb44d8a256ef3352945bf">   42</a></span>  <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="utils_8h.html#a6bf2062b73ede62ff74997408ed00bd7">getContinuousStateSize</a>(<span class="keyword">const</span> T&amp; obj) {</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="utils_8h.html#a6bf2062b73ede62ff74997408ed00bd7">getContinuousStateSize</a>(obj.state);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="utils_8hpp.html#a15e9d44fb04fb44d8a256ef3352945bf">   42</a></span>  <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="utils_8hpp.html#a6bf2062b73ede62ff74997408ed00bd7">getContinuousStateSize</a>(<span class="keyword">const</span> T&amp; obj) {</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="utils_8hpp.html#a6bf2062b73ede62ff74997408ed00bd7">getContinuousStateSize</a>(obj.state);</div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>  }</div>
 </div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
 <div class="foldopen" id="foldopen00052" data-start="{" data-end="}">
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="utils_8h.html#abdf804c995214e90208e654c8c946dd3">   52</a></span>  <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="utils_8h.html#a6bf2062b73ede62ff74997408ed00bd7">getContinuousStateSize</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>&amp; model_id) {</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="utils_8hpp.html#abdf804c995214e90208e654c8c946dd3">   52</a></span>  <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="utils_8hpp.html#a6bf2062b73ede62ff74997408ed00bd7">getContinuousStateSize</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>&amp; model_id) {</div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keywordflow">switch</span>(model_id) {</div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>      <span class="keywordflow">case</span> EGO::MODEL_ID:</div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        <span class="keywordflow">return</span> EGO::CONTINUOUS_STATE_SIZE;</div>
@@ -132,20 +132,20 @@ $(document).ready(function() { init_codefold(0); });
 </div>
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
 <div class="foldopen" id="foldopen00075" data-start="{" data-end="}">
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="utils_8h.html#a048ee89df96912fd3de765b205f71004">   75</a></span>  <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="utils_8h.html#a048ee89df96912fd3de765b205f71004">getDiscreteStateSize</a>(<span class="keyword">const</span> ObjectState&amp; state) {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="utils_8hpp.html#a048ee89df96912fd3de765b205f71004">   75</a></span>  <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="utils_8hpp.html#a048ee89df96912fd3de765b205f71004">getDiscreteStateSize</a>(<span class="keyword">const</span> ObjectState&amp; state) {</div>
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordflow">return</span> state.discrete_state.size();</div>
 <div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>  }</div>
 </div>
 <div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="foldopen" id="foldopen00087" data-start="{" data-end="}">
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="utils_8h.html#a81f88ca627184c3ba72620274de53b46">   87</a></span>  <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="utils_8h.html#a048ee89df96912fd3de765b205f71004">getDiscreteStateSize</a>(<span class="keyword">const</span> T&amp; obj) {</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="utils_8h.html#a048ee89df96912fd3de765b205f71004">getDiscreteStateSize</a>(obj.state);</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="utils_8hpp.html#a81f88ca627184c3ba72620274de53b46">   87</a></span>  <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="utils_8hpp.html#a048ee89df96912fd3de765b205f71004">getDiscreteStateSize</a>(<span class="keyword">const</span> T&amp; obj) {</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="utils_8hpp.html#a048ee89df96912fd3de765b205f71004">getDiscreteStateSize</a>(obj.state);</div>
 <div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>  }</div>
 </div>
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
 <div class="foldopen" id="foldopen00097" data-start="{" data-end="}">
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="utils_8h.html#a8e9c09cea5f0f8d2ab08ac94ac67a363">   97</a></span>  <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="utils_8h.html#a048ee89df96912fd3de765b205f71004">getDiscreteStateSize</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>&amp; model_id) {</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="utils_8hpp.html#a8e9c09cea5f0f8d2ab08ac94ac67a363">   97</a></span>  <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="utils_8hpp.html#a048ee89df96912fd3de765b205f71004">getDiscreteStateSize</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>&amp; model_id) {</div>
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <span class="keywordflow">switch</span>(model_id) {</div>
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>      <span class="keywordflow">case</span> EGO::MODEL_ID:</div>
 <div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        <span class="keywordflow">return</span> EGO::DISCRETE_STATE_SIZE;</div>
@@ -164,27 +164,27 @@ $(document).ready(function() { init_codefold(0); });
 </div>
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
 <div class="foldopen" id="foldopen00120" data-start="{" data-end="}">
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno"><a class="line" href="utils_8h.html#ae6e0fcb36ab397bff75af95a6c90163d">  120</a></span>  <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="utils_8h.html#ae6e0fcb36ab397bff75af95a6c90163d">getContinuousStateCovarianceSize</a>(<span class="keyword">const</span> ObjectState&amp; state) {</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno"><a class="line" href="utils_8hpp.html#ae6e0fcb36ab397bff75af95a6c90163d">  120</a></span>  <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="utils_8hpp.html#ae6e0fcb36ab397bff75af95a6c90163d">getContinuousStateCovarianceSize</a>(<span class="keyword">const</span> ObjectState&amp; state) {</div>
 <div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="keywordflow">return</span> state.continuous_state_covariance.size();</div>
 <div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>  }</div>
 </div>
 <div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
 <div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="foldopen" id="foldopen00132" data-start="{" data-end="}">
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno"><a class="line" href="utils_8h.html#a9d0067cfe99e64060e802760c6198b2a">  132</a></span>  <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="utils_8h.html#ae6e0fcb36ab397bff75af95a6c90163d">getContinuousStateCovarianceSize</a>(<span class="keyword">const</span> T&amp; obj) {</div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="utils_8h.html#ae6e0fcb36ab397bff75af95a6c90163d">getContinuousStateCovarianceSize</a>(obj.state);</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno"><a class="line" href="utils_8hpp.html#a9d0067cfe99e64060e802760c6198b2a">  132</a></span>  <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="utils_8hpp.html#ae6e0fcb36ab397bff75af95a6c90163d">getContinuousStateCovarianceSize</a>(<span class="keyword">const</span> T&amp; obj) {</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="utils_8hpp.html#ae6e0fcb36ab397bff75af95a6c90163d">getContinuousStateCovarianceSize</a>(obj.state);</div>
 <div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>  }</div>
 </div>
 <div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
 <div class="foldopen" id="foldopen00142" data-start="{" data-end="}">
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno"><a class="line" href="utils_8h.html#ac4f09b0578367bb4f5f98d7cac8a46a0">  142</a></span>  <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="utils_8h.html#ae6e0fcb36ab397bff75af95a6c90163d">getContinuousStateCovarianceSize</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>&amp; model_id) {</div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    <span class="keywordflow">return</span> std::pow(<a class="code hl_function" href="utils_8h.html#a6bf2062b73ede62ff74997408ed00bd7">getContinuousStateSize</a>(model_id), 2);</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno"><a class="line" href="utils_8hpp.html#ac4f09b0578367bb4f5f98d7cac8a46a0">  142</a></span>  <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="utils_8hpp.html#ae6e0fcb36ab397bff75af95a6c90163d">getContinuousStateCovarianceSize</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>&amp; model_id) {</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    <span class="keywordflow">return</span> std::pow(<a class="code hl_function" href="utils_8hpp.html#a6bf2062b73ede62ff74997408ed00bd7">getContinuousStateSize</a>(model_id), 2);</div>
 <div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>  }</div>
 </div>
 <div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span> </div>
 <div class="foldopen" id="foldopen00153" data-start="{" data-end="}">
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno"><a class="line" href="utils_8h.html#a07ee022674f819f4458efd0b20758fc8">  153</a></span>  <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="utils_8h.html#a07ee022674f819f4458efd0b20758fc8">setContinuousStateCovarianceToUnknownAt</a>(ObjectState&amp; state, <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i, <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> j) {</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    <span class="keyword">const</span> <span class="keywordtype">int</span> n = <a class="code hl_function" href="utils_8h.html#a6bf2062b73ede62ff74997408ed00bd7">getContinuousStateSize</a>(state);</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno"><a class="line" href="utils_8hpp.html#a07ee022674f819f4458efd0b20758fc8">  153</a></span>  <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="utils_8hpp.html#a07ee022674f819f4458efd0b20758fc8">setContinuousStateCovarianceToUnknownAt</a>(ObjectState&amp; state, <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i, <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> j) {</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    <span class="keyword">const</span> <span class="keywordtype">int</span> n = <a class="code hl_function" href="utils_8hpp.html#a6bf2062b73ede62ff74997408ed00bd7">getContinuousStateSize</a>(state);</div>
 <div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    state.continuous_state_covariance[n * i + j] = CONTINUOUS_STATE_COVARIANCE_UNKNOWN;</div>
 <div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>  }</div>
 </div>
@@ -192,11 +192,11 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>} <span class="comment">// namespace object_access</span></div>
 <div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span> </div>
 <div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>} <span class="comment">// namespace perception_msgs</span></div>
-<div class="ttc" id="aconstants_8h_html"><div class="ttname"><a href="constants_8h.html">constants.h</a></div><div class="ttdoc">Object state constants.</div></div>
-<div class="ttc" id="autils_8h_html_a048ee89df96912fd3de765b205f71004"><div class="ttname"><a href="utils_8h.html#a048ee89df96912fd3de765b205f71004">perception_msgs::object_access::getDiscreteStateSize</a></div><div class="ttdeci">int getDiscreteStateSize(const ObjectState &amp;state)</div><div class="ttdoc">Get the discrete state size for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="utils_8h_source.html#l00075">utils.h:75</a></div></div>
-<div class="ttc" id="autils_8h_html_a07ee022674f819f4458efd0b20758fc8"><div class="ttname"><a href="utils_8h.html#a07ee022674f819f4458efd0b20758fc8">perception_msgs::object_access::setContinuousStateCovarianceToUnknownAt</a></div><div class="ttdeci">void setContinuousStateCovarianceToUnknownAt(ObjectState &amp;state, const unsigned int i, const unsigned int j)</div><div class="ttdoc">Set the continuous state covariance to unknown at (i,j) for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="utils_8h_source.html#l00153">utils.h:153</a></div></div>
-<div class="ttc" id="autils_8h_html_a6bf2062b73ede62ff74997408ed00bd7"><div class="ttname"><a href="utils_8h.html#a6bf2062b73ede62ff74997408ed00bd7">perception_msgs::object_access::getContinuousStateSize</a></div><div class="ttdeci">int getContinuousStateSize(const ObjectState &amp;state)</div><div class="ttdoc">Get the continuous state size for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="utils_8h_source.html#l00030">utils.h:30</a></div></div>
-<div class="ttc" id="autils_8h_html_ae6e0fcb36ab397bff75af95a6c90163d"><div class="ttname"><a href="utils_8h.html#ae6e0fcb36ab397bff75af95a6c90163d">perception_msgs::object_access::getContinuousStateCovarianceSize</a></div><div class="ttdeci">int getContinuousStateCovarianceSize(const ObjectState &amp;state)</div><div class="ttdoc">Get the continuous state covariance size for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="utils_8h_source.html#l00120">utils.h:120</a></div></div>
+<div class="ttc" id="aconstants_8hpp_html"><div class="ttname"><a href="constants_8hpp.html">constants.hpp</a></div><div class="ttdoc">Object state constants.</div></div>
+<div class="ttc" id="autils_8hpp_html_a048ee89df96912fd3de765b205f71004"><div class="ttname"><a href="utils_8hpp.html#a048ee89df96912fd3de765b205f71004">perception_msgs::object_access::getDiscreteStateSize</a></div><div class="ttdeci">int getDiscreteStateSize(const ObjectState &amp;state)</div><div class="ttdoc">Get the discrete state size for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="utils_8hpp_source.html#l00075">utils.hpp:75</a></div></div>
+<div class="ttc" id="autils_8hpp_html_a07ee022674f819f4458efd0b20758fc8"><div class="ttname"><a href="utils_8hpp.html#a07ee022674f819f4458efd0b20758fc8">perception_msgs::object_access::setContinuousStateCovarianceToUnknownAt</a></div><div class="ttdeci">void setContinuousStateCovarianceToUnknownAt(ObjectState &amp;state, const unsigned int i, const unsigned int j)</div><div class="ttdoc">Set the continuous state covariance to unknown at (i,j) for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="utils_8hpp_source.html#l00153">utils.hpp:153</a></div></div>
+<div class="ttc" id="autils_8hpp_html_a6bf2062b73ede62ff74997408ed00bd7"><div class="ttname"><a href="utils_8hpp.html#a6bf2062b73ede62ff74997408ed00bd7">perception_msgs::object_access::getContinuousStateSize</a></div><div class="ttdeci">int getContinuousStateSize(const ObjectState &amp;state)</div><div class="ttdoc">Get the continuous state size for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="utils_8hpp_source.html#l00030">utils.hpp:30</a></div></div>
+<div class="ttc" id="autils_8hpp_html_ae6e0fcb36ab397bff75af95a6c90163d"><div class="ttname"><a href="utils_8hpp.html#ae6e0fcb36ab397bff75af95a6c90163d">perception_msgs::object_access::getContinuousStateCovarianceSize</a></div><div class="ttdeci">int getContinuousStateCovarianceSize(const ObjectState &amp;state)</div><div class="ttdoc">Get the continuous state covariance size for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="utils_8hpp_source.html#l00120">utils.hpp:120</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
