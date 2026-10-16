@@ -229,6 +229,8 @@ def set_pose_covariance_from_list(obj: T, val: List[float]) -> None:
                 ix = index_pitch(model_id)
             elif i == 5 and has_yaw(model_id):
                 ix = index_yaw(model_id)
+            else:
+                continue
             if j == 0 and has_x(model_id):
                 jx = index_x(model_id)
             elif j == 1 and has_y(model_id):
@@ -241,6 +243,8 @@ def set_pose_covariance_from_list(obj: T, val: List[float]) -> None:
                 jx = index_pitch(model_id)
             elif j == 5 and has_yaw(model_id):
                 jx = index_yaw(model_id)
+            else:
+                continue
             set_continuous_state_covariance_at(state, ix, jx, val[n * i + j])
 
 def set_pose_with_covariance_from_gm_pose_with_covariance(obj: T, val: PoseWithCovariance, reset_covariance: bool = True) -> None:
