@@ -11,7 +11,6 @@ on:
 
 jobs:
   industrial_ci:
-    if: ${{ false }} # reenable once recursive perception/planning_interfaces dependency is merged/released: https://github.com/ika-rwth-aachen/rviz_2d_overlay_plugins/pull/2
     name: ROS ${{ matrix.ROS_DISTRO }}
     runs-on: ubuntu-latest
     strategy:
@@ -23,5 +22,6 @@ jobs:
       - uses: ros-industrial/industrial_ci@master
         env:
           ROS_REPO: main
+          UPSTREAM_WORKSPACE: .repos
         with:
           config: ${{ toJSON(matrix) }}
