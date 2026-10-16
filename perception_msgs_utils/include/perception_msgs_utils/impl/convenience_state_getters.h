@@ -109,7 +109,7 @@ inline double getContinuousStateCovarianceAt(const ObjectState& state, const uns
     throw std::out_of_range("Covariance coordinates out of range");
   sanityCheckContinuousStateCovariance(state);
   const auto& covariance = state.continuous_state_covariance;
-  if (covariance.empty()) return i == j ? CONTINUOUS_STATE_COVARIANCE_INVALID : 0.0;
+  if (covariance.empty()) return i == j ? CONTINUOUS_STATE_COVARIANCE_INVALID : CONTINUOUS_STATE_COVARIANCE_INIT;
   return covariance.at(n * i + j);
 }
 
@@ -274,7 +274,7 @@ inline gm::Pose getPose(const T& obj) {
 inline std::vector<double> getPoseCovariance(const ObjectState& state) {
   const int n = 6;
   const int model_id = state.model_id;
-  std::vector<double> pose_covariance(n * n, 0.0);
+  std::vector<double> pose_covariance(n * n, CONTINUOUS_STATE_COVARIANCE_INIT);
   int ix, jx;
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < n; j++) {
