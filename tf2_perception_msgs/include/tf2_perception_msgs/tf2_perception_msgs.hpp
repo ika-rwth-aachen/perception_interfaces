@@ -13,13 +13,16 @@
 #include <tf2/convert.hpp>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 
+namespace tf2_perception_msgs {
+  inline tf2::TimePoint stampToTime(const builtin_interfaces::msg::Time& t) {
+    return tf2_ros::fromMsg(t);
+  }
+}
+
 namespace tf2 {
   namespace gm = geometry_msgs::msg;
   using namespace perception_msgs::msg;
   using Time = tf2::TimePoint;
-  inline Time stampToTime(const builtin_interfaces::msg::Time& t) {
-    return tf2_ros::fromMsg(t);
-  }
 }
 
 namespace tf2 {
@@ -102,22 +105,22 @@ namespace tf2 {
 
   template <>
   inline Time getTimestamp(const ObjectState& state) {
-    Time t = stampToTime(state.header.stamp);
+    Time t = tf2_perception_msgs::stampToTime(state.header.stamp);
     return t;
   }
   template <>
   inline Time getTimestamp(const Object& obj) {
-    Time t = stampToTime(obj.state.header.stamp);
+    Time t = tf2_perception_msgs::stampToTime(obj.state.header.stamp);
     return t;
   }
   template <>
   inline Time getTimestamp(const ObjectList& obj_list) {
-    Time t = stampToTime(obj_list.header.stamp);
+    Time t = tf2_perception_msgs::stampToTime(obj_list.header.stamp);
     return t;
   }
   template <>
   inline Time getTimestamp(const EgoData& ego) {
-    Time t = stampToTime(ego.header.stamp);
+    Time t = tf2_perception_msgs::stampToTime(ego.header.stamp);
     return t;
   }
 
