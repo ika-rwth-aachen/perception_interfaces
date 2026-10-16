@@ -41,7 +41,7 @@ namespace tf2 {
     } else {
       gm::PoseWithCovarianceStamped xyz_rpy_cov, xyz_rpy_cov_tf;
       xyz_rpy_cov.pose = getPoseWithCovariance(state_in);
-      doTransform(xyz_rpy_cov, xyz_rpy_cov_tf, transform);
+      transformPoseWithCovariance(xyz_rpy_cov, xyz_rpy_cov_tf, transform);
       setPoseWithCovariance(state_out, xyz_rpy_cov_tf.pose);
     }
   }

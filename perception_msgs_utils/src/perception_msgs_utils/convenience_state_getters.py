@@ -14,6 +14,7 @@ from tf_transformations import quaternion_from_euler
 
 
 from .checks import sanity_check_continuous_state, sanity_check_discrete_state, sanity_check_continuous_state_covariance
+from .covariance_transform import transform_pose_with_covariance
 from .utils import get_continuous_state_size
 from .constants import CONTINUOUS_STATE_COVARIANCE_INIT, CONTINUOUS_STATE_COVARIANCE_INVALID
 from .state_getters import get_x, get_y, get_z, get_roll, get_pitch, get_yaw, get_vel_lon, get_vel_lat, get_acc_lon, get_acc_lat
@@ -366,7 +367,7 @@ def get_velocity_xyz_with_covariance(obj: T) -> PoseWithCovariance:
     tf.transform.rotation = q
     vel_lon_lat_stamped = PoseWithCovarianceStamped()
     vel_lon_lat_stamped.pose = vel_lon_lat
-    vel_xyz = tf2_geometry_msgs.do_transform_pose_with_covariance_stamped(vel_lon_lat_stamped, tf)
+    vel_xyz = transform_pose_with_covariance(vel_lon_lat_stamped, tf)
     return vel_xyz.pose
 
 def get_velocity_xyz(obj: T) -> Vector3:
@@ -443,7 +444,7 @@ def get_acceleration_xyz_with_covariance(obj: T) -> PoseWithCovariance:
     tf.transform.rotation = q
     acc_lon_lat_stamped = PoseWithCovarianceStamped()
     acc_lon_lat_stamped.pose = acc_lon_lat
-    acc_xyz = tf2_geometry_msgs.do_transform_pose_with_covariance_stamped(acc_lon_lat_stamped, tf)
+    acc_xyz = transform_pose_with_covariance(acc_lon_lat_stamped, tf)
     return acc_xyz.pose
 
 def get_acceleration_xyz(obj: T) -> Vector3:

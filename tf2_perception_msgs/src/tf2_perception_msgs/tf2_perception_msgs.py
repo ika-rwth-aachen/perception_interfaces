@@ -6,6 +6,7 @@ from geometry_msgs.msg import TransformStamped, PoseStamped, PoseWithCovarianceS
 from perception_msgs.msg import ObjectState, Object, ObjectList, EgoData
 from perception_msgs_utils.convenience_state_getters import get_pose, get_pose_with_covariance
 from perception_msgs_utils.convenience_state_setters import set_pose_from_gm_pose, set_pose_with_covariance_from_gm_pose_with_covariance
+from perception_msgs_utils.covariance_transform import transform_pose_with_covariance
 from std_msgs.msg import Header
 import tf2_ros
 import tf2_geometry_msgs
@@ -53,7 +54,7 @@ def do_transform_state(
     else:
         xyz_rpy_cov = PoseWithCovarianceStamped()
         xyz_rpy_cov.pose = get_pose_with_covariance(state)
-        xyz_rpy_cov_tf = tf2_geometry_msgs.do_transform_pose_with_covariance_stamped(xyz_rpy_cov, transform)
+        xyz_rpy_cov_tf = transform_pose_with_covariance(xyz_rpy_cov, transform)
         set_pose_with_covariance_from_gm_pose_with_covariance(state_out, xyz_rpy_cov_tf.pose)
     return state_out
 

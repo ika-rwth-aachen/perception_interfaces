@@ -13,6 +13,7 @@ from geometry_msgs.msg import Point, Quaternion, Pose, PoseWithCovariance, PoseW
 from tf_transformations import euler_from_quaternion, quaternion_from_euler
 
 from .checks import sanity_check_continuous_state, sanity_check_discrete_state, sanity_check_continuous_state_covariance
+from .covariance_transform import transform_pose_with_covariance
 from .utils import get_continuous_state_size
 from .constants import CONTINUOUS_STATE_COVARIANCE_INIT, CONTINUOUS_STATE_COVARIANCE_INVALID
 from .state_getters import get_roll, get_pitch, get_yaw
@@ -366,7 +367,7 @@ def set_velocity_xyz_yaw_with_covariance_from_gm_vector3(obj: T, vel_xyz_in: Vec
     tf.transform.translation.z = 0.0
     vel_xyz_stamped = PoseWithCovarianceStamped()
     vel_xyz_stamped.pose = vel_xyz
-    vel_lon_lat_stamped = tf2_geometry_msgs.do_transform_pose_with_covariance_stamped(vel_xyz_stamped, tf)
+    vel_lon_lat_stamped = transform_pose_with_covariance(vel_xyz_stamped, tf)
     vel_lon_lat = vel_lon_lat_stamped.pose
     set_velocity_from_list(state, [vel_lon_lat.pose.position.x, vel_lon_lat.pose.position.y], False)
     set_yaw(state, yaw, False)
@@ -448,7 +449,7 @@ def set_acceleration_xyz_yaw_with_covariance_from_gm_vector3(obj: T, acc_xyz_in:
     tf.transform.translation.z = 0.0
     acc_xyz_stamped = PoseWithCovarianceStamped()
     acc_xyz_stamped.pose = acc_xyz
-    acc_lon_lat_stamped = tf2_geometry_msgs.do_transform_pose_with_covariance_stamped(acc_xyz_stamped, tf)
+    acc_lon_lat_stamped = transform_pose_with_covariance(acc_xyz_stamped, tf)
     acc_lon_lat = acc_lon_lat_stamped.pose
     set_acceleration_from_list(state, [acc_lon_lat.pose.position.x, acc_lon_lat.pose.position.y], False)
     set_yaw(state, yaw, False)
