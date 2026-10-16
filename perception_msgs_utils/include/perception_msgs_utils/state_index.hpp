@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 /**
- * @file state_index.h
+ * @file state_index.hpp
  * @brief Object state vector indices based on state model
  */
 

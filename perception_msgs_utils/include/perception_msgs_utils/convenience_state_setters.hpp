@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: MIT
 
 /**
- * @file convenience_state_setters.h
+ * @file convenience_state_setters.hpp
  * @brief Convenience setter functions for objects state members
  */
 
 #pragma once
 
-#include <perception_msgs_utils/impl/checks.h>
-#include <perception_msgs_utils/impl/state_index.h>
-#include <perception_msgs_utils/impl/state_setters.h>
+#include <perception_msgs_utils/checks.hpp>
+#include <perception_msgs_utils/state_index.hpp>
+#include <perception_msgs_utils/state_setters.hpp>
 
 #include <array>
 

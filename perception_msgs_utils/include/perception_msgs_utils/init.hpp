@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: MIT
 
 /**
- * @file init.h
+ * @file init.hpp
  * @brief Object state initializers
  */
 
 #pragma once
 
-#include <perception_msgs_utils/impl/constants.h>
-#include <perception_msgs_utils/impl/convenience_state_setters.h>
-#include <perception_msgs_utils/impl/utils.h>
+#include <perception_msgs_utils/constants.hpp>
+#include <perception_msgs_utils/convenience_state_setters.hpp>
+#include <perception_msgs_utils/utils.hpp>
 
 
 namespace perception_msgs {

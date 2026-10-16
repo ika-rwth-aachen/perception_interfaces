@@ -99,7 +99,7 @@ However, this convenience comes at a cost. We are able to receive data via the s
 
 Working with hierarchical ROS messages, especially in C++, can be challenging sometimes due to the many nested subfields and certain requirements posed at how fields should be filled. For this reason, with [perception_msgs_utils](perception_msgs_utils), we provide a ROS package with access functions defined in C++ header files as well as Python equivalents. These enable developers to read and write fields of the perception_msgs more easily.
 
-A list of all access functions can be found in [convenience_state_getters.h](perception_msgs_utils/include/perception_msgs_utils/impl/convenience_state_getters.h) and [convenience_state_setters.h](perception_msgs_utils/include/perception_msgs_utils/impl/convenience_state_setters.h).
+A list of all access functions can be found in [convenience_state_getters.hpp](perception_msgs_utils/include/perception_msgs_utils/convenience_state_getters.hpp) and [convenience_state_setters.hpp](perception_msgs_utils/include/perception_msgs_utils/convenience_state_setters.hpp).
 
 In your C++ code, just include them like this
 
@@ -144,7 +144,7 @@ Many of the fields in the messages are optional. If you use the messages in this
 - the top-level header, and
 - the object state(s)
 
-where the object states should be initialized with [`initializeState()`](perception_msgs_utils/include/perception_msgs_utils/impl/init.h#L47) and then filled as much as possible.
+where the object states should be initialized with [`initializeState()`](perception_msgs_utils/include/perception_msgs_utils/init.hpp) and then filled as much as possible.
 
 
 ## Acknowledgements

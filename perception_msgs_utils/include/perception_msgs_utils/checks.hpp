@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: MIT
 
 /**
- * @file checks.h
+ * @file checks.hpp
  * @brief Object state sanity checks
  */
 
 #pragma once
 
-#include <perception_msgs_utils/impl/utils.h>
+#include <perception_msgs_utils/utils.hpp>
 
 
 namespace perception_msgs {

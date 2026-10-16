@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: MIT
 
 /**
- * @file convenience_state_getters.h
+ * @file convenience_state_getters.hpp
  * @brief Convenience getter functions for object state members
  */
 
 #pragma once
 
-#include <perception_msgs_utils/impl/checks.h>
-#include <perception_msgs_utils/impl/state_getters.h>
-#include <perception_msgs_utils/impl/state_index.h>
+#include <perception_msgs_utils/checks.hpp>
+#include <perception_msgs_utils/state_getters.hpp>
+#include <perception_msgs_utils/state_index.hpp>
 
 #include <algorithm>
 #include <cmath>
