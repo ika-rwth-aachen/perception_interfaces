@@ -21,7 +21,6 @@ namespace tf2_perception_msgs {
 namespace tf2 {
   namespace gm = geometry_msgs::msg;
   using namespace perception_msgs::msg;
-  using Time = tf2::TimePoint;
 }
 
 namespace tf2 {
@@ -96,23 +95,23 @@ namespace tf2 {
   }
 
   template <>
-  inline Time getTimestamp(const ObjectState& state) {
-    Time t = tf2_perception_msgs::stampToTime(state.header.stamp);
+  inline tf2::TimePoint getTimestamp(const ObjectState& state) {
+    tf2::TimePoint t = tf2_perception_msgs::stampToTime(state.header.stamp);
     return t;
   }
   template <>
-  inline Time getTimestamp(const Object& obj) {
-    Time t = tf2_perception_msgs::stampToTime(obj.state.header.stamp);
+  inline tf2::TimePoint getTimestamp(const Object& obj) {
+    tf2::TimePoint t = tf2_perception_msgs::stampToTime(obj.state.header.stamp);
     return t;
   }
   template <>
-  inline Time getTimestamp(const ObjectList& obj_list) {
-    Time t = tf2_perception_msgs::stampToTime(obj_list.header.stamp);
+  inline tf2::TimePoint getTimestamp(const ObjectList& obj_list) {
+    tf2::TimePoint t = tf2_perception_msgs::stampToTime(obj_list.header.stamp);
     return t;
   }
   template <>
-  inline Time getTimestamp(const EgoData& ego) {
-    Time t = tf2_perception_msgs::stampToTime(ego.header.stamp);
+  inline tf2::TimePoint getTimestamp(const EgoData& ego) {
+    tf2::TimePoint t = tf2_perception_msgs::stampToTime(ego.header.stamp);
     return t;
   }
 
