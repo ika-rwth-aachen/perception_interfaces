@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 /**
- * @file utils.h
+ * @file utils.hpp
  * @brief Object state utility functions
  */
 
@@ -10,7 +10,7 @@
 
 #include <cmath>
 
-#include <perception_msgs_utils/impl/constants.h>
+#include <perception_msgs_utils/constants.hpp>
 
 
 namespace perception_msgs {

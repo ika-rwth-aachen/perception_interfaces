@@ -353,7 +353,7 @@ void ObjectState::setObjectStateVizDefault(const perception_msgs::msg::ObjectSta
         break;
     }
 
-  #if defined(ROS_DISTRO_noetic) || defined(ROS_DISTRO_humble) || defined(ROS_DISTRO_jazzy)
+  #if defined(ROS_DISTRO_humble) || defined(ROS_DISTRO_jazzy)
     mesh = rviz_rendering::loadMeshFromResource(package);
   #else
     resource_retriever::Retriever* retriever;
@@ -782,8 +782,6 @@ void ObjectState::setObjectStateTextDefault(const perception_msgs::msg::ObjectSt
   // Currently only the given y-Position is set
   // https://github.com/ros2/rviz/blob/1ac419472ed06cdd52842a8f964f953a75395245/rviz_rendering/src/rviz_rendering/objects/movable_text.cpp#L520
   // Shows that the global_translation-vector is mutliplied with Ogre::Vector3::UNIT_Y is this intended?
-  // In the ROS1 implementation the translation-vector is added without any multiplication
-  // See: https://github.com/ros-visualization/rviz/blob/ec7ab1b0183244c05fbd2d0d1b8d8f53d8f42f2b/src/rviz/ogre_helpers/movable_text.cpp#L506
   // I've opened an Issue here: https://github.com/ros2/rviz/issues/974
   text_->setGlobalTranslation(offs);
   text_->setColor(color);

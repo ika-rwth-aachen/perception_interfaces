@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: MIT
 
 /**
- * @file convenience_state_setters.h
+ * @file convenience_state_setters.hpp
  * @brief Convenience setter functions for objects state members
  */
 
 #pragma once
 
-#include <perception_msgs_utils/impl/checks.h>
-#include <perception_msgs_utils/impl/state_index.h>
-#include <perception_msgs_utils/impl/state_setters.h>
+#include <perception_msgs_utils/checks.hpp>
+#include <perception_msgs_utils/state_index.hpp>
+#include <perception_msgs_utils/state_setters.hpp>
 
 #include <array>
 
@@ -24,9 +24,9 @@ namespace object_access
 
 /**
  * @brief Set the continuous state of a given object state.
- * 
- * @param state 
- * @param val 
+ *
+ * @param state
+ * @param val
  */
 inline void setContinuousState(ObjectState & state, const std::vector<double> & val)
 {
@@ -36,10 +36,10 @@ inline void setContinuousState(ObjectState & state, const std::vector<double> & 
 
 /**
  * @brief Set the continuous state of a given template object that contains an object state.
- * 
- * @tparam T 
- * @param obj 
- * @param val 
+ *
+ * @tparam T
+ * @param obj
+ * @param val
  */
 template <typename T>
 inline void setContinuousState(T & obj, const std::vector<double> & val)
@@ -49,9 +49,9 @@ inline void setContinuousState(T & obj, const std::vector<double> & val)
 
 /**
  * @brief Set the discrete state of a given object state.
- * 
- * @param state 
- * @param val 
+ *
+ * @param state
+ * @param val
  */
 inline void setDiscreteState(ObjectState & state, const std::vector<long int> & val)
 {
@@ -61,10 +61,10 @@ inline void setDiscreteState(ObjectState & state, const std::vector<long int> & 
 
 /**
  * @brief Set the discrete state of a given template object that contains an object state.
- * 
- * @tparam T 
- * @param obj 
- * @param val 
+ *
+ * @tparam T
+ * @param obj
+ * @param val
  */
 template <typename T>
 inline void setDiscreteState(T & obj, const std::vector<long int> & val)
@@ -74,9 +74,9 @@ inline void setDiscreteState(T & obj, const std::vector<long int> & val)
 
 /**
  * @brief Set the continuous state covariance of a given object state.
- * 
- * @param state 
- * @param val 
+ *
+ * @param state
+ * @param val
  */
 inline void setContinuousStateCovariance(ObjectState & state, const std::vector<double> & val)
 {
@@ -86,10 +86,10 @@ inline void setContinuousStateCovariance(ObjectState & state, const std::vector<
 
 /**
  * @brief Set the continuous state covariance of a given template object that contains an object state.
- * 
- * @tparam T 
- * @param obj 
- * @param val 
+ *
+ * @tparam T
+ * @param obj
+ * @param val
  */
 template <typename T>
 inline void setContinuousStateCovariance(T & obj, const std::vector<double> & val)
@@ -99,11 +99,11 @@ inline void setContinuousStateCovariance(T & obj, const std::vector<double> & va
 
 /**
  * @brief Set the continuous state covariance entry at (i,j) of a given object state.
- * 
- * @param state 
- * @param i 
- * @param j 
- * @param val 
+ *
+ * @param state
+ * @param i
+ * @param j
+ * @param val
  */
 inline void setContinuousStateCovarianceAt(
   ObjectState & state, const unsigned int i, const unsigned int j, const double val)
@@ -122,12 +122,12 @@ inline void setContinuousStateCovarianceAt(
 
 /**
  * @brief Set the continuous state covariance at (i,j) of a given template object that contains an object state.
- * 
- * @tparam T 
- * @param obj 
- * @param i 
- * @param j 
- * @param val 
+ *
+ * @tparam T
+ * @param obj
+ * @param i
+ * @param j
+ * @param val
  */
 template <typename T>
 inline void setContinuousStateCovarianceAt(
@@ -138,9 +138,9 @@ inline void setContinuousStateCovarianceAt(
 
 /**
  * @brief Set the continuous state covariance diagonal of a given object state.
- * 
- * @param state 
- * @param val 
+ *
+ * @param state
+ * @param val
  */
 inline void setContinuousStateCovarianceDiagonal(ObjectState & state, const std::vector<double> val)
 {
@@ -150,10 +150,10 @@ inline void setContinuousStateCovarianceDiagonal(ObjectState & state, const std:
 
 /**
  * @brief Set the continuous state covariance diagonal of a given template object that contains an object state.
- * 
- * @tparam T 
- * @param obj 
- * @param val 
+ *
+ * @tparam T
+ * @param obj
+ * @param val
  */
 template <typename T>
 inline void setContinuousStateCovarianceDiagonal(T & obj, const std::vector<double> val)
@@ -165,10 +165,10 @@ inline void setContinuousStateCovarianceDiagonal(T & obj, const std::vector<doub
 
 /**
  * @brief Set the position of a given object state.
- * 
- * @param state 
- * @param val 
- * @param reset_covariance 
+ *
+ * @param state
+ * @param val
+ * @param reset_covariance
  */
 inline void setPosition(ObjectState & state, const gm::Point val, const bool reset_covariance = true)
 {
@@ -179,11 +179,11 @@ inline void setPosition(ObjectState & state, const gm::Point val, const bool res
 
 /**
  * @brief Set the position of a given template object that contains an object state.
- * 
- * @tparam T 
- * @param obj 
- * @param val 
- * @param reset_covariance 
+ *
+ * @tparam T
+ * @param obj
+ * @param val
+ * @param reset_covariance
  */
 template <typename T>
 inline void setPosition(T & obj, const gm::Point val, const bool reset_covariance = true)
@@ -193,10 +193,10 @@ inline void setPosition(T & obj, const gm::Point val, const bool reset_covarianc
 
 /**
  * @brief Set the position of a given object state.
- * 
- * @param state 
- * @param val 
- * @param reset_covariance 
+ *
+ * @param state
+ * @param val
+ * @param reset_covariance
  */
 inline void setPosition(ObjectState & state, const std::array<double, 3> & val, const bool reset_covariance = true)
 {
@@ -207,11 +207,11 @@ inline void setPosition(ObjectState & state, const std::array<double, 3> & val, 
 
 /**
  * @brief Set the position of a given template object that contains an object state.
- * 
- * @tparam T 
- * @param obj 
- * @param val 
- * @param reset_covariance 
+ *
+ * @tparam T
+ * @param obj
+ * @param val
+ * @param reset_covariance
  */
 template <typename T>
 inline void setPosition(T & obj, const std::array<double, 3> & val, const bool reset_covariance = true)
@@ -221,10 +221,10 @@ inline void setPosition(T & obj, const std::array<double, 3> & val, const bool r
 
 /**
  * @brief Set the orientation of a given object state.
- * 
- * @param state 
- * @param val 
- * @param reset_covariance 
+ *
+ * @param state
+ * @param val
+ * @param reset_covariance
  */
 inline void setOrientation(ObjectState & state, const gm::Quaternion & val, const bool reset_covariance = true)
 {
@@ -239,11 +239,11 @@ inline void setOrientation(ObjectState & state, const gm::Quaternion & val, cons
 
 /**
  * @brief Set the orientation of a given template object that contains an object state.
- * 
- * @tparam T 
- * @param obj 
- * @param val 
- * @param reset_covariance 
+ *
+ * @tparam T
+ * @param obj
+ * @param val
+ * @param reset_covariance
  */
 template <typename T>
 inline void setOrientation(T & obj, const gm::Quaternion & val, const bool reset_covariance = true)
@@ -253,10 +253,10 @@ inline void setOrientation(T & obj, const gm::Quaternion & val, const bool reset
 
 /**
  * @brief Set the orientation of a given object state.
- * 
- * @param state 
- * @param val 
- * @param reset_covariance 
+ *
+ * @param state
+ * @param val
+ * @param reset_covariance
  */
 inline void setOrientation(ObjectState & state, const std::array<double, 3> & val, const bool reset_covariance = true)
 {
@@ -267,11 +267,11 @@ inline void setOrientation(ObjectState & state, const std::array<double, 3> & va
 
 /**
  * @brief Set the orientation of a given template object that contains an object state.
- * 
- * @tparam T 
- * @param obj 
- * @param val 
- * @param reset_covariance 
+ *
+ * @tparam T
+ * @param obj
+ * @param val
+ * @param reset_covariance
  */
 template <typename T>
 inline void setOrientation(T & obj, const std::array<double, 3> & val, const bool reset_covariance = true)
@@ -281,10 +281,10 @@ inline void setOrientation(T & obj, const std::array<double, 3> & val, const boo
 
 /**
  * @brief Set the pose of a given object state.
- * 
- * @param state 
- * @param val 
- * @param reset_covariance 
+ *
+ * @param state
+ * @param val
+ * @param reset_covariance
  */
 inline void setPose(ObjectState & state, const gm::Pose & val, const bool reset_covariance = true)
 {
@@ -294,11 +294,11 @@ inline void setPose(ObjectState & state, const gm::Pose & val, const bool reset_
 
 /**
  * @brief Set the pose of a given template object that contains an object state.
- * 
- * @tparam T 
- * @param obj 
- * @param val 
- * @param reset_covariance 
+ *
+ * @tparam T
+ * @param obj
+ * @param val
+ * @param reset_covariance
  */
 template <typename T>
 inline void setPose(T & obj, const gm::Pose & val, const bool reset_covariance = true)
@@ -308,11 +308,11 @@ inline void setPose(T & obj, const gm::Pose & val, const bool reset_covariance =
 
 /**
  * @brief Set the pose of a given object state.
- * 
- * @param state 
- * @param xyz 
- * @param rpy 
- * @param reset_covariance 
+ *
+ * @param state
+ * @param xyz
+ * @param rpy
+ * @param reset_covariance
  */
 inline void setPose(
   ObjectState & state, const std::array<double, 3> & xyz, const std::array<double, 3> & rpy, const bool reset_covariance = true)
@@ -323,12 +323,12 @@ inline void setPose(
 
 /**
  * @brief Set the pose of a given template object that contains an object state.
- * 
- * @tparam T 
- * @param obj 
- * @param xyz 
- * @param rpy 
- * @param reset_covariance 
+ *
+ * @tparam T
+ * @param obj
+ * @param xyz
+ * @param rpy
+ * @param reset_covariance
  */
 template <typename T>
 inline void setPose(T & obj, const std::array<double, 3> & xyz, const std::array<double, 3> & rpy, const bool reset_covariance = true)
@@ -338,9 +338,9 @@ inline void setPose(T & obj, const std::array<double, 3> & xyz, const std::array
 
 /**
  * @brief Set the pose covariance of a given object state.
- * 
- * @param state 
- * @param val 
+ *
+ * @param state
+ * @param val
  */
 inline void setPoseCovariance(
   ObjectState & state, const gm::PoseWithCovariance::_covariance_type & val)
@@ -379,10 +379,10 @@ inline void setPoseCovariance(
 }
  /**
   * @brief Set the pose covariance of a given template object that contains an object state.
-  * 
-  * @tparam T 
-  * @param obj 
-  * @param val 
+  *
+  * @tparam T
+  * @param obj
+  * @param val
   */
 template <typename T>
 inline void setPoseCovariance(T & obj, const gm::PoseWithCovariance::_covariance_type & val)
@@ -392,9 +392,9 @@ inline void setPoseCovariance(T & obj, const gm::PoseWithCovariance::_covariance
 
 /**
  * @brief Set the pose with covariance of a given object state.
- * 
- * @param state 
- * @param val 
+ *
+ * @param state
+ * @param val
  */
 inline void setPoseWithCovariance(ObjectState & state, const gm::PoseWithCovariance & val)
 {
@@ -404,10 +404,10 @@ inline void setPoseWithCovariance(ObjectState & state, const gm::PoseWithCovaria
 
 /**
  * @brief Set the pose with covariance of a given template object that contains an object state.
- * 
- * @tparam T 
- * @param obj 
- * @param val 
+ *
+ * @tparam T
+ * @param obj
+ * @param val
  */
 template <typename T>
 inline void setPoseWithCovariance(T & obj, const gm::PoseWithCovariance & val)
@@ -417,10 +417,10 @@ inline void setPoseWithCovariance(T & obj, const gm::PoseWithCovariance & val)
 
 /**
  * @brief Set the velocity of a given object state.
- * 
- * @param state 
- * @param val 
- * @param reset_covariance 
+ *
+ * @param state
+ * @param val
+ * @param reset_covariance
  */
 inline void setVelocity(ObjectState & state, const gm::Vector3 & val, const bool reset_covariance = true)
 {
@@ -429,11 +429,11 @@ inline void setVelocity(ObjectState & state, const gm::Vector3 & val, const bool
 }
  /**
   * @brief Set the velocity of a given template object that contains an object state.
-  * 
-  * @tparam T 
-  * @param obj 
-  * @param val 
-  * @param reset_covariance 
+  *
+  * @tparam T
+  * @param obj
+  * @param val
+  * @param reset_covariance
   */
 template <typename T>
 inline void setVelocity(T & obj, const gm::Vector3 & val, const bool reset_covariance = true)
@@ -443,10 +443,10 @@ inline void setVelocity(T & obj, const gm::Vector3 & val, const bool reset_covar
 
 /**
  * @brief Set the velocity of a given object state.
- * 
- * @param state 
- * @param val 
- * @param reset_covariance 
+ *
+ * @param state
+ * @param val
+ * @param reset_covariance
  */
 inline void setVelocity(ObjectState & state, const std::array<double, 2> & val, const bool reset_covariance = true)
 {
@@ -456,11 +456,11 @@ inline void setVelocity(ObjectState & state, const std::array<double, 2> & val, 
 
 /**
  * @brief Set the velocity of a given template object that contains an object state.
- * 
- * @tparam T 
- * @param obj 
- * @param val 
- * @param reset_covariance 
+ *
+ * @tparam T
+ * @param obj
+ * @param val
+ * @param reset_covariance
  */
 template <typename T>
 inline void setVelocity(T & obj, const std::array<double, 2> & val, const bool reset_covariance = true)
@@ -470,10 +470,10 @@ inline void setVelocity(T & obj, const std::array<double, 2> & val, const bool r
 
 /**
  * @brief Set the acceleration of a given object state.
- * 
- * @param state 
- * @param val 
- * @param reset_covariance 
+ *
+ * @param state
+ * @param val
+ * @param reset_covariance
  */
 inline void setAcceleration(ObjectState & state, const gm::Vector3 & val, const bool reset_covariance = true)
 {
@@ -483,11 +483,11 @@ inline void setAcceleration(ObjectState & state, const gm::Vector3 & val, const 
 
 /**
  * @brief Set the acceleration of a given template object that contains an object state.
- * 
- * @tparam T 
- * @param obj 
- * @param val 
- * @param reset_covariance 
+ *
+ * @tparam T
+ * @param obj
+ * @param val
+ * @param reset_covariance
  */
 template <typename T>
 inline void setAcceleration(T & obj, const gm::Vector3 & val, const bool reset_covariance = true)
@@ -497,10 +497,10 @@ inline void setAcceleration(T & obj, const gm::Vector3 & val, const bool reset_c
 
 /**
  * @brief Set the acceleration of a given object state.
- * 
- * @param state 
- * @param val 
- * @param reset_covariance 
+ *
+ * @param state
+ * @param val
+ * @param reset_covariance
  */
 inline void setAcceleration(ObjectState & state, const std::array<double, 2> & val, const bool reset_covariance = true)
 {
@@ -510,11 +510,11 @@ inline void setAcceleration(ObjectState & state, const std::array<double, 2> & v
 
 /**
  * @brief Set the acceleration of a given template object that contains an object state.
- * 
- * @tparam T 
- * @param obj 
- * @param val 
- * @param reset_covariance 
+ *
+ * @tparam T
+ * @param obj
+ * @param val
+ * @param reset_covariance
  */
 template <typename T>
 inline void setAcceleration(T & obj, const std::array<double, 2> & val, const bool reset_covariance = true)
@@ -526,10 +526,10 @@ inline void setAcceleration(T & obj, const std::array<double, 2> & val, const bo
 
 /**
  * @brief Set the roll in degree of a given object state.
- * 
- * @param state 
- * @param val 
- * @param reset_covariance 
+ *
+ * @param state
+ * @param val
+ * @param reset_covariance
  */
 inline void setRollInDeg(ObjectState & state, const double val, const bool reset_covariance = true)
 {
@@ -538,11 +538,11 @@ inline void setRollInDeg(ObjectState & state, const double val, const bool reset
 
 /**
  * @brief Set the roll in deg of a given template object that contains an object state.
- * 
- * @tparam T 
- * @param obj 
- * @param val 
- * @param reset_covariance 
+ *
+ * @tparam T
+ * @param obj
+ * @param val
+ * @param reset_covariance
  */
 template <typename T>
 inline void setRollInDeg(T & obj, const double val, const bool reset_covariance = true)
@@ -552,10 +552,10 @@ inline void setRollInDeg(T & obj, const double val, const bool reset_covariance 
 
 /**
  * @brief Set the pitch in degree of a given object state.
- * 
- * @param state 
- * @param val 
- * @param reset_covariance 
+ *
+ * @param state
+ * @param val
+ * @param reset_covariance
  */
 inline void setPitchInDeg(ObjectState & state, const double val, const bool reset_covariance = true)
 {
@@ -564,11 +564,11 @@ inline void setPitchInDeg(ObjectState & state, const double val, const bool rese
 
 /**
  * @brief Set the pitch in degree of a given template object that contains an object state.
- * 
- * @tparam T 
- * @param obj 
- * @param val 
- * @param reset_covariance 
+ *
+ * @tparam T
+ * @param obj
+ * @param val
+ * @param reset_covariance
  */
 template <typename T>
 inline void setPitchInDeg(T & obj, const double val, const bool reset_covariance = true)
@@ -578,10 +578,10 @@ inline void setPitchInDeg(T & obj, const double val, const bool reset_covariance
 
 /**
  * @brief Set the yaw in degree of a given object state.
- * 
- * @param state 
- * @param val 
- * @param reset_covariance 
+ *
+ * @param state
+ * @param val
+ * @param reset_covariance
  */
 inline void setYawInDeg(ObjectState & state, const double val, const bool reset_covariance = true)
 {
@@ -590,11 +590,11 @@ inline void setYawInDeg(ObjectState & state, const double val, const bool reset_
 
 /**
  * @brief Set the yaw in degree of a given template object that contains an object state.
- * 
- * @tparam T 
- * @param obj 
- * @param val 
- * @param reset_covariance 
+ *
+ * @tparam T
+ * @param obj
+ * @param val
+ * @param reset_covariance
  */
 template <typename T>
 inline void setYawInDeg(T & obj, const double val, const bool reset_covariance = true)
@@ -604,13 +604,13 @@ inline void setYawInDeg(T & obj, const double val, const bool reset_covariance =
 
 /**
  * @brief Set the velocity XYZ and yaw with covariance of a given object state.
- * 
- * @param state 
- * @param vel_xyz_in 
- * @param yaw 
- * @param var_vel_x 
- * @param var_vel_y 
- * @param cov_vel_xy 
+ *
+ * @param state
+ * @param vel_xyz_in
+ * @param yaw
+ * @param var_vel_x
+ * @param var_vel_y
+ * @param cov_vel_xy
  */
 inline void setVelocityXYZYawWithCovariance(
   ObjectState & state, const gm::Vector3 & vel_xyz_in, const double yaw, const double var_vel_x,
@@ -631,14 +631,7 @@ inline void setVelocityXYZYawWithCovariance(
   gm::TransformStamped tf;
   tf.transform.rotation = tf2::toMsg(q);
 
-#ifdef ROS1
-  gm::PoseWithCovarianceStamped vel_lon_lat_stamped, vel_xyz_stamped;
-  vel_xyz_stamped.pose = vel_xyz;
-  tf2::doTransform(vel_xyz_stamped, vel_lon_lat_stamped, tf);
-  vel_lon_lat = vel_lon_lat_stamped.pose;
-#else
   tf2::doTransform(vel_xyz, vel_lon_lat, tf);
-#endif
 
   setVelocity(state, {vel_lon_lat.pose.position.x, vel_lon_lat.pose.position.y}, false);
   setYaw(state, yaw, false);
@@ -668,14 +661,14 @@ inline void setVelocityXYZYawWithCovariance(
 
 /**
  * @brief Set the velocity XYZ and yaw with covariance of a given template object that contains an object state.
- * 
- * @tparam T 
- * @param obj 
- * @param vel_xyz_in 
- * @param yaw 
- * @param var_vel_x 
- * @param var_vel_y 
- * @param cov_vel_xy 
+ *
+ * @tparam T
+ * @param obj
+ * @param vel_xyz_in
+ * @param yaw
+ * @param var_vel_x
+ * @param var_vel_y
+ * @param cov_vel_xy
  */
 template <typename T>
 inline void setVelocityXYZYawWithCovariance(
@@ -687,11 +680,11 @@ inline void setVelocityXYZYawWithCovariance(
 
 /**
  * @brief Set the velocity XYZ and yaw of a given object state.
- * 
- * @param state 
- * @param vel_xyz 
- * @param yaw 
- * @param reset_covariance 
+ *
+ * @param state
+ * @param vel_xyz
+ * @param yaw
+ * @param reset_covariance
  */
 inline void setVelocityXYZYaw(ObjectState & state, const gm::Vector3 & vel_xyz, const double yaw, const bool reset_covariance = true)
 {
@@ -708,12 +701,12 @@ inline void setVelocityXYZYaw(ObjectState & state, const gm::Vector3 & vel_xyz, 
 
 /**
  * @brief Set the velocity XYZ and yaw of a given template object that contains an object state.
- * 
- * @tparam T 
- * @param obj 
- * @param vel_xyz 
- * @param yaw 
- * @param reset_covariance 
+ *
+ * @tparam T
+ * @param obj
+ * @param vel_xyz
+ * @param yaw
+ * @param reset_covariance
  */
 template <typename T>
 inline void setVelocityXYZYaw(T & obj, const gm::Vector3 & vel_xyz, const double yaw, const bool reset_covariance = true)
@@ -723,13 +716,13 @@ inline void setVelocityXYZYaw(T & obj, const gm::Vector3 & vel_xyz, const double
 
 /**
  * @brief Set the acceleration XYZ and yaw with covariance of a given object state.
- * 
- * @param state 
- * @param acc_xyz_in 
- * @param yaw 
- * @param var_acc_x 
- * @param var_acc_y 
- * @param cov_acc_xy 
+ *
+ * @param state
+ * @param acc_xyz_in
+ * @param yaw
+ * @param var_acc_x
+ * @param var_acc_y
+ * @param cov_acc_xy
  */
 inline void setAccelerationXYZYawWithCovariance(
   ObjectState & state, const gm::Vector3 & acc_xyz_in, const double yaw, const double var_acc_x,
@@ -750,14 +743,7 @@ inline void setAccelerationXYZYawWithCovariance(
   gm::TransformStamped tf;
   tf.transform.rotation = tf2::toMsg(q);
 
-#ifdef ROS1
-  gm::PoseWithCovarianceStamped acc_lon_lat_stamped, acc_xyz_stamped;
-  acc_xyz_stamped.pose = acc_xyz;
-  tf2::doTransform(acc_xyz_stamped, acc_lon_lat_stamped, tf);
-  acc_lon_lat = acc_lon_lat_stamped.pose;
-#else
   tf2::doTransform(acc_xyz, acc_lon_lat, tf);
-#endif
 
   setAcceleration(state, {acc_lon_lat.pose.position.x, acc_lon_lat.pose.position.y}, false);
   setYaw(state, yaw, false);
@@ -787,14 +773,14 @@ inline void setAccelerationXYZYawWithCovariance(
 
 /**
  * @brief Set the acceleration XYZ and yaw with covariance of a given template object that contains an object state.
- * 
- * @tparam T 
- * @param obj 
- * @param acc_xyz_in 
- * @param yaw 
- * @param var_acc_x 
- * @param var_acc_y 
- * @param cov_acc_xy 
+ *
+ * @tparam T
+ * @param obj
+ * @param acc_xyz_in
+ * @param yaw
+ * @param var_acc_x
+ * @param var_acc_y
+ * @param cov_acc_xy
  */
 template <typename T>
 inline void setAccelerationXYZYawWithCovariance(
@@ -806,11 +792,11 @@ inline void setAccelerationXYZYawWithCovariance(
 
 /**
  * @brief Set the acceleration XYZ and yaw of a given template object that contains an object state.
- * 
- * @param state 
- * @param acc_xyz 
- * @param yaw 
- * @param reset_covariance 
+ *
+ * @param state
+ * @param acc_xyz
+ * @param yaw
+ * @param reset_covariance
  */
 inline void setAccelerationXYZYaw(
   ObjectState & state, const gm::Vector3 & acc_xyz, const double yaw, const bool reset_covariance = true)
@@ -828,12 +814,12 @@ inline void setAccelerationXYZYaw(
 
 /**
  * @brief Set the acceleration XYZ and yaw of a given template object that contains an object state.
- * 
- * @tparam T 
- * @param obj 
- * @param acc_xyz 
- * @param yaw 
- * @param reset_covariance 
+ *
+ * @tparam T
+ * @param obj
+ * @param acc_xyz
+ * @param yaw
+ * @param reset_covariance
  */
 template <typename T>
 inline void setAccelerationXYZYaw(T & obj, const gm::Vector3 & acc_xyz, const double yaw, const bool reset_covariance = true)
