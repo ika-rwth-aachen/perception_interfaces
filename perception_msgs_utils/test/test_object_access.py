@@ -5,11 +5,13 @@ import pytest
 import random
 import numpy as np
 
-from perception_msgs.msg import EGO, EGORWS, Object, ISCACTR, HEXAMOTION, TRAFFICLIGHT, ObjectClassification
+from perception_msgs.msg import ObjectState, EgoData, EGO, EGORWS, Object, ISCACTR, HEXAMOTION, TRAFFICLIGHT, ObjectClassification
 from geometry_msgs.msg import PoseWithCovariance, Vector3, Point
 from perception_msgs_utils.init import initialize_state
+from perception_msgs_utils.constants import CONTINUOUS_STATE_COVARIANCE_INVALID, CONTINUOUS_STATE_COVARIANCE_INIT, CONTINUOUS_STATE_INIT
+from perception_msgs_utils.checks import InvalidStateCovarianceSizeError, sanity_check_continuous_state_covariance
 from perception_msgs_utils.utils import get_continuous_state_size, get_discrete_state_size, get_continuous_state_covariance_size
-from perception_msgs_utils.convenience_state_getters import get_continuous_state, get_discrete_state, get_continuous_state_covariance, get_class_with_highest_probability, get_pose_with_covariance, get_velocity, get_acceleration, get_roll_in_deg, get_pitch_in_deg, get_yaw_in_deg, get_velocity_xyz, get_velocity_magnitude, get_acceleration_magnitude, get_velocity_xyz_with_covariance, get_acceleration_xyz_with_covariance, get_acceleration_xyz, get_center_position
+from perception_msgs_utils.convenience_state_getters import get_continuous_state_covariance_at, get_continuous_state, get_discrete_state, get_continuous_state_covariance, get_class_with_highest_probability, get_pose_with_covariance, get_velocity, get_acceleration, get_roll_in_deg, get_pitch_in_deg, get_yaw_in_deg, get_velocity_xyz, get_velocity_magnitude, get_acceleration_magnitude, get_velocity_xyz_with_covariance, get_acceleration_xyz_with_covariance, get_acceleration_xyz, get_center_position
 from perception_msgs_utils.convenience_state_setters import set_continuous_state, set_discrete_state, set_continuous_state_covariance, set_continuous_state_covariance_at, set_pose_with_covariance_from_gm_pose_with_covariance, set_velocity_from_gm_vector3, set_acceleration_from_gm_vector3, set_roll_in_deg, set_pitch_in_deg, set_yaw_in_deg, set_velocity_xyz_yaw_from_gm_vector3, set_velocity_xyz_yaw_with_covariance_from_gm_vector3, set_acceleration_xyz_yaw_from_gm_vector3, set_acceleration_xyz_yaw_with_covariance_from_gm_vector3, set_center_position_from_gm_point, set_center_position_from_list
 from perception_msgs_utils.state_setters import set_x, set_y, set_z, set_vel_lon, set_vel_lat, set_acc_lon, set_acc_lat, set_roll, set_pitch, set_yaw, set_yaw_rate, set_steering_angle_ack, set_steering_angle_rate_ack, set_standstill, set_turn_indicator, set_brake_light, set_reverse_light, set_steering_angle_front, set_steering_angle_rear, set_width, set_length, set_height, set_roll_rate, set_pitch_rate, set_state, set_type
 from perception_msgs_utils.state_getters import get_x, get_y, get_z, get_vel_lon, get_vel_lat, get_acc_lon, get_acc_lat, get_roll, get_pitch, get_yaw, get_yaw_rate, get_steering_angle_ack, get_steering_angle_rate_ack, get_standstill, get_turn_indicator, get_brake_light, get_reverse_light, get_steering_angle_front, get_steering_angle_rear, get_width, get_length, get_height, get_roll_rate, get_pitch_rate, get_state, get_type
@@ -48,6 +50,8 @@ def test_init():
 def test_set_get_EGO():
     obj = Object()
     initialize_state(obj, EGO.MODEL_ID)
+    # Exercise UNKNOWN resets on a populated covariance matrix.
+    set_continuous_state_covariance(obj, get_continuous_state_covariance(obj))
 
     val = random_value()
     set_x(obj, val)
@@ -125,6 +129,8 @@ def test_set_get_EGO():
 def test_set_get_EGORWS():
     obj = Object()
     initialize_state(obj, EGORWS.MODEL_ID)
+    # Exercise UNKNOWN resets on a populated covariance matrix.
+    set_continuous_state_covariance(obj, get_continuous_state_covariance(obj))
 
     val = random_value()
     set_x(obj, val)
@@ -202,6 +208,8 @@ def test_set_get_EGORWS():
 def test_set_get_ISCACTR():
     obj = Object()
     initialize_state(obj, ISCACTR.MODEL_ID)
+    # Exercise UNKNOWN resets on a populated covariance matrix.
+    set_continuous_state_covariance(obj, get_continuous_state_covariance(obj))
 
     val = random_value()
     set_x(obj, val)
@@ -640,3 +648,72 @@ def test_convenience_set_get():
     assert center3.x == pytest.approx(1.0)
     assert center3.y == pytest.approx(2.0)
     assert center3.z == pytest.approx(3.0)
+
+
+def test_empty_covariance_is_valid_and_can_be_populated():
+    obj = Object()
+    initialize_state(obj, ISCACTR.MODEL_ID)
+    set_continuous_state_covariance(obj, [])
+    set_x(obj, 3.0)
+    assert len(obj.state.continuous_state_covariance) == 0
+    assert get_continuous_state_covariance_at(obj, 0, 0) == CONTINUOUS_STATE_COVARIANCE_INVALID
+    assert get_continuous_state_covariance_at(obj, 0, 1) == 0.0
+    assert len(get_pose_with_covariance(obj).covariance) == 36
+
+    set_continuous_state_covariance_at(obj, 0, 0, 2.0)
+    assert len(obj.state.continuous_state_covariance) == get_continuous_state_covariance_size(obj.state.model_id)
+    assert get_continuous_state_covariance_at(obj, 0, 0) == 2.0
+    assert get_continuous_state_covariance_at(obj, 1, 1) == CONTINUOUS_STATE_COVARIANCE_INVALID
+
+    obj.state.continuous_state_covariance = [1.0]
+    with pytest.raises(InvalidStateCovarianceSizeError):
+        sanity_check_continuous_state_covariance(obj)
+
+
+@pytest.mark.parametrize("omitted", [False, True])
+def test_covariance_coordinates_are_checked_before_access_or_allocation(omitted):
+    obj = Object()
+    initialize_state(obj, EGO.MODEL_ID)
+    if not omitted:
+        set_continuous_state_covariance(obj, get_continuous_state_covariance(obj))
+    original = list(obj.state.continuous_state_covariance)
+    n = get_continuous_state_size(obj)
+    for i, j in [(n, 0), (0, n), (n, n), (0, n * n), (-1, 0), (0, -1)]:
+        with pytest.raises(IndexError):
+            get_continuous_state_covariance_at(obj, i, j)
+        with pytest.raises(IndexError):
+            set_continuous_state_covariance_at(obj, i, j, 2.0)
+        assert list(obj.state.continuous_state_covariance) == original
+    set_continuous_state_covariance_at(obj, n - 1, n - 1, 2.0)
+    assert get_continuous_state_covariance_at(obj, n - 1, n - 1) == 2.0
+
+
+@pytest.mark.parametrize("message_type", [ObjectState, Object, EgoData])
+@pytest.mark.parametrize("model", [EGO.MODEL_ID, HEXAMOTION.MODEL_ID])
+def test_initialization_omits_covariance_and_getters_expose_defaults(message_type, model):
+    obj = message_type()
+    assert initialize_state(obj, model) is obj
+    state = obj if isinstance(obj, ObjectState) else obj.state
+    n = get_continuous_state_size(state)
+    defaults = list(get_continuous_state_covariance(obj))
+    assert len(defaults) == n * n
+    assert get_continuous_state_covariance_size(obj) == n * n
+    for i in range(n):
+        for j in range(n):
+            expected = CONTINUOUS_STATE_COVARIANCE_INVALID if i == j else CONTINUOUS_STATE_COVARIANCE_INIT
+            assert defaults[n * i + j] == expected
+            assert get_continuous_state_covariance_at(obj, i, j) == expected
+    assert len(state.continuous_state_covariance) == 0
+    set_x(obj, 4.0)
+    assert len(state.continuous_state_covariance) == 0
+    assert list(get_continuous_state_covariance(obj)) == defaults
+    set_continuous_state_covariance_at(obj, 0, 0, 2.0)
+    expected_covariance = defaults.copy()
+    expected_covariance[0] = 2.0
+    assert list(state.continuous_state_covariance) == expected_covariance
+    set_x(obj, 5.0)
+    assert get_continuous_state_covariance_at(obj, 0, 0) == np.finfo(float).max
+    assert initialize_state(obj, model) is obj
+    assert len(state.continuous_state_covariance) == 0
+    assert get_x(obj) == CONTINUOUS_STATE_INIT
+    assert list(get_continuous_state_covariance(obj)) == defaults

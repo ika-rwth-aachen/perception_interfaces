@@ -9,6 +9,7 @@
 #pragma once
 
 #include <perception_msgs_utils/checks.hpp>
+#include <perception_msgs_utils/covariance_transform.hpp>
 #include <perception_msgs_utils/state_index.hpp>
 #include <perception_msgs_utils/state_setters.hpp>
 
@@ -110,7 +111,14 @@ inline void setContinuousStateCovarianceAt(
 {
   sanityCheckContinuousStateCovariance(state);
   const int n = getContinuousStateSize(state);
-  state.continuous_state_covariance[n * i + j] = val;
+  if (i >= static_cast<unsigned int>(n) || j >= static_cast<unsigned int>(n))
+    throw std::out_of_range("Covariance coordinates out of range");
+  if (state.continuous_state_covariance.empty()) {
+    setContinuousStateCovariance(state, std::vector<double>(n * n, CONTINUOUS_STATE_COVARIANCE_INIT));
+    for (int k = 0; k < n; ++k)
+      state.continuous_state_covariance[n * k + k] = CONTINUOUS_STATE_COVARIANCE_INVALID;
+  }
+  state.continuous_state_covariance.at(n * i + j) = val;
 }
 
 /**
@@ -624,7 +632,10 @@ inline void setVelocityXYZYawWithCovariance(
   gm::TransformStamped tf;
   tf.transform.rotation = tf2::toMsg(q);
 
-  tf2::doTransform(vel_xyz, vel_lon_lat, tf);
+  gm::PoseWithCovarianceStamped vel_lon_lat_stamped, vel_xyz_stamped;
+  vel_xyz_stamped.pose = vel_xyz;
+  transformPoseWithCovariance(vel_xyz_stamped, vel_lon_lat_stamped, tf);
+  vel_lon_lat = vel_lon_lat_stamped.pose;
 
   setVelocity(state, {vel_lon_lat.pose.position.x, vel_lon_lat.pose.position.y}, false);
   setYaw(state, yaw, false);
@@ -736,7 +747,10 @@ inline void setAccelerationXYZYawWithCovariance(
   gm::TransformStamped tf;
   tf.transform.rotation = tf2::toMsg(q);
 
-  tf2::doTransform(acc_xyz, acc_lon_lat, tf);
+  gm::PoseWithCovarianceStamped acc_lon_lat_stamped, acc_xyz_stamped;
+  acc_xyz_stamped.pose = acc_xyz;
+  transformPoseWithCovariance(acc_xyz_stamped, acc_lon_lat_stamped, tf);
+  acc_lon_lat = acc_lon_lat_stamped.pose;
 
   setAcceleration(state, {acc_lon_lat.pose.position.x, acc_lon_lat.pose.position.y}, false);
   setYaw(state, yaw, false);

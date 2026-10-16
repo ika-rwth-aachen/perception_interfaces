@@ -9,6 +9,7 @@
 #pragma once
 
 #include <perception_msgs_utils/checks.hpp>
+#include <perception_msgs_utils/covariance_transform.hpp>
 #include <perception_msgs_utils/state_getters.hpp>
 #include <perception_msgs_utils/state_index.hpp>
 
@@ -68,14 +69,19 @@ inline std::vector<long int> getDiscreteState(const T& obj) {
 }
 
 /**
- * @brief Get the continuous state covariance for a given object state.
+ * @brief Get the full continuous state covariance for a given object state.
+ * Empty storage yields INVALID diagonals and zero cross terms without modifying the state.
  *
  * @param state
  * @return std::vector<double>
  */
 inline std::vector<double> getContinuousStateCovariance(const ObjectState& state) {
-  sanityCheckContinuousState(state);
-  return state.continuous_state_covariance;
+  sanityCheckContinuousStateCovariance(state);
+  if (!state.continuous_state_covariance.empty()) return state.continuous_state_covariance;
+  const int n = getContinuousStateSize(state.model_id);
+  std::vector<double> covariance(n * n, CONTINUOUS_STATE_COVARIANCE_INIT);
+  for (int i = 0; i < n; ++i) covariance[n * i + i] = CONTINUOUS_STATE_COVARIANCE_INVALID;
+  return covariance;
 }
 
 /**
@@ -100,8 +106,12 @@ inline std::vector<double> getContinuousStateCovariance(const T& obj) {
  */
 inline double getContinuousStateCovarianceAt(const ObjectState& state, const unsigned int i, const unsigned int j) {
   const int n = getContinuousStateSize(state);
-  const std::vector<double> covariance = getContinuousStateCovariance(state);
-  return covariance[n * i + j];
+  if (i >= static_cast<unsigned int>(n) || j >= static_cast<unsigned int>(n))
+    throw std::out_of_range("Covariance coordinates out of range");
+  sanityCheckContinuousStateCovariance(state);
+  const auto& covariance = state.continuous_state_covariance;
+  if (covariance.empty()) return i == j ? CONTINUOUS_STATE_COVARIANCE_INVALID : CONTINUOUS_STATE_COVARIANCE_INIT;
+  return covariance.at(n * i + j);
 }
 
 /**
@@ -265,7 +275,7 @@ inline gm::Pose getPose(const T& obj) {
 inline std::vector<double> getPoseCovariance(const ObjectState& state) {
   const int n = 6;
   const int model_id = state.model_id;
-  std::vector<double> pose_covariance(n * n, 0.0);
+  std::vector<double> pose_covariance(n * n, CONTINUOUS_STATE_COVARIANCE_INIT);
   int ix, jx;
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < n; j++) {
@@ -546,7 +556,10 @@ inline gm::PoseWithCovariance getVelocityXYZWithCovariance(const ObjectState& st
   gm::TransformStamped tf;
   tf.transform.rotation = tf2::toMsg(q);
 
-  tf2::doTransform(vel_lon_lat, vel_xyz, tf);
+  gm::PoseWithCovarianceStamped vel_lon_lat_stamped, vel_xyz_stamped;
+  vel_lon_lat_stamped.pose = vel_lon_lat;
+  transformPoseWithCovariance(vel_lon_lat_stamped, vel_xyz_stamped, tf);
+  vel_xyz = vel_xyz_stamped.pose;
 
   return vel_xyz;
 }
@@ -670,7 +683,10 @@ inline gm::PoseWithCovariance getAccelerationXYZWithCovariance(const ObjectState
   q.setRPY(0.0, 0.0, getYaw(state));
   gm::TransformStamped tf;
   tf.transform.rotation = tf2::toMsg(q);
-  tf2::doTransform(acc_lon_lat, acc_xyz, tf);
+  gm::PoseWithCovarianceStamped acc_lon_lat_stamped, acc_xyz_stamped;
+  acc_lon_lat_stamped.pose = acc_lon_lat;
+  transformPoseWithCovariance(acc_lon_lat_stamped, acc_xyz_stamped, tf);
+  acc_xyz = acc_xyz_stamped.pose;
   return acc_xyz;
 }
 
