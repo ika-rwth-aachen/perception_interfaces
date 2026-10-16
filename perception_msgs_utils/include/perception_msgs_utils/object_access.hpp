@@ -34,4 +34,12 @@ namespace perception_msgs {
     using namespace msg;
 }
 
-#include <perception_msgs_utils/impl/object_access.h>
+#include <perception_msgs_utils/checks.hpp>
+#include <perception_msgs_utils/constants.hpp>
+#include <perception_msgs_utils/convenience_state_getters.hpp>
+#include <perception_msgs_utils/convenience_state_setters.hpp>
+#include <perception_msgs_utils/init.hpp>
+#include <perception_msgs_utils/state_getters.hpp>
+#include <perception_msgs_utils/state_index.hpp>
+#include <perception_msgs_utils/state_setters.hpp>
+#include <perception_msgs_utils/utils.hpp>

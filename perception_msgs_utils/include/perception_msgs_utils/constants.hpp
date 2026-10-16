@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 /**
- * @file constants.h
+ * @file constants.hpp
  * @brief Object state constants
  */
 

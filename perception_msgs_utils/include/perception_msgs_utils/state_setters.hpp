@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: MIT
 
 /**
- * @file state_setters.h
+ * @file state_setters.hpp
  * @brief Setter functions for objects state members
  */
 
 #pragma once
 
-#include <perception_msgs_utils/impl/state_index.h>
-#include <perception_msgs_utils/impl/checks.h>
-#include <perception_msgs_utils/impl/utils.h>
+#include <perception_msgs_utils/state_index.hpp>
+#include <perception_msgs_utils/checks.hpp>
+#include <perception_msgs_utils/utils.hpp>
 
 
 namespace perception_msgs {
@@ -433,7 +433,7 @@ namespace object_access {
 
   /**
    * @brief Set the front wheel angle for a given object state.
-   * 
+   *
    * @param state
    * @param val
    * @param reset_covariance
@@ -447,7 +447,7 @@ namespace object_access {
 
   /**
    * @brief Set the front wheel angle for a given template object that contains an object state.
-   * 
+   *
    * @tparam T
    * @param obj
    * @param val
@@ -460,7 +460,7 @@ namespace object_access {
 
   /**
    * @brief Set the rear wheel angle for a given object state.
-   * 
+   *
    * @param state
    * @param val
    * @param reset_covariance
@@ -474,7 +474,7 @@ namespace object_access {
 
   /**
    * @brief Set the rear wheel angle for a given template object that contains an object state.
-   * 
+   *
    * @tparam T
    * @param obj
    * @param val
@@ -484,7 +484,7 @@ namespace object_access {
   inline void setSteeringAngleRear(T& obj, const double val, const bool reset_covariance = true) {
     setSteeringAngleRear(obj.state, val, reset_covariance);
   }
-  
+
   /**
    * @brief Set the width for a given object state.
    *

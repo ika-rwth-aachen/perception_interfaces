@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: MIT
 
 /**
- * @file state_getters.h
+ * @file state_getters.hpp
  * @brief Getter functions for objects state members
  */
 
 #pragma once
 
-#include <perception_msgs_utils/impl/state_index.h>
-#include <perception_msgs_utils/impl/checks.h>
+#include <perception_msgs_utils/state_index.hpp>
+#include <perception_msgs_utils/checks.hpp>
 
 
 namespace perception_msgs {
@@ -363,7 +363,7 @@ namespace object_access {
 
   /**
    * @brief Get the front wheel angle for a given object state.
-   * 
+   *
    * @param state
    * @return double
    */
@@ -374,7 +374,7 @@ namespace object_access {
 
   /**
    * @brief Get the front wheel angle for a given template object that contains an object state.
-   * 
+   *
    * @tparam T
    * @param obj
    * @return double
@@ -386,7 +386,7 @@ namespace object_access {
 
   /**
    * @brief Get the rear wheel angle for a given object state.
-   * 
+   *
    * @param state
    * @return double
    */
@@ -397,7 +397,7 @@ namespace object_access {
 
   /**
    * @brief Get the rear wheel angle for a given template object that contains an object state.
-   * 
+   *
    * @tparam T
    * @param obj
    * @return double
