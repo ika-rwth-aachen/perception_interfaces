@@ -363,7 +363,7 @@ namespace object_access {
 
   /**
    * @brief Get the front wheel angle for a given object state.
-   * 
+   *
    * @param state
    * @return double
    */
@@ -374,7 +374,7 @@ namespace object_access {
 
   /**
    * @brief Get the front wheel angle for a given template object that contains an object state.
-   * 
+   *
    * @tparam T
    * @param obj
    * @return double
@@ -386,7 +386,7 @@ namespace object_access {
 
   /**
    * @brief Get the rear wheel angle for a given object state.
-   * 
+   *
    * @param state
    * @return double
    */
@@ -397,7 +397,7 @@ namespace object_access {
 
   /**
    * @brief Get the rear wheel angle for a given template object that contains an object state.
-   * 
+   *
    * @tparam T
    * @param obj
    * @return double

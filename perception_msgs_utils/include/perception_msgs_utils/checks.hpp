@@ -21,8 +21,8 @@ namespace object_access {
 
   /**
    * @brief Perform sanity check on continuous state size of given object state.
-   * 
-   * @param state 
+   *
+   * @param state
    */
   inline void sanityCheckContinuousStateSize(const ObjectState& state) {
     int exp_state_size = getContinuousStateSize(state.model_id);
@@ -33,8 +33,8 @@ namespace object_access {
 
   /**
    * @brief Perform sanity check on discrete state size of given object state.
-   * 
-   * @param state 
+   *
+   * @param state
    */
   inline void sanityCheckDiscreteStateSize(const ObjectState& state) {
     int exp_discrete_state_size = getDiscreteStateSize(state.model_id);
@@ -45,8 +45,8 @@ namespace object_access {
 
   /**
    * @brief Perform sanity check on continuous state covariance size of given object state.
-   * 
-   * @param state 
+   *
+   * @param state
    */
   inline void sanityCheckContinuousStateCovarianceSize(const ObjectState& state) {
     int exp_state_cov_size = getContinuousStateCovarianceSize(state.model_id);
@@ -57,8 +57,8 @@ namespace object_access {
 
   /**
    * @brief Perform sanity check on continuous state of given object state.
-   * 
-   * @param state 
+   *
+   * @param state
    */
   inline void sanityCheckContinuousState(const ObjectState& state) {
     sanityCheckContinuousStateSize(state);
@@ -66,9 +66,9 @@ namespace object_access {
 
   /**
    * @brief Perform sanity check on continuous state of given template object that contains an object state.
-   * 
-   * @tparam T 
-   * @param obj 
+   *
+   * @tparam T
+   * @param obj
    */
   template <typename T>
   inline void sanityCheckContinuousState(const T& obj) {
@@ -77,8 +77,8 @@ namespace object_access {
 
   /**
    * @brief Perform sanity check on discrete state of given object state.
-   * 
-   * @param state 
+   *
+   * @param state
    */
   inline void sanityCheckDiscreteState(const ObjectState& state) {
     sanityCheckDiscreteStateSize(state);
@@ -86,9 +86,9 @@ namespace object_access {
 
   /**
    * @brief Perform sanity check on discrete state of given template object that contains an object state.
-   * 
-   * @tparam T 
-   * @param obj 
+   *
+   * @tparam T
+   * @param obj
    */
   template <typename T>
   inline void sanityCheckDiscreteState(const T& obj) {
@@ -97,8 +97,8 @@ namespace object_access {
 
   /**
    * @brief Perform sanity check on continuous state covariance of given object state.
-   * 
-   * @param state 
+   *
+   * @param state
    */
   inline void sanityCheckContinuousStateCovariance(const ObjectState& state) {
     sanityCheckContinuousStateCovarianceSize(state);
@@ -106,9 +106,9 @@ namespace object_access {
 
   /**
    * @brief Perform sanity check on continuous state covariance of given template object that contains an object state.
-   * 
-   * @tparam T 
-   * @param obj 
+   *
+   * @tparam T
+   * @param obj
    */
   template <typename T>
   inline void sanityCheckContinuousStateCovariance(const T& obj) {
@@ -117,8 +117,8 @@ namespace object_access {
 
   /**
    * @brief Perform sanity check on full state of given object state.
-   * 
-   * @param state 
+   *
+   * @param state
    */
   inline void sanityCheckFullState(const ObjectState& state) {
     sanityCheckContinuousState(state);
@@ -128,9 +128,9 @@ namespace object_access {
 
   /**
    * @brief Perform sanity check on full state of of given template object that contains an object state.
-   * 
-   * @tparam T 
-   * @param obj 
+   *
+   * @tparam T
+   * @param obj
    */
   template <typename T>
   inline void sanityCheckFullState(const T& obj) {

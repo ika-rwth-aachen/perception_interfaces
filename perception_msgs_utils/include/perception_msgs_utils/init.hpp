@@ -16,12 +16,12 @@
 namespace perception_msgs {
 
 namespace object_access {
-  
+
   /**
    * @brief This function initializes a given object state.
-   * 
-   * @param state 
-   * @param model_id 
+   *
+   * @param state
+   * @param model_id
    */
   inline void initializeState(ObjectState& state, const unsigned char& model_id) {
     state.model_id = model_id;
@@ -33,10 +33,10 @@ namespace object_access {
 
   /**
    * @brief This function initializes a given template object that contains an object state.
-   * 
-   * @tparam T 
-   * @param obj 
-   * @param model_id 
+   *
+   * @tparam T
+   * @param obj
+   * @param model_id
    */
   template <typename T>
   inline void initializeState(T& obj, const unsigned char& model_id) {
