@@ -17,9 +17,11 @@ jobs:
       fail-fast: false
       matrix:
         ROS_DISTRO: [humble, jazzy, kilted]
-        ROS_REPO: [main]
     steps:
       - uses: actions/checkout@v4
       - uses: ros-industrial/industrial_ci@master
+        env:
+          ROS_REPO: main
+          UPSTREAM_WORKSPACE: .repos
         with:
           config: ${{ toJSON(matrix) }}
