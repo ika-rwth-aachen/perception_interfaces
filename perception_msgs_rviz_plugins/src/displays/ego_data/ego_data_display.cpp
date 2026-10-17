@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <cmath>
 #include <exception>
+#include <utility>
 
 #include "rviz_common/display_context.hpp"
 #include "rviz_common/frame_manager_iface.hpp"
@@ -141,11 +142,6 @@ EgoDataDisplay::EgoDataDisplay() {
 }
 
 EgoDataDisplay::~EgoDataDisplay() {
-  if (timeout_timer_) {
-    timeout_timer_->cancel();
-  }
-  timeout_timer_.reset();
-
   if (initialized()) {
     scene_manager_->destroyManualObject(manual_object_);
   }
@@ -178,12 +174,33 @@ void EgoDataDisplay::onInitialize() {
 }
 
 void EgoDataDisplay::reset() {
-  if (timeout_timer_) {
-    timeout_timer_->cancel();
-  }
+  pending_message_.reset();
+  has_visualization_ = false;
   MFDClass::reset();
-  manual_object_->clear();
+  if (manual_object_) {
+    manual_object_->clear();
+  }
   viz_ego_state_.reset();
+}
+
+void EgoDataDisplay::processTypeErasedMessage(std::shared_ptr<const void> msg) {
+  if (isEnabled()) {
+    pending_message_ = std::move(msg);
+  }
+}
+
+void EgoDataDisplay::update(float wall_dt, float ros_dt) {
+  MFDClass::update(wall_dt, ros_dt);
+  if (pending_message_) {
+    auto msg = std::move(pending_message_);
+    pending_message_.reset();
+    MFDClass::processTypeErasedMessage(std::move(msg));
+  }
+  if (has_visualization_ && enable_timeout_property_->getBool() &&
+      std::chrono::steady_clock::now() - last_message_time_ >=
+          std::chrono::duration<float>(timeout_property_->getFloat())) {
+    reset();
+  }
 }
 
 bool validateFloats(perception_msgs::msg::EgoData::ConstSharedPtr msg) {
@@ -223,11 +240,6 @@ void EgoDataDisplay::processMessage(perception_msgs::msg::EgoData::ConstSharedPt
     return;
   }
   setTransformOk();
-
-  if (timeout_timer_) {
-    timeout_timer_->cancel();
-    timeout_timer_.reset();
-  }
 
   scene_node_->setPosition(position);
   scene_node_->setOrientation(orientation);
@@ -492,20 +504,8 @@ void EgoDataDisplay::processMessage(perception_msgs::msg::EgoData::ConstSharedPt
     }
   }
 
-  // reset scene after timeout, if enabled
-  if (enable_timeout_property_->getBool()) {
-    timeout_timer_ = rviz_ros_node_.lock()->get_raw_node()->create_wall_timer(
-      std::chrono::duration<float>(timeout_property_->getFloat()),
-      std::bind(&EgoDataDisplay::timeoutTimerCallback, this)
-    );
-  }
-}
-
-void EgoDataDisplay::timeoutTimerCallback() {
-  if (timeout_timer_) {
-    timeout_timer_->cancel();
-  }
-  this->reset();
+  has_visualization_ = true;
+  last_message_time_ = std::chrono::steady_clock::now();
 }
 
 }  // namespace displays
