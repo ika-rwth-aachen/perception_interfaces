@@ -351,11 +351,11 @@ template&lt;typename T &gt; </div>
 <p class="definition">Definition at line <a class="el" href="checks_8hpp_source.html#l00051">51</a> of file <a class="el" href="checks_8hpp_source.html">checks.hpp</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   51</span>                                                                                 {</div>
 <div class="line"><span class="lineno">   52</span>    <span class="keywordtype">int</span> exp_state_cov_size = <a class="code hl_function" href="utils_8hpp.html#ae6e0fcb36ab397bff75af95a6c90163d">getContinuousStateCovarianceSize</a>(state.model_id);</div>
-<div class="line"><span class="lineno">   53</span>    <span class="keywordtype">int</span> state_cov_size = <a class="code hl_function" href="utils_8hpp.html#ae6e0fcb36ab397bff75af95a6c90163d">getContinuousStateCovarianceSize</a>(state);</div>
-<div class="line"><span class="lineno">   54</span>    <span class="keywordflow">if</span> (state_cov_size != exp_state_cov_size)</div>
+<div class="line"><span class="lineno">   53</span>    <span class="keywordtype">int</span> state_cov_size = state.continuous_state_covariance.size();</div>
+<div class="line"><span class="lineno">   54</span>    <span class="keywordflow">if</span> (state_cov_size != 0 &amp;&amp; state_cov_size != exp_state_cov_size)</div>
 <div class="line"><span class="lineno">   55</span>      <span class="keywordflow">throw</span> std::invalid_argument(kExceptionInvalidStateCovarianceSize + std::to_string(state.model_id) + <span class="stringliteral">&quot;, &quot;</span> + std::to_string(state_cov_size) + <span class="stringliteral">&quot; != &quot;</span> + std::to_string(exp_state_cov_size));</div>
 <div class="line"><span class="lineno">   56</span>  }</div>
-<div class="ttc" id="autils_8hpp_html_ae6e0fcb36ab397bff75af95a6c90163d"><div class="ttname"><a href="utils_8hpp.html#ae6e0fcb36ab397bff75af95a6c90163d">perception_msgs::object_access::getContinuousStateCovarianceSize</a></div><div class="ttdeci">int getContinuousStateCovarianceSize(const ObjectState &amp;state)</div><div class="ttdoc">Get the continuous state covariance size for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="utils_8hpp_source.html#l00120">utils.hpp:120</a></div></div>
+<div class="ttc" id="autils_8hpp_html_ae6e0fcb36ab397bff75af95a6c90163d"><div class="ttname"><a href="utils_8hpp.html#ae6e0fcb36ab397bff75af95a6c90163d">perception_msgs::object_access::getContinuousStateCovarianceSize</a></div><div class="ttdeci">int getContinuousStateCovarianceSize(const ObjectState &amp;state)</div><div class="ttdoc">Get the continuous state covariance size for a given object state. Empty storage exposes the full mod...</div><div class="ttdef"><b>Definition</b> <a href="utils_8hpp_source.html#l00121">utils.hpp:121</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>

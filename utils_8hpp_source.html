@@ -163,40 +163,43 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>  }</div>
 </div>
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
-<div class="foldopen" id="foldopen00120" data-start="{" data-end="}">
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno"><a class="line" href="utils_8hpp.html#ae6e0fcb36ab397bff75af95a6c90163d">  120</a></span>  <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="utils_8hpp.html#ae6e0fcb36ab397bff75af95a6c90163d">getContinuousStateCovarianceSize</a>(<span class="keyword">const</span> ObjectState&amp; state) {</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="keywordflow">return</span> state.continuous_state_covariance.size();</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>  }</div>
+<div class="foldopen" id="foldopen00121" data-start="{" data-end="}">
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno"><a class="line" href="utils_8hpp.html#ae6e0fcb36ab397bff75af95a6c90163d">  121</a></span>  <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="utils_8hpp.html#ae6e0fcb36ab397bff75af95a6c90163d">getContinuousStateCovarianceSize</a>(<span class="keyword">const</span> ObjectState&amp; state) {</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    <span class="keywordflow">if</span> (!state.continuous_state_covariance.empty()) <span class="keywordflow">return</span> state.continuous_state_covariance.size();</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <span class="keyword">const</span> <span class="keywordtype">int</span> n = <a class="code hl_function" href="utils_8hpp.html#a6bf2062b73ede62ff74997408ed00bd7">getContinuousStateSize</a>(state.model_id);</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    <span class="keywordflow">return</span> n * n;</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>  }</div>
 </div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="foldopen" id="foldopen00132" data-start="{" data-end="}">
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno"><a class="line" href="utils_8hpp.html#a9d0067cfe99e64060e802760c6198b2a">  132</a></span>  <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="utils_8hpp.html#ae6e0fcb36ab397bff75af95a6c90163d">getContinuousStateCovarianceSize</a>(<span class="keyword">const</span> T&amp; obj) {</div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="utils_8hpp.html#ae6e0fcb36ab397bff75af95a6c90163d">getContinuousStateCovarianceSize</a>(obj.state);</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>  }</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="foldopen" id="foldopen00135" data-start="{" data-end="}">
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno"><a class="line" href="utils_8hpp.html#a9d0067cfe99e64060e802760c6198b2a">  135</a></span>  <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="utils_8hpp.html#ae6e0fcb36ab397bff75af95a6c90163d">getContinuousStateCovarianceSize</a>(<span class="keyword">const</span> T&amp; obj) {</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="utils_8hpp.html#ae6e0fcb36ab397bff75af95a6c90163d">getContinuousStateCovarianceSize</a>(obj.state);</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>  }</div>
 </div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
-<div class="foldopen" id="foldopen00142" data-start="{" data-end="}">
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno"><a class="line" href="utils_8hpp.html#ac4f09b0578367bb4f5f98d7cac8a46a0">  142</a></span>  <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="utils_8hpp.html#ae6e0fcb36ab397bff75af95a6c90163d">getContinuousStateCovarianceSize</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>&amp; model_id) {</div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    <span class="keywordflow">return</span> std::pow(<a class="code hl_function" href="utils_8hpp.html#a6bf2062b73ede62ff74997408ed00bd7">getContinuousStateSize</a>(model_id), 2);</div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>  }</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span> </div>
+<div class="foldopen" id="foldopen00145" data-start="{" data-end="}">
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno"><a class="line" href="utils_8hpp.html#ac4f09b0578367bb4f5f98d7cac8a46a0">  145</a></span>  <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="utils_8hpp.html#ae6e0fcb36ab397bff75af95a6c90163d">getContinuousStateCovarianceSize</a>(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>&amp; model_id) {</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    <span class="keywordflow">return</span> std::pow(<a class="code hl_function" href="utils_8hpp.html#a6bf2062b73ede62ff74997408ed00bd7">getContinuousStateSize</a>(model_id), 2);</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>  }</div>
 </div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span> </div>
-<div class="foldopen" id="foldopen00153" data-start="{" data-end="}">
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno"><a class="line" href="utils_8hpp.html#a07ee022674f819f4458efd0b20758fc8">  153</a></span>  <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="utils_8hpp.html#a07ee022674f819f4458efd0b20758fc8">setContinuousStateCovarianceToUnknownAt</a>(ObjectState&amp; state, <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i, <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> j) {</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    <span class="keyword">const</span> <span class="keywordtype">int</span> n = <a class="code hl_function" href="utils_8hpp.html#a6bf2062b73ede62ff74997408ed00bd7">getContinuousStateSize</a>(state);</div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    state.continuous_state_covariance[n * i + j] = CONTINUOUS_STATE_COVARIANCE_UNKNOWN;</div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>  }</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span> </div>
+<div class="foldopen" id="foldopen00157" data-start="{" data-end="}">
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno"><a class="line" href="utils_8hpp.html#a07ee022674f819f4458efd0b20758fc8">  157</a></span>  <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="utils_8hpp.html#a07ee022674f819f4458efd0b20758fc8">setContinuousStateCovarianceToUnknownAt</a>(ObjectState&amp; state, <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i, <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> j) {</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>    <span class="keywordflow">if</span> (state.continuous_state_covariance.empty()) <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>    <span class="keyword">const</span> <span class="keywordtype">int</span> n = <a class="code hl_function" href="utils_8hpp.html#a6bf2062b73ede62ff74997408ed00bd7">getContinuousStateSize</a>(state);</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    state.continuous_state_covariance.at(n * i + j) = CONTINUOUS_STATE_COVARIANCE_UNKNOWN;</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>  }</div>
 </div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>} <span class="comment">// namespace object_access</span></div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span> </div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>} <span class="comment">// namespace perception_msgs</span></div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span> </div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>} <span class="comment">// namespace object_access</span></div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span> </div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>} <span class="comment">// namespace perception_msgs</span></div>
 <div class="ttc" id="aconstants_8hpp_html"><div class="ttname"><a href="constants_8hpp.html">constants.hpp</a></div><div class="ttdoc">Object state constants.</div></div>
 <div class="ttc" id="autils_8hpp_html_a048ee89df96912fd3de765b205f71004"><div class="ttname"><a href="utils_8hpp.html#a048ee89df96912fd3de765b205f71004">perception_msgs::object_access::getDiscreteStateSize</a></div><div class="ttdeci">int getDiscreteStateSize(const ObjectState &amp;state)</div><div class="ttdoc">Get the discrete state size for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="utils_8hpp_source.html#l00075">utils.hpp:75</a></div></div>
-<div class="ttc" id="autils_8hpp_html_a07ee022674f819f4458efd0b20758fc8"><div class="ttname"><a href="utils_8hpp.html#a07ee022674f819f4458efd0b20758fc8">perception_msgs::object_access::setContinuousStateCovarianceToUnknownAt</a></div><div class="ttdeci">void setContinuousStateCovarianceToUnknownAt(ObjectState &amp;state, const unsigned int i, const unsigned int j)</div><div class="ttdoc">Set the continuous state covariance to unknown at (i,j) for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="utils_8hpp_source.html#l00153">utils.hpp:153</a></div></div>
+<div class="ttc" id="autils_8hpp_html_a07ee022674f819f4458efd0b20758fc8"><div class="ttname"><a href="utils_8hpp.html#a07ee022674f819f4458efd0b20758fc8">perception_msgs::object_access::setContinuousStateCovarianceToUnknownAt</a></div><div class="ttdeci">void setContinuousStateCovarianceToUnknownAt(ObjectState &amp;state, const unsigned int i, const unsigned int j)</div><div class="ttdoc">Set the continuous state covariance to unknown at (i,j) for a given object state. Empty storage remai...</div><div class="ttdef"><b>Definition</b> <a href="utils_8hpp_source.html#l00157">utils.hpp:157</a></div></div>
 <div class="ttc" id="autils_8hpp_html_a6bf2062b73ede62ff74997408ed00bd7"><div class="ttname"><a href="utils_8hpp.html#a6bf2062b73ede62ff74997408ed00bd7">perception_msgs::object_access::getContinuousStateSize</a></div><div class="ttdeci">int getContinuousStateSize(const ObjectState &amp;state)</div><div class="ttdoc">Get the continuous state size for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="utils_8hpp_source.html#l00030">utils.hpp:30</a></div></div>
-<div class="ttc" id="autils_8hpp_html_ae6e0fcb36ab397bff75af95a6c90163d"><div class="ttname"><a href="utils_8hpp.html#ae6e0fcb36ab397bff75af95a6c90163d">perception_msgs::object_access::getContinuousStateCovarianceSize</a></div><div class="ttdeci">int getContinuousStateCovarianceSize(const ObjectState &amp;state)</div><div class="ttdoc">Get the continuous state covariance size for a given object state.</div><div class="ttdef"><b>Definition</b> <a href="utils_8hpp_source.html#l00120">utils.hpp:120</a></div></div>
+<div class="ttc" id="autils_8hpp_html_ae6e0fcb36ab397bff75af95a6c90163d"><div class="ttname"><a href="utils_8hpp.html#ae6e0fcb36ab397bff75af95a6c90163d">perception_msgs::object_access::getContinuousStateCovarianceSize</a></div><div class="ttdeci">int getContinuousStateCovarianceSize(const ObjectState &amp;state)</div><div class="ttdoc">Get the continuous state covariance size for a given object state. Empty storage exposes the full mod...</div><div class="ttdef"><b>Definition</b> <a href="utils_8hpp_source.html#l00121">utils.hpp:121</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
