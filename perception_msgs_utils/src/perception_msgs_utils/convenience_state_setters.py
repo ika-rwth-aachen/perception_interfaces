@@ -13,7 +13,9 @@ from geometry_msgs.msg import Point, Quaternion, Pose, PoseWithCovariance, PoseW
 from tf_transformations import euler_from_quaternion, quaternion_from_euler
 
 from .checks import sanity_check_continuous_state, sanity_check_discrete_state, sanity_check_continuous_state_covariance
+from .covariance_transform import transform_pose_with_covariance
 from .utils import get_continuous_state_size
+from .constants import CONTINUOUS_STATE_COVARIANCE_INIT, CONTINUOUS_STATE_COVARIANCE_INVALID
 from .state_getters import get_roll, get_pitch, get_yaw
 from .state_setters import set_x, set_y, set_z, set_roll, set_pitch, set_yaw, set_vel_lon, set_vel_lat, set_acc_lon, set_acc_lat
 from .state_index import has_x, has_y, has_z, has_roll, has_pitch, has_yaw, has_vel_lon, has_vel_lat, has_acc_lon, has_acc_lat
@@ -65,9 +67,14 @@ def set_continuous_state_covariance_at(obj: T, i: int, j: int, val: float) -> No
         val: Value to set
     """
     state = obj if isinstance(obj, ObjectState) else obj.state
-    n = get_continuous_state_size(state)
-    state.continuous_state_covariance[n * i + j] = val
     sanity_check_continuous_state_covariance(state)
+    n = get_continuous_state_size(state)
+    if not (0 <= i < n and 0 <= j < n):
+        raise IndexError("Covariance coordinates out of range")
+    if not state.continuous_state_covariance:
+        set_continuous_state_covariance(state, [CONTINUOUS_STATE_COVARIANCE_INIT] * (n * n))
+        set_continuous_state_covariance_diagonal(state, [CONTINUOUS_STATE_COVARIANCE_INVALID] * n)
+    state.continuous_state_covariance[n * i + j] = val
 
 def set_continuous_state_covariance_diagonal(obj: T, val: List[float]) -> None:
     """Set the diagonal of the continuous state covariance matrix.
@@ -223,6 +230,8 @@ def set_pose_covariance_from_list(obj: T, val: List[float]) -> None:
                 ix = index_pitch(model_id)
             elif i == 5 and has_yaw(model_id):
                 ix = index_yaw(model_id)
+            else:
+                continue
             if j == 0 and has_x(model_id):
                 jx = index_x(model_id)
             elif j == 1 and has_y(model_id):
@@ -235,6 +244,8 @@ def set_pose_covariance_from_list(obj: T, val: List[float]) -> None:
                 jx = index_pitch(model_id)
             elif j == 5 and has_yaw(model_id):
                 jx = index_yaw(model_id)
+            else:
+                continue
             set_continuous_state_covariance_at(state, ix, jx, val[n * i + j])
 
 def set_pose_with_covariance_from_gm_pose_with_covariance(obj: T, val: PoseWithCovariance, reset_covariance: bool = True) -> None:
@@ -356,7 +367,7 @@ def set_velocity_xyz_yaw_with_covariance_from_gm_vector3(obj: T, vel_xyz_in: Vec
     tf.transform.translation.z = 0.0
     vel_xyz_stamped = PoseWithCovarianceStamped()
     vel_xyz_stamped.pose = vel_xyz
-    vel_lon_lat_stamped = tf2_geometry_msgs.do_transform_pose_with_covariance_stamped(vel_xyz_stamped, tf)
+    vel_lon_lat_stamped = transform_pose_with_covariance(vel_xyz_stamped, tf)
     vel_lon_lat = vel_lon_lat_stamped.pose
     set_velocity_from_list(state, [vel_lon_lat.pose.position.x, vel_lon_lat.pose.position.y], False)
     set_yaw(state, yaw, False)
@@ -438,7 +449,7 @@ def set_acceleration_xyz_yaw_with_covariance_from_gm_vector3(obj: T, acc_xyz_in:
     tf.transform.translation.z = 0.0
     acc_xyz_stamped = PoseWithCovarianceStamped()
     acc_xyz_stamped.pose = acc_xyz
-    acc_lon_lat_stamped = tf2_geometry_msgs.do_transform_pose_with_covariance_stamped(acc_xyz_stamped, tf)
+    acc_lon_lat_stamped = transform_pose_with_covariance(acc_xyz_stamped, tf)
     acc_lon_lat = acc_lon_lat_stamped.pose
     set_acceleration_from_list(state, [acc_lon_lat.pose.position.x, acc_lon_lat.pose.position.y], False)
     set_yaw(state, yaw, False)

@@ -14,7 +14,9 @@ from tf_transformations import quaternion_from_euler
 
 
 from .checks import sanity_check_continuous_state, sanity_check_discrete_state, sanity_check_continuous_state_covariance
+from .covariance_transform import transform_pose_with_covariance
 from .utils import get_continuous_state_size
+from .constants import CONTINUOUS_STATE_COVARIANCE_INIT, CONTINUOUS_STATE_COVARIANCE_INVALID
 from .state_getters import get_x, get_y, get_z, get_roll, get_pitch, get_yaw, get_vel_lon, get_vel_lat, get_acc_lon, get_acc_lat
 from .state_index import has_x, has_y, has_z, has_roll, has_pitch, has_yaw, has_vel_lon, has_vel_lat, has_acc_lon, has_acc_lat
 from .state_index import index_x, index_y, index_z, index_roll, index_pitch, index_yaw, index_vel_lon, index_vel_lat, index_acc_lon, index_acc_lat
@@ -55,7 +57,9 @@ def get_discrete_state(obj: T) -> List[int]:
 
 def get_continuous_state_covariance(obj: T) -> List[float]:
     """
-    Get the continuous state covariance of an object.
+    Get the full continuous state covariance of an object.
+
+    Empty storage yields INVALID diagonals and zero cross terms without modifying the state.
 
     Args:
         obj: The object to get the state from.
@@ -66,7 +70,13 @@ def get_continuous_state_covariance(obj: T) -> List[float]:
     """
     state = obj if isinstance(obj, ObjectState) else obj.state
     sanity_check_continuous_state_covariance(state)
-    return state.continuous_state_covariance
+    if state.continuous_state_covariance:
+        return state.continuous_state_covariance
+    n = get_continuous_state_size(state.model_id)
+    covariance = [CONTINUOUS_STATE_COVARIANCE_INIT] * (n * n)
+    for i in range(n):
+        covariance[n * i + i] = CONTINUOUS_STATE_COVARIANCE_INVALID
+    return covariance
 
 def get_continuous_state_covariance_at(obj: T, i: int, j: int) -> float:
     """
@@ -83,7 +93,12 @@ def get_continuous_state_covariance_at(obj: T, i: int, j: int) -> float:
     """
     state = obj if isinstance(obj, ObjectState) else obj.state
     n = get_continuous_state_size(state)
-    covariance = get_continuous_state_covariance(state)
+    if not (0 <= i < n and 0 <= j < n):
+        raise IndexError("Covariance coordinates out of range")
+    sanity_check_continuous_state_covariance(state)
+    covariance = state.continuous_state_covariance
+    if not covariance:
+        return CONTINUOUS_STATE_COVARIANCE_INVALID if i == j else 0.0
     return covariance[i * n + j]
 
 def get_continuous_state_covariance_diagonal(obj: T) -> List[float]:
@@ -352,7 +367,7 @@ def get_velocity_xyz_with_covariance(obj: T) -> PoseWithCovariance:
     tf.transform.rotation = q
     vel_lon_lat_stamped = PoseWithCovarianceStamped()
     vel_lon_lat_stamped.pose = vel_lon_lat
-    vel_xyz = tf2_geometry_msgs.do_transform_pose_with_covariance_stamped(vel_lon_lat_stamped, tf)
+    vel_xyz = transform_pose_with_covariance(vel_lon_lat_stamped, tf)
     return vel_xyz.pose
 
 def get_velocity_xyz(obj: T) -> Vector3:
@@ -429,7 +444,7 @@ def get_acceleration_xyz_with_covariance(obj: T) -> PoseWithCovariance:
     tf.transform.rotation = q
     acc_lon_lat_stamped = PoseWithCovarianceStamped()
     acc_lon_lat_stamped.pose = acc_lon_lat
-    acc_xyz = tf2_geometry_msgs.do_transform_pose_with_covariance_stamped(acc_lon_lat_stamped, tf)
+    acc_xyz = transform_pose_with_covariance(acc_lon_lat_stamped, tf)
     return acc_xyz.pose
 
 def get_acceleration_xyz(obj: T) -> Vector3:
