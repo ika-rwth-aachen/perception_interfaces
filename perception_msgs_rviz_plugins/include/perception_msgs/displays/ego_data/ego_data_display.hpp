@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <chrono>
+#include <memory>
 #include <string>
 
 #include "perception_msgs/msg/ego_data.hpp"
@@ -50,10 +52,10 @@ class EgoDataDisplay : public rviz_common::MessageFilterDisplay<perception_msgs:
   void onInitialize() override;
 
   void reset() override;
-
-  void timeoutTimerCallback();
+  void update(float wall_dt, float ros_dt) override;
 
  protected:
+  void processTypeErasedMessage(std::shared_ptr<const void> msg) override;
   void processMessage(perception_msgs::msg::EgoData::ConstSharedPtr msg) override;
 
   Ogre::ManualObject *manual_object_ = nullptr;
@@ -99,7 +101,9 @@ class EgoDataDisplay : public rviz_common::MessageFilterDisplay<perception_msgs:
   std::unordered_map<unsigned int, Ogre::ColourValue> classification_color_map_;
   std::shared_ptr<perception_msgs::rendering::ObjectState> viz_ego_state_;
 
-  rclcpp::TimerBase::SharedPtr timeout_timer_;
+  std::shared_ptr<const void> pending_message_;
+  std::chrono::steady_clock::time_point last_message_time_;
+  bool has_visualization_ = false;
 
   // parameters
   float v_max_ = 50.0;

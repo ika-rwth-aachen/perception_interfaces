@@ -10,6 +10,7 @@
 #include <OgreSceneManager.h>
 #include <OgreSceneNode.h>
 #include <OgreTechnique.h>
+#include <utility>
 
 #include "rviz_common/display_context.hpp"
 #include "rviz_common/frame_manager_iface.hpp"
@@ -42,11 +43,6 @@ TrafficLightDisplay::TrafficLightDisplay() {
 }
 
 TrafficLightDisplay::~TrafficLightDisplay() {
-  if (timeout_timer_) {
-    timeout_timer_->cancel();
-  }
-  timeout_timer_.reset();
-
   if (initialized()) {
     viz_object_states_.clear();
   }
@@ -58,11 +54,30 @@ void TrafficLightDisplay::onInitialize() {
 }
 
 void TrafficLightDisplay::reset() {
-  if (timeout_timer_) {
-    timeout_timer_->cancel();
-  }
+  pending_message_.reset();
+  has_visualization_ = false;
   MFDClass::reset();
   viz_object_states_.clear();
+}
+
+void TrafficLightDisplay::processTypeErasedMessage(std::shared_ptr<const void> msg) {
+  if (isEnabled() && !is_reset.load()) {
+    pending_message_ = std::move(msg);
+  }
+}
+
+void TrafficLightDisplay::update(float wall_dt, float ros_dt) {
+  MFDClass::update(wall_dt, ros_dt);
+  if (pending_message_) {
+    auto msg = std::move(pending_message_);
+    pending_message_.reset();
+    MFDClass::processTypeErasedMessage(std::move(msg));
+  }
+  if (has_visualization_ && enable_timeout_property_->getBool() &&
+      std::chrono::steady_clock::now() - last_message_time_ >=
+          std::chrono::duration<float>(timeout_property_->getFloat())) {
+    reset();
+  }
 }
 
 void TrafficLightDisplay::onEnable() {
@@ -115,11 +130,6 @@ void TrafficLightDisplay::processMessage(perception_msgs::msg::ObjectList::Const
   }
   setTransformOk();
 
-  if (timeout_timer_) {
-    timeout_timer_->cancel();
-    timeout_timer_.reset();
-  }
-
   scene_node_->setPosition(position);
   scene_node_->setOrientation(orientation);
 
@@ -139,20 +149,8 @@ void TrafficLightDisplay::processMessage(perception_msgs::msg::ObjectList::Const
     }
   }
 
-  // reset scene after timeout, if enabled
-  if (enable_timeout_property_->getBool()) {
-    timeout_timer_ = rviz_ros_node_.lock()->get_raw_node()->create_wall_timer(
-      std::chrono::duration<float>(timeout_property_->getFloat()),
-      std::bind(&TrafficLightDisplay::timeoutTimerCallback, this)
-    );
-  }
-}
-
-void TrafficLightDisplay::timeoutTimerCallback() {
-  if (timeout_timer_) {
-    timeout_timer_->cancel();
-  }
-  this->reset();
+  has_visualization_ = true;
+  last_message_time_ = std::chrono::steady_clock::now();
 }
 
 }  // namespace displays
