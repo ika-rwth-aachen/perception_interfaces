@@ -54,7 +54,48 @@ The [ObjectList.msg](perception_msgs/msg/ObjectList.msg) contains environment pe
 - **Dynamic State Estimate**: Such as pose, velocity, acceleration, object dimensions.
 - **State Predictions**: Such as future pose, velocity, acceleration, object dimensions.
 
-All other message files contained in [perception_msgs/msg](perception_msgs/msg/) are included by these two top-level message definitions.
+The related state and classification messages are included by these two top-level message definitions. Image-based perception interfaces are described below.
+
+## Image-based Perception
+
+Use `vision_msgs/Detection2DArray` for image-coordinate detections and tracked
+boxes, `vision_msgs/Classification` for image classification, and
+`sensor_msgs/Image` for semantic or instance masks.
+
+The following messages support further processing of detected image regions:
+
+| Message | Purpose |
+| --- | --- |
+| [ImageRegion](perception_msgs/msg/ImageRegion.msg) | Detection, extracted source rectangle, and optionally resized image crop |
+| [ImageRegionArray](perception_msgs/msg/ImageRegionArray.msg) | Selected regions with their source image header and dimensions |
+| [ObjectAttribute](perception_msgs/msg/ObjectAttribute.msg) | Named categorical property with scored alternative values |
+| [Detection2DAttributes](perception_msgs/msg/Detection2DAttributes.msg) | A detection with independently classified properties |
+| [Detection2DAttributesArray](perception_msgs/msg/Detection2DAttributesArray.msg) | Attribute observations from one source image |
+
+All image headers retain the source acquisition time and optical frame. Boxes
+and crop rectangles use pixels in the full source image. Crops may be resized;
+their `roi` records the rectangle before resizing, including padding. For a crop
+pixel center `(u, v)`, the corresponding source pixel center is
+`(roi.x_offset + (u + 0.5) * roi.width / crop.width - 0.5,
+roi.y_offset + (v + 0.5) * roi.height / crop.height - 0.5)`.
+Camera intrinsics and TF belong to the source image, not the resized crop.
+
+Use `detection.id` as an opaque track identity, scoped to the producer and camera.
+Producers must avoid reusing an ID across track lifecycles or process restarts
+when consumers cache results. Empty IDs mean untracked detections. Instance-mask
+pixel values are separate labels and must not be used as persistent identities.
+
+Attributes retain the primary classification in `detection.results`. For example,
+a `CAR` detection can carry `vehicle.indicator.left` with alternatives `flashing`
+and `off`; a `TRAFFIC_SIGN` detection can carry `traffic_sign.type` with a
+classifier's sign identifiers. Names and values are application conventions;
+these examples are not a fixed taxonomy. Each property has its own hypotheses.
+Missing properties and empty hypotheses mean unobserved or unknown, never `off`.
+Temporal properties such as flashing must be inferred by the producer from
+multiple observations and stamped with the source observation time.
+
+Metric object access functions, TF transformations, and RViz plugins operate on
+`EgoData` and `ObjectList`.
 
 ## Dynamic States
 
