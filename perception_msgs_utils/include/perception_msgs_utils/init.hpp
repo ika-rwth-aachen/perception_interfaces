@@ -26,7 +26,7 @@ namespace object_access {
    */
   inline void initializeState(ObjectState& state, const unsigned char& model_id) {
     state.model_id = model_id;
-    setContinuousState(state, std::vector<double>(getContinuousStateSize(model_id), CONTINUOUS_STATE_INIT));
+    setContinuousState(state, std::vector<double>(getContinuousStateSize(model_id), CONTINUOUS_STATE_INIT), false);
     setDiscreteState(state, std::vector<long int>(getDiscreteStateSize(model_id), DISCRETE_STATE_INIT));
     state.continuous_state_covariance.clear();
   }

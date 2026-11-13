@@ -622,6 +622,32 @@ namespace object_access {
     return getTrafficLightType(obj.state);
   }
 
+  /**
+   * @brief Get the traffic sign type for a given object state.
+   *
+   * @param state
+   *
+   * @return uint8_t
+  */
+  inline uint8_t getTrafficSignType(const ObjectState& state) {
+    sanityCheckDiscreteState(state);
+    return state.discrete_state[indexTrafficSignType(state.model_id)];
+  }
+
+  /**
+   * @brief Get the traffic sign type for a given template object that contains an object state.
+   *
+   * @tparam T
+   *
+   * @param obj
+   *
+   * @return uint8_t
+  */
+  template <typename T>
+  inline uint8_t getTrafficSignType(const T& obj) {
+    return getTrafficSignType(obj.state);
+  }
+
 } // namespace object_access
 
 } // namespace perception_msgs

@@ -30,7 +30,7 @@ def initialize_state(obj: T, model_id: int) -> ObjectState:
     """
     state = obj if isinstance(obj, ObjectState) else obj.state
     state.model_id = model_id
-    set_continuous_state(state, [CONTINUOUS_STATE_INIT] * get_continuous_state_size(model_id))
+    set_continuous_state(state, [CONTINUOUS_STATE_INIT] * get_continuous_state_size(model_id), False)
     set_discrete_state(state, [DISCRETE_STATE_INIT] * get_discrete_state_size(model_id))
     set_continuous_state_covariance(state, [])
     if isinstance(obj, ObjectState):

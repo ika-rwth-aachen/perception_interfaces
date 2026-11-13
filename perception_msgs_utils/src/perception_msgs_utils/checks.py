@@ -9,6 +9,7 @@ This module provides functions to validate object states.
 
 from typing import TypeVar, Union
 from perception_msgs.msg import ObjectState, Object, EgoData
+from .image_access import sanity_check_image_observations
 from .utils import (
     get_continuous_state_size,
     get_discrete_state_size,
@@ -130,4 +131,5 @@ def sanity_check_full_state(obj: T) -> None:
     state = obj if isinstance(obj, ObjectState) else obj.state
     sanity_check_continuous_state(state)
     sanity_check_discrete_state(state)
-    sanity_check_continuous_state_covariance(state) 
+    sanity_check_continuous_state_covariance(state)
+    sanity_check_image_observations(state)

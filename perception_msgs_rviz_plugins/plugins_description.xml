@@ -34,6 +34,17 @@
   </class>
 
   <class
+    name="perception_msgs/TrafficSign"
+    type="perception_msgs::displays::TrafficSignDisplay"
+    base_class_type="rviz_common::Display"
+  >
+    <description>
+      Displays perception_msgs/msg/ObjectList traffic signs.
+    </description>
+    <message_type>perception_msgs/msg/ObjectList</message_type>
+  </class>
+
+  <class
     name="perception_msgs/EgoDataOverlay"
     type="perception_msgs::displays::EgoDataOverlay"
     base_class_type="rviz_common::Display"

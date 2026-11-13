@@ -56,20 +56,26 @@ The [ObjectList.msg](perception_msgs/msg/ObjectList.msg) contains environment pe
 
 All other message files contained in [perception_msgs/msg](perception_msgs/msg/) are included by these two top-level message definitions.
 
+## Image Observations
+
+[ObjectState.msg](perception_msgs/msg/ObjectState.msg) can contain [ImageObservation.msg](perception_msgs/msg/ImageObservation.msg) entries with a camera header, bounding box and optional image crop and instance mask. Crops and masks refer to a source-image ROI and may be resized independently.
+
+Objects can carry image observations, metric estimates or both. The enclosing `Object.id` identifies the object within its producing stream and is shared by its image and metric data.
+
 ## Dynamic States
 
-Both the [EgoData.msg](perception_msgs/msg/EgoData.msg) and the [Objects.msg](perception_msgs/msg/Object.msg) contain a field of type [ObjectState.msg](perception_msgs/msg/ObjectState.msg). It contains information on an object that  
+Both the [EgoData.msg](perception_msgs/msg/EgoData.msg) and the [Object.msg](perception_msgs/msg/Object.msg) contain a field of type [ObjectState.msg](perception_msgs/msg/ObjectState.msg). It contains information on an object that
 1. may change over time, or 
 2. whose estimate may change over time. 
 
-Of course, different information is available for perceived objects in the environment than for an entity that perceives its own state. That is why the [ObjectState.msg](perception_msgs/msg/ObjectState.msg) can contain different state models referenced by a [model_id](perception_msgs/msg/ObjectState.msg#L14). 
+Of course, different information is available for perceived objects in the environment than for an entity that perceives its own state. That is why the [ObjectState.msg](perception_msgs/msg/ObjectState.msg) can contain different state models referenced by a [model_id](perception_msgs/msg/ObjectState.msg#L14).
 
 ## Dynamic State Models
 
 Anyone can define and add their own state model in a new message file under a new [model_id](perception_msgs/msg/ObjectState.msg#L14). The state model may contain all information relevant in a specific use case. At the moment, the following state models already exist:
 
 1. [EGO.msg](perception_msgs/msg/EGO.msg) and [EGORWS.msg](perception_msgs/msg/EGORWS.msg) to be used in [EgoData.msg](perception_msgs/msg/EgoData.msg).
-2. [ISCACTR.msg](perception_msgs/msg/ISCACTR.msg), [HEXAMOTION.msg](perception_msgs/msg/HEXAMOTION.msg) and [TRAFFICLIGHT.msg](perception_msgs/msg/TRAFFICLIGHT.msg) to be used for [Objects.msg](perception_msgs/msg/Object.msg) in [ObjectList.msg](perception_msgs/msg/ObjectList.msg).
+2. [ISCACTR.msg](perception_msgs/msg/ISCACTR.msg), [HEXAMOTION.msg](perception_msgs/msg/HEXAMOTION.msg), [TRAFFICLIGHT.msg](perception_msgs/msg/TRAFFICLIGHT.msg) and [TRAFFICSIGN.msg](perception_msgs/msg/TRAFFICSIGN.msg) to be used for [Object.msg](perception_msgs/msg/Object.msg) in [ObjectList.msg](perception_msgs/msg/ObjectList.msg).
 
 A state model typically includes two types of state vectors: 
 
@@ -99,7 +105,7 @@ However, this convenience comes at a cost. We are able to receive data via the s
 
 Working with hierarchical ROS messages, especially in C++, can be challenging sometimes due to the many nested subfields and certain requirements posed at how fields should be filled. For this reason, with [perception_msgs_utils](perception_msgs_utils), we provide a ROS package with access functions defined in C++ header files as well as Python equivalents. These enable developers to read and write fields of the perception_msgs more easily.
 
-A list of all access functions can be found in [convenience_state_getters.hpp](perception_msgs_utils/include/perception_msgs_utils/convenience_state_getters.hpp) and [convenience_state_setters.hpp](perception_msgs_utils/include/perception_msgs_utils/convenience_state_setters.hpp).
+State access functions can be found in [convenience_state_getters.hpp](perception_msgs_utils/include/perception_msgs_utils/convenience_state_getters.hpp) and [convenience_state_setters.hpp](perception_msgs_utils/include/perception_msgs_utils/convenience_state_setters.hpp). Image observation access and validation functions are provided in [image_access.hpp](perception_msgs_utils/include/perception_msgs_utils/image_access.hpp), with Python equivalents in [image_access.py](perception_msgs_utils/src/perception_msgs_utils/image_access.py).
 
 In your C++ code, just include them like this
 
@@ -119,16 +125,18 @@ import perception_msgs_utils
 
 ## Coordinate Systems and Transformations
 
-The coordinate system in which all subsequent fields of a message are given is defined in the top-level header, i.e. in [EgoData.msg](perception_msgs/msg/EgoData.msg#L11) and in [ObjectList.msg](perception_msgs/msg/ObjectList.msg#L16). Headers are a common ROS interface defined [here](https://github.com/ros2/common_interfaces/blob/rolling/std_msgs/msg/Header.msg). The definitions of the coordinate systems themselves may for example be determined by an [URDF](https://docs.ros.org/en/iron/Tutorials/Intermediate/URDF/URDF-Main.html) file.
+The coordinate system of metric fields is defined in the top-level header, i.e. in [EgoData.msg](perception_msgs/msg/EgoData.msg#L11) and in [ObjectList.msg](perception_msgs/msg/ObjectList.msg#L16). Headers are a common ROS interface defined [here](https://github.com/ros2/common_interfaces/blob/rolling/std_msgs/msg/Header.msg). The definitions of the coordinate systems themselves may for example be determined by an [URDF](https://docs.ros.org/en/iron/Tutorials/Intermediate/URDF/URDF-Main.html) file.
+
+Image observations retain their source camera headers and pixel coordinates during metric transformations.
 
 Transformations between coordinate frames are often needed in robotics applications. There exists the [tf2](https://github.com/ros2/geometry2) ROS 2 package that provides a lot of functions and tools around coordinate frames and transformations. It is the de facto standard for related tasks in ROS. Since the package does not know how the messages files in this repository are structured, we need to define functions that allow us to integrate our messages into the existing framework provided by the tf2 ROS package. For this purpose, we need to especially write a specialized `doTransform()` function for our messages.
 
-The implementation can be found in [tf2_perception_msgs](tf2_perception_msgs). Available implementations include the provided [EgoData.msg](perception_msgs/msg/EgoData.msg) with the [EGO.msg](perception_msgs/msg/EGO.msg) and [EGORWS.msg](perception_msgs/msg/EGORWS.msg) state models, and the [ObjectList.msg](perception_msgs/msg/ObjectList.msg) with the [ISCACTR.msg](perception_msgs/msg/ISCACTR.msg) and [HEXAMOTION.msg](perception_msgs/msg/HEXAMOTION.msg) state models.
+The implementation can be found in [tf2_perception_msgs](tf2_perception_msgs). Available implementations include the provided [EgoData.msg](perception_msgs/msg/EgoData.msg) with the [EGO.msg](perception_msgs/msg/EGO.msg) and [EGORWS.msg](perception_msgs/msg/EGORWS.msg) state models, and the [ObjectList.msg](perception_msgs/msg/ObjectList.msg) with the [ISCACTR.msg](perception_msgs/msg/ISCACTR.msg), [HEXAMOTION.msg](perception_msgs/msg/HEXAMOTION.msg), [TRAFFICLIGHT.msg](perception_msgs/msg/TRAFFICLIGHT.msg) and [TRAFFICSIGN.msg](perception_msgs/msg/TRAFFICSIGN.msg) state models.
 
 
 ## RViz Plugins
 
-This repository provides ROS packages [perception_msgs_rendering](perception_msgs_rendering) and [perception_msgs_rviz_plugins](perception_msgs_rviz_plugins) that, together, allow to visualize [ObjectList.msg](perception_msgs/msg/ObjectList.msg) with the [ISCACTR.msg](perception_msgs/msg/ISCACTR.msg) and [HEXAMOTION.msg](perception_msgs/msg/HEXAMOTION.msg) state models and [EgoData.msg](perception_msgs/msg/EgoData.msg) with the [EGO.msg](perception_msgs/msg/EGO.msg) and [EGORWS.msg](perception_msgs/msg/EGORWS.msg) state models in RViz.
+This repository provides ROS packages [perception_msgs_rendering](perception_msgs_rendering) and [perception_msgs_rviz_plugins](perception_msgs_rviz_plugins) that, together, allow to visualize [ObjectList.msg](perception_msgs/msg/ObjectList.msg) with the [ISCACTR.msg](perception_msgs/msg/ISCACTR.msg), [HEXAMOTION.msg](perception_msgs/msg/HEXAMOTION.msg), [TRAFFICLIGHT.msg](perception_msgs/msg/TRAFFICLIGHT.msg) and [TRAFFICSIGN.msg](perception_msgs/msg/TRAFFICSIGN.msg) state models and [EgoData.msg](perception_msgs/msg/EgoData.msg) with the [EGO.msg](perception_msgs/msg/EGO.msg) and [EGORWS.msg](perception_msgs/msg/EGORWS.msg) state models in RViz.
 
 To further extend the object list, a workflow for visualizing new meshes has been established:
 
@@ -145,6 +153,8 @@ Many of the fields in the messages are optional. If you use the messages in this
 - the object state(s)
 
 where the object states should be initialized with [`initializeState()`](perception_msgs_utils/include/perception_msgs_utils/init.hpp) and then filled as much as possible.
+
+Covariance diagonals indicate whether metric components are measured: `INVALID` means absent and `UNKNOWN` means present with unknown uncertainty. Empty covariance storage means all components are unmeasured. Setters mark supplied components `UNKNOWN` by default; pass `reset_covariance=false` to preserve existing covariance. Direct state-vector writers must also supply covariance diagonals.
 
 
 ## Acknowledgements

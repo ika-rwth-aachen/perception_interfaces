@@ -28,6 +28,7 @@
 #include <perception_msgs/msg/iscactr.hpp>
 #include <perception_msgs/msg/hexamotion.hpp>
 #include <perception_msgs/msg/trafficlight.hpp>
+#include <perception_msgs/msg/trafficsign.hpp>
 
 namespace perception_msgs {
     namespace gm = geometry_msgs::msg;
@@ -38,6 +39,7 @@ namespace perception_msgs {
 #include <perception_msgs_utils/constants.hpp>
 #include <perception_msgs_utils/convenience_state_getters.hpp>
 #include <perception_msgs_utils/convenience_state_setters.hpp>
+#include <perception_msgs_utils/image_access.hpp>
 #include <perception_msgs_utils/init.hpp>
 #include <perception_msgs_utils/state_getters.hpp>
 #include <perception_msgs_utils/state_index.hpp>

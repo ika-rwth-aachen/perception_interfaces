@@ -32,6 +32,7 @@ set(display_headers_to_moc
   include/perception_msgs/displays/ego_data/ego_data_display.hpp
   include/perception_msgs/displays/ego_data_overlay/ego_data_overlay_display.hpp
   include/perception_msgs/displays/traffic_light/traffic_light_display.hpp
+  include/perception_msgs/displays/traffic_sign/traffic_sign_display.hpp
 )
 
 foreach(header "${display_headers_to_moc}")
@@ -43,6 +44,7 @@ set(display_source_files
   src/displays/ego_data/ego_data_display.cpp
   src/displays/ego_data_overlay/ego_data_overlay_display.cpp
   src/displays/traffic_light/traffic_light_display.cpp
+  src/displays/traffic_sign/traffic_sign_display.cpp
 )
 
 add_library(${PROJECT_NAME} SHARED

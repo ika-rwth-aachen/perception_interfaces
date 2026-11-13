@@ -9,6 +9,7 @@
 #pragma once
 
 #include <perception_msgs_utils/utils.hpp>
+#include <perception_msgs_utils/image_access.hpp>
 
 
 namespace perception_msgs {
@@ -124,6 +125,7 @@ namespace object_access {
     sanityCheckContinuousState(state);
     sanityCheckDiscreteState(state);
     sanityCheckContinuousStateCovariance(state);
+    sanityCheckImageObservations(state);
   }
 
   /**

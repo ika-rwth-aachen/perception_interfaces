@@ -237,7 +237,7 @@ TEST(tf2_perception_msgs, test_doTransform_Object_EGORWS) {
     EXPECT_NEAR(covariance_diagonal[i], covariance_diagonal_tf[i], EPS) << "i=" << i;
 }
 
-TEST(tf2_perception_msgs, transforms_prediction_without_covariance) {
+TEST(tf2_perception_msgs, omitted_covariance_does_not_imply_a_measured_prediction) {
   Object object, transformed;
   initializeState(object, ISCACTR::MODEL_ID);
   setContinuousStateCovarianceDiagonal(object, std::vector<double>(getContinuousStateSize(object), 0.1));
@@ -256,7 +256,8 @@ TEST(tf2_perception_msgs, transforms_prediction_without_covariance) {
   ASSERT_EQ(transformed.state_predictions.size(), 1u);
   ASSERT_EQ(transformed.state_predictions.front().states.size(), 1u);
   const auto& predicted = transformed.state_predictions.front().states.front();
-  EXPECT_NEAR(getX(predicted), 11.0, EPS);
+  EXPECT_NEAR(getX(predicted), 1.0, EPS);
+  EXPECT_FALSE(hasValidPosition(predicted));
   EXPECT_TRUE(predicted.continuous_state_covariance.empty());
 }
 
@@ -417,12 +418,14 @@ TEST(tf2_perception_msgs, transforms_ego_trajectories_with_optional_covariance) 
       ASSERT_EQ(trajectory.size(), 2u);
       EXPECT_TRUE(trajectory.front().continuous_state_covariance.empty());
       EXPECT_EQ(trajectory.back().continuous_state_covariance.size(), ego.state.continuous_state_covariance.size());
-      for (const auto& state : trajectory) {
+      for (int i = 0; i < 2; ++i) {
+        const auto& state = trajectory[i];
         EXPECT_EQ(state.header.frame_id, "map");
-        EXPECT_NEAR(getX(state), 9.0, EPS);
-        EXPECT_NEAR(getY(state), 18.0, EPS);
-        EXPECT_NEAR(std::abs(getYaw(state)), M_PI, EPS);
+        EXPECT_NEAR(getX(state), i == 0 ? 1.0 : 9.0, EPS);
+        EXPECT_NEAR(getY(state), i == 0 ? 2.0 : 18.0, EPS);
+        EXPECT_NEAR(std::abs(getYaw(state)), i == 0 ? 0.0 : M_PI, EPS);
         EXPECT_NEAR(getVelLon(state), 4.0, EPS);
+        EXPECT_EQ(hasValidPosition(state), i != 0);
       }
       EXPECT_DOUBLE_EQ(getContinuousStateCovarianceAt(trajectory.front(), 0, 0), CONTINUOUS_STATE_COVARIANCE_INVALID);
       EXPECT_NEAR(getContinuousStateCovarianceAt(trajectory.back(), 0, 0), 0.1, EPS);
@@ -433,6 +436,66 @@ TEST(tf2_perception_msgs, transforms_ego_trajectories_with_optional_covariance) 
   }
 }
 
+
+
+TEST(tf2_perception_msgs, image_observations_preserve_frame_and_invalid_position) {
+  using namespace perception_msgs;
+  using namespace perception_msgs::msg;
+  using namespace perception_msgs::object_access;
+  ObjectState state;
+  initializeState(state, TRAFFICSIGN::MODEL_ID);
+  setTrafficSignType(state, TRAFFICSIGN::TYPE_STOP);
+  state.header.frame_id = "camera_optical";
+  state.header.stamp.sec = 10;
+  ImageObservation image;
+  image.header = state.header;
+  image.sensor_id = 7;
+  image.image_width = 80;
+  image.image_height = 60;
+  image.bounding_box.size_x = 20.;
+  image.bounding_box.size_y = 10.;
+  addImageObservation(state, image);
+  geometry_msgs::msg::TransformStamped transform;
+  transform.header.frame_id = "map";
+  transform.header.stamp.sec = 20;
+  transform.child_frame_id = "camera_optical";
+  transform.transform.translation.x = 5.;
+  transform.transform.rotation.w = 1.;
+  ObjectState result;
+  tf2::doTransform(state, result, transform);
+  EXPECT_TRUE(isImageOnly(result));
+  EXPECT_EQ(getTrafficSignType(result), TRAFFICSIGN::TYPE_STOP);
+  EXPECT_FALSE(hasValidPosition(result));
+  EXPECT_EQ(result.continuous_state, state.continuous_state);
+  EXPECT_EQ(result.image_observations, state.image_observations);
+  EXPECT_EQ(result.header.frame_id, "map");
+  setPosition(state, std::array<double, 3>{2., 3., 4.});
+  tf2::doTransform(state, result, transform);
+  EXPECT_TRUE(hasValidPosition(result));
+  EXPECT_DOUBLE_EQ(getX(result), 7.);
+  EXPECT_EQ(getTrafficSignType(result), TRAFFICSIGN::TYPE_STOP);
+  EXPECT_EQ(result.image_observations, state.image_observations);
+}
+
+TEST(tf2_perception_msgs, partial_position_stays_partial_under_rotation) {
+  ObjectState state, transformed;
+  initializeState(state, TRAFFICSIGN::MODEL_ID);
+  setX(state, 2.);
+  gm::TransformStamped transform;
+  transform.header.frame_id = "map";
+  tf2::Quaternion rotation;
+  rotation.setRPY(0., 0., M_PI_2);
+  transform.transform.rotation = tf2::toMsg(rotation);
+  tf2::doTransform(state, transformed, transform);
+  EXPECT_FALSE(hasValidPosition(transformed));
+  EXPECT_EQ(getContinuousStateCovarianceAt(transformed, indexX(state.model_id), indexX(state.model_id)),
+            CONTINUOUS_STATE_COVARIANCE_INVALID);
+  EXPECT_EQ(getContinuousStateCovarianceAt(transformed, indexY(state.model_id), indexY(state.model_id)),
+            CONTINUOUS_STATE_COVARIANCE_UNKNOWN);
+  EXPECT_EQ(getContinuousStateCovarianceAt(transformed, indexZ(state.model_id), indexZ(state.model_id)),
+            CONTINUOUS_STATE_COVARIANCE_INVALID);
+  EXPECT_NEAR(getY(transformed), 2., EPS);
+}
 
 int main(int argc, char *argv[]) {
   testing::InitGoogleTest(&argc, argv);
