@@ -237,6 +237,9 @@ bool validateFloats(perception_msgs::msg::ObjectList::ConstSharedPtr msg) {
   try {
     bool valid = true;
     for (int i = 0; i < int(msg->objects.size()); i++) {
+      if (msg->objects[i].state.model_id == perception_msgs::msg::TRAFFICLIGHT::MODEL_ID ||
+          msg->objects[i].state.model_id == perception_msgs::msg::TRAFFICSIGN::MODEL_ID ||
+          !perception_msgs::object_access::hasValidPosition(msg->objects[i])) continue;
       valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getX(msg->objects[i]));
       valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getY(msg->objects[i]));
       valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getZ(msg->objects[i]));
@@ -247,8 +250,11 @@ bool validateFloats(perception_msgs::msg::ObjectList::ConstSharedPtr msg) {
       valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getVelocityMagnitude(msg->objects[i]));
     }
     for (const auto &object : msg->objects) {
+      if (object.state.model_id == perception_msgs::msg::TRAFFICLIGHT::MODEL_ID ||
+          object.state.model_id == perception_msgs::msg::TRAFFICSIGN::MODEL_ID || !perception_msgs::object_access::hasValidPosition(object)) continue;
       for (const auto &prediction : object.state_predictions) {
         for (const auto &state : prediction.states) {
+          if (!perception_msgs::object_access::hasValidPosition(state)) continue;
           valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getPose(state));
           valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getVelocityMagnitude(state));
         }
@@ -265,6 +271,8 @@ void ObjectListDisplay::processMessage(perception_msgs::msg::ObjectList::ConstSh
   // check for supported object model id
   for (size_t i = 0; i < msg->objects.size(); ++i) {
     const auto& obj = msg->objects[i];
+    if (obj.state.model_id == perception_msgs::msg::TRAFFICLIGHT::MODEL_ID ||
+        obj.state.model_id == perception_msgs::msg::TRAFFICSIGN::MODEL_ID) continue;
     if (obj.state.model_id != perception_msgs::msg::ISCACTR::MODEL_ID && obj.state.model_id != perception_msgs::msg::HEXAMOTION::MODEL_ID) {
       const std::string error_msg = "Model ID " + std::to_string(obj.state.model_id) +
                                     " of object " + std::to_string(i) + " is not supported";
@@ -407,6 +415,9 @@ void ObjectListDisplay::processMessage(perception_msgs::msg::ObjectList::ConstSh
   if(msg->objects.size()) {
     for (int i = 0; i<int(msg->objects.size()); i++)
     {
+      if (msg->objects[i].state.model_id == perception_msgs::msg::TRAFFICLIGHT::MODEL_ID ||
+          msg->objects[i].state.model_id == perception_msgs::msg::TRAFFICSIGN::MODEL_ID ||
+          !perception_msgs::object_access::hasValidPosition(msg->objects[i])) continue;
       // render object state
       std::unique_ptr<perception_msgs::rendering::ObjectState> state_ptr = std::make_unique<perception_msgs::rendering::ObjectState>(classification_color_map_, color_text, scene_manager_, scene_node_);
       // settings

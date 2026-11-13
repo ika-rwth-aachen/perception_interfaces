@@ -177,7 +177,8 @@ void ObjectState::setObjectStatePredictions(
     setObjectPredictionsVizDefault(predictions[i].states, billboard_line_predictions_[i], bbox_predictions_[i],
                                    line_color, point_color);
 
-    if (visualize_predictions_ && visualize_prediction_probabilities_ && !predictions[i].states.empty()) {
+    if (visualize_predictions_ && visualize_prediction_probabilities_ && !predictions[i].states.empty() &&
+        perception_msgs::object_access::hasValidPosition(predictions[i].states[0])) {
       setObjectPredictionProbabilityText(predictions[i].probability, predictions[i].states[0], text_prob_vector_[i]);
     }
   }
@@ -692,6 +693,7 @@ void ObjectState::setObjectPredictionsVizDefault(
     tf2::Transform base_state_tf;
     tf2::fromMsg(base_state, base_state_tf);
     for (const auto& state : states) {
+      if (!perception_msgs::object_access::hasValidPosition(state)) continue;
       // Transform position to base_state frame
       tf2::Transform state_tf;
       tf2::fromMsg(perception_msgs::object_access::getPose(state), state_tf);
@@ -701,6 +703,7 @@ void ObjectState::setObjectPredictionsVizDefault(
     }
     if (visualize_prediction_points_) {
       for (size_t i = 0; i < states.size(); i++) {
+        if (!perception_msgs::object_access::hasValidPosition(states[i])) continue;
         bbox_prediction[i] =
             std::make_shared<rviz_rendering::Shape>(rviz_rendering::Shape::Sphere, scene_manager_, scene_node_);
         bbox_prediction[i]->setColor(point_color.r, point_color.g, point_color.b, point_color.a);

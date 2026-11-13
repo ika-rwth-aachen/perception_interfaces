@@ -1,11 +1,14 @@
 # Copyright Institute for Automotive Engineering (ika), RWTH Aachen University
 # SPDX-License-Identifier: MIT
 
-from geometry_msgs.msg import TransformStamped, PoseStamped, PoseWithCovarianceStamped
+from copy import deepcopy
+
+from geometry_msgs.msg import TransformStamped, PoseWithCovarianceStamped
 
 from perception_msgs.msg import ObjectState, Object, ObjectList, EgoData
-from perception_msgs_utils.convenience_state_getters import get_pose, get_pose_with_covariance
-from perception_msgs_utils.convenience_state_setters import set_pose_from_gm_pose, set_pose_with_covariance_from_gm_pose_with_covariance
+from perception_msgs_utils.image_access import is_image_only
+from perception_msgs_utils.convenience_state_getters import get_pose_with_covariance
+from perception_msgs_utils.convenience_state_setters import set_pose_with_covariance_from_gm_pose_with_covariance
 from perception_msgs_utils.covariance_transform import transform_pose_with_covariance
 from std_msgs.msg import Header
 import tf2_ros
@@ -37,25 +40,28 @@ def do_transform_state(
 
     The pose with covariance is transformed into a different frame,
     while the rest of the ObjectState is kept untouched.
+    Image observations are shared with the input and must be treated as read-only.
 
     :param state: The object state that should be transformed
     :param transform: The transform which will be applied to the object state
     :returns: The transformed object state
     """
-    state_out = state
+    state_out = ObjectState()
+    for field in state.get_fields_and_field_types():
+        value = getattr(state, field)
+        # Keep a separate list while sharing the unchanged observations and pixels.
+        setattr(state_out, field, list(value) if field == 'image_observations' else deepcopy(value))
     state_out.header.stamp = transform.header.stamp
     state_out.header.frame_id = transform.header.frame_id
 
-    if not state.continuous_state_covariance:
-        xyz_rpy = PoseStamped()
-        xyz_rpy.pose = get_pose(state)
-        xyz_rpy_tf = tf2_geometry_msgs.do_transform_pose_stamped(xyz_rpy, transform)
-        set_pose_from_gm_pose(state_out, xyz_rpy_tf.pose, False)
-    else:
-        xyz_rpy_cov = PoseWithCovarianceStamped()
-        xyz_rpy_cov.pose = get_pose_with_covariance(state)
-        xyz_rpy_cov_tf = transform_pose_with_covariance(xyz_rpy_cov, transform)
-        set_pose_with_covariance_from_gm_pose_with_covariance(state_out, xyz_rpy_cov_tf.pose)
+    # Pixel coordinates retain their camera frame and acquisition time.
+    if is_image_only(state):
+        return state_out
+
+    xyz_rpy_cov = PoseWithCovarianceStamped()
+    xyz_rpy_cov.pose = get_pose_with_covariance(state)
+    xyz_rpy_cov_tf = transform_pose_with_covariance(xyz_rpy_cov, transform)
+    set_pose_with_covariance_from_gm_pose_with_covariance(state_out, xyz_rpy_cov_tf.pose)
     return state_out
 
 tf2_ros.TransformRegistration().add(ObjectState, do_transform_state)
@@ -108,6 +114,7 @@ def do_transform_object_list(
     :returns: The transformed object list
     """
     object_list_out = object_list
+    object_list_out.header = deepcopy(object_list.header)
     object_list_out.header.stamp = transform.header.stamp
     object_list_out.header.frame_id = transform.header.frame_id
 
@@ -132,6 +139,7 @@ def do_transform_ego_data(
     :returns: The transformed ego data
     """
     ego_data_out = ego_data
+    ego_data_out.header = deepcopy(ego_data.header)
     ego_data_out.header.stamp = transform.header.stamp
     ego_data_out.header.frame_id = transform.header.frame_id
 

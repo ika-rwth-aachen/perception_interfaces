@@ -9,6 +9,7 @@
 #pragma once
 
 #include <cmath>
+#include <stdexcept>
 
 #include <perception_msgs_utils/constants.hpp>
 
@@ -61,6 +62,8 @@ namespace object_access {
         return HEXAMOTION::CONTINUOUS_STATE_SIZE;
       case TRAFFICLIGHT::MODEL_ID:
         return TRAFFICLIGHT::CONTINUOUS_STATE_SIZE;
+      case TRAFFICSIGN::MODEL_ID:
+        return TRAFFICSIGN::CONTINUOUS_STATE_SIZE;
       default:
         throw std::invalid_argument(kExceptionUnknownModel + std::to_string(model_id));
     }
@@ -106,6 +109,8 @@ namespace object_access {
         return HEXAMOTION::DISCRETE_STATE_SIZE;
       case TRAFFICLIGHT::MODEL_ID:
         return TRAFFICLIGHT::DISCRETE_STATE_SIZE;
+      case TRAFFICSIGN::MODEL_ID:
+        return TRAFFICSIGN::DISCRETE_STATE_SIZE;
       default:
         throw std::invalid_argument(kExceptionUnknownModel + std::to_string(model_id));
     }
@@ -148,15 +153,25 @@ namespace object_access {
 
   /**
    * @brief Set the continuous state covariance to unknown at (i,j) for a given object state.
-   * Empty storage remains empty; per-component validity markers are not recorded.
+   * Allocate INVALID diagonals on first use, then mark the supplied entry UNKNOWN.
    *
    * @param state
    * @param i
    * @param j
    */
   inline void setContinuousStateCovarianceToUnknownAt(ObjectState& state, const unsigned int i, const unsigned int j) {
-    if (state.continuous_state_covariance.empty()) return;
-    const int n = getContinuousStateSize(state);
+    const int n = getContinuousStateSize(state.model_id);
+    if (i >= static_cast<unsigned int>(n) || j >= static_cast<unsigned int>(n))
+      throw std::out_of_range("Covariance coordinates out of range");
+    if (state.continuous_state.size() != static_cast<std::size_t>(n) ||
+        (!state.continuous_state_covariance.empty() &&
+         state.continuous_state_covariance.size() != static_cast<std::size_t>(n * n)))
+      throw std::invalid_argument("Invalid state storage for covariance update");
+    if (state.continuous_state_covariance.empty()) {
+      state.continuous_state_covariance.assign(n * n, CONTINUOUS_STATE_COVARIANCE_INIT);
+      for (int k = 0; k < n; ++k)
+        state.continuous_state_covariance[n * k + k] = CONTINUOUS_STATE_COVARIANCE_INVALID;
+    }
     state.continuous_state_covariance.at(n * i + j) = CONTINUOUS_STATE_COVARIANCE_UNKNOWN;
   }
 

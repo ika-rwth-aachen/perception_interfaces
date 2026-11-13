@@ -712,6 +712,31 @@ namespace object_access {
     setTrafficLightType(obj.state, val);
   }
 
+  /**
+   * @brief Set the traffic sign type for a given object state.
+   *
+   * @param state
+   * @param val
+  */
+  inline void setTrafficSignType(ObjectState& state, const uint8_t val) {
+    sanityCheckDiscreteState(state);
+    const int idx = indexTrafficSignType(state.model_id);
+    state.discrete_state[idx] = val;
+  }
+
+  /**
+   * @brief Set the traffic sign type for a given template object that contains an object state.
+   *
+   * @tparam T
+   *
+   * @param obj
+   * @param val
+  */
+  template <typename T>
+  inline void setTrafficSignType(T& obj, const uint8_t val) {
+    setTrafficSignType(obj.state, val);
+  }
+
 } // namespace object_access
 
 } // namespace perception_msgs

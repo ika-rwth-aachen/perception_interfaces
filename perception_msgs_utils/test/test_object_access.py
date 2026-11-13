@@ -8,14 +8,14 @@ import numpy as np
 from perception_msgs.msg import ObjectState, EgoData, EGO, EGORWS, Object, ISCACTR, HEXAMOTION, TRAFFICLIGHT, ObjectClassification
 from geometry_msgs.msg import PoseWithCovariance, Vector3, Point
 from perception_msgs_utils.init import initialize_state
-from perception_msgs_utils.constants import CONTINUOUS_STATE_COVARIANCE_INVALID, CONTINUOUS_STATE_COVARIANCE_INIT, CONTINUOUS_STATE_INIT
+from perception_msgs_utils.constants import CONTINUOUS_STATE_COVARIANCE_UNKNOWN, CONTINUOUS_STATE_COVARIANCE_INVALID, CONTINUOUS_STATE_COVARIANCE_INIT, CONTINUOUS_STATE_INIT
 from perception_msgs_utils.checks import InvalidStateCovarianceSizeError, sanity_check_continuous_state_covariance
 from perception_msgs_utils.utils import get_continuous_state_size, get_discrete_state_size, get_continuous_state_covariance_size
 from perception_msgs_utils.convenience_state_getters import get_continuous_state_covariance_at, get_continuous_state, get_discrete_state, get_continuous_state_covariance, get_class_with_highest_probability, get_pose_with_covariance, get_velocity, get_acceleration, get_roll_in_deg, get_pitch_in_deg, get_yaw_in_deg, get_velocity_xyz, get_velocity_magnitude, get_acceleration_magnitude, get_velocity_xyz_with_covariance, get_acceleration_xyz_with_covariance, get_acceleration_xyz, get_center_position
 from perception_msgs_utils.convenience_state_setters import set_continuous_state, set_discrete_state, set_continuous_state_covariance, set_continuous_state_covariance_at, set_pose_with_covariance_from_gm_pose_with_covariance, set_velocity_from_gm_vector3, set_acceleration_from_gm_vector3, set_roll_in_deg, set_pitch_in_deg, set_yaw_in_deg, set_velocity_xyz_yaw_from_gm_vector3, set_velocity_xyz_yaw_with_covariance_from_gm_vector3, set_acceleration_xyz_yaw_from_gm_vector3, set_acceleration_xyz_yaw_with_covariance_from_gm_vector3, set_center_position_from_gm_point, set_center_position_from_list
 from perception_msgs_utils.state_setters import set_x, set_y, set_z, set_vel_lon, set_vel_lat, set_acc_lon, set_acc_lat, set_roll, set_pitch, set_yaw, set_yaw_rate, set_steering_angle_ack, set_steering_angle_rate_ack, set_standstill, set_turn_indicator, set_brake_light, set_reverse_light, set_steering_angle_front, set_steering_angle_rear, set_width, set_length, set_height, set_roll_rate, set_pitch_rate, set_state, set_type
 from perception_msgs_utils.state_getters import get_x, get_y, get_z, get_vel_lon, get_vel_lat, get_acc_lon, get_acc_lat, get_roll, get_pitch, get_yaw, get_yaw_rate, get_steering_angle_ack, get_steering_angle_rate_ack, get_standstill, get_turn_indicator, get_brake_light, get_reverse_light, get_steering_angle_front, get_steering_angle_rear, get_width, get_length, get_height, get_roll_rate, get_pitch_rate, get_state, get_type
-from perception_msgs_utils.state_index import index_vel_lon, index_vel_lat, index_acc_lon, index_acc_lat
+from perception_msgs_utils.state_index import index_z, index_vel_lon, index_vel_lat, index_acc_lon, index_acc_lat
 
 def random_value():
     return random.uniform(-1, 1)
@@ -655,8 +655,8 @@ def test_empty_covariance_is_valid_and_can_be_populated():
     initialize_state(obj, ISCACTR.MODEL_ID)
     set_continuous_state_covariance(obj, [])
     set_x(obj, 3.0)
-    assert len(obj.state.continuous_state_covariance) == 0
-    assert get_continuous_state_covariance_at(obj, 0, 0) == CONTINUOUS_STATE_COVARIANCE_INVALID
+    assert len(obj.state.continuous_state_covariance) != 0
+    assert get_continuous_state_covariance_at(obj, 0, 0) == CONTINUOUS_STATE_COVARIANCE_UNKNOWN
     assert get_continuous_state_covariance_at(obj, 0, 1) == 0.0
     assert len(get_pose_with_covariance(obj).covariance) == 36
 
@@ -705,8 +705,10 @@ def test_initialization_omits_covariance_and_getters_expose_defaults(message_typ
             assert get_continuous_state_covariance_at(obj, i, j) == expected
     assert len(state.continuous_state_covariance) == 0
     set_x(obj, 4.0)
-    assert len(state.continuous_state_covariance) == 0
-    assert list(get_continuous_state_covariance(obj)) == defaults
+    assert len(state.continuous_state_covariance) != 0
+    measured_covariance = defaults.copy()
+    measured_covariance[0] = CONTINUOUS_STATE_COVARIANCE_UNKNOWN
+    assert list(get_continuous_state_covariance(obj)) == measured_covariance
     set_continuous_state_covariance_at(obj, 0, 0, 2.0)
     expected_covariance = defaults.copy()
     expected_covariance[0] = 2.0
@@ -717,3 +719,197 @@ def test_initialization_omits_covariance_and_getters_expose_defaults(message_typ
     assert len(state.continuous_state_covariance) == 0
     assert get_x(obj) == CONTINUOUS_STATE_INIT
     assert list(get_continuous_state_covariance(obj)) == defaults
+
+
+def _image_observation(sensor=7):
+    from perception_msgs.msg import ImageObservation
+    image = ImageObservation()
+    image.header.frame_id = 'camera_optical'
+    image.header.stamp.sec = 10
+    image.sensor_id = sensor
+    image.image_width = 80
+    image.image_height = 60
+    image.bounding_box.size_x = 20.
+    image.bounding_box.size_y = 10.
+    image.roi.width = 24
+    image.roi.height = 12
+    image.crop.header = image.header
+    image.crop.width = 12
+    image.crop.height = 6
+    image.crop.encoding = 'bgr8'
+    image.crop.step = 38
+    image.crop.data = bytes([32]) * (38 * 6)
+    image.mask.header = image.header
+    image.mask.width = 24
+    image.mask.height = 12
+    image.mask.encoding = 'mono8'
+    image.mask.step = 24
+    image.mask.data = bytes([255]) * (24 * 12)
+    return image
+
+
+def test_integrated_image_observations():
+    from perception_msgs.msg import TRAFFICSIGN, ObjectList
+    from perception_msgs_utils import (initialize_state, add_image_observation, get_image_observations,
+                                       has_valid_position, is_image_only, sanity_check_full_state)
+    from rclpy.serialization import serialize_message, deserialize_message
+    for model in (ISCACTR.MODEL_ID, TRAFFICLIGHT.MODEL_ID, TRAFFICSIGN.MODEL_ID):
+        obj = Object()
+        obj.id = 42
+        initialize_state(obj, model)
+        assert not has_valid_position(obj)
+        add_image_observation(obj, _image_observation())
+        assert obj.id == 42 and list(obj.state.sensor_id) == [7]
+        assert is_image_only(obj)
+        sanity_check_full_state(obj)
+        with pytest.raises(ValueError):
+            add_image_observation(obj, _image_observation())
+        add_image_observation(obj, _image_observation(8))
+        assert len(get_image_observations(obj)) == 2
+        image_only = deserialize_message(serialize_message(ObjectList(objects=[obj])), ObjectList)
+        assert is_image_only(image_only.objects[0])
+        set_x(obj, 0.)
+        set_y(obj, 0.)
+        set_z(obj, 0.)
+        assert has_valid_position(obj) and not is_image_only(obj)
+        objects = ObjectList(objects=[obj])
+        restored = deserialize_message(serialize_message(objects), ObjectList)
+        assert restored == objects
+        assert restored.objects[0].state.model_id == model
+
+
+def test_traffic_sign_model_access():
+    from perception_msgs.msg import TRAFFICSIGN
+    from perception_msgs_utils import (get_pose, has_vel_lon, sanity_check_full_state)
+    obj = Object()
+    initialize_state(obj, TRAFFICSIGN.MODEL_ID)
+    assert get_continuous_state_size(obj) == 8 and get_discrete_state_size(obj) == 1
+    set_x(obj, 2.)
+    set_y(obj, 3.)
+    set_z(obj, 4.)
+    set_roll(obj, .1)
+    set_pitch(obj, .2)
+    set_yaw(obj, .3)
+    set_width(obj, .6)
+    set_height(obj, .8)
+    from perception_msgs_utils import get_type, set_type, has_length
+    assert not has_length(TRAFFICSIGN.MODEL_ID)
+    from perception_msgs_utils.state_index import UnknownStateEntryError
+    with pytest.raises(UnknownStateEntryError):
+        get_length(obj)
+    assert get_type(obj) == TRAFFICSIGN.TYPE_UNKNOWN
+    set_type(obj, TRAFFICSIGN.TYPE_STOP)
+    assert get_type(obj) == TRAFFICSIGN.TYPE_STOP
+    from rclpy.serialization import serialize_message, deserialize_message
+    assert get_type(deserialize_message(serialize_message(obj), Object)) == TRAFFICSIGN.TYPE_STOP
+    assert get_pose(obj).position.x == 2. and get_width(obj) == .6
+    assert not has_vel_lon(TRAFFICSIGN.MODEL_ID)
+    sanity_check_full_state(obj)
+
+
+def test_image_observation_validation():
+    from perception_msgs_utils import (sanity_check_image_observation, add_image_observation,
+                                       set_image_observations, sanity_check_full_state)
+    from copy import deepcopy
+    image = _image_observation()
+    for field, value in [('image_width', 0), ('image_height', 0)]:
+        broken = deepcopy(image)
+        setattr(broken, field, value)
+        with pytest.raises(ValueError):
+            sanity_check_image_observation(broken)
+    broken = deepcopy(image)
+    broken.roi.x_offset = 80
+    with pytest.raises(ValueError):
+        sanity_check_image_observation(broken)
+    broken = deepcopy(image)
+    broken.mask.encoding = 'bgr8'
+    with pytest.raises(ValueError):
+        sanity_check_image_observation(broken)
+    broken = deepcopy(image)
+    broken.crop.data.pop()
+    with pytest.raises(ValueError):
+        sanity_check_image_observation(broken)
+    broken = deepcopy(image)
+    broken.crop.header = deepcopy(image.header)
+    broken.crop.header.frame_id = 'map'
+    with pytest.raises(ValueError):
+        sanity_check_image_observation(broken)
+    obj = Object()
+    initialize_state(obj, ISCACTR.MODEL_ID)
+    add_image_observation(obj, image)
+    with pytest.raises(ValueError):
+        set_image_observations(obj, [image, image])
+    assert len(obj.state.image_observations) == 1
+    obj.state.sensor_id = []
+    with pytest.raises(ValueError):
+        sanity_check_full_state(obj)
+
+
+def test_metric_object_retains_state_when_camera_views_are_attached():
+    from perception_msgs_utils import (add_image_observation, has_valid_position,
+                                       is_image_only, sanity_check_full_state)
+    from copy import deepcopy
+    obj = Object(id=55)
+    initialize_state(obj, HEXAMOTION.MODEL_ID)
+    set_x(obj, 1.)
+    set_y(obj, 2.)
+    set_z(obj, 3.)
+    obj.state.sensor_id = [99]
+    before = deepcopy(obj.state.continuous_state)
+    add_image_observation(obj, _image_observation())
+    add_image_observation(obj, _image_observation(8))
+    assert obj.id == 55 and obj.state.continuous_state == before
+    assert list(obj.state.sensor_id) == [99, 7, 8]
+    assert has_valid_position(obj) and not is_image_only(obj)
+    sanity_check_full_state(obj)
+
+
+@pytest.mark.parametrize('fault', ['nan_box', 'zero_box', 'invalid_stamp', 'empty_frame', 'empty_roi', 'bad_stride'])
+def test_invalid_image_geometry_and_payload(fault):
+    from perception_msgs_utils import sanity_check_image_observation
+    image = _image_observation()
+    if fault == 'nan_box':
+        image.bounding_box.size_x = float('nan')
+    elif fault == 'zero_box':
+        image.bounding_box.size_y = 0.
+    elif fault == 'invalid_stamp':
+        image.header.stamp.sec = -1
+    elif fault == 'empty_frame':
+        image.header.frame_id = ''
+    elif fault == 'empty_roi':
+        image.roi.width = 0
+    elif fault == 'bad_stride':
+        image.crop.step = 1
+    with pytest.raises(ValueError):
+        sanity_check_image_observation(image)
+
+
+@pytest.mark.parametrize('model', [ISCACTR.MODEL_ID, HEXAMOTION.MODEL_ID, TRAFFICLIGHT.MODEL_ID])
+def test_covariance_diagonals_define_metric_availability(model):
+    from perception_msgs_utils import has_metric_state, has_valid_position
+    obj = Object(id=42)
+    initialize_state(obj, model)
+    assert not has_metric_state(obj) and not has_valid_position(obj)
+    set_x(obj, 0.)
+    assert has_metric_state(obj) and not has_valid_position(obj)
+    set_y(obj, 0.)
+    set_z(obj, 0.)
+    assert has_valid_position(obj) and obj.id == 42
+    covariance = list(obj.state.continuous_state_covariance)
+    set_x(obj, 2., False)
+    assert list(obj.state.continuous_state_covariance) == covariance
+    z = index_z(model)
+    set_continuous_state_covariance_at(obj, z, z, CONTINUOUS_STATE_COVARIANCE_INVALID)
+    assert not has_valid_position(obj)
+    set_continuous_state_covariance_at(obj, z, z, 0.)
+    assert has_valid_position(obj)
+    set_z(obj, float('nan'))
+    assert not has_valid_position(obj)
+    initialize_state(obj, model)
+    set_x(obj, 5., False)
+    assert not obj.state.continuous_state_covariance and not has_metric_state(obj)
+    n = get_continuous_state_size(obj)
+    set_continuous_state(obj, [0.] * n)
+    assert has_valid_position(obj)
+    assert all(get_continuous_state_covariance_at(obj, i, i) == CONTINUOUS_STATE_COVARIANCE_UNKNOWN
+               for i in range(n))

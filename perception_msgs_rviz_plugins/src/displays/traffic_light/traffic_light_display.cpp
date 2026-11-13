@@ -78,6 +78,8 @@ void TrafficLightDisplay::onDisable() {
 bool TrafficLightDisplay::validateFloats(perception_msgs::msg::ObjectList::ConstSharedPtr msg) {
   bool valid = true;
   for (int i = 0; i < int(msg->objects.size()); i++) {
+    if (msg->objects[i].state.model_id != perception_msgs::msg::TRAFFICLIGHT::MODEL_ID ||
+        !perception_msgs::object_access::hasValidPosition(msg->objects[i])) continue;
     valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getX(msg->objects[i]));
     valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getY(msg->objects[i]));
     valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getZ(msg->objects[i]));
@@ -90,6 +92,8 @@ void TrafficLightDisplay::processMessage(perception_msgs::msg::ObjectList::Const
   // check for supported object model id
   for (size_t i = 0; i < msg->objects.size(); ++i) {
     const auto& obj = msg->objects[i];
+    if (obj.state.model_id == perception_msgs::msg::ISCACTR::MODEL_ID ||
+        obj.state.model_id == perception_msgs::msg::HEXAMOTION::MODEL_ID || obj.state.model_id == perception_msgs::msg::TRAFFICSIGN::MODEL_ID) continue;
     if (obj.state.model_id != perception_msgs::msg::TRAFFICLIGHT::MODEL_ID) {
       const std::string error_msg = "Model ID " + std::to_string(obj.state.model_id) +
                                     " of traffic light " + std::to_string(i) + " is not supported";
@@ -127,6 +131,8 @@ void TrafficLightDisplay::processMessage(perception_msgs::msg::ObjectList::Const
 
   if (msg->objects.size()) {
     for (int i = 0; i < int(msg->objects.size()); i++) {
+      if (msg->objects[i].state.model_id != perception_msgs::msg::TRAFFICLIGHT::MODEL_ID ||
+        !perception_msgs::object_access::hasValidPosition(msg->objects[i])) continue;
       // render object state
       std::unique_ptr<perception_msgs::rendering::TrafficLight> state_ptr =
           std::make_unique<perception_msgs::rendering::TrafficLight>(scene_manager_, scene_node_);

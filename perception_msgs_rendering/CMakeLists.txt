@@ -39,6 +39,7 @@ register_rviz_ogre_media_exports(
 add_library(${PROJECT_NAME} SHARED
   src/rendering/object_state/object_state.cpp
   src/rendering/traffic_light/traffic_light.cpp
+  src/rendering/traffic_sign/traffic_sign.cpp
 )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
