@@ -22,6 +22,7 @@ find_package(rviz_common REQUIRED)
 find_package(rviz_ogre_vendor REQUIRED)
 find_package(rviz_rendering REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
+find_package(Qt5 REQUIRED COMPONENTS Gui)
 
 if(NOT ROS_DISTRO STREQUAL "humble"
     AND NOT ROS_DISTRO STREQUAL "jazzy")
@@ -40,11 +41,13 @@ add_library(${PROJECT_NAME} SHARED
   src/rendering/object_state/object_state.cpp
   src/rendering/traffic_light/traffic_light.cpp
   src/rendering/traffic_sign/traffic_sign.cpp
+  src/rendering/image_observation/image_observation_painter.cpp
 )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
   rviz_ogre_vendor::OgreMain
   rviz_ogre_vendor::OgreOverlay
+  Qt5::Gui
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC

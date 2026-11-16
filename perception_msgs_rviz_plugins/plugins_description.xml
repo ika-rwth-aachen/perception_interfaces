@@ -55,4 +55,15 @@
     <message_type>perception_msgs/msg/EgoData</message_type>
   </class>
 
+  <class
+    name="perception_msgs/ImageObservations"
+    type="perception_msgs::displays::ImageObservationsDisplay"
+    base_class_type="rviz_common::Display"
+  >
+    <description>
+      Displays the 2D image observations (bounding boxes, masks, crops) of perception_msgs/msg/ObjectList objects in their own dockable panel, optionally on top of the matching camera image.
+    </description>
+    <message_type>perception_msgs/msg/ObjectList</message_type>
+  </class>
+
 </library>

@@ -3,7 +3,9 @@
 
 #pragma once
 
+#include <cstdint>
 #include <memory>
+#include <string>
 
 #include <OgreColourValue.h>
 #include "perception_msgs/msg/object_state.hpp"
@@ -18,6 +20,9 @@ class SceneNode;
 
 namespace perception_msgs {
 namespace rendering {
+
+/** @brief Get the label of a semantic traffic-sign type. */
+std::string trafficSignTypeName(uint8_t type);
 
 /** @brief Renders a traffic-sign face or a position marker, with an optional type label. */
 class TrafficSign {

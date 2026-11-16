@@ -827,67 +827,51 @@ void ObjectState::setObjectPredictionProbabilityText(const double& probability,
   scene_node_->attachObject(text_prob.get());
 }
 
-void ObjectState::classToText(const perception_msgs::msg::ObjectClassification& classification, std::string& text) {
-  switch (classification.type) {
+std::string classificationTypeName(uint8_t type) {
+  switch (type) {
     case perception_msgs::msg::ObjectClassification::UNCLASSIFIED:
-      text += "UNCLASSIFIED";
-      break;
+      return "UNCLASSIFIED";
     case perception_msgs::msg::ObjectClassification::PEDESTRIAN:
-      text += "PEDESTRIAN";
-      break;
+      return "PEDESTRIAN";
     case perception_msgs::msg::ObjectClassification::BICYCLE:
-      text += "BICYCLE";
-      break;
+      return "BICYCLE";
     case perception_msgs::msg::ObjectClassification::MOTORCYCLE:
-      text += "MOTORCYCLE";
-      break;
+      return "MOTORCYCLE";
     case perception_msgs::msg::ObjectClassification::CAR:
-      text += "CAR";
-      break;
+      return "CAR";
     case perception_msgs::msg::ObjectClassification::UTILITY:
-      text += "UTILITY";
-      break;
+      return "UTILITY";
     case perception_msgs::msg::ObjectClassification::VAN:
-      text += "VAN (DEPRECATED)";
-      break;
+      return "VAN (DEPRECATED)";
     case perception_msgs::msg::ObjectClassification::BUS:
-      text += "BUS";
-      break;
+      return "BUS";
     case perception_msgs::msg::ObjectClassification::ANIMAL:
-      text += "ANIMAL";
-      break;
+      return "ANIMAL";
     case perception_msgs::msg::ObjectClassification::ROAD_OBSTACLE:
-      text += "ROAD_OBSTACLE (DEPRECATED)";
-      break;
+      return "ROAD_OBSTACLE (DEPRECATED)";
     case perception_msgs::msg::ObjectClassification::TRAIN:
-      text += "TRAIN (DEPRECATED)";
-      break;
+      return "TRAIN (DEPRECATED)";
     case perception_msgs::msg::ObjectClassification::TRAILER:
-      text += "TRAILER (DEPRECATED)";
-      break;
+      return "TRAILER (DEPRECATED)";
     case perception_msgs::msg::ObjectClassification::VRU:
-      text += "VRU";
-      break;
+      return "VRU";
     case perception_msgs::msg::ObjectClassification::MICRO:
-      text += "MICRO";
-      break;
+      return "MICRO";
     case perception_msgs::msg::ObjectClassification::CAR_UNION:
-      text += "CAR_UNION (DEPRECATED)";
-      break;
+      return "CAR_UNION (DEPRECATED)";
     case perception_msgs::msg::ObjectClassification::TRUCK_UNION:
-      text += "TRUCK_UNION (DEPRECATED)";
-      break;
+      return "TRUCK_UNION (DEPRECATED)";
     case perception_msgs::msg::ObjectClassification::BIKE_UNION:
-      text += "BIKE_UNION (DEPRECATED)";
-      break;
+      return "BIKE_UNION (DEPRECATED)";
     case perception_msgs::msg::ObjectClassification::UNKNOWN:
-      text += "UNKNOWN";
-      break;
+      return "UNKNOWN";
     default:
-      text += "TYPE NOT IMPLEMENTED";
-      break;
+      return "TYPE NOT IMPLEMENTED";
   }
-  return;
+}
+
+void ObjectState::classToText(const perception_msgs::msg::ObjectClassification& classification, std::string& text) {
+  text += classificationTypeName(classification.type);
 }
 
 void ObjectState::velocityToText(const perception_msgs::msg::ObjectState& state, std::string& text) {

@@ -138,6 +138,8 @@ The implementation can be found in [tf2_perception_msgs](tf2_perception_msgs). A
 
 This repository provides ROS packages [perception_msgs_rendering](perception_msgs_rendering) and [perception_msgs_rviz_plugins](perception_msgs_rviz_plugins) that, together, allow to visualize [ObjectList.msg](perception_msgs/msg/ObjectList.msg) with the [ISCACTR.msg](perception_msgs/msg/ISCACTR.msg), [HEXAMOTION.msg](perception_msgs/msg/HEXAMOTION.msg), [TRAFFICLIGHT.msg](perception_msgs/msg/TRAFFICLIGHT.msg) and [TRAFFICSIGN.msg](perception_msgs/msg/TRAFFICSIGN.msg) state models and [EgoData.msg](perception_msgs/msg/EgoData.msg) with the [EGO.msg](perception_msgs/msg/EGO.msg) and [EGORWS.msg](perception_msgs/msg/EGORWS.msg) state models in RViz.
 
+The `perception_msgs/ImageObservations` display visualizes [ImageObservation.msg](perception_msgs/msg/ImageObservation.msg) entries from [ObjectList.msg](perception_msgs/msg/ObjectList.msg) in a dockable RViz panel. Bounding boxes, instance masks and labels can be drawn over a matching camera image, observation crops or a blank canvas, including for objects without metric estimates.
+
 To further extend the object list, a workflow for visualizing new meshes has been established:
 
 1. Import new meshes as .stl-files in Blender. (File → Import → Stl)

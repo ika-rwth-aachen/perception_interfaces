@@ -22,7 +22,9 @@ bool measured(const perception_msgs::msg::ObjectState& state, int index) {
   return std::isfinite(state.continuous_state[index]) && std::isfinite(variance) && variance >= 0.;
 }
 
-std::string typeToText(uint8_t type) {
+}  // namespace
+
+std::string trafficSignTypeName(uint8_t type) {
   using Sign = perception_msgs::msg::TRAFFICSIGN;
   switch (type) {
     case Sign::TYPE_UNKNOWN: return "UNKNOWN";
@@ -72,8 +74,6 @@ std::string typeToText(uint8_t type) {
     default: return "Type " + std::to_string(type);
   }
 }
-
-}  // namespace
 
 TrafficSign::TrafficSign(Ogre::SceneManager* scene_manager, Ogre::SceneNode* parent_node)
     : scene_manager_(scene_manager),
@@ -139,7 +139,7 @@ void TrafficSign::setObjectState(const perception_msgs::msg::ObjectState& state)
   }
 
   if (visualize_type_) {
-    text_ = std::make_unique<rviz_rendering::MovableText>(typeToText(getTrafficSignType(state)), "Liberation Sans", 0.2);
+    text_ = std::make_unique<rviz_rendering::MovableText>(trafficSignTypeName(getTrafficSignType(state)), "Liberation Sans", 0.2);
     text_->setColor(color);
     text_->setLocalTranslation(Ogre::Vector3(0., 0., label_height));
     scene_node_->attachObject(text_.get());
