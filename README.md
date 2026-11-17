@@ -156,7 +156,7 @@ Many of the fields in the messages are optional. If you use the messages in this
 
 where the object states should be initialized with [`initializeState()`](perception_msgs_utils/include/perception_msgs_utils/init.hpp) and then filled as much as possible.
 
-Covariance diagonals indicate whether metric components are measured: `INVALID` means absent and `UNKNOWN` means present with unknown uncertainty. Empty covariance storage means all components are unmeasured. Setters mark supplied components `UNKNOWN` by default; pass `reset_covariance=false` to preserve existing covariance. Direct state-vector writers must also supply covariance diagonals.
+Continuous-state components that are not measured are set to NaN (`CONTINUOUS_STATE_UNMEASURED`), e.g. the position of an object that is only observed in an image. Initialize such states with `initializeState(state, model_id, CONTINUOUS_STATE_UNMEASURED)` and set the measured components afterwards. If a covariance is present, an `INVALID` diagonal also marks the component as not measured. Use `isMeasured()` and `hasValidPosition()` to check availability.
 
 
 ## Acknowledgements

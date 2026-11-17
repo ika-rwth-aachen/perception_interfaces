@@ -8,14 +8,14 @@ import numpy as np
 from perception_msgs.msg import ObjectState, EgoData, EGO, EGORWS, Object, ISCACTR, HEXAMOTION, TRAFFICLIGHT, ObjectClassification
 from geometry_msgs.msg import PoseWithCovariance, Vector3, Point
 from perception_msgs_utils.init import initialize_state
-from perception_msgs_utils.constants import CONTINUOUS_STATE_COVARIANCE_UNKNOWN, CONTINUOUS_STATE_COVARIANCE_INVALID, CONTINUOUS_STATE_COVARIANCE_INIT, CONTINUOUS_STATE_INIT
+from perception_msgs_utils.constants import CONTINUOUS_STATE_COVARIANCE_UNKNOWN, CONTINUOUS_STATE_COVARIANCE_INVALID, CONTINUOUS_STATE_COVARIANCE_INIT, CONTINUOUS_STATE_INIT, CONTINUOUS_STATE_UNMEASURED
 from perception_msgs_utils.checks import InvalidStateCovarianceSizeError, sanity_check_continuous_state_covariance
 from perception_msgs_utils.utils import get_continuous_state_size, get_discrete_state_size, get_continuous_state_covariance_size
 from perception_msgs_utils.convenience_state_getters import get_continuous_state_covariance_at, get_continuous_state, get_discrete_state, get_continuous_state_covariance, get_class_with_highest_probability, get_pose_with_covariance, get_velocity, get_acceleration, get_roll_in_deg, get_pitch_in_deg, get_yaw_in_deg, get_velocity_xyz, get_velocity_magnitude, get_acceleration_magnitude, get_velocity_xyz_with_covariance, get_acceleration_xyz_with_covariance, get_acceleration_xyz, get_center_position
 from perception_msgs_utils.convenience_state_setters import set_continuous_state, set_discrete_state, set_continuous_state_covariance, set_continuous_state_covariance_at, set_pose_with_covariance_from_gm_pose_with_covariance, set_velocity_from_gm_vector3, set_acceleration_from_gm_vector3, set_roll_in_deg, set_pitch_in_deg, set_yaw_in_deg, set_velocity_xyz_yaw_from_gm_vector3, set_velocity_xyz_yaw_with_covariance_from_gm_vector3, set_acceleration_xyz_yaw_from_gm_vector3, set_acceleration_xyz_yaw_with_covariance_from_gm_vector3, set_center_position_from_gm_point, set_center_position_from_list
 from perception_msgs_utils.state_setters import set_x, set_y, set_z, set_vel_lon, set_vel_lat, set_acc_lon, set_acc_lat, set_roll, set_pitch, set_yaw, set_yaw_rate, set_steering_angle_ack, set_steering_angle_rate_ack, set_standstill, set_turn_indicator, set_brake_light, set_reverse_light, set_steering_angle_front, set_steering_angle_rear, set_width, set_length, set_height, set_roll_rate, set_pitch_rate, set_state, set_type
 from perception_msgs_utils.state_getters import get_x, get_y, get_z, get_vel_lon, get_vel_lat, get_acc_lon, get_acc_lat, get_roll, get_pitch, get_yaw, get_yaw_rate, get_steering_angle_ack, get_steering_angle_rate_ack, get_standstill, get_turn_indicator, get_brake_light, get_reverse_light, get_steering_angle_front, get_steering_angle_rear, get_width, get_length, get_height, get_roll_rate, get_pitch_rate, get_state, get_type
-from perception_msgs_utils.state_index import index_z, index_vel_lon, index_vel_lat, index_acc_lon, index_acc_lat
+from perception_msgs_utils.state_index import index_x, index_z, index_vel_lon, index_vel_lat, index_acc_lon, index_acc_lat
 
 def random_value():
     return random.uniform(-1, 1)
@@ -655,8 +655,8 @@ def test_empty_covariance_is_valid_and_can_be_populated():
     initialize_state(obj, ISCACTR.MODEL_ID)
     set_continuous_state_covariance(obj, [])
     set_x(obj, 3.0)
-    assert len(obj.state.continuous_state_covariance) != 0
-    assert get_continuous_state_covariance_at(obj, 0, 0) == CONTINUOUS_STATE_COVARIANCE_UNKNOWN
+    assert len(obj.state.continuous_state_covariance) == 0
+    assert get_continuous_state_covariance_at(obj, 0, 0) == CONTINUOUS_STATE_COVARIANCE_INVALID
     assert get_continuous_state_covariance_at(obj, 0, 1) == 0.0
     assert len(get_pose_with_covariance(obj).covariance) == 36
 
@@ -705,10 +705,8 @@ def test_initialization_omits_covariance_and_getters_expose_defaults(message_typ
             assert get_continuous_state_covariance_at(obj, i, j) == expected
     assert len(state.continuous_state_covariance) == 0
     set_x(obj, 4.0)
-    assert len(state.continuous_state_covariance) != 0
-    measured_covariance = defaults.copy()
-    measured_covariance[0] = CONTINUOUS_STATE_COVARIANCE_UNKNOWN
-    assert list(get_continuous_state_covariance(obj)) == measured_covariance
+    assert len(state.continuous_state_covariance) == 0
+    assert list(get_continuous_state_covariance(obj)) == defaults
     set_continuous_state_covariance_at(obj, 0, 0, 2.0)
     expected_covariance = defaults.copy()
     expected_covariance[0] = 2.0
@@ -751,30 +749,31 @@ def _image_observation(sensor=7):
 def test_integrated_image_observations():
     from perception_msgs.msg import TRAFFICSIGN, ObjectList
     from perception_msgs_utils import (initialize_state, add_image_observation, get_image_observations,
-                                       has_valid_position, is_image_only, sanity_check_full_state)
+                                       has_valid_position, sanity_check_full_state)
     from rclpy.serialization import serialize_message, deserialize_message
     for model in (ISCACTR.MODEL_ID, TRAFFICLIGHT.MODEL_ID, TRAFFICSIGN.MODEL_ID):
         obj = Object()
         obj.id = 42
-        initialize_state(obj, model)
+        initialize_state(obj, model, CONTINUOUS_STATE_UNMEASURED)
         assert not has_valid_position(obj)
         add_image_observation(obj, _image_observation())
         assert obj.id == 42 and list(obj.state.sensor_id) == [7]
-        assert is_image_only(obj)
+        assert not has_valid_position(obj)
         sanity_check_full_state(obj)
         with pytest.raises(ValueError):
             add_image_observation(obj, _image_observation())
         add_image_observation(obj, _image_observation(8))
         assert len(get_image_observations(obj)) == 2
         image_only = deserialize_message(serialize_message(ObjectList(objects=[obj])), ObjectList)
-        assert is_image_only(image_only.objects[0])
+        assert not has_valid_position(image_only.objects[0])
         set_x(obj, 0.)
         set_y(obj, 0.)
         set_z(obj, 0.)
-        assert has_valid_position(obj) and not is_image_only(obj)
+        assert has_valid_position(obj)
         objects = ObjectList(objects=[obj])
         restored = deserialize_message(serialize_message(objects), ObjectList)
-        assert restored == objects
+        # NaN != NaN, so compare the exact field representation of the remaining unmeasured components.
+        assert repr(restored) == repr(objects)
         assert restored.objects[0].state.model_id == model
 
 
@@ -846,8 +845,7 @@ def test_image_observation_validation():
 
 
 def test_metric_object_retains_state_when_camera_views_are_attached():
-    from perception_msgs_utils import (add_image_observation, has_valid_position,
-                                       is_image_only, sanity_check_full_state)
+    from perception_msgs_utils import add_image_observation, has_valid_position, sanity_check_full_state
     from copy import deepcopy
     obj = Object(id=55)
     initialize_state(obj, HEXAMOTION.MODEL_ID)
@@ -860,7 +858,7 @@ def test_metric_object_retains_state_when_camera_views_are_attached():
     add_image_observation(obj, _image_observation(8))
     assert obj.id == 55 and obj.state.continuous_state == before
     assert list(obj.state.sensor_id) == [99, 7, 8]
-    assert has_valid_position(obj) and not is_image_only(obj)
+    assert has_valid_position(obj)
     sanity_check_full_state(obj)
 
 
@@ -885,31 +883,31 @@ def test_invalid_image_geometry_and_payload(fault):
 
 
 @pytest.mark.parametrize('model', [ISCACTR.MODEL_ID, HEXAMOTION.MODEL_ID, TRAFFICLIGHT.MODEL_ID])
-def test_covariance_diagonals_define_metric_availability(model):
-    from perception_msgs_utils import has_metric_state, has_valid_position
+def test_nan_marks_unmeasured_components(model):
+    from perception_msgs_utils import has_valid_position, is_measured
     obj = Object(id=42)
+    # Legacy initialization: finite values are measured and covariance stays empty.
     initialize_state(obj, model)
-    assert not has_metric_state(obj) and not has_valid_position(obj)
+    assert has_valid_position(obj) and not obj.state.continuous_state_covariance
+    initialize_state(obj, model, CONTINUOUS_STATE_UNMEASURED)
+    assert not is_measured(obj, index_x(model)) and not has_valid_position(obj)
     set_x(obj, 0.)
-    assert has_metric_state(obj) and not has_valid_position(obj)
+    assert is_measured(obj, index_x(model)) and not has_valid_position(obj)
     set_y(obj, 0.)
     set_z(obj, 0.)
     assert has_valid_position(obj) and obj.id == 42
-    covariance = list(obj.state.continuous_state_covariance)
-    set_x(obj, 2., False)
-    assert list(obj.state.continuous_state_covariance) == covariance
-    z = index_z(model)
-    set_continuous_state_covariance_at(obj, z, z, CONTINUOUS_STATE_COVARIANCE_INVALID)
-    assert not has_valid_position(obj)
-    set_continuous_state_covariance_at(obj, z, z, 0.)
-    assert has_valid_position(obj)
-    set_z(obj, float('nan'))
-    assert not has_valid_position(obj)
-    initialize_state(obj, model)
-    set_x(obj, 5., False)
-    assert not obj.state.continuous_state_covariance and not has_metric_state(obj)
+    assert not obj.state.continuous_state_covariance
+    # With covariance present, an INVALID diagonal also marks a component as unmeasured.
     n = get_continuous_state_size(obj)
-    set_continuous_state(obj, [0.] * n)
+    z = index_z(model)
+    set_continuous_state_covariance(obj, [CONTINUOUS_STATE_COVARIANCE_INIT] * (n * n))
     assert has_valid_position(obj)
-    assert all(get_continuous_state_covariance_at(obj, i, i) == CONTINUOUS_STATE_COVARIANCE_UNKNOWN
-               for i in range(n))
+    set_continuous_state_covariance_at(obj, z, z, CONTINUOUS_STATE_COVARIANCE_INVALID)
+    assert not is_measured(obj, z) and not has_valid_position(obj)
+    set_z(obj, 1.)
+    assert get_continuous_state_covariance_at(obj, z, z) == CONTINUOUS_STATE_COVARIANCE_UNKNOWN
+    assert has_valid_position(obj)
+    set_z(obj, CONTINUOUS_STATE_UNMEASURED)
+    assert not has_valid_position(obj)
+    with pytest.raises(IndexError):
+        is_measured(obj, n)

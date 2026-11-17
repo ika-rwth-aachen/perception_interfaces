@@ -28,14 +28,11 @@ namespace object_access
  *
  * @param state
  * @param val
- * @param reset_covariance Mark supplied components UNKNOWN when true.
  */
-inline void setContinuousState(ObjectState & state, const std::vector<double> & val, const bool reset_covariance = true)
+inline void setContinuousState(ObjectState & state, const std::vector<double> & val)
 {
   state.continuous_state = val;
   sanityCheckContinuousState(state);
-  if (reset_covariance)
-    for (unsigned int i = 0; i < val.size(); ++i) setContinuousStateCovarianceToUnknownAt(state, i, i);
 }
 
 /**
@@ -44,12 +41,11 @@ inline void setContinuousState(ObjectState & state, const std::vector<double> & 
  * @tparam T
  * @param obj
  * @param val
- * @param reset_covariance Mark supplied components UNKNOWN when true.
  */
 template <typename T>
-inline void setContinuousState(T & obj, const std::vector<double> & val, const bool reset_covariance = true)
+inline void setContinuousState(T & obj, const std::vector<double> & val)
 {
-  setContinuousState(obj.state, val, reset_covariance);
+  setContinuousState(obj.state, val);
 }
 
 /**

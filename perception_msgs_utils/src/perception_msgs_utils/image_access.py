@@ -17,7 +17,7 @@ from .state_index import index_x, index_y, index_z, has_x, has_y, has_z
 T = TypeVar('T', bound=Union[Object, ObjectState, EgoData])
 
 __all__ = [
-    'has_valid_position', 'has_metric_state', 'is_image_only',
+    'is_measured', 'has_valid_position',
     'sanity_check_image_observation', 'sanity_check_image_observations',
     'get_image_observations', 'set_image_observations', 'add_image_observation'
 ]
@@ -35,31 +35,26 @@ def _state_size(state: ObjectState) -> int:
     return n
 
 
-def _measured(state: ObjectState, n: int, index: int) -> bool:
-    if not state.continuous_state_covariance:
+def is_measured(obj: T, index: int) -> bool:
+    """Whether a continuous-state component is measured.
+
+    Unmeasured components are NaN (CONTINUOUS_STATE_UNMEASURED). If covariance is present,
+    an INVALID diagonal also marks the component as unmeasured.
+    """
+    state = _state(obj)
+    n = _state_size(state)
+    if not 0 <= index < n:
+        raise IndexError('Continuous state index out of range')
+    if not math.isfinite(state.continuous_state[index]):
         return False
-    variance = state.continuous_state_covariance[n * index + index]
-    return math.isfinite(state.continuous_state[index]) and math.isfinite(variance) and variance >= 0
+    return not state.continuous_state_covariance or state.continuous_state_covariance[n * index + index] >= 0
 
 
 def has_valid_position(obj: T) -> bool:
     """Check if all position components are measured."""
     state = _state(obj)
-    n = _state_size(state)
     return (has_x(state.model_id) and has_y(state.model_id) and has_z(state.model_id)
-            and all(_measured(state, n, index(state.model_id)) for index in (index_x, index_y, index_z)))
-
-
-def has_metric_state(obj: T) -> bool:
-    """Whether any finite continuous-state component has a valid covariance diagonal."""
-    state = _state(obj)
-    n = _state_size(state)
-    return any(_measured(state, n, i) for i in range(n))
-
-
-def is_image_only(obj: T) -> bool:
-    """Whether no continuous-state component is measured."""
-    return not has_metric_state(obj)
+            and all(is_measured(state, index(state.model_id)) for index in (index_x, index_y, index_z)))
 
 
 def _pixel_bytes(encoding: str) -> int:

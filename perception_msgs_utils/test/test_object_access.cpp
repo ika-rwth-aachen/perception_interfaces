@@ -756,8 +756,8 @@ TEST(perception_msgs_utils, empty_covariance_is_valid_and_can_be_populated) {
   EXPECT_NO_THROW(sanityCheckContinuousStateCovariance(state));
 
   setX(state, 3.0);
-  EXPECT_FALSE(state.continuous_state_covariance.empty());
-  EXPECT_DOUBLE_EQ(getContinuousStateCovarianceAt(state, 0, 0), CONTINUOUS_STATE_COVARIANCE_UNKNOWN);
+  EXPECT_TRUE(state.continuous_state_covariance.empty());
+  EXPECT_DOUBLE_EQ(getContinuousStateCovarianceAt(state, 0, 0), CONTINUOUS_STATE_COVARIANCE_INVALID);
   EXPECT_DOUBLE_EQ(getContinuousStateCovarianceAt(state, 0, 1), 0.0);
   EXPECT_EQ(getPoseWithCovariance(state).covariance.size(), 36u);
 
@@ -807,10 +807,8 @@ TEST(perception_msgs_utils, initialization_omits_covariance_and_getters_expose_d
     }
     EXPECT_TRUE(state.continuous_state_covariance.empty());
     setX(state, 4.0);
-    EXPECT_FALSE(state.continuous_state_covariance.empty());
-    auto measured_covariance = defaults;
-    measured_covariance[0] = CONTINUOUS_STATE_COVARIANCE_UNKNOWN;
-    EXPECT_EQ(getContinuousStateCovariance(state), measured_covariance);
+    EXPECT_TRUE(state.continuous_state_covariance.empty());
+    EXPECT_EQ(getContinuousStateCovariance(state), defaults);
     setContinuousStateCovarianceAt(state, 0, 0, 2.0);
     auto expected_covariance = defaults;
     expected_covariance[0] = 2.0;
@@ -871,12 +869,12 @@ TEST(perception_msgs, image_observations_across_models) {
   for (const auto model : {ISCACTR::MODEL_ID, TRAFFICLIGHT::MODEL_ID, TRAFFICSIGN::MODEL_ID}) {
     Object object;
     object.id = 42;
-    initializeState(object, model);
+    initializeState(object, model, CONTINUOUS_STATE_UNMEASURED);
     EXPECT_FALSE(hasValidPosition(object));
     addImageObservation(object, makeImageObservation());
     EXPECT_EQ(object.id, 42u);
     EXPECT_EQ(object.state.sensor_id, std::vector<uint64_t>{7});
-    EXPECT_TRUE(isImageOnly(object));
+    EXPECT_FALSE(hasValidPosition(object));
     EXPECT_NO_THROW(sanityCheckFullState(object));
     EXPECT_THROW(addImageObservation(object, makeImageObservation()), std::invalid_argument);
     addImageObservation(object, makeImageObservation(8));
@@ -884,7 +882,6 @@ TEST(perception_msgs, image_observations_across_models) {
     setPosition(object, std::array<double, 3>{0., 0., 0.});
     EXPECT_TRUE(hasValidPosition(object));
      // A measured origin is valid.
-    EXPECT_FALSE(isImageOnly(object));
     EXPECT_EQ(getImageObservations(object).front().crop.data.size(), 228u);
     EXPECT_EQ(getImageObservations(object).front().header.frame_id, "camera_optical");
   }
@@ -941,40 +938,40 @@ TEST(perception_msgs, invalid_image_observations) {
   EXPECT_THROW(sanityCheckFullState(object), std::invalid_argument);
 }
 
-TEST(perception_msgs_utils, covariance_diagonals_define_metric_availability) {
+TEST(perception_msgs_utils, nan_marks_unmeasured_components) {
   using namespace perception_msgs::object_access;
   for (const auto model : {ISCACTR::MODEL_ID, HEXAMOTION::MODEL_ID, TRAFFICLIGHT::MODEL_ID, TRAFFICSIGN::MODEL_ID}) {
     Object object;
     object.id = 42;
+    // Legacy initialization: finite values are measured and covariance stays empty.
     initializeState(object, model);
-    EXPECT_FALSE(hasMetricState(object));
+    EXPECT_TRUE(hasValidPosition(object));
+    EXPECT_TRUE(object.state.continuous_state_covariance.empty());
+    initializeState(object, model, CONTINUOUS_STATE_UNMEASURED);
+    EXPECT_FALSE(isMeasured(object, indexX(model)));
     EXPECT_FALSE(hasValidPosition(object));
     setX(object, 0.);
-    EXPECT_TRUE(hasMetricState(object));
+    EXPECT_TRUE(isMeasured(object, indexX(model)));
     EXPECT_FALSE(hasValidPosition(object));
     setY(object, 0.);
     setZ(object, 0.);
     EXPECT_TRUE(hasValidPosition(object));
+    EXPECT_TRUE(object.state.continuous_state_covariance.empty());
     EXPECT_EQ(object.id, 42u);
-    const auto covariance = object.state.continuous_state_covariance;
-    setX(object, 2., false);
-    EXPECT_EQ(object.state.continuous_state_covariance, covariance);
+    // With covariance present, an INVALID diagonal also marks a component as unmeasured.
     const int n = getContinuousStateSize(object);
     const int z = indexZ(model);
+    setContinuousStateCovariance(object, std::vector<double>(n * n, CONTINUOUS_STATE_COVARIANCE_INIT));
+    EXPECT_TRUE(hasValidPosition(object));
     setContinuousStateCovarianceAt(object, z, z, CONTINUOUS_STATE_COVARIANCE_INVALID);
+    EXPECT_FALSE(isMeasured(object, z));
     EXPECT_FALSE(hasValidPosition(object));
-    setContinuousStateCovarianceAt(object, z, z, 0.);
+    setZ(object, 1.);
+    EXPECT_EQ(getContinuousStateCovarianceAt(object, z, z), CONTINUOUS_STATE_COVARIANCE_UNKNOWN);
     EXPECT_TRUE(hasValidPosition(object));
-    setZ(object, std::numeric_limits<double>::quiet_NaN());
+    setZ(object, CONTINUOUS_STATE_UNMEASURED);
     EXPECT_FALSE(hasValidPosition(object));
-    initializeState(object, model);
-    setX(object, 5., false);
-    EXPECT_TRUE(object.state.continuous_state_covariance.empty());
-    EXPECT_FALSE(hasMetricState(object));
-    setContinuousState(object, std::vector<double>(n, 0.));
-    EXPECT_TRUE(hasValidPosition(object));
-    for (int i = 0; i < n; ++i)
-      EXPECT_EQ(getContinuousStateCovarianceAt(object, i, i), CONTINUOUS_STATE_COVARIANCE_UNKNOWN);
+    EXPECT_THROW(isMeasured(object, n), std::out_of_range);
   }
 }
 

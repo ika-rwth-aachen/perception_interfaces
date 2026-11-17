@@ -15,14 +15,6 @@
 
 namespace perception_msgs {
 namespace rendering {
-namespace {
-
-bool measured(const perception_msgs::msg::ObjectState& state, int index) {
-  const double variance = object_access::getContinuousStateCovarianceAt(state, index, index);
-  return std::isfinite(state.continuous_state[index]) && std::isfinite(variance) && variance >= 0.;
-}
-
-}  // namespace
 
 std::string trafficSignTypeName(uint8_t type) {
   using Sign = perception_msgs::msg::TRAFFICSIGN;
@@ -101,7 +93,7 @@ void TrafficSign::setObjectState(const perception_msgs::msg::ObjectState& state)
   marker_.reset();
   if (!hasValidPosition(state)) return;
 
-  const bool oriented = measured(state, Sign::ROLL) && measured(state, Sign::PITCH) && measured(state, Sign::YAW);
+  const bool oriented = isMeasured(state, Sign::ROLL) && isMeasured(state, Sign::PITCH) && isMeasured(state, Sign::YAW);
   const auto pose = getPose(state);
   Ogre::Vector3 position(pose.position.x, pose.position.y, pose.position.z);
   Ogre::Quaternion orientation = Ogre::Quaternion::IDENTITY;
@@ -115,7 +107,7 @@ void TrafficSign::setObjectState(const perception_msgs::msg::ObjectState& state)
   scene_node_->setPosition(position);
   scene_node_->setOrientation(orientation);
 
-  const bool face_geometry = oriented && measured(state, Sign::WIDTH) && measured(state, Sign::HEIGHT) &&
+  const bool face_geometry = oriented && isMeasured(state, Sign::WIDTH) && isMeasured(state, Sign::HEIGHT) &&
                              getWidth(state) > 0. && getHeight(state) > 0.;
   const Ogre::ColourValue color(1., 1., 1., 1.);
   double label_height = 0.3;

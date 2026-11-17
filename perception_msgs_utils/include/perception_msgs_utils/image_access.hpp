@@ -73,27 +73,37 @@ namespace object_access {
       return n;
     }
 
-    /**
-     * @brief Check a finite component and its covariance diagonal.
-     */
-    inline bool measured(const ObjectState& state, int n, int index) {
-      if (state.continuous_state_covariance.empty()) return false;
-      const double variance = state.continuous_state_covariance[n * index + index];
-      return std::isfinite(state.continuous_state[index]) && std::isfinite(variance) && variance >= 0.0;
-    }
   }  // namespace image_detail
 
   // --- metric availability ---------------------------------------------------
 
   /**
+   * @brief Whether a continuous-state component is measured.
+   * Unmeasured components are NaN (CONTINUOUS_STATE_UNMEASURED). If covariance is present,
+   * an INVALID diagonal also marks the component as unmeasured.
+   */
+  inline bool isMeasured(const ObjectState& state, const int index) {
+    const int n = image_detail::stateSize(state);
+    if (index < 0 || index >= n) throw std::out_of_range("Continuous state index out of range");
+    if (!std::isfinite(state.continuous_state[index])) return false;
+    return state.continuous_state_covariance.empty() || state.continuous_state_covariance[n * index + index] >= 0.0;
+  }
+
+  /**
+   * @brief Whether a continuous-state component of an object is measured.
+   */
+  template <typename T>
+  inline bool isMeasured(const T& object, const int index) {
+    return isMeasured(object.state, index);
+  }
+
+  /**
    * @brief Check if all position components are measured.
    */
   inline bool hasValidPosition(const ObjectState& state) {
-    const int n = image_detail::stateSize(state);
     return hasX(state.model_id) && hasY(state.model_id) && hasZ(state.model_id) &&
-           image_detail::measured(state, n, indexX(state.model_id)) &&
-           image_detail::measured(state, n, indexY(state.model_id)) &&
-           image_detail::measured(state, n, indexZ(state.model_id));
+           isMeasured(state, indexX(state.model_id)) && isMeasured(state, indexY(state.model_id)) &&
+           isMeasured(state, indexZ(state.model_id));
   }
 
   /**
@@ -102,37 +112,6 @@ namespace object_access {
   template <typename T>
   inline bool hasValidPosition(const T& object) {
     return hasValidPosition(object.state);
-  }
-
-  /**
-   * @brief Whether any finite continuous-state component has a valid covariance diagonal.
-   */
-  inline bool hasMetricState(const ObjectState& state) {
-    const int n = image_detail::stateSize(state);
-    for (int i = 0; i < n; ++i)
-      if (image_detail::measured(state, n, i)) return true;
-    return false;
-  }
-
-  /**
-   * @brief Whether an object has any measured metric estimate.
-   */
-  template <typename T>
-  inline bool hasMetricState(const T& object) {
-    return hasMetricState(object.state);
-  }
-
-  /**
-   * @brief Whether no continuous-state component is measured.
-   */
-  inline bool isImageOnly(const ObjectState& state) { return !hasMetricState(state); }
-
-  /**
-   * @brief Whether an object has no measured continuous-state component.
-   */
-  template <typename T>
-  inline bool isImageOnly(const T& object) {
-    return isImageOnly(object.state);
   }
 
   // --- image checks ----------------------------------------------------------

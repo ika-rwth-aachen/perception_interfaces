@@ -236,7 +236,7 @@ def test_doTransform_Object_EGORWS():
 
 
 
-def test_omitted_covariance_does_not_imply_a_measured_prediction():
+def test_transform_prediction_without_covariance():
     obj = Object()
     initialize_state(obj, ISCACTR.MODEL_ID)
     set_continuous_state_covariance_diagonal(obj, [0.1] * get_continuous_state_size(obj))
@@ -253,7 +253,7 @@ def test_omitted_covariance_does_not_imply_a_measured_prediction():
 
     assert math.isclose(get_x(transformed.state), 11.0, abs_tol=EPS)
     assert transformed.state.continuous_state_covariance
-    assert math.isclose(get_x(transformed.state_predictions[0].states[0]), 1.0, abs_tol=EPS)
+    assert math.isclose(get_x(transformed.state_predictions[0].states[0]), 11.0, abs_tol=EPS)
     assert len(transformed.state_predictions[0].states[0].continuous_state_covariance) == 0
 
 
@@ -284,11 +284,11 @@ def test_transform_ego_trajectories_with_optional_covariance(model):
         assert len(trajectory) == 2
         assert len(trajectory[0].continuous_state_covariance) == 0
         assert len(trajectory[1].continuous_state_covariance) == len(ego.state.continuous_state_covariance)
-        for i, state in enumerate(trajectory):
+        for state in trajectory:
             assert state.header.frame_id == "map"
-            assert get_x(state) == pytest.approx(1.0 if i == 0 else 9.0)
-            assert get_y(state) == pytest.approx(2.0 if i == 0 else 18.0)
-            assert abs(get_yaw(state)) == pytest.approx(0.0 if i == 0 else math.pi)
+            assert get_x(state) == pytest.approx(9.0)
+            assert get_y(state) == pytest.approx(18.0)
+            assert abs(get_yaw(state)) == pytest.approx(math.pi)
             assert get_vel_lon(state) == pytest.approx(4.0)
         assert get_continuous_state_covariance_diagonal(trajectory[0])[0] == CONTINUOUS_STATE_COVARIANCE_INVALID
         assert get_continuous_state_covariance_diagonal(trajectory[1])[0] == pytest.approx(0.1)
@@ -409,10 +409,16 @@ def test_nested_states_preserve_markers_under_three_axis_rotation():
 
 
 
+def _fields(msg):
+    # NaN != NaN, so compare messages with unmeasured components by their exact field representation.
+    return repr(msg)
+
+
 def test_transform_preserves_image_coordinates_and_unmeasured_position():
     from copy import deepcopy
     from perception_msgs.msg import ImageObservation, TRAFFICSIGN
-    from perception_msgs_utils import initialize_state, add_image_observation, has_valid_position, is_image_only
+    from perception_msgs_utils import initialize_state, add_image_observation, has_valid_position
+    from perception_msgs_utils.constants import CONTINUOUS_STATE_UNMEASURED
     from perception_msgs_utils.state_setters import set_x, set_y, set_z
     from tf2_perception_msgs.tf2_perception_msgs import do_transform_state
     image = ImageObservation()
@@ -425,7 +431,7 @@ def test_transform_preserves_image_coordinates_and_unmeasured_position():
     image.bounding_box.size_y = 10.
     for model in (ISCACTR.MODEL_ID, TRAFFICSIGN.MODEL_ID):
         obj = Object()
-        initialize_state(obj, model)
+        initialize_state(obj, model, CONTINUOUS_STATE_UNMEASURED)
         obj.state.header = image.header  # Include shared Python header references.
         add_image_observation(obj, image)
         original = deepcopy(obj.state)
@@ -436,10 +442,10 @@ def test_transform_preserves_image_coordinates_and_unmeasured_position():
         transform.transform.translation.x = 5.
         transform.transform.rotation.w = 1.
         transformed = do_transform_state(obj.state, transform)
-        assert is_image_only(transformed) and not has_valid_position(transformed)
-        assert transformed.continuous_state == original.continuous_state
+        assert not has_valid_position(transformed)
+        assert not any(math.isfinite(value) for value in transformed.continuous_state)
         assert transformed.image_observations == original.image_observations
-        assert obj.state == original
+        assert _fields(obj.state) == _fields(original)
         set_x(obj, 2.)
         set_y(obj, 3.)
         set_z(obj, 4.)
@@ -450,30 +456,33 @@ def test_transform_preserves_image_coordinates_and_unmeasured_position():
         assert transformed.image_observations[0].header.frame_id == 'camera_optical'
 
 
-def test_partial_position_stays_partial_under_rotation():
+@pytest.mark.parametrize('with_covariance', [False, True])
+def test_partial_position_is_not_turned_into_a_measured_position(with_covariance):
     from perception_msgs.msg import TRAFFICSIGN
-    from perception_msgs_utils import set_x, has_valid_position, index_y, index_z, get_continuous_state_covariance_at
+    from perception_msgs_utils import set_x, has_valid_position
+    from perception_msgs_utils.constants import CONTINUOUS_STATE_UNMEASURED
     state = ObjectState()
-    initialize_state(state, TRAFFICSIGN.MODEL_ID)
+    initialize_state(state, TRAFFICSIGN.MODEL_ID, CONTINUOUS_STATE_UNMEASURED)
+    if with_covariance:
+        set_continuous_state_covariance_diagonal(state, [0.1] * get_continuous_state_size(state))
     set_x(state, 2.)
     transform = TransformStamped()
     transform.header.frame_id = 'map'
     transform.transform.rotation.z = math.sin(math.pi / 4)
     transform.transform.rotation.w = math.cos(math.pi / 4)
     transformed = do_transform_state(state, transform)
+    # Unmeasured components propagate through the rotation instead of being read as zeros.
     assert not has_valid_position(transformed)
-    assert get_continuous_state_covariance_at(transformed, index_x(state.model_id), index_x(state.model_id)) == CONTINUOUS_STATE_COVARIANCE_INVALID
-    assert get_continuous_state_covariance_at(transformed, index_y(state.model_id), index_y(state.model_id)) == CONTINUOUS_STATE_COVARIANCE_UNKNOWN
-    assert get_continuous_state_covariance_at(transformed, index_z(state.model_id), index_z(state.model_id)) == CONTINUOUS_STATE_COVARIANCE_INVALID
-    assert get_y(transformed) == pytest.approx(2.)
+    assert not any(math.isfinite(value) for value in (get_x(transformed), get_y(transformed), get_z(transformed)))
 
 
 @pytest.mark.parametrize('metric', [False, True])
 def test_transform_shares_pixels_and_copies_metric_state(metric):
     from perception_msgs.msg import ImageObservation, TRAFFICSIGN
     from perception_msgs_utils import add_image_observation, set_x, set_y, set_z
+    from perception_msgs_utils.constants import CONTINUOUS_STATE_UNMEASURED
     state = ObjectState()
-    initialize_state(state, TRAFFICSIGN.MODEL_ID)
+    initialize_state(state, TRAFFICSIGN.MODEL_ID, CONTINUOUS_STATE_UNMEASURED)
     image = ImageObservation()
     image.header.frame_id = 'camera_optical'
     image.header.stamp.sec = 10
@@ -504,7 +513,7 @@ def test_transform_shares_pixels_and_copies_metric_state(metric):
     transform.transform.translation.x = 5.
     transform.transform.rotation.w = 1.
     transformed = do_transform_state(state, transform)
-    assert state == original
+    assert _fields(state) == _fields(original)
     assert transformed.header is not state.header
     assert transformed.header.frame_id == 'map'
     assert transformed.continuous_state is not state.continuous_state
@@ -515,10 +524,10 @@ def test_transform_shares_pixels_and_copies_metric_state(metric):
     assert transformed.image_observations[0].crop.data is image.crop.data
     assert transformed.image_observations[0].mask.data is image.mask.data
     assert image.header.frame_id == 'camera_optical' and image.header.stamp.sec == 10
-    assert get_x(transformed) == (7. if metric else 0.)
+    assert (get_x(transformed) == 7.) if metric else math.isnan(get_x(transformed))
     transformed.continuous_state[0] = 123.
     transformed.image_observations.clear()
-    assert state == original
+    assert _fields(state) == _fields(original)
 
 
 if __name__ == "__main__":

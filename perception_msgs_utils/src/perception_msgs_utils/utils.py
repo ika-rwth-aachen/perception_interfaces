@@ -16,8 +16,7 @@ from .constants import (
     HEXAMOTION_MODEL_ID, HEXAMOTION_CONTINUOUS_STATE_SIZE, HEXAMOTION_DISCRETE_STATE_SIZE,
     TRAFFICLIGHT_MODEL_ID, TRAFFICLIGHT_CONTINUOUS_STATE_SIZE, TRAFFICLIGHT_DISCRETE_STATE_SIZE,
     TRAFFICSIGN_MODEL_ID, TRAFFICSIGN_CONTINUOUS_STATE_SIZE, TRAFFICSIGN_DISCRETE_STATE_SIZE,
-    CONTINUOUS_STATE_COVARIANCE_UNKNOWN, CONTINUOUS_STATE_COVARIANCE_INVALID,
-    CONTINUOUS_STATE_COVARIANCE_INIT
+    CONTINUOUS_STATE_COVARIANCE_UNKNOWN
 )
 
 T = TypeVar('T', bound=Union[Object, ObjectState, EgoData])
@@ -119,7 +118,7 @@ def get_continuous_state_covariance_size(obj: Union[T, int]) -> int:
 def set_continuous_state_covariance_to_unknown_at(obj: T, i: int, j: int) -> None:
     """Set the continuous state covariance to unknown at position (i,j).
 
-    Allocate INVALID diagonals on first use, then mark the supplied entry UNKNOWN.
+    Empty storage remains empty; per-component validity markers are not recorded.
     
     Args:
         obj: Object or ObjectState instance
@@ -127,15 +126,7 @@ def set_continuous_state_covariance_to_unknown_at(obj: T, i: int, j: int) -> Non
         j: Column index
     """
     state = obj if isinstance(obj, ObjectState) else obj.state
-    n = get_continuous_state_size(state.model_id)
-    if not (0 <= i < n and 0 <= j < n):
-        raise IndexError('Covariance coordinates out of range')
-    if len(state.continuous_state) != n or (state.continuous_state_covariance and
-                                           len(state.continuous_state_covariance) != n * n):
-        raise ValueError('Invalid state storage for covariance update')
     if not state.continuous_state_covariance:
-        covariance = [CONTINUOUS_STATE_COVARIANCE_INIT] * (n * n)
-        for k in range(n):
-            covariance[n * k + k] = CONTINUOUS_STATE_COVARIANCE_INVALID
-        state.continuous_state_covariance = covariance
+        return
+    n = get_continuous_state_size(state)
     state.continuous_state_covariance[n * i + j] = CONTINUOUS_STATE_COVARIANCE_UNKNOWN 
