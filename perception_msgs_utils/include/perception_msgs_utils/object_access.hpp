@@ -19,8 +19,10 @@
 #include <perception_msgs/msg/object.hpp>
 #include <perception_msgs/msg/object_classification.hpp>
 #include <perception_msgs/msg/object_list.hpp>
+#include <perception_msgs/msg/object_list_with_evidence.hpp>
 #include <perception_msgs/msg/object_reference_point.hpp>
 #include <perception_msgs/msg/object_state.hpp>
+#include <perception_msgs/msg/object_with_evidence.hpp>
 
 // State Models
 #include <perception_msgs/msg/ego.hpp>
@@ -28,6 +30,7 @@
 #include <perception_msgs/msg/iscactr.hpp>
 #include <perception_msgs/msg/hexamotion.hpp>
 #include <perception_msgs/msg/trafficlight.hpp>
+#include <perception_msgs/msg/trafficsign.hpp>
 
 namespace perception_msgs {
     namespace gm = geometry_msgs::msg;
@@ -38,6 +41,7 @@ namespace perception_msgs {
 #include <perception_msgs_utils/constants.hpp>
 #include <perception_msgs_utils/convenience_state_getters.hpp>
 #include <perception_msgs_utils/convenience_state_setters.hpp>
+#include <perception_msgs_utils/evidence_access.hpp>
 #include <perception_msgs_utils/init.hpp>
 #include <perception_msgs_utils/state_getters.hpp>
 #include <perception_msgs_utils/state_index.hpp>
