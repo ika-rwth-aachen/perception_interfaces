@@ -508,3 +508,40 @@ def get_class_with_highest_probability(obj: T) -> ObjectClassification:
         if classification.probability > class_with_highest_probability.probability:
             class_with_highest_probability = classification
     return class_with_highest_probability
+
+# --- measurement availability ------------------------------------------------
+
+def is_measured(obj: T, index: int) -> bool:
+    """
+    Check if a continuous state component is measured.
+
+    A component is unmeasured if it is NaN (CONTINUOUS_STATE_UNMEASURED) or its covariance diagonal is INVALID.
+
+    Args:
+        obj: The object to check.
+        index: The continuous state index.
+
+    Returns:
+        Whether the component is measured.
+    """
+    state = obj if isinstance(obj, ObjectState) else obj.state
+    sanity_check_continuous_state(state)
+    sanity_check_continuous_state_covariance(state)
+    if not math.isfinite(state.continuous_state[index]):
+        return False
+    n = get_continuous_state_size(state)
+    return not state.continuous_state_covariance or state.continuous_state_covariance[n * index + index] >= 0
+
+def has_valid_position(obj: T) -> bool:
+    """
+    Check if all position components are measured.
+
+    Args:
+        obj: The object to check.
+
+    Returns:
+        Whether the position is measured.
+    """
+    state = obj if isinstance(obj, ObjectState) else obj.state
+    return (has_x(state.model_id) and has_y(state.model_id) and has_z(state.model_id)
+            and all(is_measured(state, index(state.model_id)) for index in (index_x, index_y, index_z)))
