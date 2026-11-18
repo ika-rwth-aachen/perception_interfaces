@@ -9,6 +9,7 @@
 #include <perception_msgs/msg/ego_data.hpp>
 #include <perception_msgs/msg/object_list.hpp>
 #include <perception_msgs/msg/object.hpp>
+#include <perception_msgs/msg/object_list_with_evidence.hpp>
 #include <perception_msgs_utils/object_access.hpp>
 #include <tf2/convert.hpp>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
@@ -85,6 +86,25 @@ namespace tf2 {
   }
 
   template <>
+  inline void doTransform(const ObjectWithEvidence& obj_in, ObjectWithEvidence& obj_out,
+                          const gm::TransformStamped& transform) {
+    obj_out = obj_in;
+    doTransform(obj_in.object, obj_out.object, transform);
+  }
+
+  template <>
+  inline void doTransform(const ObjectListWithEvidence& obj_list_in, ObjectListWithEvidence& obj_list_out,
+                          const gm::TransformStamped& transform) {
+    obj_list_out = obj_list_in;
+    obj_list_out.header.stamp = transform.header.stamp;
+    obj_list_out.header.frame_id = transform.header.frame_id;
+
+    for (size_t i = 0; i < obj_list_in.objects.size(); i++) {
+      doTransform(obj_list_in.objects[i].object, obj_list_out.objects[i].object, transform);
+    }
+  }
+
+  template <>
   inline void doTransform(const EgoData& ego_in, EgoData& ego_out, const gm::TransformStamped& transform) {
 
     ego_out = ego_in;
@@ -118,6 +138,16 @@ namespace tf2 {
     return t;
   }
   template <>
+  inline tf2::TimePoint getTimestamp(const ObjectWithEvidence& obj) {
+    tf2::TimePoint t = tf2_perception_msgs::stampToTime(obj.object.state.header.stamp);
+    return t;
+  }
+  template <>
+  inline tf2::TimePoint getTimestamp(const ObjectListWithEvidence& obj_list) {
+    tf2::TimePoint t = tf2_perception_msgs::stampToTime(obj_list.header.stamp);
+    return t;
+  }
+  template <>
   inline tf2::TimePoint getTimestamp(const EgoData& ego) {
     tf2::TimePoint t = tf2_perception_msgs::stampToTime(ego.header.stamp);
     return t;
@@ -133,6 +163,14 @@ namespace tf2 {
   }
   template <>
   inline std::string getFrameId(const ObjectList& obj_list) {
+    return obj_list.header.frame_id;
+  }
+  template <>
+  inline std::string getFrameId(const ObjectWithEvidence& obj) {
+    return obj.object.state.header.frame_id;
+  }
+  template <>
+  inline std::string getFrameId(const ObjectListWithEvidence& obj_list) {
     return obj_list.header.frame_id;
   }
   template <>

@@ -434,6 +434,32 @@ TEST(tf2_perception_msgs, transforms_ego_trajectories_with_optional_covariance) 
 }
 
 
+TEST(tf2_perception_msgs, test_doTransform_ObjectListWithEvidence) {
+  ObjectListWithEvidence list, list_tf;
+  list.header.frame_id = "base_link";
+  ObjectWithEvidence measured, unmeasured;
+  initializeState(measured.object, ISCACTR::MODEL_ID);
+  setX(measured.object, 1.0);
+  initializeState(unmeasured.object, TRAFFICSIGN::MODEL_ID, CONTINUOUS_STATE_UNMEASURED);
+  Evidence evidence;
+  evidence.header.frame_id = "camera";
+  evidence.image.resize(1);
+  measured.evidence.push_back(evidence);
+  list.objects = {measured, unmeasured};
+
+  gm::TransformStamped tf;
+  tf.header.frame_id = "map";
+  tf.transform.translation.x = 5.0;
+  tf.transform.rotation.w = 1.0;
+  tf2::doTransform(list, list_tf, tf);
+
+  EXPECT_EQ(list_tf.header.frame_id, "map");
+  EXPECT_NEAR(getX(list_tf.objects[0].object), 6.0, EPS);
+  EXPECT_EQ(list_tf.objects[0].object.state.header.frame_id, "map");
+  EXPECT_EQ(list_tf.objects[0].evidence, measured.evidence);
+  EXPECT_FALSE(hasValidPosition(list_tf.objects[1].object));
+}
+
 int main(int argc, char *argv[]) {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

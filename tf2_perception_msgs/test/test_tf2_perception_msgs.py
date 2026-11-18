@@ -407,5 +407,39 @@ def test_nested_states_preserve_markers_under_three_axis_rotation():
         assert all(math.isfinite(value) for value in covariance)
 
 
+
+@pytest.mark.parametrize('with_covariance', [False, True])
+def test_transform_object_list_with_evidence(with_covariance):
+    from perception_msgs.msg import Evidence, ImageEvidence, ObjectListWithEvidence, ObjectWithEvidence, TRAFFICSIGN
+    from perception_msgs_utils.constants import CONTINUOUS_STATE_UNMEASURED
+    from perception_msgs_utils.convenience_state_getters import has_valid_position
+    from perception_msgs_utils.state_setters import set_x
+    from tf2_perception_msgs import do_transform_object_list_with_evidence
+    measured, unmeasured = ObjectWithEvidence(), ObjectWithEvidence()
+    initialize_state(measured.object, ISCACTR.MODEL_ID)
+    set_x(measured.object, 1.)
+    initialize_state(unmeasured.object, TRAFFICSIGN.MODEL_ID, CONTINUOUS_STATE_UNMEASURED)
+    if with_covariance:
+        set_continuous_state_covariance_diagonal(unmeasured.object, [0.1] * get_continuous_state_size(unmeasured.object))
+    evidence = Evidence(image=[ImageEvidence()])
+    evidence.header.frame_id = 'camera'
+    measured.evidence.append(evidence)
+    object_list = ObjectListWithEvidence(objects=[measured, unmeasured])
+    object_list.header.frame_id = 'base_link'
+
+    transform = TransformStamped()
+    transform.header.frame_id = 'map'
+    transform.transform.translation.x = 5.
+    transform.transform.rotation.z = math.sin(math.pi / 4)
+    transform.transform.rotation.w = math.cos(math.pi / 4)
+    transformed = do_transform_object_list_with_evidence(object_list, transform)
+
+    assert transformed.header.frame_id == 'map'
+    assert get_x(transformed.objects[0].object) == pytest.approx(5.)
+    assert get_y(transformed.objects[0].object) == pytest.approx(1.)
+    assert transformed.objects[0].evidence[0].header.frame_id == 'camera'
+    assert not has_valid_position(transformed.objects[1].object)
+    assert math.isnan(get_yaw(transformed.objects[1].object))
+
 if __name__ == "__main__":
     pytest.main()
