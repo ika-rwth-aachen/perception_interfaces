@@ -6,13 +6,14 @@ std_msgs/Header header
 #   ISCACTR:       16
 #   HEXAMOTION:    17
 #   TRAFFICLIGHT:  20
+#   TRAFFICSIGN:   21
 uint8 model_id
 
 # IDs of the sensors having measured this state
 # In case of a fused object, this vector will have multiple entries
 uint64[] sensor_id
 
-# continuous state vector (N)
+# continuous state vector (N); NaN marks a component as not measured
 float64[] continuous_state
 
 # discrete state vector (M) for discrete int/bool/string quantitites
