@@ -23,10 +23,12 @@ namespace object_access {
    *
    * @param state
    * @param model_id
+   * @param continuous_state_init Pass CONTINUOUS_STATE_UNMEASURED (NaN) for states without metric estimate.
    */
-  inline void initializeState(ObjectState& state, const unsigned char& model_id) {
+  inline void initializeState(ObjectState& state, const unsigned char& model_id,
+                              const double continuous_state_init = CONTINUOUS_STATE_INIT) {
     state.model_id = model_id;
-    setContinuousState(state, std::vector<double>(getContinuousStateSize(model_id), CONTINUOUS_STATE_INIT));
+    setContinuousState(state, std::vector<double>(getContinuousStateSize(model_id), continuous_state_init));
     setDiscreteState(state, std::vector<long int>(getDiscreteStateSize(model_id), DISCRETE_STATE_INIT));
     state.continuous_state_covariance.clear();
   }
@@ -37,10 +39,12 @@ namespace object_access {
    * @tparam T
    * @param obj
    * @param model_id
+   * @param continuous_state_init
    */
   template <typename T>
-  inline void initializeState(T& obj, const unsigned char& model_id) {
-    initializeState(obj.state, model_id);
+  inline void initializeState(T& obj, const unsigned char& model_id,
+                              const double continuous_state_init = CONTINUOUS_STATE_INIT) {
+    initializeState(obj.state, model_id, continuous_state_init);
   }
 
 } // namespace object_access
