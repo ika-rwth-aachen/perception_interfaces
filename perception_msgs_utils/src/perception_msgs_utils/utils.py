@@ -8,7 +8,7 @@ This module provides utility functions for working with object states.
 """
 
 from typing import TypeVar, Union
-from perception_msgs.msg import ObjectState, Object, EgoData
+from perception_msgs.msg import BOX2D, ObjectState, Object, EgoData
 from .constants import (
     EGO_MODEL_ID, EGO_CONTINUOUS_STATE_SIZE, EGO_DISCRETE_STATE_SIZE,
     EGORWS_MODEL_ID, EGORWS_CONTINUOUS_STATE_SIZE, EGORWS_DISCRETE_STATE_SIZE,
@@ -42,7 +42,9 @@ def get_continuous_state_size(obj: Union[T, int]) -> int:
         return len(state.continuous_state)
     elif isinstance(obj, int):
         model_id = obj
-        if model_id == EGO_MODEL_ID:
+        if model_id == BOX2D.MODEL_ID:
+            return BOX2D.CONTINUOUS_STATE_SIZE
+        elif model_id == EGO_MODEL_ID:
             return EGO_CONTINUOUS_STATE_SIZE
         elif model_id == EGORWS_MODEL_ID:
             return EGORWS_CONTINUOUS_STATE_SIZE
@@ -76,7 +78,9 @@ def get_discrete_state_size(obj: Union[T, int]) -> int:
         return len(state.discrete_state)
     elif isinstance(obj, int):
         model_id = obj
-        if model_id == EGO_MODEL_ID:
+        if model_id == BOX2D.MODEL_ID:
+            return BOX2D.DISCRETE_STATE_SIZE
+        elif model_id == EGO_MODEL_ID:
             return EGO_DISCRETE_STATE_SIZE
         elif model_id == EGORWS_MODEL_ID:
             return EGORWS_DISCRETE_STATE_SIZE

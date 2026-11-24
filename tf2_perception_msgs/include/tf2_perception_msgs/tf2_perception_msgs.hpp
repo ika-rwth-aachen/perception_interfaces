@@ -32,6 +32,8 @@ namespace tf2 {
 
   template <>
   inline void doTransform(const ObjectState& state_in, ObjectState& state_out, const gm::TransformStamped& transform) {
+    if (state_in.model_id == BOX2D::MODEL_ID)
+      throw std::invalid_argument("BOX2D pixels cannot undergo a metric TF transform");
     state_out = state_in;
     state_out.header.stamp = transform.header.stamp;
     state_out.header.frame_id = transform.header.frame_id;

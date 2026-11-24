@@ -464,3 +464,14 @@ int main(int argc, char *argv[]) {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
+
+TEST(tf2_perception_msgs, reject_pixel_transform) {
+  ObjectState state, output;
+  initializeState(state, BOX2D::MODEL_ID);
+  state.header.frame_id = "camera_optical";
+  gm::TransformStamped transform;
+  transform.header.frame_id = "map";
+  transform.transform.rotation.w = 1.0;
+  EXPECT_THROW(tf2::doTransform(state, output, transform), std::invalid_argument);
+  EXPECT_EQ(state.header.frame_id, "camera_optical");
+}

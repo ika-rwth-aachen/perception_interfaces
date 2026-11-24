@@ -24,6 +24,10 @@
 #include <perception_msgs/msg/object_state.hpp>
 #include <perception_msgs/msg/object_with_evidence.hpp>
 
+#include <perception_msgs/msg/box2_d.hpp>
+#include <perception_msgs/msg/object_class_taxonomy.hpp>
+#include <perception_msgs/msg/object_list_with_observation.hpp>
+
 // State Models
 #include <perception_msgs/msg/ego.hpp>
 #include <perception_msgs/msg/egorws.hpp>
@@ -47,3 +51,5 @@ namespace perception_msgs {
 #include <perception_msgs_utils/state_index.hpp>
 #include <perception_msgs_utils/state_setters.hpp>
 #include <perception_msgs_utils/utils.hpp>
+
+#include <perception_msgs_utils/observation_access.hpp>

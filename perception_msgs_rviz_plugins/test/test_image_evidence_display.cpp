@@ -300,6 +300,20 @@ TEST_F(ImageEvidenceDisplayTest, RoadUserClassLabelsAndProbabilitiesArePreserved
   EXPECT_EQ(color(car), rendering::defaultClassificationColor(msg::ObjectClassification::CAR));
 }
 
+TEST_F(ImageEvidenceDisplayTest, ObservationProjectionShowsCompoundTaxonomyAndSemanticConfidence) {
+  auto source = makeObject();
+  auto observed = object_access::toImageObservation(source);
+  msg::ObjectClassification classification;
+  classification.type = msg::ObjectClassTaxonomy::TRAFFIC_LIGHT_RED_RIGHT_STRAIGHT;
+  classification.probability = .93;
+  observed.object.state.classifications = {classification};
+  auto canvas = object_access::toLegacyImage(observed, msg::HEXAMOTION::MODEL_ID);
+  EXPECT_EQ(label(canvas), "42 traffic_light_red_right_straight 0.93");
+  receiveObjects({canvas});
+  EXPECT_EQ(select(std::string("left")).size(), 1u);
+  EXPECT_TRUE(render());
+}
+
 }  // namespace displays
 }  // namespace perception_msgs
 

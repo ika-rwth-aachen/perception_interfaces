@@ -443,3 +443,15 @@ def test_transform_object_list_with_evidence(with_covariance):
 
 if __name__ == "__main__":
     pytest.main()
+
+
+def test_reject_pixel_transform_before_modifying_header():
+    from perception_msgs.msg import BOX2D
+    state = ObjectState()
+    initialize_state(state, BOX2D.MODEL_ID)
+    state.header.frame_id = "camera_optical"
+    transform = TransformStamped()
+    transform.header.frame_id = "map"
+    with pytest.raises(ValueError):
+        do_transform_state(state, transform)
+    assert state.header.frame_id == "camera_optical"

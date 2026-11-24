@@ -16,6 +16,14 @@ ament_export_dependencies(
 )
 
 set(msg_files
+    "msg/BOX2D.msg"
+    "msg/ObjectClassTaxonomy.msg"
+    "msg/ImageObservation.msg"
+    "msg/PointCloudObservation.msg"
+    "msg/Observation.msg"
+    "msg/ObjectWithObservation.msg"
+    "msg/ObjectListWithObservation.msg"
+
     "msg/EgoData.msg"
     "msg/Evidence.msg"
     "msg/ImageEvidence.msg"

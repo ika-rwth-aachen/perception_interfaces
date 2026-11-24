@@ -331,6 +331,8 @@ QColor defaultClassificationColor(uint8_t type) {
 }
 
 QString objectClassName(const perception_msgs::msg::ObjectState& state) {
+  const auto semantic = object_access::taxonomyLabel(object_access::bestClass(state));
+  if (!semantic.empty()) return QString::fromStdString(semantic);
   using Sign = perception_msgs::msg::TRAFFICSIGN;
   using Light = perception_msgs::msg::TRAFFICLIGHT;
   if (state.model_id == Sign::MODEL_ID) {

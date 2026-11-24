@@ -5,7 +5,7 @@ import math
 
 from geometry_msgs.msg import TransformStamped, PoseStamped, PoseWithCovarianceStamped, Quaternion
 
-from perception_msgs.msg import ObjectState, Object, ObjectList, EgoData, ObjectWithEvidence, ObjectListWithEvidence
+from perception_msgs.msg import BOX2D, ObjectState, Object, ObjectList, EgoData, ObjectWithEvidence, ObjectListWithEvidence
 from perception_msgs_utils.convenience_state_getters import get_pose, get_pose_with_covariance
 from perception_msgs_utils.convenience_state_setters import set_pose_from_gm_pose, set_pose_with_covariance_from_gm_pose_with_covariance
 from perception_msgs_utils.covariance_transform import transform_pose_with_covariance
@@ -57,6 +57,8 @@ def do_transform_state(
     :param transform: The transform which will be applied to the object state
     :returns: The transformed object state
     """
+    if state.model_id == BOX2D.MODEL_ID:
+        raise ValueError("BOX2D pixels cannot undergo a metric TF transform")
     state_out = state
     state_out.header.stamp = transform.header.stamp
     state_out.header.frame_id = transform.header.frame_id

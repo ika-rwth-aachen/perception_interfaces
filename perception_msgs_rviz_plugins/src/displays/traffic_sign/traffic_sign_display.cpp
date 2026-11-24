@@ -74,6 +74,29 @@ bool TrafficSignDisplay::validateFloats(perception_msgs::msg::ObjectList::ConstS
 }
 
 void TrafficSignDisplay::processMessage(perception_msgs::msg::ObjectList::ConstSharedPtr msg) {
+  // Preserve the legacy renderer while accepting generic geometry with taxonomy
+  // semantics.
+  auto projected = std::make_shared<perception_msgs::msg::ObjectList>();
+  projected->header = msg->header;
+  for (const auto &object : msg->objects) {
+    try {
+      if (object.state.model_id == perception_msgs::msg::HEXAMOTION::MODEL_ID &&
+          perception_msgs::object_access::isTrafficSignClass(
+              perception_msgs::object_access::bestClass(object.state)))
+        projected->objects.push_back(
+            perception_msgs::object_access::toLegacyMetricSign(object));
+      else if (object.state.model_id ==
+               perception_msgs::msg::TRAFFICSIGN::MODEL_ID)
+        projected->objects.push_back(object);
+    } catch (const std::exception &error) {
+      setStatus(rviz_common::properties::StatusProperty::Error, "Topic",
+                QString::fromUtf8(error.what()));
+      return;
+    }
+  }
+  msg = projected;
+
+
 
   if (is_reset.load()) {
     return;

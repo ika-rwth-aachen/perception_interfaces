@@ -51,6 +51,8 @@ namespace object_access {
    */
   inline int getContinuousStateSize(const unsigned char& model_id) {
     switch(model_id) {
+      case BOX2D::MODEL_ID:
+        return BOX2D::CONTINUOUS_STATE_SIZE;
       case EGO::MODEL_ID:
         return EGO::CONTINUOUS_STATE_SIZE;
       case EGORWS::MODEL_ID:
@@ -98,6 +100,8 @@ namespace object_access {
    */
   inline int getDiscreteStateSize(const unsigned char& model_id) {
     switch(model_id) {
+      case BOX2D::MODEL_ID:
+        return BOX2D::DISCRETE_STATE_SIZE;
       case EGO::MODEL_ID:
         return EGO::DISCRETE_STATE_SIZE;
       case EGORWS::MODEL_ID:

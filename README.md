@@ -1,5 +1,8 @@
 # Perception Interfaces
 
+The additive [object observation API](OBSERVATIONS.md) separates 2D/3D geometry,
+classification taxonomy and sensor payloads while preserving existing interfaces.
+
 <p align="left">
   <img src="./assets/teaser.png" alt="Teaser" align="right" height="200" />
   This repository provides a set of ROS 2 packages with common messages and tools relating to the perception task in automated driving and C-ITS. The perception task here refers to both environment perception and self perception.

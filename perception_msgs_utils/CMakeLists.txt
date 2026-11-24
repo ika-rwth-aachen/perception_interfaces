@@ -12,6 +12,7 @@ ament_python_install_package(${PROJECT_NAME}
     PACKAGE_DIR src/${PROJECT_NAME})
 
 add_library(${PROJECT_NAME} INTERFACE)
+target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_17)
 
 target_include_directories(${PROJECT_NAME} INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -61,10 +62,13 @@ if(BUILD_TESTING)
         sensor_msgs
         tf2_geometry_msgs
     )
+    ament_add_gtest(test_observation_access_cpp test/test_observation_access.cpp)
+    target_link_libraries(test_observation_access_cpp ${PROJECT_NAME})
     # Python tests
     find_package(ament_cmake_pytest REQUIRED)
     set(_pytest_tests
         test/test_object_access.py
+        test/test_observation_access.py
     )
     foreach(_test_path ${_pytest_tests})
         get_filename_component(_test_name ${_test_path} NAME_WE)

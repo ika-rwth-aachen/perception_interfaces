@@ -43,6 +43,7 @@ foreach(header "${display_headers_to_moc}")
 endforeach()
 
 set(display_source_files
+  src/displays/image_evidence/image_observation_display.cpp
   src/displays/object_list/object_list_display.cpp
   src/displays/ego_data/ego_data_display.cpp
   src/displays/ego_data_overlay/ego_data_overlay_display.cpp
