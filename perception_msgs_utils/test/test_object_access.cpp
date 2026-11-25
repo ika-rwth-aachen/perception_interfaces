@@ -445,36 +445,6 @@ TEST(perception_msgs, test_set_get_HEXAMOTION)
   EXPECT_EQ(HEXAMOTION::LIGHT_ON, getReverseLight(obj));
 }
 
-TEST(perception_msgs, test_set_get_TRAFFICLIGHT)
-{
-  Object obj;
-  initializeState(obj, TRAFFICLIGHT::MODEL_ID);
-
-  double val;
-
-  // set/getX
-  val = randomValue();
-  setX(obj, val);
-  EXPECT_DOUBLE_EQ(val, getX(obj));
-
-  // set/getY
-  val = randomValue();
-  setY(obj, val);
-  EXPECT_DOUBLE_EQ(val, getY(obj));
-
-  // set/getZ
-  val = randomValue();
-  setZ(obj, val);
-  EXPECT_DOUBLE_EQ(val, getZ(obj));
-
-  // set/getTrafficLightState
-  setTrafficLightState(obj, TRAFFICLIGHT::STATE_RED);
-  EXPECT_EQ(TRAFFICLIGHT::STATE_RED, getTrafficLightState(obj));
-
-  // set/getTrafficLightType
-  setTrafficLightType(obj, TRAFFICLIGHT::TYPE_STRAIGHT);
-  EXPECT_EQ(TRAFFICLIGHT::TYPE_STRAIGHT, getTrafficLightType(obj));
-}
 
 TEST(perception_msgs, test_convenience_set_get)
 {
@@ -835,7 +805,7 @@ TEST(perception_msgs_utils, initialization_omits_covariance_and_getters_expose_d
 
 
 TEST(perception_msgs_utils, unmeasured_components) {
-  for (const auto model : {ISCACTR::MODEL_ID, HEXAMOTION::MODEL_ID, TRAFFICLIGHT::MODEL_ID}) {
+  for (const auto model : {ISCACTR::MODEL_ID, HEXAMOTION::MODEL_ID}) {
     ObjectState state;
     initializeState(state, model);
     EXPECT_TRUE(hasValidPosition(state));

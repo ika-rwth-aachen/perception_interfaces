@@ -15,7 +15,6 @@ ament_export_dependencies(
 
 set(msg_files
     "msg/BOX2D.msg"
-    "msg/ObjectClassTaxonomy.msg"
     "msg/ImageObservation.msg"
     "msg/PointCloudObservation.msg"
     "msg/Observation.msg"
@@ -33,7 +32,6 @@ set(msg_files
     "msg/EGORWS.msg"
     "msg/ISCACTR.msg"
     "msg/HEXAMOTION.msg"
-    "msg/TRAFFICLIGHT.msg"
 )
 
 rosidl_generate_interfaces(${PROJECT_NAME}

@@ -75,3 +75,15 @@ TEST(Observation, CloudRequiresMetricGeometryAndValidFieldLayout) {
   cloud.fields.push_back(field);
   EXPECT_THROW(sanityCheckObjectObservation(input), std::invalid_argument);
 }
+
+TEST(Observation, SemanticClassesAreIndependentOfGeometryModels) {
+  auto object = imageObject().object;
+  ObjectClassification classification;
+  classification.type = ObjectClassification::TRAFFIC_LIGHT_GREEN;
+  classification.probability = .9;
+  object.state.classifications = {classification};
+  EXPECT_EQ(getClassWithHighestProbability(object).type, ObjectClassification::TRAFFIC_LIGHT_GREEN);
+  EXPECT_EQ(object.state.model_id, BOX2D::MODEL_ID);
+  EXPECT_THROW(initializeState(object, uint8_t{20}), std::invalid_argument);
+  EXPECT_THROW(initializeState(object, uint8_t{21}), std::invalid_argument);
+}

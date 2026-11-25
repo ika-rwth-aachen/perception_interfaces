@@ -1,127 +1,128 @@
 #pragma once
 #include <cstdint>
-#include <perception_msgs/msg/object_class_taxonomy.hpp>
+#include <perception_msgs/msg/object_classification.hpp>
 #include <string>
 namespace perception_msgs::object_access {
+using perception_msgs::msg::ObjectClassification;
 inline std::string taxonomyLabel(uint8_t id) {
   switch (id) {
-  case 101:
+  case ObjectClassification::TRAFFIC_LIGHT:
     return "traffic_light";
-  case 102:
+  case ObjectClassification::TRAFFIC_LIGHT_UNKNOWN:
     return "traffic_light_unknown";
-  case 103:
+  case ObjectClassification::TRAFFIC_LIGHT_OFF:
     return "traffic_light_off";
-  case 104:
+  case ObjectClassification::TRAFFIC_LIGHT_RED:
     return "traffic_light_red";
-  case 105:
+  case ObjectClassification::TRAFFIC_LIGHT_YELLOW:
     return "traffic_light_yellow";
-  case 106:
+  case ObjectClassification::TRAFFIC_LIGHT_GREEN:
     return "traffic_light_green";
-  case 107:
+  case ObjectClassification::TRAFFIC_LIGHT_RED_YELLOW:
     return "traffic_light_red_yellow";
-  case 108:
+  case ObjectClassification::TRAFFIC_LIGHT_LEFT_RED:
     return "traffic_light_left_red";
-  case 109:
+  case ObjectClassification::TRAFFIC_LIGHT_LEFT_RED_STRAIGHT:
     return "traffic_light_left_red_straight";
-  case 110:
+  case ObjectClassification::TRAFFIC_LIGHT_RED_RIGHT:
     return "traffic_light_red_right";
-  case 111:
+  case ObjectClassification::TRAFFIC_LIGHT_RED_STRAIGHT:
     return "traffic_light_red_straight";
-  case 112:
+  case ObjectClassification::TRAFFIC_LIGHT_RED_UP_LEFT:
     return "traffic_light_red_up_left";
-  case 113:
+  case ObjectClassification::TRAFFIC_LIGHT_RED_RIGHT_STRAIGHT:
     return "traffic_light_red_right_straight";
-  case 114:
+  case ObjectClassification::TRAFFIC_LIGHT_RED_UP_RIGHT:
     return "traffic_light_red_up_right";
-  case 128:
+  case ObjectClassification::TRAFFIC_SIGN:
     return "traffic_sign";
-  case 129:
+  case ObjectClassification::TRAFFIC_SIGN_UNKNOWN:
     return "traffic_sign_unknown";
-  case 130:
+  case ObjectClassification::TRAFFIC_SIGN_STOP:
     return "traffic_sign_stop";
-  case 131:
+  case ObjectClassification::TRAFFIC_SIGN_GIVE_WAY:
     return "traffic_sign_give_way";
-  case 132:
+  case ObjectClassification::TRAFFIC_SIGN_PRIORITY_ROAD:
     return "traffic_sign_priority_road";
-  case 133:
+  case ObjectClassification::TRAFFIC_SIGN_PRIORITY_AT_NEXT_INTERSECTION:
     return "traffic_sign_priority_at_next_intersection";
-  case 134:
+  case ObjectClassification::TRAFFIC_SIGN_NO_ENTRY:
     return "traffic_sign_no_entry";
-  case 135:
+  case ObjectClassification::TRAFFIC_SIGN_NO_VEHICLES:
     return "traffic_sign_no_vehicles";
-  case 136:
+  case ObjectClassification::TRAFFIC_SIGN_NO_GOODS_VEHICLES_OVER_3_5_T:
     return "traffic_sign_no_goods_vehicles_over_3_5_t";
-  case 137:
+  case ObjectClassification::TRAFFIC_SIGN_NO_OVERTAKING:
     return "traffic_sign_no_overtaking";
-  case 138:
+  case ObjectClassification::TRAFFIC_SIGN_NO_OVERTAKING_GOODS_VEHICLES:
     return "traffic_sign_no_overtaking_goods_vehicles";
-  case 139:
+  case ObjectClassification::TRAFFIC_SIGN_END_NO_OVERTAKING:
     return "traffic_sign_end_no_overtaking";
-  case 140:
+  case ObjectClassification::TRAFFIC_SIGN_END_NO_OVERTAKING_GOODS_VEHICLES:
     return "traffic_sign_end_no_overtaking_goods_vehicles";
-  case 141:
+  case ObjectClassification::TRAFFIC_SIGN_END_ALL_SPEED_AND_OVERTAKING_RESTRICTIONS:
     return "traffic_sign_end_all_speed_and_overtaking_restrictions";
-  case 142:
+  case ObjectClassification::TRAFFIC_SIGN_SPEED_LIMIT_20_KMH:
     return "traffic_sign_speed_limit_20_kmh";
-  case 143:
+  case ObjectClassification::TRAFFIC_SIGN_SPEED_LIMIT_30_KMH:
     return "traffic_sign_speed_limit_30_kmh";
-  case 144:
+  case ObjectClassification::TRAFFIC_SIGN_SPEED_LIMIT_50_KMH:
     return "traffic_sign_speed_limit_50_kmh";
-  case 145:
+  case ObjectClassification::TRAFFIC_SIGN_SPEED_LIMIT_60_KMH:
     return "traffic_sign_speed_limit_60_kmh";
-  case 146:
+  case ObjectClassification::TRAFFIC_SIGN_SPEED_LIMIT_70_KMH:
     return "traffic_sign_speed_limit_70_kmh";
-  case 147:
+  case ObjectClassification::TRAFFIC_SIGN_SPEED_LIMIT_80_KMH:
     return "traffic_sign_speed_limit_80_kmh";
-  case 148:
+  case ObjectClassification::TRAFFIC_SIGN_SPEED_LIMIT_100_KMH:
     return "traffic_sign_speed_limit_100_kmh";
-  case 149:
+  case ObjectClassification::TRAFFIC_SIGN_SPEED_LIMIT_120_KMH:
     return "traffic_sign_speed_limit_120_kmh";
-  case 150:
+  case ObjectClassification::TRAFFIC_SIGN_END_SPEED_LIMIT_80_KMH:
     return "traffic_sign_end_speed_limit_80_kmh";
-  case 151:
+  case ObjectClassification::TRAFFIC_SIGN_DANGER:
     return "traffic_sign_danger";
-  case 152:
+  case ObjectClassification::TRAFFIC_SIGN_CURVE_LEFT:
     return "traffic_sign_curve_left";
-  case 153:
+  case ObjectClassification::TRAFFIC_SIGN_CURVE_RIGHT:
     return "traffic_sign_curve_right";
-  case 154:
+  case ObjectClassification::TRAFFIC_SIGN_DOUBLE_CURVE_FIRST_LEFT:
     return "traffic_sign_double_curve_first_left";
-  case 155:
+  case ObjectClassification::TRAFFIC_SIGN_UNEVEN_ROAD:
     return "traffic_sign_uneven_road";
-  case 156:
+  case ObjectClassification::TRAFFIC_SIGN_SLIPPERY_ROAD:
     return "traffic_sign_slippery_road";
-  case 157:
+  case ObjectClassification::TRAFFIC_SIGN_ROAD_NARROWS_RIGHT:
     return "traffic_sign_road_narrows_right";
-  case 158:
+  case ObjectClassification::TRAFFIC_SIGN_ROAD_WORKS:
     return "traffic_sign_road_works";
-  case 159:
+  case ObjectClassification::TRAFFIC_SIGN_TRAFFIC_SIGNALS:
     return "traffic_sign_traffic_signals";
-  case 160:
+  case ObjectClassification::TRAFFIC_SIGN_PEDESTRIANS:
     return "traffic_sign_pedestrians";
-  case 161:
+  case ObjectClassification::TRAFFIC_SIGN_CHILDREN:
     return "traffic_sign_children";
-  case 162:
+  case ObjectClassification::TRAFFIC_SIGN_CYCLISTS:
     return "traffic_sign_cyclists";
-  case 163:
+  case ObjectClassification::TRAFFIC_SIGN_ICE_OR_SNOW:
     return "traffic_sign_ice_or_snow";
-  case 164:
+  case ObjectClassification::TRAFFIC_SIGN_WILD_ANIMALS:
     return "traffic_sign_wild_animals";
-  case 165:
+  case ObjectClassification::TRAFFIC_SIGN_TURN_RIGHT:
     return "traffic_sign_turn_right";
-  case 166:
+  case ObjectClassification::TRAFFIC_SIGN_TURN_LEFT:
     return "traffic_sign_turn_left";
-  case 167:
+  case ObjectClassification::TRAFFIC_SIGN_STRAIGHT_AHEAD:
     return "traffic_sign_straight_ahead";
-  case 168:
+  case ObjectClassification::TRAFFIC_SIGN_STRAIGHT_OR_RIGHT:
     return "traffic_sign_straight_or_right";
-  case 169:
+  case ObjectClassification::TRAFFIC_SIGN_STRAIGHT_OR_LEFT:
     return "traffic_sign_straight_or_left";
-  case 170:
+  case ObjectClassification::TRAFFIC_SIGN_KEEP_RIGHT:
     return "traffic_sign_keep_right";
-  case 171:
+  case ObjectClassification::TRAFFIC_SIGN_KEEP_LEFT:
     return "traffic_sign_keep_left";
-  case 172:
+  case ObjectClassification::TRAFFIC_SIGN_ROUNDABOUT:
     return "traffic_sign_roundabout";
   default:
     return "";
@@ -129,40 +130,40 @@ inline std::string taxonomyLabel(uint8_t id) {
 }
 inline uint8_t trafficLightClass(const std::string &label) {
   if (label == "green")
-    return 106;
+    return ObjectClassification::TRAFFIC_LIGHT_GREEN;
   if (label == "left,red")
-    return 108;
+    return ObjectClassification::TRAFFIC_LIGHT_LEFT_RED;
   if (label == "left,red,straight")
-    return 109;
+    return ObjectClassification::TRAFFIC_LIGHT_LEFT_RED_STRAIGHT;
   if (label == "red")
-    return 104;
+    return ObjectClassification::TRAFFIC_LIGHT_RED;
   if (label == "red,right")
-    return 110;
+    return ObjectClassification::TRAFFIC_LIGHT_RED_RIGHT;
   if (label == "red,straight")
-    return 111;
+    return ObjectClassification::TRAFFIC_LIGHT_RED_STRAIGHT;
   if (label == "unknown")
-    return 102;
+    return ObjectClassification::TRAFFIC_LIGHT_UNKNOWN;
   if (label == "yellow")
-    return 105;
+    return ObjectClassification::TRAFFIC_LIGHT_YELLOW;
   if (label == "red,up_left")
-    return 112;
+    return ObjectClassification::TRAFFIC_LIGHT_RED_UP_LEFT;
   if (label == "red,right,straight")
-    return 113;
+    return ObjectClassification::TRAFFIC_LIGHT_RED_RIGHT_STRAIGHT;
   if (label == "red,up_right")
-    return 114;
+    return ObjectClassification::TRAFFIC_LIGHT_RED_UP_RIGHT;
   if (label == "off")
-    return 103;
+    return ObjectClassification::TRAFFIC_LIGHT_OFF;
   if (label == "red,yellow")
-    return 107;
-  return 102;
+    return ObjectClassification::TRAFFIC_LIGHT_RED_YELLOW;
+  return ObjectClassification::TRAFFIC_LIGHT_UNKNOWN;
 }
-inline bool isTrafficLightClass(uint8_t id) { return id >= 101 && id <= 114; }
-inline bool isTrafficSignClass(uint8_t id) { return id >= 128 && id <= 172; }
+inline bool isTrafficLightClass(uint8_t id) { return id >= ObjectClassification::TRAFFIC_LIGHT && id <= ObjectClassification::TRAFFIC_LIGHT_RED_UP_RIGHT; }
+inline bool isTrafficSignClass(uint8_t id) { return id >= ObjectClassification::TRAFFIC_SIGN && id <= ObjectClassification::TRAFFIC_SIGN_ROUNDABOUT; }
 inline uint8_t trafficLightColor(uint8_t id) {
-  if (id == 106) return 4;
-  if (id == 105) return 3;
-  if (id == 107) return 2;
-  if (id == 103) return 255;
-  return id == 104 || (id >= 108 && id <= 114) ? 1 : 0;
+  if (id == ObjectClassification::TRAFFIC_LIGHT_GREEN) return 4;
+  if (id == ObjectClassification::TRAFFIC_LIGHT_YELLOW) return 3;
+  if (id == ObjectClassification::TRAFFIC_LIGHT_RED_YELLOW) return 2;
+  if (id == ObjectClassification::TRAFFIC_LIGHT_OFF) return 255;
+  return id == ObjectClassification::TRAFFIC_LIGHT_RED || (id >= ObjectClassification::TRAFFIC_LIGHT_LEFT_RED && id <= ObjectClassification::TRAFFIC_LIGHT_RED_UP_RIGHT) ? 1 : 0;
 }
 } // namespace perception_msgs::object_access

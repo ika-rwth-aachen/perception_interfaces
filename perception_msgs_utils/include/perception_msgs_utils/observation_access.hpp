@@ -13,8 +13,7 @@ namespace perception_msgs::object_access {
 
 inline bool isMetricModel(uint8_t id) {
   return id == EGO::MODEL_ID || id == EGORWS::MODEL_ID ||
-         id == ISCACTR::MODEL_ID || id == HEXAMOTION::MODEL_ID ||
-         id == TRAFFICLIGHT::MODEL_ID;
+         id == ISCACTR::MODEL_ID || id == HEXAMOTION::MODEL_ID;
 }
 
 inline void sanityCheckBox2D(const ObjectState &state) {

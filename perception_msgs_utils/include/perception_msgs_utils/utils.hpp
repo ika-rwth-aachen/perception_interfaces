@@ -61,8 +61,6 @@ namespace object_access {
         return ISCACTR::CONTINUOUS_STATE_SIZE;
       case HEXAMOTION::MODEL_ID:
         return HEXAMOTION::CONTINUOUS_STATE_SIZE;
-      case TRAFFICLIGHT::MODEL_ID:
-        return TRAFFICLIGHT::CONTINUOUS_STATE_SIZE;
       default:
         throw std::invalid_argument(kExceptionUnknownModel + std::to_string(model_id));
     }
@@ -108,8 +106,6 @@ namespace object_access {
         return ISCACTR::DISCRETE_STATE_SIZE;
       case HEXAMOTION::MODEL_ID:
         return HEXAMOTION::DISCRETE_STATE_SIZE;
-      case TRAFFICLIGHT::MODEL_ID:
-        return TRAFFICLIGHT::DISCRETE_STATE_SIZE;
       default:
         throw std::invalid_argument(kExceptionUnknownModel + std::to_string(model_id));
     }

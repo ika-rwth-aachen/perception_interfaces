@@ -5,7 +5,6 @@ std_msgs/Header header
 #   EGORWS:        2
 #   ISCACTR:       16
 #   HEXAMOTION:    17
-#   TRAFFICLIGHT:  20
 #   BOX2D:         22
 uint8 model_id
 

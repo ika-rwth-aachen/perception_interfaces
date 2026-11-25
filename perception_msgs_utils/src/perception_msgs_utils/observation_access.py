@@ -95,7 +95,7 @@ def sanity_check_object_observation(entry):
         _check_pixels(observation.image[0].mask, state, True)
         return
     if (
-        state.model_id not in (1, 2, 16, 17, 20)
+        state.model_id not in (1, 2, 16, 17)
         or len(state.continuous_state) != get_continuous_state_size(state.model_id)
         or len(state.discrete_state) != get_discrete_state_size(state.model_id)
         or len(state.sensor_id) != 1

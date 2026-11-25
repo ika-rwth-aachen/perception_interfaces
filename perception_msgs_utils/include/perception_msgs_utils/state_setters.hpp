@@ -662,55 +662,6 @@ namespace object_access {
     setReverseLight(obj.state, val);
   }
 
-  /**
-   * @brief Set the traffic light state for a given object state.
-   *
-   * @param state
-   * @param val
-  */
-  inline void setTrafficLightState(ObjectState& state, const uint8_t val) {
-    sanityCheckDiscreteState(state);
-    const int idx = indexTrafficLightState(state.model_id);
-    state.discrete_state[idx] = val;
-  }
-
-  /**
-   * @brief Set the traffic light state for a given template object that contains an object state.
-   *
-   * @tparam T
-   *
-   * @param obj
-   * @param val
-  */
-  template <typename T>
-  inline void setTrafficLightState(T& obj, const uint8_t val) {
-    setTrafficLightState(obj.state, val);
-  }
-
-  /**
-   * @brief Set the traffic light type for a given object state.
-   *
-   * @param state
-   * @param val
-  */
-  inline void setTrafficLightType(ObjectState& state, const uint8_t val) {
-    sanityCheckDiscreteState(state);
-    const int idx = indexTrafficLightType(state.model_id);
-    state.discrete_state[idx] = val;
-  }
-
-  /**
-   * @brief Set the traffic light type for a given template object that contains an object state.
-   *
-   * @tparam T
-   *
-   * @param obj
-   * @param val
-  */
-  template <typename T>
-  inline void setTrafficLightType(T& obj, const uint8_t val) {
-    setTrafficLightType(obj.state, val);
-  }
 
 } // namespace object_access
 

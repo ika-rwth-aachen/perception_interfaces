@@ -20,7 +20,6 @@ from .state_index import (
     index_steering_angle_front, index_steering_angle_rear,
     index_width, index_length, index_height, index_standstill,
     index_turn_indicator, index_brake_light, index_reverse_light,
-    index_state, index_type
 )
 from .checks import sanity_check_continuous_state, sanity_check_discrete_state
 
@@ -176,15 +175,3 @@ def get_reverse_light(obj: T) -> int:
     state = obj if isinstance(obj, ObjectState) else obj.state
     sanity_check_discrete_state(state)
     return int(state.discrete_state[index_reverse_light(state.model_id)])
-
-def get_state(obj: T) -> int:
-    """Get the traffic light state for a given object or object state."""
-    state = obj if isinstance(obj, ObjectState) else obj.state
-    sanity_check_continuous_state(state)
-    return int(state.discrete_state[index_state(state.model_id)])
-
-def get_type(obj: T) -> int:
-    """Get the traffic light type for a given object or object state."""
-    state = obj if isinstance(obj, ObjectState) else obj.state
-    sanity_check_continuous_state(state)
-    return int(state.discrete_state[index_type(state.model_id)])

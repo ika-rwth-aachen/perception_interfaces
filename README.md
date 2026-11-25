@@ -90,8 +90,8 @@ observation. Objects without observations use `ObjectList`.
 
 ### Classification and utilities
 
-[ObjectClassTaxonomy.msg](perception_msgs/msg/ObjectClassTaxonomy.msg) defines
-class constants for `ObjectClassification.type`. IDs 101–114
+[ObjectClassification.msg](perception_msgs/msg/ObjectClassification.msg) defines
+object classes and their probabilities. IDs 101–114
 represent lights, including unknown, off and exact compound classifier labels;
 128–172 represent generic/unknown signs and the 43 supported sign categories.
 Assigned IDs are never reused. Semantic confidence is independent of detector
@@ -110,14 +110,14 @@ Both the [EgoData.msg](perception_msgs/msg/EgoData.msg) and the [Objects.msg](pe
 1. may change over time, or
 2. whose estimate may change over time.
 
-Of course, different information is available for perceived objects in the environment than for an entity that perceives its own state. That is why the [ObjectState.msg](perception_msgs/msg/ObjectState.msg) can contain different state models referenced by a [model_id](perception_msgs/msg/ObjectState.msg#L14).
+Of course, different information is available for perceived objects in the environment than for an entity that perceives its own state. That is why the [ObjectState.msg](perception_msgs/msg/ObjectState.msg) can contain different state models referenced by a [model_id](perception_msgs/msg/ObjectState.msg).
 
 ## Dynamic State Models
 
-Anyone can define and add their own state model in a new message file under a new [model_id](perception_msgs/msg/ObjectState.msg#L14). The state model may contain all information relevant in a specific use case. At the moment, the following state models already exist:
+Anyone can define and add their own state model in a new message file under a new [model_id](perception_msgs/msg/ObjectState.msg). The state model may contain all information relevant in a specific use case. At the moment, the following state models already exist:
 
 1. [EGO.msg](perception_msgs/msg/EGO.msg) and [EGORWS.msg](perception_msgs/msg/EGORWS.msg) to be used in [EgoData.msg](perception_msgs/msg/EgoData.msg).
-2. [ISCACTR.msg](perception_msgs/msg/ISCACTR.msg), [HEXAMOTION.msg](perception_msgs/msg/HEXAMOTION.msg) and [TRAFFICLIGHT.msg](perception_msgs/msg/TRAFFICLIGHT.msg) to be used for [Objects.msg](perception_msgs/msg/Object.msg) in [ObjectList.msg](perception_msgs/msg/ObjectList.msg).
+2. [ISCACTR.msg](perception_msgs/msg/ISCACTR.msg), [HEXAMOTION.msg](perception_msgs/msg/HEXAMOTION.msg) and [BOX2D.msg](perception_msgs/msg/BOX2D.msg) to be used for [Objects.msg](perception_msgs/msg/Object.msg) in [ObjectList.msg](perception_msgs/msg/ObjectList.msg).
 
 A state model typically includes two types of state vectors:
 

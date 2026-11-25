@@ -88,3 +88,17 @@ def test_taxonomy_covers_classifier_compounds_without_color_collapse():
     assert traffic_light_class("left,red") != traffic_light_class("red")
     assert traffic_light_class("red,right,straight") == 113
     assert traffic_light_class("unknown") != traffic_light_class("off")
+
+
+def test_semantics_are_classification_constants_not_state_models():
+    import perception_msgs.msg as messages
+
+    assert not hasattr(messages, "TRAFFICLIGHT")
+    assert not hasattr(messages, "TRAFFICSIGN")
+    assert not hasattr(messages, "ObjectClassTaxonomy")
+    assert messages.ObjectClassification.TRAFFIC_LIGHT_GREEN == traffic_light_class("green")
+    from perception_msgs_utils.utils import UnknownModelError
+
+    for model in (20, 21):
+        with pytest.raises(UnknownModelError):
+            initialize_state(image_object().object, model)

@@ -47,9 +47,7 @@ void TrafficLight::setObjectState(const perception_msgs::msg::ObjectState& state
   object_state_ = state;
 
   // Set the color based on the traffic light state
-  switch (state.model_id == perception_msgs::msg::TRAFFICLIGHT::MODEL_ID ?
-          perception_msgs::object_access::getTrafficLightState(state) :
-          perception_msgs::object_access::trafficLightColor(perception_msgs::object_access::bestClass(state))) {
+  switch (perception_msgs::object_access::trafficLightColor(perception_msgs::object_access::bestClass(state))) {
     case 0:
       color.r = 1.0;
       color.g = 1.0;
@@ -162,31 +160,8 @@ void TrafficLight::setTrafficLightTypeDefault(const perception_msgs::msg::Object
 }
 
 void TrafficLight::typeToText(const perception_msgs::msg::ObjectState& state, std::string& text) {
-  if (state.model_id != perception_msgs::msg::TRAFFICLIGHT::MODEL_ID) {
-    text += perception_msgs::object_access::taxonomyLabel(perception_msgs::object_access::bestClass(state));
-    return;
-  }
-
-  switch (perception_msgs::object_access::getTrafficLightType(state)) {
-    case 0:
-      text += "DEFAULT";
-      break;
-    case 1:
-      text += "STRAIGHT";
-      break;
-    case 2:
-      text += "LEFT";
-      break;
-    case 3:
-      text += "RIGHT";
-      break;
-    case 255:
-      text += "UNKNOWN";
-      break;
-  }
-  return;
+  text += perception_msgs::object_access::taxonomyLabel(perception_msgs::object_access::bestClass(state));
 }
-
 
 void TrafficLight::setVisualizeType(const bool& val) { visualize_type_ = val; }
 

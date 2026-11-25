@@ -269,7 +269,7 @@ TEST_F(ImageObservationDisplayTest, ClassificationColorsAreConfigurableWithExist
 TEST_F(ImageObservationDisplayTest, TaxonomyLabelsAndProbabilitiesAreRendered) {
   auto object = makeObject();
   msg::ObjectClassification classification;
-  classification.type = msg::ObjectClassTaxonomy::TRAFFIC_LIGHT_RED_RIGHT_STRAIGHT;
+  classification.type = msg::ObjectClassification::TRAFFIC_LIGHT_RED_RIGHT_STRAIGHT;
   classification.probability = .93;
   object.object.state.classifications = {classification};
   EXPECT_EQ(label(object), "42 traffic_light_red_right_straight 0.93");

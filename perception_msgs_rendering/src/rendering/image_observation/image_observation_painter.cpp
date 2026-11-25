@@ -333,32 +333,12 @@ QColor defaultClassificationColor(uint8_t type) {
 QString objectClassName(const perception_msgs::msg::ObjectState& state) {
   const auto semantic = object_access::taxonomyLabel(object_access::bestClass(state));
   if (!semantic.empty()) return QString::fromStdString(semantic);
-  using Light = perception_msgs::msg::TRAFFICLIGHT;
-  if (state.model_id == Light::MODEL_ID) {
-    QString label = QStringLiteral("traffic light");
-    if (state.discrete_state.size() != Light::DISCRETE_STATE_SIZE) return label;
-    switch (perception_msgs::object_access::getTrafficLightState(state)) {
-      case Light::STATE_RED: label += " red"; break;
-      case Light::STATE_RED_YELLOW: label += " red/yellow"; break;
-      case Light::STATE_YELLOW: label += " yellow"; break;
-      case Light::STATE_GREEN: label += " green"; break;
-      case Light::STATE_OFF: label += " off"; break;
-      default: break;
-    }
-    switch (perception_msgs::object_access::getTrafficLightType(state)) {
-      case Light::TYPE_STRAIGHT: label += " straight"; break;
-      case Light::TYPE_LEFT: label += " left"; break;
-      case Light::TYPE_RIGHT: label += " right"; break;
-      default: break;
-    }
-    return label;
-  }
   return classificationName(perception_msgs::object_access::getClassWithHighestProbability(state).type);
 }
 
 QColor defaultObjectColor(const perception_msgs::msg::ObjectState& state) {
   if (object_access::isTrafficSignClass(object_access::bestClass(state))) return QColor(255, 80, 80);
-  if (state.model_id == perception_msgs::msg::TRAFFICLIGHT::MODEL_ID) return QColor(255, 190, 0);
+  if (object_access::isTrafficLightClass(object_access::bestClass(state))) return QColor(255, 190, 0);
   return defaultClassificationColor(perception_msgs::object_access::getClassWithHighestProbability(state).type);
 }
 

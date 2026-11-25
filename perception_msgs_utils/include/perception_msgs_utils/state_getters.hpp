@@ -570,57 +570,6 @@ namespace object_access {
     return getReverseLight(obj.state);
   }
 
-  /**
-   * @brief Get the traffic light state for a given object state.
-   *
-   * @param state
-   *
-   * @return uint8_t
-  */
-  inline uint8_t getTrafficLightState(const ObjectState& state) {
-    sanityCheckDiscreteState(state);
-    return state.discrete_state[indexTrafficLightState(state.model_id)];
-  }
-
-  /**
-   * @brief Get the traffic light state for a given template object that contains an object state.
-   *
-   * @tparam T
-   *
-   * @param obj
-   *
-   * @return uint8_t
-  */
-  template <typename T>
-  inline uint8_t getTrafficLightState(const T& obj) {
-    return getTrafficLightState(obj.state);
-  }
-
-  /**
-   * @brief Get the traffic light type for a given object state.
-   *
-   * @param state
-   *
-   * @return uint8_t
-  */
-  inline uint8_t getTrafficLightType(const ObjectState& state) {
-    sanityCheckDiscreteState(state);
-    return state.discrete_state[indexTrafficLightType(state.model_id)];
-  }
-
-  /**
-   * @brief Get the traffic light type for a given template object that contains an object state.
-   *
-   * @tparam T
-   *
-   * @param obj
-   *
-   * @return uint8_t
-  */
-  template <typename T>
-  inline uint8_t getTrafficLightType(const T& obj) {
-    return getTrafficLightType(obj.state);
-  }
 
 } // namespace object_access
 
