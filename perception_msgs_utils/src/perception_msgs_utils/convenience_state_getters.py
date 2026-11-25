@@ -508,3 +508,38 @@ def get_class_with_highest_probability(obj: T) -> ObjectClassification:
         if classification.probability > class_with_highest_probability.probability:
             class_with_highest_probability = classification
     return class_with_highest_probability
+
+# --- component validity ------------------------------------------------
+
+def is_component_valid(obj: T, index: int) -> bool:
+    """
+    Check if a continuous state component has a finite estimate.
+
+    Covariance availability is independent of component validity.
+
+    Args:
+        obj: The object to check.
+        index: The continuous state index.
+
+    Returns:
+        Whether the component has a finite estimate.
+    """
+    state = obj if isinstance(obj, ObjectState) else obj.state
+    sanity_check_continuous_state(state)
+    if index < 0 or index >= len(state.continuous_state):
+        raise IndexError("Continuous state index out of range")
+    return math.isfinite(state.continuous_state[index])
+
+def has_valid_position(obj: T) -> bool:
+    """
+    Check if all position components have finite estimates.
+
+    Args:
+        obj: The object to check.
+
+    Returns:
+        Whether every position component is finite.
+    """
+    state = obj if isinstance(obj, ObjectState) else obj.state
+    return (has_x(state.model_id) and has_y(state.model_id) and has_z(state.model_id)
+            and all(is_component_valid(state, index(state.model_id)) for index in (index_x, index_y, index_z)))

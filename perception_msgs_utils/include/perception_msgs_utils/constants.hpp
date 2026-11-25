@@ -17,6 +17,7 @@ namespace perception_msgs {
 namespace object_access {
 
     const double CONTINUOUS_STATE_INIT = 0;
+    const double CONTINUOUS_STATE_UNAVAILABLE = std::numeric_limits<double>::quiet_NaN();
 
     const long int DISCRETE_STATE_INIT = 0;
 

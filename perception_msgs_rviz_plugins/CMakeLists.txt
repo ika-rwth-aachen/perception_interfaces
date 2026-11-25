@@ -11,6 +11,8 @@ find_package(ament_cmake REQUIRED)
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(Qt5 REQUIRED COMPONENTS Widgets)
+find_package(image_transport REQUIRED)
 find_package(perception_msgs REQUIRED)
 find_package(perception_msgs_rendering REQUIRED)
 find_package(perception_msgs_utils REQUIRED)
@@ -32,6 +34,8 @@ set(display_headers_to_moc
   include/perception_msgs/displays/ego_data/ego_data_display.hpp
   include/perception_msgs/displays/ego_data_overlay/ego_data_overlay_display.hpp
   include/perception_msgs/displays/traffic_light/traffic_light_display.hpp
+  include/perception_msgs/displays/traffic_sign/traffic_sign_display.hpp
+  include/perception_msgs/displays/image_observation/image_observation_display.hpp
 )
 
 foreach(header "${display_headers_to_moc}")
@@ -43,6 +47,9 @@ set(display_source_files
   src/displays/ego_data/ego_data_display.cpp
   src/displays/ego_data_overlay/ego_data_overlay_display.cpp
   src/displays/traffic_light/traffic_light_display.cpp
+  src/displays/traffic_sign/traffic_sign_display.cpp
+  src/displays/image_observation/image_observation_display.cpp
+  src/displays/image_observation/image_observation_widget.cpp
 )
 
 add_library(${PROJECT_NAME} SHARED
@@ -66,6 +73,7 @@ pluginlib_export_plugin_description_file(rviz_common plugins_description.xml)
 ament_target_dependencies(${PROJECT_NAME}
   PUBLIC
   geometry_msgs
+  image_transport
   perception_msgs
   perception_msgs_rendering
   perception_msgs_utils
@@ -84,6 +92,7 @@ ament_export_targets(${PROJECT_NAME} HAS_LIBRARY_TARGET)
 
 ament_export_dependencies(
   geometry_msgs
+  image_transport
   perception_msgs
   perception_msgs_rendering
   perception_msgs_utils
@@ -121,6 +130,10 @@ if(BUILD_TESTING)
   # a copyright and license is added to all source files
   #set(ament_cmake_cpplint_FOUND TRUE)
   #ament_lint_auto_find_test_dependencies()
+  find_package(ament_cmake_gtest REQUIRED)
+  ament_add_gtest(test_image_observation_display test/test_image_observation_display.cpp)
+  target_link_libraries(test_image_observation_display ${PROJECT_NAME} Qt5::Widgets)
+  set_tests_properties(test_image_observation_display PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=offscreen")
 endif()
 
 ament_package(

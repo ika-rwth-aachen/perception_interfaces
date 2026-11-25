@@ -47,7 +47,7 @@ void TrafficLight::setObjectState(const perception_msgs::msg::ObjectState& state
   object_state_ = state;
 
   // Set the color based on the traffic light state
-  switch (perception_msgs::object_access::getTrafficLightState(state)) {
+  switch (perception_msgs::object_access::trafficLightColor(perception_msgs::object_access::bestClass(state))) {
     case 0:
       color.r = 1.0;
       color.g = 1.0;
@@ -116,6 +116,13 @@ void TrafficLight::setObjectStateVizDefault(const perception_msgs::msg::ObjectSt
 void TrafficLight::setSceneNodePose(const perception_msgs::msg::ObjectState& state) {
   // Set position of scene node
   geometry_msgs::msg::Pose gm_pose = perception_msgs::object_access::getPose(state);
+  // A point estimate has no measured orientation; use identity for drawing only.
+  auto& rotation = gm_pose.orientation;
+  if (!std::isfinite(rotation.x) || !std::isfinite(rotation.y) || !std::isfinite(rotation.z) || !std::isfinite(rotation.w)) {
+    rotation.x = rotation.y = rotation.z = 0.0;
+    rotation.w = 1.0;
+  }
+
   // state.reference_point.translation_to_geometric_center
   // Define transform from our fixed frame to the reference point frame
   geometry_msgs::msg::TransformStamped tf;
@@ -153,26 +160,8 @@ void TrafficLight::setTrafficLightTypeDefault(const perception_msgs::msg::Object
 }
 
 void TrafficLight::typeToText(const perception_msgs::msg::ObjectState& state, std::string& text) {
-  switch (perception_msgs::object_access::getTrafficLightType(state)) {
-    case 0:
-      text += "DEFAULT";
-      break;
-    case 1:
-      text += "STRAIGHT";
-      break;
-    case 2:
-      text += "LEFT";
-      break;
-    case 3:
-      text += "RIGHT";
-      break;
-    case 255:
-      text += "UNKNOWN";
-      break;
-  }
-  return;
+  text += perception_msgs::object_access::taxonomyLabel(perception_msgs::object_access::bestClass(state));
 }
-
 
 void TrafficLight::setVisualizeType(const bool& val) { visualize_type_ = val; }
 

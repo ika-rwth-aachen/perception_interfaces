@@ -10,9 +10,9 @@ This module provides functions to get indices into state vectors based on the mo
 from typing import Dict, Set
 from .constants import (
     EGO_MODEL_ID, EGORWS_MODEL_ID, ISCACTR_MODEL_ID,
-    HEXAMOTION_MODEL_ID, TRAFFICLIGHT_MODEL_ID
+    HEXAMOTION_MODEL_ID
 )
-from perception_msgs.msg import EGO, EGORWS, ISCACTR, HEXAMOTION, TRAFFICLIGHT
+from perception_msgs.msg import EGO, EGORWS, ISCACTR, HEXAMOTION
 
 class UnknownStateEntryError(Exception):
     """Exception raised when a state entry is not supported by a model."""
@@ -111,16 +111,6 @@ _HEXAMOTION_DISCRETE_INDICES = {
     'reverse_light': HEXAMOTION.REVERSE_LIGHT
 }
 
-_TRAFFICLIGHT_INDICES = {
-    'x': TRAFFICLIGHT.X,
-    'y': TRAFFICLIGHT.Y,
-    'z': TRAFFICLIGHT.Z
-}
-
-_TRAFFICLIGHT_DISCRETE_INDICES = {
-    'state': TRAFFICLIGHT.STATE,
-    'type': TRAFFICLIGHT.TYPE
-}
 
 # Model capabilities (which states are supported by each model)
 _MODEL_CAPABILITIES: Dict[int, Set[str]] = {
@@ -128,7 +118,6 @@ _MODEL_CAPABILITIES: Dict[int, Set[str]] = {
     EGORWS_MODEL_ID: set(_EGORWS_INDICES.keys()),
     ISCACTR_MODEL_ID: set(_ISCACTR_INDICES.keys()),
     HEXAMOTION_MODEL_ID: set(_HEXAMOTION_INDICES.keys()),
-    TRAFFICLIGHT_MODEL_ID: set(_TRAFFICLIGHT_INDICES.keys())
 }
 
 # Discrete Model capabilities (which states are supported by each model)
@@ -137,19 +126,18 @@ _DISCRETE_MODEL_CAPABILITIES: Dict[int, Set[str]] = {
     EGORWS_MODEL_ID: set(_EGORWS_DISCRETE_INDICES.keys()),
     ISCACTR_MODEL_ID: set(_ISCACTR_DISCRETE_INDICES.keys()),
     HEXAMOTION_MODEL_ID: set(_HEXAMOTION_DISCRETE_INDICES.keys()),
-    TRAFFICLIGHT_MODEL_ID: set(_TRAFFICLIGHT_DISCRETE_INDICES.keys())
 }
 
 def _get_index(model_id: int, entry: str) -> int:
     """Get the vector index for a state entry in a given model.
-    
+
     Args:
         model_id: Model identifier
         entry: Name of the state entry
-        
+
     Returns:
         int: Index into the state vector
-        
+
     Raises:
         UnknownStateEntryError: If the entry is not supported by the model
     """
@@ -161,26 +149,24 @@ def _get_index(model_id: int, entry: str) -> int:
         indices = _ISCACTR_INDICES
     elif model_id == HEXAMOTION_MODEL_ID:
         indices = _HEXAMOTION_INDICES
-    elif model_id == TRAFFICLIGHT_MODEL_ID:
-        indices = _TRAFFICLIGHT_INDICES
     else:
         raise UnknownStateEntryError(f"Unknown model ID: {model_id}")
-        
+
     if entry not in indices:
         raise UnknownStateEntryError(f"Model with ID {model_id} does not support entry: {entry}")
-        
+
     return indices[entry]
 
 def _get_discrete_index(model_id: int, entry: str) -> int:
     """Get the vector index for a discrete state entry in a given model.
-    
+
     Args:
         model_id: Model identifier
         entry: Name of the state entry
-        
+
     Returns:
         int: Index into the state vector
-        
+
     Raises:
         UnknownStateEntryError: If the entry is not supported by the model
     """
@@ -192,14 +178,12 @@ def _get_discrete_index(model_id: int, entry: str) -> int:
         indices = _ISCACTR_DISCRETE_INDICES
     elif model_id == HEXAMOTION_MODEL_ID:
         indices = _HEXAMOTION_DISCRETE_INDICES
-    elif model_id == TRAFFICLIGHT_MODEL_ID:
-        indices = _TRAFFICLIGHT_DISCRETE_INDICES
     else:
         raise UnknownStateEntryError(f"Unknown model ID: {model_id}")
-        
+
     if entry not in indices:
         raise UnknownStateEntryError(f"Model with ID {model_id} does not support entry: {entry}")
-        
+
     return indices[entry]
 
 def index_x(model_id: int) -> int:
@@ -298,13 +282,6 @@ def index_reverse_light(model_id: int) -> int:
     """Get the vector-index that stores the reverse light."""
     return _get_discrete_index(model_id, 'reverse_light')
 
-def index_state(model_id: int) -> int:
-    """Get the vector-index that stores a state entry."""
-    return _get_discrete_index(model_id, 'state')
-
-def index_type(model_id: int) -> int:
-    """Get the vector-index that stores a type entry."""
-    return _get_discrete_index(model_id, 'type')
 
 def has_x(model_id: int) -> bool:
     """Check if the model supports x-position."""
@@ -401,11 +378,3 @@ def has_brake_light(model_id: int) -> bool:
 def has_reverse_light(model_id: int) -> bool:
     """Check if the model supports reverse light."""
     return 'reverse_light' in _DISCRETE_MODEL_CAPABILITIES.get(model_id, set())
-
-def has_state(model_id: int) -> bool:
-    """Check if the model supports state."""
-    return 'state' in _DISCRETE_MODEL_CAPABILITIES.get(model_id, set())
-
-def has_type(model_id: int) -> bool:
-    """Check if the model supports type."""
-    return 'type' in _DISCRETE_MODEL_CAPABILITIES.get(model_id, set())

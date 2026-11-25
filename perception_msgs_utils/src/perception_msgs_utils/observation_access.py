@@ -1,0 +1,129 @@
+# Copyright Institute for Automotive Engineering (ika), RWTH Aachen University
+# SPDX-License-Identifier: MIT
+"""Validate dimensionality, source geometry and raw observation layout."""
+
+import math
+
+from perception_msgs.msg import BOX2D
+from .utils import get_continuous_state_size, get_discrete_state_size
+
+
+def sanity_check_box2d(state):
+    if (
+        state.model_id != BOX2D.MODEL_ID
+        or len(state.continuous_state) != 5
+        or len(state.discrete_state) != 6
+        or not state.header.frame_id
+        or state.header.stamp.sec < 0
+        or state.header.stamp.nanosec >= 1000000000
+        or len(state.sensor_id) != 1
+    ):
+        raise ValueError("BOX2D needs one acquisition sensor, five coordinates and six dimensions")
+    c, d = state.continuous_state, state.discrete_state
+    if (
+        not all(math.isfinite(v) for v in c)
+        or c[2] <= 0
+        or c[3] <= 0
+        or not 0 < d[0] <= 0xFFFFFFFF
+        or not 0 < d[1] <= 0xFFFFFFFF
+        or min(d[2:]) < 0
+        or d[2] + d[4] > d[0]
+        or d[3] + d[5] > d[1]
+        or len(state.continuous_state_covariance) not in (0, 25)
+    ):
+        raise ValueError("Invalid BOX2D geometry or covariance")
+
+
+def _check_pixels(pixels, state, mask):
+    if not pixels.data:
+        if pixels.width or pixels.height or pixels.step:
+            raise ValueError("Absent image must have zero dimensions and stride")
+        return
+    if (
+        pixels.header != state.header
+        or not pixels.width
+        or not pixels.height
+        or not state.discrete_state[4]
+        or not state.discrete_state[5]
+        or pixels.step * pixels.height != len(pixels.data)
+        or pixels.is_bigendian not in (0, 1)
+    ):
+        raise ValueError("Invalid image storage or acquisition header")
+    import re
+
+    sizes = {
+        "mono8": 1,
+        "mono16": 2,
+        "bgr8": 3,
+        "rgb8": 3,
+        "bgra8": 4,
+        "rgba8": 4,
+        "bgr16": 6,
+        "rgb16": 6,
+        "bgra16": 8,
+        "rgba16": 8,
+        "bayer_rggb8": 1,
+        "bayer_bggr8": 1,
+        "bayer_gbrg8": 1,
+        "bayer_grbg8": 1,
+        "bayer_rggb16": 2,
+        "bayer_bggr16": 2,
+        "bayer_gbrg16": 2,
+        "bayer_grbg16": 2,
+        "yuv422": 2,
+        "yuv422_yuy2": 2,
+    }
+    size = sizes.get(pixels.encoding)
+    match = re.fullmatch(r"(8[US]|16[US]|32[USF]|64F)C([1-9][0-9]*)", pixels.encoding)
+    if match:
+        size = int(match[1][:-1]) // 8 * int(match[2])
+    if size is None or pixels.step < pixels.width * size or (mask and pixels.encoding != "mono8"):
+        raise ValueError("Invalid image encoding or stride; mask must be mono8")
+
+
+def sanity_check_object_observation(entry):
+    observation, state = entry.observation, entry.object.state
+    if not math.isfinite(entry.object.existence_probability) or not 0 <= entry.object.existence_probability <= 1:
+        raise ValueError("Invalid detector existence probability")
+    if any(not math.isfinite(c.probability) or not 0 <= c.probability <= 1 for c in state.classifications):
+        raise ValueError("Invalid semantic probability")
+    if len(observation.image) + len(observation.point_cloud) != 1:
+        raise ValueError("Exactly one image or point cloud observation is required")
+    if observation.image:
+        sanity_check_box2d(state)
+        _check_pixels(observation.image[0].crop, state, False)
+        _check_pixels(observation.image[0].mask, state, True)
+        return
+    if (
+        state.model_id not in (1, 2, 16, 17)
+        or len(state.continuous_state) != get_continuous_state_size(state.model_id)
+        or len(state.discrete_state) != get_discrete_state_size(state.model_id)
+        or len(state.sensor_id) != 1
+        or not state.header.frame_id
+        or state.header.stamp.sec < 0
+        or state.header.stamp.nanosec >= 1000000000
+    ):
+        raise ValueError("Point observations require a metric state and one acquisition sensor")
+    if len(state.continuous_state_covariance) not in (0, len(state.continuous_state) ** 2):
+        raise ValueError("Invalid metric covariance size")
+    points = observation.point_cloud[0].points
+    if (
+        points.header != state.header
+        or points.row_step * points.height != len(points.data)
+        or points.row_step < points.point_step * points.width
+        or (points.width and (not points.point_step or not points.height or not points.fields))
+    ):
+        raise ValueError("Invalid cloud layout or acquisition header")
+    sizes = (0, 1, 1, 2, 2, 4, 4, 4, 8)
+    for field in points.fields:
+        if (
+            not 0 < field.datatype < len(sizes)
+            or not field.count
+            or not field.name
+            or field.offset + field.count * sizes[field.datatype] > points.point_step
+        ):
+            raise ValueError("Invalid point field")
+
+
+def best_class(state):
+    return max(state.classifications, key=lambda c: c.probability).type if state.classifications else 0

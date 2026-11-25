@@ -31,8 +31,6 @@ namespace object_access {
         return ISCACTR::X;
       case HEXAMOTION::MODEL_ID:
         return HEXAMOTION::X;
-      case TRAFFICLIGHT::MODEL_ID:
-        return TRAFFICLIGHT::X;
       default:
         throw std::invalid_argument(kExceptionUnknownStateEntry + std::to_string(model_id) + ", " + "x");
     }
@@ -54,8 +52,6 @@ namespace object_access {
         return ISCACTR::Y;
       case HEXAMOTION::MODEL_ID:
         return HEXAMOTION::Y;
-      case TRAFFICLIGHT::MODEL_ID:
-        return TRAFFICLIGHT::Y;
       default:
         throw std::invalid_argument(kExceptionUnknownStateEntry + std::to_string(model_id) + ", " + "y");
     }
@@ -77,8 +73,6 @@ namespace object_access {
         return ISCACTR::Z;
       case HEXAMOTION::MODEL_ID:
         return HEXAMOTION::Z;
-      case TRAFFICLIGHT::MODEL_ID:
-        return TRAFFICLIGHT::Z;
       default:
         throw std::invalid_argument(kExceptionUnknownStateEntry + std::to_string(model_id) + ", " + "z");
     }
@@ -469,37 +463,6 @@ namespace object_access {
     }
   }
 
-  /**
-   * @brief Get the vector-index that stores the traffic light state for a given model-id.
-   *
-   * @param model_id
-   *
-   * @return int
-  */
-  inline int indexTrafficLightState(const unsigned char& model_id) {
-    switch(model_id) {
-      case TRAFFICLIGHT::MODEL_ID:
-        return TRAFFICLIGHT::STATE;
-      default:
-        throw std::invalid_argument(kExceptionUnknownStateEntry + std::to_string(model_id) + ", " + "traffic_light_state");
-    }
-  }
-
-  /**
-   * @brief Get the vector-index that stores the traffic light type for a given model-id.
-   *
-   * @param model_id
-   *
-   * @return int
-  */
-  inline int indexTrafficLightType(const unsigned char& model_id) {
-    switch(model_id) {
-      case TRAFFICLIGHT::MODEL_ID:
-        return TRAFFICLIGHT::TYPE;
-      default:
-        throw std::invalid_argument(kExceptionUnknownStateEntry + std::to_string(model_id) + ", " + "traffic_light_type");
-    }
-  }
 
   /**
    * @brief Indicates if given model contains an x-position.
@@ -517,8 +480,6 @@ namespace object_access {
       case ISCACTR::MODEL_ID:
         return true;
       case HEXAMOTION::MODEL_ID:
-        return true;
-      case TRAFFICLIGHT::MODEL_ID:
         return true;
       default:
         return false;
@@ -542,8 +503,6 @@ namespace object_access {
         return true;
       case HEXAMOTION::MODEL_ID:
         return true;
-      case TRAFFICLIGHT::MODEL_ID:
-        return true;
       default:
         return false;
     }
@@ -565,8 +524,6 @@ namespace object_access {
       case ISCACTR::MODEL_ID:
         return true;
       case HEXAMOTION::MODEL_ID:
-        return true;
-      case TRAFFICLIGHT::MODEL_ID:
         return true;
       default:
         return false;
@@ -1023,39 +980,6 @@ namespace object_access {
     }
   }
 
-  /**
-   * @brief Indicates if given model contains a traffic light state.
-   *
-   * @param model_id
-   *
-   * @return true
-   * @return false
-  */
-  inline bool hasTrafficLightState(const unsigned char& model_id) {
-    switch(model_id) {
-      case TRAFFICLIGHT::MODEL_ID:
-        return true;
-      default:
-        return false;
-    }
-  }
-
-  /**
-   * @brief Indicates if given model contains a traffic light type.
-   *
-   * @param model_id
-   *
-   * @return true
-   * @return false
-  */
-  inline bool hasTrafficLightType(const unsigned char& model_id) {
-    switch(model_id) {
-      case TRAFFICLIGHT::MODEL_ID:
-        return true;
-      default:
-        return false;
-    }
-  }
 
 } // namespace object_access
 

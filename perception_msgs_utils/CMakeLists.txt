@@ -5,12 +5,15 @@ find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(perception_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(vision_msgs REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 
 ament_python_install_package(${PROJECT_NAME}
     PACKAGE_DIR src/${PROJECT_NAME})
 
 add_library(${PROJECT_NAME} INTERFACE)
+target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_17)
 
 target_include_directories(${PROJECT_NAME} INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -20,6 +23,8 @@ target_include_directories(${PROJECT_NAME} INTERFACE
 target_link_libraries(${PROJECT_NAME} INTERFACE
     ${geometry_msgs_TARGETS}
     ${perception_msgs_TARGETS}
+    ${sensor_msgs_TARGETS}
+    ${vision_msgs_TARGETS}
     ${tf2_geometry_msgs_TARGETS}
 )
 
@@ -28,6 +33,8 @@ ament_export_targets(${PROJECT_NAME}Targets HAS_LIBRARY_TARGET)
 ament_export_dependencies(
     geometry_msgs
     perception_msgs
+    sensor_msgs
+    vision_msgs
     tf2_geometry_msgs
 )
 
@@ -55,12 +62,17 @@ if(BUILD_TESTING)
     ament_target_dependencies(${PROJECT_NAME}-test
         geometry_msgs
         perception_msgs
+        sensor_msgs
+    vision_msgs
         tf2_geometry_msgs
     )
+    ament_add_gtest(test_observation_access_cpp test/test_observation_access.cpp)
+    target_link_libraries(test_observation_access_cpp ${PROJECT_NAME})
     # Python tests
     find_package(ament_cmake_pytest REQUIRED)
     set(_pytest_tests
         test/test_object_access.py
+        test/test_observation_access.py
     )
     foreach(_test_path ${_pytest_tests})
         get_filename_component(_test_name ${_test_path} NAME_WE)

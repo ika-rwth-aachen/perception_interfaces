@@ -805,6 +805,58 @@ inline ObjectClassification getClassWithHighestProbability(const T& obj) {
   return getClassWithHighestProbability(obj.state);
 }
 
+// --- component validity ----------------------------------------------
+
+/**
+ * @brief Check if a continuous state component has a finite estimate.
+ * Covariance availability is independent of component validity.
+ *
+ * @param state
+ * @param index
+ * @return bool
+ */
+inline bool isComponentValid(const ObjectState& state, const int index) {
+  sanityCheckContinuousState(state);
+  return std::isfinite(state.continuous_state.at(index));
+}
+
+/**
+ * @brief Check if a continuous state component of an object has a finite estimate.
+ *
+ * @tparam T
+ * @param obj
+ * @param index
+ * @return bool
+ */
+template <typename T>
+inline bool isComponentValid(const T& obj, const int index) {
+  return isComponentValid(obj.state, index);
+}
+
+/**
+ * @brief Check if all position components of an object state are finite.
+ *
+ * @param state
+ * @return bool
+ */
+inline bool hasValidPosition(const ObjectState& state) {
+  return hasX(state.model_id) && hasY(state.model_id) && hasZ(state.model_id) &&
+         isComponentValid(state, indexX(state.model_id)) && isComponentValid(state, indexY(state.model_id)) &&
+         isComponentValid(state, indexZ(state.model_id));
+}
+
+/**
+ * @brief Check if all position components of an object are finite.
+ *
+ * @tparam T
+ * @param obj
+ * @return bool
+ */
+template <typename T>
+inline bool hasValidPosition(const T& obj) {
+  return hasValidPosition(obj.state);
+}
+
 }  // namespace object_access
 
 }  // namespace perception_msgs

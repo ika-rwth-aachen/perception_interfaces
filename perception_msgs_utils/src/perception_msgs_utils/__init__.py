@@ -11,4 +11,6 @@ from .state_index import *
 from .state_setters import *
 from .utils import *
 
-__version__ = '0.1.0' 
+__version__ = '0.1.0'
+from .class_taxonomy import *
+from .observation_access import *

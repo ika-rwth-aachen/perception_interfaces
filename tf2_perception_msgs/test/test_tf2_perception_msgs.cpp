@@ -438,3 +438,70 @@ int main(int argc, char *argv[]) {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
+
+TEST(tf2_perception_msgs, reject_pixel_transform) {
+  ObjectState state, output;
+  initializeState(state, BOX2D::MODEL_ID);
+  state.header.frame_id = "camera_optical";
+  gm::TransformStamped transform;
+  transform.header.frame_id = "map";
+  transform.transform.rotation.w = 1.0;
+  EXPECT_THROW(tf2::doTransform(state, output, transform), std::invalid_argument);
+  EXPECT_EQ(state.header.frame_id, "camera_optical");
+}
+
+TEST(tf2_perception_msgs, unavailable_pose_groups_do_not_contaminate_available_estimates) {
+  for (const bool with_covariance : {false, true}) {
+    for (const bool missing_orientation : {false, true}) {
+      ObjectState state, output;
+      initializeState(state, HEXAMOTION::MODEL_ID, CONTINUOUS_STATE_UNAVAILABLE);
+      setPosition(state, std::array<double, 3>{1., 2., 3.});
+      setRoll(state, .1);
+      setPitch(state, .2);
+      setYaw(state, .3);
+      if (missing_orientation) {
+        setYaw(state, CONTINUOUS_STATE_UNAVAILABLE);
+      } else {
+        setZ(state, CONTINUOUS_STATE_UNAVAILABLE);
+      }
+      const int n = getContinuousStateSize(state);
+      if (with_covariance) {
+        std::vector<double> diagonal(n, CONTINUOUS_STATE_COVARIANCE_UNKNOWN);
+        diagonal[HEXAMOTION::X] = 1.;
+        diagonal[HEXAMOTION::Y] = 2.;
+        diagonal[HEXAMOTION::Z] = 3.;
+        setContinuousStateCovarianceDiagonal(state, diagonal);
+      }
+      gm::TransformStamped transform;
+      transform.header.frame_id = "map";
+      transform.transform.translation.x = 10.;
+      transform.transform.translation.y = 20.;
+      transform.transform.translation.z = 30.;
+      tf2::Quaternion rotation;
+      rotation.setRPY(0, 0, M_PI / 2);
+      transform.transform.rotation = tf2::toMsg(rotation);
+      tf2::doTransform(state, output, transform);
+      if (missing_orientation) {
+        EXPECT_NEAR(getX(output), 8., EPS);
+        EXPECT_NEAR(getY(output), 21., EPS);
+        EXPECT_NEAR(getZ(output), 33., EPS);
+        EXPECT_TRUE(std::isnan(getRoll(output)));
+        EXPECT_TRUE(std::isnan(getPitch(output)));
+        EXPECT_TRUE(std::isnan(getYaw(output)));
+        if (with_covariance) {
+          EXPECT_NEAR(getContinuousStateCovarianceAt(output, HEXAMOTION::X, HEXAMOTION::X), 2., EPS);
+          EXPECT_NEAR(getContinuousStateCovarianceAt(output, HEXAMOTION::Y, HEXAMOTION::Y), 1., EPS);
+        }
+      } else {
+        EXPECT_TRUE(std::isnan(getX(output)));
+        EXPECT_TRUE(std::isnan(getY(output)));
+        EXPECT_TRUE(std::isnan(getZ(output)));
+        EXPECT_NEAR(getRoll(output), .1, EPS);
+        EXPECT_NEAR(getPitch(output), .2, EPS);
+        EXPECT_NEAR(getYaw(output), .3 + M_PI / 2, EPS);
+      }
+      EXPECT_EQ(output.continuous_state_covariance.empty(), !with_covariance);
+      EXPECT_TRUE(std::isnan(getVelLon(output)));
+    }
+  }
+}

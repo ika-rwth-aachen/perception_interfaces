@@ -15,7 +15,7 @@ from perception_msgs_utils.convenience_state_setters import set_continuous_state
 from perception_msgs_utils.convenience_state_setters import set_velocity_xyz_yaw_with_covariance_from_gm_vector3, set_acceleration_xyz_yaw_with_covariance_from_gm_vector3
 from perception_msgs_utils.state_index import index_x
 from perception_msgs_utils.convenience_state_getters import get_continuous_state_covariance_diagonal, get_vel_x, get_vel_y, get_acc_x, get_acc_y
-from perception_msgs_utils.state_setters import set_yaw, set_yaw_rate, set_width, set_length, set_height, set_roll, set_pitch, set_yaw, set_roll_rate, set_pitch_rate, set_yaw_rate, set_width, set_length, set_height, set_steering_angle_ack, set_steering_angle_rate_ack, set_steering_angle_front, set_steering_angle_rear
+from perception_msgs_utils.state_setters import set_z, set_yaw, set_yaw_rate, set_width, set_length, set_height, set_roll, set_pitch, set_yaw, set_roll_rate, set_pitch_rate, set_yaw_rate, set_width, set_length, set_height, set_steering_angle_ack, set_steering_angle_rate_ack, set_steering_angle_front, set_steering_angle_rear
 from perception_msgs_utils.state_getters import get_x, get_y, get_z, get_yaw, get_vel_lon, get_vel_lat, get_acc_lon, get_acc_lat, get_yaw_rate, get_roll, get_pitch, get_roll_rate, get_pitch_rate, get_yaw_rate, get_width, get_length, get_height, get_steering_angle_ack, get_steering_angle_rate_ack, get_steering_angle_front, get_steering_angle_rear
 from tf2_perception_msgs import do_transform_ego_data, do_transform_object, do_transform_state
 from geometry_msgs.msg import TransformStamped, PoseWithCovarianceStamped, Vector3
@@ -235,7 +235,6 @@ def test_doTransform_Object_EGORWS():
         assert math.isclose(covariance_diagonal[i], covariance_diagonal_tf[i], abs_tol=EPS), f"i={i}"
 
 
-
 def test_transform_prediction_without_covariance():
     obj = Object()
     initialize_state(obj, ISCACTR.MODEL_ID)
@@ -409,3 +408,52 @@ def test_nested_states_preserve_markers_under_three_axis_rotation():
 
 if __name__ == "__main__":
     pytest.main()
+
+
+def test_reject_pixel_transform_before_modifying_header():
+    from perception_msgs.msg import BOX2D
+    state = ObjectState()
+    initialize_state(state, BOX2D.MODEL_ID)
+    state.header.frame_id = "camera_optical"
+    transform = TransformStamped()
+    transform.header.frame_id = "map"
+    with pytest.raises(ValueError):
+        do_transform_state(state, transform)
+    assert state.header.frame_id == "camera_optical"
+
+
+@pytest.mark.parametrize("with_covariance", [False, True])
+@pytest.mark.parametrize("missing_orientation", [False, True])
+def test_unavailable_pose_groups_do_not_contaminate_available_estimates(with_covariance, missing_orientation):
+    from perception_msgs_utils import CONTINUOUS_STATE_UNAVAILABLE, get_continuous_state_covariance_at
+    state = ObjectState()
+    initialize_state(state, HEXAMOTION.MODEL_ID, CONTINUOUS_STATE_UNAVAILABLE)
+    set_position_from_list(state, [1., 2., 3.])
+    set_roll(state, .1)
+    set_pitch(state, .2)
+    set_yaw(state, .3)
+    if missing_orientation:
+        set_yaw(state, CONTINUOUS_STATE_UNAVAILABLE)
+    else:
+        set_z(state, CONTINUOUS_STATE_UNAVAILABLE)
+    if with_covariance:
+        diagonal = [CONTINUOUS_STATE_COVARIANCE_UNKNOWN]*get_continuous_state_size(state)
+        diagonal[HEXAMOTION.X], diagonal[HEXAMOTION.Y], diagonal[HEXAMOTION.Z] = 1., 2., 3.
+        set_continuous_state_covariance_diagonal(state, diagonal)
+    transform = TransformStamped()
+    transform.header.frame_id = "map"
+    transform.transform.translation.x, transform.transform.translation.y, transform.transform.translation.z = 10., 20., 30.
+    q = transform.transform.rotation
+    q.x, q.y, q.z, q.w = quaternion_from_euler(0, 0, math.pi/2)
+    output = do_transform_state(state, transform)
+    if missing_orientation:
+        assert [get_x(output), get_y(output), get_z(output)] == pytest.approx([8., 21., 33.])
+        assert all(math.isnan(v) for v in [get_roll(output), get_pitch(output), get_yaw(output)])
+        if with_covariance:
+            assert get_continuous_state_covariance_at(output, HEXAMOTION.X, HEXAMOTION.X) == pytest.approx(2.)
+            assert get_continuous_state_covariance_at(output, HEXAMOTION.Y, HEXAMOTION.Y) == pytest.approx(1.)
+    else:
+        assert all(math.isnan(v) for v in [get_x(output), get_y(output), get_z(output)])
+        assert [get_roll(output), get_pitch(output), get_yaw(output)] == pytest.approx([.1, .2, .3+math.pi/2])
+    assert bool(output.continuous_state_covariance) == with_covariance
+    assert math.isnan(get_vel_lon(output))

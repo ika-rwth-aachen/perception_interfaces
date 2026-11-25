@@ -1,12 +1,15 @@
 # Copyright Institute for Automotive Engineering (ika), RWTH Aachen University
 # SPDX-License-Identifier: MIT
 
-from geometry_msgs.msg import TransformStamped, PoseStamped, PoseWithCovarianceStamped
+import math
 
-from perception_msgs.msg import ObjectState, Object, ObjectList, EgoData
+from geometry_msgs.msg import TransformStamped, PoseStamped, PoseWithCovarianceStamped, Quaternion, Point
+
+from perception_msgs.msg import BOX2D, ObjectState, Object, ObjectList, EgoData
 from perception_msgs_utils.convenience_state_getters import get_pose, get_pose_with_covariance
 from perception_msgs_utils.convenience_state_setters import set_pose_from_gm_pose, set_pose_with_covariance_from_gm_pose_with_covariance
 from perception_msgs_utils.covariance_transform import transform_pose_with_covariance
+from perception_msgs_utils.state_index import has_roll, has_pitch, has_yaw, index_roll, index_pitch, index_yaw, index_x, index_y, index_z
 from std_msgs.msg import Header
 import tf2_ros
 import tf2_geometry_msgs
@@ -29,6 +32,17 @@ tf2_ros.ConvertRegistration().add_from_msg(Object, from_msg_msg)
 tf2_ros.ConvertRegistration().add_from_msg(ObjectList, from_msg_msg)
 tf2_ros.ConvertRegistration().add_from_msg(EgoData, from_msg_msg)
 
+def _prepare_pose(pose):
+    """Use numerical placeholders for unavailable position/orientation groups."""
+    p, q = pose.position, pose.orientation
+    unavailable_position = not all(math.isfinite(v) for v in (p.x, p.y, p.z))
+    unavailable_orientation = not all(math.isfinite(v) for v in (q.x, q.y, q.z, q.w))
+    if unavailable_position:
+        pose.position = Point()
+    if unavailable_orientation:
+        pose.orientation = Quaternion(w=1.0)
+    return unavailable_position, unavailable_orientation
+
 def do_transform_state(
         state: ObjectState,
         transform: TransformStamped) -> ObjectState:
@@ -42,6 +56,8 @@ def do_transform_state(
     :param transform: The transform which will be applied to the object state
     :returns: The transformed object state
     """
+    if state.model_id == BOX2D.MODEL_ID:
+        raise ValueError("BOX2D pixels cannot undergo a metric TF transform")
     state_out = state
     state_out.header.stamp = transform.header.stamp
     state_out.header.frame_id = transform.header.frame_id
@@ -49,13 +65,23 @@ def do_transform_state(
     if not state.continuous_state_covariance:
         xyz_rpy = PoseStamped()
         xyz_rpy.pose = get_pose(state)
+        unavailable_position, unavailable_orientation = _prepare_pose(xyz_rpy.pose)
         xyz_rpy_tf = tf2_geometry_msgs.do_transform_pose_stamped(xyz_rpy, transform)
         set_pose_from_gm_pose(state_out, xyz_rpy_tf.pose, False)
     else:
         xyz_rpy_cov = PoseWithCovarianceStamped()
         xyz_rpy_cov.pose = get_pose_with_covariance(state)
+        unavailable_position, unavailable_orientation = _prepare_pose(xyz_rpy_cov.pose.pose)
         xyz_rpy_cov_tf = transform_pose_with_covariance(xyz_rpy_cov, transform)
         set_pose_with_covariance_from_gm_pose_with_covariance(state_out, xyz_rpy_cov_tf.pose)
+
+    if unavailable_position:
+        for index in (index_x, index_y, index_z):
+            state_out.continuous_state[index(state_out.model_id)] = math.nan
+    if unavailable_orientation:
+        for has, index in ((has_roll, index_roll), (has_pitch, index_pitch), (has_yaw, index_yaw)):
+            if has(state_out.model_id):
+                state_out.continuous_state[index(state_out.model_id)] = math.nan
     return state_out
 
 tf2_ros.TransformRegistration().add(ObjectState, do_transform_state)

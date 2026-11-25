@@ -86,11 +86,11 @@ bool TrafficLightDisplay::validateFloats(perception_msgs::msg::ObjectList::Const
 }
 
 void TrafficLightDisplay::processMessage(perception_msgs::msg::ObjectList::ConstSharedPtr msg) {
-
   // check for supported object model id
   for (size_t i = 0; i < msg->objects.size(); ++i) {
     const auto& obj = msg->objects[i];
-    if (obj.state.model_id != perception_msgs::msg::TRAFFICLIGHT::MODEL_ID) {
+    if (obj.state.model_id != perception_msgs::msg::HEXAMOTION::MODEL_ID ||
+        !perception_msgs::object_access::isTrafficLightClass(perception_msgs::object_access::bestClass(obj.state))) {
       const std::string error_msg = "Model ID " + std::to_string(obj.state.model_id) +
                                     " of traffic light " + std::to_string(i) + " is not supported";
       this->setStatus(rviz_common::properties::StatusProperty::Error, "Model ID", QString::fromStdString(error_msg));

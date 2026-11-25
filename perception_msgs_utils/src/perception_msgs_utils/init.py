@@ -15,7 +15,7 @@ from .constants import CONTINUOUS_STATE_INIT, DISCRETE_STATE_INIT
 
 T = TypeVar('T', bound=Union[Object, ObjectState, EgoData])
 
-def initialize_state(obj: T, model_id: int) -> ObjectState:
+def initialize_state(obj: T, model_id: int, continuous_state_init: float = CONTINUOUS_STATE_INIT) -> ObjectState:
     """
     Initialize an object state message with empty covariance storage.
 
@@ -24,13 +24,14 @@ def initialize_state(obj: T, model_id: int) -> ObjectState:
     Args:
         obj: The object to initialize the state from.
         model_id: The model ID to assign to the state.
+        continuous_state_init: Pass CONTINUOUS_STATE_UNAVAILABLE (NaN) for components without an available estimate.
 
     Returns:
         The initialized object state message.
     """
     state = obj if isinstance(obj, ObjectState) else obj.state
     state.model_id = model_id
-    set_continuous_state(state, [CONTINUOUS_STATE_INIT] * get_continuous_state_size(model_id))
+    set_continuous_state(state, [continuous_state_init] * get_continuous_state_size(model_id))
     set_discrete_state(state, [DISCRETE_STATE_INIT] * get_discrete_state_size(model_id))
     set_continuous_state_covariance(state, [])
     if isinstance(obj, ObjectState):

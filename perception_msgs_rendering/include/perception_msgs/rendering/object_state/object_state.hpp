@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include <string>
 
 #include <OgreMaterial.h>
@@ -34,6 +35,9 @@ class ManualObject;
 namespace perception_msgs {
 
 namespace rendering {
+
+/** @brief Get the label of an object classification type. */
+std::string classificationTypeName(uint8_t type);
 
 class ObjectState {
  public:
