@@ -86,20 +86,17 @@ and its acquisition header. Empty payloads have zero dimensions and stride.
 `sensor_msgs/PointCloud2`, including field layout, stride, endianness and acquisition
 header. It attaches only to a supported metric state from the same sensor/time/frame.
 An image observation attaches only to BOX2D. Each wrapper contains exactly one
-observation; camera localization and fusion instead publish plain 3D `ObjectList`s.
-Image payloads stop at classification. Missing calibration, TF or parallax produces
-no fabricated 3D estimate; the 2D detection remains available on its own stream.
+observation. Objects without observations use `ObjectList`.
 
 ### Classification and utilities
 
-[ObjectClassTaxonomy.msg](perception_msgs/msg/ObjectClassTaxonomy.msg) adds stable
-class constants for the unchanged `ObjectClassification.type` field. IDs 101–114
+[ObjectClassTaxonomy.msg](perception_msgs/msg/ObjectClassTaxonomy.msg) defines
+class constants for `ObjectClassification.type`. IDs 101–114
 represent lights, including unknown, off and exact compound classifier labels;
 128–172 represent generic/unknown signs and the 43 supported sign categories.
 Assigned IDs are never reused. Semantic confidence is independent of detector
 `existence_probability`; classification entries are alternative whole-object labels.
-Signs and lights use generic geometry models in this pipeline. Main's existing
-messages and model IDs remain available and unchanged in field layout.
+Signs and lights use generic geometry models with taxonomy classifications.
 
 C++/Python helpers validate source geometry, dimensionality, acquisition headers,
 confidence and payload layout. `imageView()` provides a zero-copy image/geometry

@@ -1,4 +1,4 @@
-"""Stable semantic labels; ObjectClassification's wire layout is unchanged."""
+"""Semantic labels for ObjectClassification.type values."""
 
 LABELS = {
     101: "traffic_light",
@@ -89,7 +89,7 @@ LIGHT_LABELS = {
 
 
 def traffic_light_color(class_id):
-    """Coarse color for geometric association; preserves compound classes on objects."""
+    """Color group used by geometry and map association."""
     if class_id == 106:
         return 4
     if class_id == 105:

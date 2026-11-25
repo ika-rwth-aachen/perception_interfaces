@@ -1,4 +1,4 @@
-# Additive catalog for ObjectClassification.type; existing message is unchanged.
+# Class IDs for ObjectClassification.type.
 # 101..114 lights; 128..172 signs. IDs are stable and never reused.
 uint8 TRAFFIC_LIGHT=101
 uint8 TRAFFIC_LIGHT_UNKNOWN=102

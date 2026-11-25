@@ -1,6 +1,6 @@
 std_msgs/Header header
 
-# to ensure that the model_id is unique, all existing models an their corresponding IDs are listed here:
+# Registered state model IDs:
 #   EGO:           1
 #   EGORWS:        2
 #   ISCACTR:       16
