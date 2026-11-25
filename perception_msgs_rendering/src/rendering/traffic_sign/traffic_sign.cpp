@@ -16,56 +16,7 @@
 namespace perception_msgs {
 namespace rendering {
 
-std::string trafficSignTypeName(uint8_t type) {
-  using Sign = perception_msgs::msg::TRAFFICSIGN;
-  switch (type) {
-    case Sign::TYPE_UNKNOWN: return "UNKNOWN";
-    case Sign::TYPE_STOP: return "STOP";
-    case Sign::TYPE_GIVE_WAY: return "GIVE WAY";
-    case Sign::TYPE_PRIORITY_ROAD: return "PRIORITY ROAD";
-    case Sign::TYPE_PRIORITY_AT_NEXT_INTERSECTION: return "PRIORITY AT NEXT INTERSECTION";
-    case Sign::TYPE_NO_ENTRY: return "NO ENTRY";
-    case Sign::TYPE_NO_VEHICLES: return "NO VEHICLES";
-    case Sign::TYPE_NO_GOODS_VEHICLES_OVER_3_5_T: return "NO GOODS VEHICLES OVER 3.5 T";
-    case Sign::TYPE_NO_OVERTAKING: return "NO OVERTAKING";
-    case Sign::TYPE_NO_OVERTAKING_GOODS_VEHICLES: return "NO OVERTAKING GOODS VEHICLES";
-    case Sign::TYPE_END_NO_OVERTAKING: return "END NO OVERTAKING";
-    case Sign::TYPE_END_NO_OVERTAKING_GOODS_VEHICLES: return "END NO OVERTAKING GOODS VEHICLES";
-    case Sign::TYPE_END_ALL_SPEED_AND_OVERTAKING_RESTRICTIONS: return "END ALL SPEED AND OVERTAKING RESTRICTIONS";
-    case Sign::TYPE_SPEED_LIMIT_20_KMH: return "SPEED LIMIT 20 KMH";
-    case Sign::TYPE_SPEED_LIMIT_30_KMH: return "SPEED LIMIT 30 KMH";
-    case Sign::TYPE_SPEED_LIMIT_50_KMH: return "SPEED LIMIT 50 KMH";
-    case Sign::TYPE_SPEED_LIMIT_60_KMH: return "SPEED LIMIT 60 KMH";
-    case Sign::TYPE_SPEED_LIMIT_70_KMH: return "SPEED LIMIT 70 KMH";
-    case Sign::TYPE_SPEED_LIMIT_80_KMH: return "SPEED LIMIT 80 KMH";
-    case Sign::TYPE_SPEED_LIMIT_100_KMH: return "SPEED LIMIT 100 KMH";
-    case Sign::TYPE_SPEED_LIMIT_120_KMH: return "SPEED LIMIT 120 KMH";
-    case Sign::TYPE_END_SPEED_LIMIT_80_KMH: return "END SPEED LIMIT 80 KMH";
-    case Sign::TYPE_DANGER: return "DANGER";
-    case Sign::TYPE_CURVE_LEFT: return "CURVE LEFT";
-    case Sign::TYPE_CURVE_RIGHT: return "CURVE RIGHT";
-    case Sign::TYPE_DOUBLE_CURVE_FIRST_LEFT: return "DOUBLE CURVE FIRST LEFT";
-    case Sign::TYPE_UNEVEN_ROAD: return "UNEVEN ROAD";
-    case Sign::TYPE_SLIPPERY_ROAD: return "SLIPPERY ROAD";
-    case Sign::TYPE_ROAD_NARROWS_RIGHT: return "ROAD NARROWS RIGHT";
-    case Sign::TYPE_ROAD_WORKS: return "ROAD WORKS";
-    case Sign::TYPE_TRAFFIC_SIGNALS: return "TRAFFIC SIGNALS";
-    case Sign::TYPE_PEDESTRIANS: return "PEDESTRIANS";
-    case Sign::TYPE_CHILDREN: return "CHILDREN";
-    case Sign::TYPE_CYCLISTS: return "CYCLISTS";
-    case Sign::TYPE_ICE_OR_SNOW: return "ICE OR SNOW";
-    case Sign::TYPE_WILD_ANIMALS: return "WILD ANIMALS";
-    case Sign::TYPE_TURN_RIGHT: return "TURN RIGHT";
-    case Sign::TYPE_TURN_LEFT: return "TURN LEFT";
-    case Sign::TYPE_STRAIGHT_AHEAD: return "STRAIGHT AHEAD";
-    case Sign::TYPE_STRAIGHT_OR_RIGHT: return "STRAIGHT OR RIGHT";
-    case Sign::TYPE_STRAIGHT_OR_LEFT: return "STRAIGHT OR LEFT";
-    case Sign::TYPE_KEEP_RIGHT: return "KEEP RIGHT";
-    case Sign::TYPE_KEEP_LEFT: return "KEEP LEFT";
-    case Sign::TYPE_ROUNDABOUT: return "ROUNDABOUT";
-    default: return "Type " + std::to_string(type);
-  }
-}
+std::string trafficSignTypeName(uint8_t type) { return object_access::taxonomyLabel(type); }
 
 TrafficSign::TrafficSign(Ogre::SceneManager* scene_manager, Ogre::SceneNode* parent_node)
     : scene_manager_(scene_manager),
@@ -83,8 +34,8 @@ void TrafficSign::setVisualizeType(const bool& value) { visualize_type_ = value;
 
 void TrafficSign::setObjectState(const perception_msgs::msg::ObjectState& state) {
   using namespace object_access;
-  using Sign = perception_msgs::msg::TRAFFICSIGN;
-  if (state.model_id != Sign::MODEL_ID) throw std::invalid_argument("Expected a traffic-sign state");
+  using Sign = perception_msgs::msg::HEXAMOTION;
+  if (state.model_id != Sign::MODEL_ID || !isTrafficSignClass(bestClass(state))) throw std::invalid_argument("Expected a traffic-sign state");
   sanityCheckFullState(state);
 
   if (text_ && text_->isAttached()) text_->getParentSceneNode()->detachObject(text_.get());
@@ -131,7 +82,7 @@ void TrafficSign::setObjectState(const perception_msgs::msg::ObjectState& state)
   }
 
   if (visualize_type_) {
-    text_ = std::make_unique<rviz_rendering::MovableText>(trafficSignTypeName(getTrafficSignType(state)), "Liberation Sans", 0.2);
+    text_ = std::make_unique<rviz_rendering::MovableText>(trafficSignTypeName(bestClass(state)), "Liberation Sans", 0.2);
     text_->setColor(color);
     text_->setLocalTranslation(Ogre::Vector3(0., 0., label_height));
     scene_node_->attachObject(text_.get());

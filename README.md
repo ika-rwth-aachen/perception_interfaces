@@ -1,8 +1,5 @@
 # Perception Interfaces
 
-The additive [object observation API](OBSERVATIONS.md) separates 2D/3D geometry,
-classification taxonomy and sensor payloads while preserving existing interfaces.
-
 <p align="left">
   <img src="./assets/teaser.png" alt="Teaser" align="right" height="200" />
   This repository provides a set of ROS 2 packages with common messages and tools relating to the perception task in automated driving and C-ITS. The perception task here refers to both environment perception and self perception.
@@ -21,7 +18,7 @@ classification taxonomy and sensor payloads while preserving existing interfaces
 ```
 perception_interfaces
 ├── doc                             # Doxygen documentation  
-├── perception_msgs                 # All perception related .msg files 
+├── perception_msgs                 # All perception related .msg files
 ├── perception_msgs_rendering       # Rendering functions for RViz
 ├── perception_msgs_rviz_plugins    # RViz plugins (displays) that make use of the rendering functions  
 ├── perception_msgs_utils           # Utility (access) functions for the perception_msgs
@@ -30,11 +27,11 @@ perception_interfaces
 
 ## Background
 
-Perception is one central task in C-ITS. Entities such as vehicles and roadside units may be equipped with sensors with which they may perceive their environment and/or themselves. The computed perception data may then be forwarded to either other software modules within an entity or to other entities. To achieve this in ROS-based systems, the data is structured according to message files (*.msg). 
+Perception is one central task in C-ITS. Entities such as vehicles and roadside units may be equipped with sensors with which they may perceive their environment and/or themselves. The computed perception data may then be forwarded to either other software modules within an entity or to other entities. To achieve this in ROS-based systems, the data is structured according to message files (*.msg).
 
 While ROS already provides [common_interfaces](https://github.com/ros2/common_interfaces) with various commonly used messages, these messages are insufficient to cover many types of data commonly exchanged in C-ITS, both within and across entities.
 
-Especially for the communication between connected entities, [ETSI](https://en.wikipedia.org/wiki/ETSI) standardizes perception messages (and others) that are exchanged between the entities [here](https://forge.etsi.org/rep/ITS/asn1). These definitions present two major issues. First, they are based on a very generic description in [ASN.1](https://en.wikipedia.org/wiki/ASN.1) and therefore difficult to use. Second, they are overly complex for many use cases in research. 
+Especially for the communication between connected entities, [ETSI](https://en.wikipedia.org/wiki/ETSI) standardizes perception messages (and others) that are exchanged between the entities [here](https://forge.etsi.org/rep/ITS/asn1). These definitions present two major issues. First, they are based on a very generic description in [ASN.1](https://en.wikipedia.org/wiki/ASN.1) and therefore difficult to use. Second, they are overly complex for many use cases in research.
 
 The described circumstances motivate the creation of this repository, which contains a set of ROS packages with messages and tools that extend the insufficient [common_interfaces](https://github.com/ros2/common_interfaces) but remain much simpler and easier to handle than the perception messages defined by ETSI.
 
@@ -57,33 +54,75 @@ The [ObjectList.msg](perception_msgs/msg/ObjectList.msg) contains environment pe
 - **Dynamic State Estimate**: Such as pose, velocity, acceleration, object dimensions.
 - **State Predictions**: Such as future pose, velocity, acceleration, object dimensions.
 
-All other message files contained in [perception_msgs/msg](perception_msgs/msg/) are included by these two top-level message definitions, except for the sensor evidence described below.
+The remaining message files provide shared state models, object data and sensor observations.
 
-## Sensor Evidence
+## Object Observations
 
-[ObjectListWithEvidence.msg](perception_msgs/msg/ObjectListWithEvidence.msg) extends the [ObjectList.msg](perception_msgs/msg/ObjectList.msg) by the sensor evidence an object was derived from. Each [ObjectWithEvidence.msg](perception_msgs/msg/ObjectWithEvidence.msg) contains an [Object.msg](perception_msgs/msg/Object.msg) and a list of [Evidence.msg](perception_msgs/msg/Evidence.msg), each with the header and ID of its sensor and exactly one kind of evidence:
+[ObjectListWithObservation.msg](perception_msgs/msg/ObjectListWithObservation.msg)
+contains [ObjectWithObservation.msg](perception_msgs/msg/ObjectWithObservation.msg)
+entries, each containing one object and one sensor observation. An observation is
+an image or a point cloud. Geometry and classification belong to the object state;
+the observation contains raw data and the metadata needed to decode it.
 
-1. [ImageEvidence.msg](perception_msgs/msg/ImageEvidence.msg): bounding box and optional image crop and instance mask.
-2. [PointCloudEvidence.msg](perception_msgs/msg/PointCloudEvidence.msg): points of the object.
+### Image objects
 
-Objects can carry evidence, metric estimates or both. Access and validation functions are provided in [evidence_access.hpp](perception_msgs_utils/include/perception_msgs_utils/evidence_access.hpp) and [evidence_access.py](perception_msgs_utils/src/perception_msgs_utils/evidence_access.py).
+[BOX2D.msg](perception_msgs/msg/BOX2D.msg) (model ID 22) describes all image objects,
+independently of their class. Its continuous state is `[center_x, center_y, width,
+height, rotation]` in original-image pixels and radians. Its discrete state is
+`[image_width, image_height, roi_x, roi_y, roi_width, roi_height]`. The state header
+is the acquisition timestamp and optical frame; `sensor_id` contains one camera ID.
+Covariance is empty or a flattened 5x5 matrix in continuous-state order.
+
+[ImageObservation.msg](perception_msgs/msg/ImageObservation.msg) contains a crop and
+an optional mono8 instance mask (0 background, 255 foreground). Both cover the ROI
+in the state and may be resized independently. Map payload pixel edges back to
+the source using `roi_x + x * roi_width / payload_width` and similarly for y;
+use `x + 0.5` for sample centers. Each payload retains encoding, dimensions, stride
+and its acquisition header. Empty payloads have zero dimensions and stride.
+
+### Point-cloud and localized objects
+
+[PointCloudObservation.msg](perception_msgs/msg/PointCloudObservation.msg) contains
+`sensor_msgs/PointCloud2`, including field layout, stride, endianness and acquisition
+header. It attaches only to a supported metric state from the same sensor/time/frame.
+An image observation attaches only to BOX2D. Each wrapper contains exactly one
+observation; camera localization and fusion instead publish plain 3D `ObjectList`s.
+Image payloads stop at classification. Missing calibration, TF or parallax produces
+no fabricated 3D estimate; the 2D detection remains available on its own stream.
+
+### Classification and utilities
+
+[ObjectClassTaxonomy.msg](perception_msgs/msg/ObjectClassTaxonomy.msg) adds stable
+class constants for the unchanged `ObjectClassification.type` field. IDs 101–114
+represent lights, including unknown, off and exact compound classifier labels;
+128–172 represent generic/unknown signs and the 43 supported sign categories.
+Assigned IDs are never reused. Semantic confidence is independent of detector
+`existence_probability`; classification entries are alternative whole-object labels.
+Signs and lights use generic geometry models in this pipeline. Main's existing
+messages and model IDs remain available and unchanged in field layout.
+
+C++/Python helpers validate source geometry, dimensionality, acquisition headers,
+confidence and payload layout. `imageView()` provides a zero-copy image/geometry
+view. Metric TF helpers reject BOX2D pixels. The `perception_msgs/ImageObservation`
+RViz display supports synchronized source images, crop mosaics, masks and labels.
+The sign/light 3D displays support generic metric geometry with taxonomy classes.
 
 ## Dynamic States
 
 Both the [EgoData.msg](perception_msgs/msg/EgoData.msg) and the [Objects.msg](perception_msgs/msg/Object.msg) contain a field of type [ObjectState.msg](perception_msgs/msg/ObjectState.msg). It contains information on an object that  
-1. may change over time, or 
-2. whose estimate may change over time. 
+1. may change over time, or
+2. whose estimate may change over time.
 
-Of course, different information is available for perceived objects in the environment than for an entity that perceives its own state. That is why the [ObjectState.msg](perception_msgs/msg/ObjectState.msg) can contain different state models referenced by a [model_id](perception_msgs/msg/ObjectState.msg#L14). 
+Of course, different information is available for perceived objects in the environment than for an entity that perceives its own state. That is why the [ObjectState.msg](perception_msgs/msg/ObjectState.msg) can contain different state models referenced by a [model_id](perception_msgs/msg/ObjectState.msg#L14).
 
 ## Dynamic State Models
 
 Anyone can define and add their own state model in a new message file under a new [model_id](perception_msgs/msg/ObjectState.msg#L14). The state model may contain all information relevant in a specific use case. At the moment, the following state models already exist:
 
 1. [EGO.msg](perception_msgs/msg/EGO.msg) and [EGORWS.msg](perception_msgs/msg/EGORWS.msg) to be used in [EgoData.msg](perception_msgs/msg/EgoData.msg).
-2. [ISCACTR.msg](perception_msgs/msg/ISCACTR.msg), [HEXAMOTION.msg](perception_msgs/msg/HEXAMOTION.msg), [TRAFFICLIGHT.msg](perception_msgs/msg/TRAFFICLIGHT.msg) and [TRAFFICSIGN.msg](perception_msgs/msg/TRAFFICSIGN.msg) to be used for [Objects.msg](perception_msgs/msg/Object.msg) in [ObjectList.msg](perception_msgs/msg/ObjectList.msg).
+2. [ISCACTR.msg](perception_msgs/msg/ISCACTR.msg), [HEXAMOTION.msg](perception_msgs/msg/HEXAMOTION.msg) and [TRAFFICLIGHT.msg](perception_msgs/msg/TRAFFICLIGHT.msg) to be used for [Objects.msg](perception_msgs/msg/Object.msg) in [ObjectList.msg](perception_msgs/msg/ObjectList.msg).
 
-A state model typically includes two types of state vectors: 
+A state model typically includes two types of state vectors:
 
 1. The [continuous_state](perception_msgs/msg/EGO.msg#L9) contains real-valued data (`float64`) such as pose, velocity, acceleration.
 2. The [discrete_state](perception_msgs/msg/EGO.msg#L23) contains integer-valued data (`int64`) such as the current gear or the number of passengers.
@@ -93,7 +132,7 @@ In addition to the continuous and discrete state vectors, the state model should
 2. [CONTINUOUS_STATE_SIZE](perception_msgs/msg/EGO.msg#L5): Number of fields in the `continuous_state` vector.
 3. [DISCRETE_STATE_SIZE](perception_msgs/msg/EGO.msg#L6): Number of fields in the `discrete_state` vector.
 
-### Important: 
+### Important:
 
 The `uint8` fields below the continuous and discrete state vectors of a state model define the index in the state vector under which a piece of information can be found. `uint8 X=0`, for example, indicates that the X position is at the 0th position in the vector, *not* that the X value is 0. The actual value in the vector is set in the code. Defining state vectors in this way allows us to do two things:
 
@@ -135,21 +174,19 @@ The coordinate system in which all subsequent fields of a message are given is d
 
 Transformations between coordinate frames are often needed in robotics applications. There exists the [tf2](https://github.com/ros2/geometry2) ROS 2 package that provides a lot of functions and tools around coordinate frames and transformations. It is the de facto standard for related tasks in ROS. Since the package does not know how the messages files in this repository are structured, we need to define functions that allow us to integrate our messages into the existing framework provided by the tf2 ROS package. For this purpose, we need to especially write a specialized `doTransform()` function for our messages.
 
-The implementation can be found in [tf2_perception_msgs](tf2_perception_msgs). Available implementations include the provided [EgoData.msg](perception_msgs/msg/EgoData.msg) with the [EGO.msg](perception_msgs/msg/EGO.msg) and [EGORWS.msg](perception_msgs/msg/EGORWS.msg) state models, and the [ObjectList.msg](perception_msgs/msg/ObjectList.msg) with the [ISCACTR.msg](perception_msgs/msg/ISCACTR.msg), [HEXAMOTION.msg](perception_msgs/msg/HEXAMOTION.msg) and [TRAFFICSIGN.msg](perception_msgs/msg/TRAFFICSIGN.msg) state models. The [ObjectListWithEvidence.msg](perception_msgs/msg/ObjectListWithEvidence.msg) is transformed likewise, while its evidence remains in the sensor frames.
+The implementation can be found in [tf2_perception_msgs](tf2_perception_msgs). Available implementations include the provided [EgoData.msg](perception_msgs/msg/EgoData.msg) with the [EGO.msg](perception_msgs/msg/EGO.msg) and [EGORWS.msg](perception_msgs/msg/EGORWS.msg) state models, and the [ObjectList.msg](perception_msgs/msg/ObjectList.msg) with the [ISCACTR.msg](perception_msgs/msg/ISCACTR.msg) and [HEXAMOTION.msg](perception_msgs/msg/HEXAMOTION.msg) state models.
 
 
 ## RViz Plugins
 
-This repository provides ROS packages [perception_msgs_rendering](perception_msgs_rendering) and [perception_msgs_rviz_plugins](perception_msgs_rviz_plugins) that, together, allow to visualize [ObjectList.msg](perception_msgs/msg/ObjectList.msg) with the [ISCACTR.msg](perception_msgs/msg/ISCACTR.msg), [HEXAMOTION.msg](perception_msgs/msg/HEXAMOTION.msg), [TRAFFICLIGHT.msg](perception_msgs/msg/TRAFFICLIGHT.msg) and [TRAFFICSIGN.msg](perception_msgs/msg/TRAFFICSIGN.msg) state models and [EgoData.msg](perception_msgs/msg/EgoData.msg) with the [EGO.msg](perception_msgs/msg/EGO.msg) and [EGORWS.msg](perception_msgs/msg/EGORWS.msg) state models in RViz.
-
-The `perception_msgs/ImageEvidence` display draws the image evidence of an [ObjectListWithEvidence.msg](perception_msgs/msg/ObjectListWithEvidence.msg) in a dockable panel, on top of a matching camera image, the evidence crops or a blank canvas.
+This repository provides ROS packages [perception_msgs_rendering](perception_msgs_rendering) and [perception_msgs_rviz_plugins](perception_msgs_rviz_plugins) that, together, allow to visualize [ObjectList.msg](perception_msgs/msg/ObjectList.msg) with the [ISCACTR.msg](perception_msgs/msg/ISCACTR.msg) and [HEXAMOTION.msg](perception_msgs/msg/HEXAMOTION.msg) state models and [EgoData.msg](perception_msgs/msg/EgoData.msg) with the [EGO.msg](perception_msgs/msg/EGO.msg) and [EGORWS.msg](perception_msgs/msg/EGORWS.msg) state models in RViz.
 
 To further extend the object list, a workflow for visualizing new meshes has been established:
 
 1. Import new meshes as .stl-files in Blender. (File → Import → Stl)
 2. If not already correct, rotate Object so +x is the front and +z is the top of the object. (click on object → Object Properties → Transform → Rotation)
 3. Set origin to center of surface. (right click on object → Set Origin → Origin to Center of Mass (Surface))
-4. Export new file as .stl (File → Export → Stl) 
+4. Export new file as .stl (File → Export → Stl)
 
 ## Minimal implementation
 
@@ -159,8 +196,6 @@ Many of the fields in the messages are optional. If you use the messages in this
 - the object state(s)
 
 where the object states should be initialized with [`initializeState()`](perception_msgs_utils/include/perception_msgs_utils/init.hpp) and then filled as much as possible.
-
-Continuous state components that are not measured, e.g. the position of an object only observed in an image, are set to NaN. Initialize such states with `initializeState(state, model_id, CONTINUOUS_STATE_UNMEASURED)` and use `isMeasured()` or `hasValidPosition()` to check for measured components.
 
 
 ## Acknowledgements

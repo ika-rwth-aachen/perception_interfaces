@@ -6,6 +6,7 @@ find_package(ament_cmake_python REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(perception_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(vision_msgs REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 
 ament_python_install_package(${PROJECT_NAME}
@@ -23,6 +24,7 @@ target_link_libraries(${PROJECT_NAME} INTERFACE
     ${geometry_msgs_TARGETS}
     ${perception_msgs_TARGETS}
     ${sensor_msgs_TARGETS}
+    ${vision_msgs_TARGETS}
     ${tf2_geometry_msgs_TARGETS}
 )
 
@@ -32,6 +34,7 @@ ament_export_dependencies(
     geometry_msgs
     perception_msgs
     sensor_msgs
+    vision_msgs
     tf2_geometry_msgs
 )
 
@@ -60,6 +63,7 @@ if(BUILD_TESTING)
         geometry_msgs
         perception_msgs
         sensor_msgs
+    vision_msgs
         tf2_geometry_msgs
     )
     ament_add_gtest(test_observation_access_cpp test/test_observation_access.cpp)

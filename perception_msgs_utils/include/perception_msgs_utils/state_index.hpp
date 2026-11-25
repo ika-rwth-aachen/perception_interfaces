@@ -33,8 +33,6 @@ namespace object_access {
         return HEXAMOTION::X;
       case TRAFFICLIGHT::MODEL_ID:
         return TRAFFICLIGHT::X;
-      case TRAFFICSIGN::MODEL_ID:
-        return TRAFFICSIGN::X;
       default:
         throw std::invalid_argument(kExceptionUnknownStateEntry + std::to_string(model_id) + ", " + "x");
     }
@@ -58,8 +56,6 @@ namespace object_access {
         return HEXAMOTION::Y;
       case TRAFFICLIGHT::MODEL_ID:
         return TRAFFICLIGHT::Y;
-      case TRAFFICSIGN::MODEL_ID:
-        return TRAFFICSIGN::Y;
       default:
         throw std::invalid_argument(kExceptionUnknownStateEntry + std::to_string(model_id) + ", " + "y");
     }
@@ -83,8 +79,6 @@ namespace object_access {
         return HEXAMOTION::Z;
       case TRAFFICLIGHT::MODEL_ID:
         return TRAFFICLIGHT::Z;
-      case TRAFFICSIGN::MODEL_ID:
-        return TRAFFICSIGN::Z;
       default:
         throw std::invalid_argument(kExceptionUnknownStateEntry + std::to_string(model_id) + ", " + "z");
     }
@@ -188,8 +182,6 @@ namespace object_access {
         return EGORWS::ROLL;
       case HEXAMOTION::MODEL_ID:
         return HEXAMOTION::ROLL;
-      case TRAFFICSIGN::MODEL_ID:
-        return TRAFFICSIGN::ROLL;
       default:
         throw std::invalid_argument(kExceptionUnknownStateEntry + std::to_string(model_id) + ", " + "roll");
     }
@@ -224,8 +216,6 @@ namespace object_access {
         return EGORWS::PITCH;
       case HEXAMOTION::MODEL_ID:
         return HEXAMOTION::PITCH;
-      case TRAFFICSIGN::MODEL_ID:
-        return TRAFFICSIGN::PITCH;
       default:
         throw std::invalid_argument(kExceptionUnknownStateEntry + std::to_string(model_id) + ", " + "pitch");
     }
@@ -262,8 +252,6 @@ namespace object_access {
         return ISCACTR::YAW;
       case HEXAMOTION::MODEL_ID:
         return HEXAMOTION::YAW;
-      case TRAFFICSIGN::MODEL_ID:
-        return TRAFFICSIGN::YAW;
       default:
         throw std::invalid_argument(kExceptionUnknownStateEntry + std::to_string(model_id) + ", " + "yaw");
     }
@@ -362,8 +350,6 @@ namespace object_access {
         return ISCACTR::WIDTH;
       case HEXAMOTION::MODEL_ID:
         return HEXAMOTION::WIDTH;
-      case TRAFFICSIGN::MODEL_ID:
-        return TRAFFICSIGN::WIDTH;
       default:
         throw std::invalid_argument(kExceptionUnknownStateEntry + std::to_string(model_id) + ", " + "width");
     }
@@ -398,8 +384,6 @@ namespace object_access {
         return ISCACTR::HEIGHT;
       case HEXAMOTION::MODEL_ID:
         return HEXAMOTION::HEIGHT;
-      case TRAFFICSIGN::MODEL_ID:
-        return TRAFFICSIGN::HEIGHT;
       default:
         throw std::invalid_argument(kExceptionUnknownStateEntry + std::to_string(model_id) + ", " + "height");
     }
@@ -518,22 +502,6 @@ namespace object_access {
   }
 
   /**
-   * @brief Get the vector-index that stores the traffic sign type for a given model-id.
-   *
-   * @param model_id
-   *
-   * @return int
-  */
-  inline int indexTrafficSignType(const unsigned char& model_id) {
-    switch(model_id) {
-      case TRAFFICSIGN::MODEL_ID:
-        return TRAFFICSIGN::TYPE;
-      default:
-        throw std::invalid_argument(kExceptionUnknownStateEntry + std::to_string(model_id) + ", " + "traffic_sign_type");
-    }
-  }
-
-  /**
    * @brief Indicates if given model contains an x-position.
    *
    * @param model_id
@@ -551,8 +519,6 @@ namespace object_access {
       case HEXAMOTION::MODEL_ID:
         return true;
       case TRAFFICLIGHT::MODEL_ID:
-        return true;
-      case TRAFFICSIGN::MODEL_ID:
         return true;
       default:
         return false;
@@ -578,8 +544,6 @@ namespace object_access {
         return true;
       case TRAFFICLIGHT::MODEL_ID:
         return true;
-      case TRAFFICSIGN::MODEL_ID:
-        return true;
       default:
         return false;
     }
@@ -603,8 +567,6 @@ namespace object_access {
       case HEXAMOTION::MODEL_ID:
         return true;
       case TRAFFICLIGHT::MODEL_ID:
-        return true;
-      case TRAFFICSIGN::MODEL_ID:
         return true;
       default:
         return false;
@@ -716,8 +678,6 @@ namespace object_access {
         return false;
       case HEXAMOTION::MODEL_ID:
         return true;
-      case TRAFFICSIGN::MODEL_ID:
-        return true;
       default:
         return false;
     }
@@ -762,8 +722,6 @@ namespace object_access {
         return false;
       case HEXAMOTION::MODEL_ID:
         return true;
-      case TRAFFICSIGN::MODEL_ID:
-        return true;
       default:
         return false;
     }
@@ -807,8 +765,6 @@ namespace object_access {
       case ISCACTR::MODEL_ID:
         return true;
       case HEXAMOTION::MODEL_ID:
-        return true;
-      case TRAFFICSIGN::MODEL_ID:
         return true;
       default:
         return false;
@@ -930,8 +886,6 @@ namespace object_access {
         return true;
       case HEXAMOTION::MODEL_ID:
         return true;
-      case TRAFFICSIGN::MODEL_ID:
-        return true;
       default:
         return false;
     }
@@ -975,8 +929,6 @@ namespace object_access {
       case ISCACTR::MODEL_ID:
         return true;
       case HEXAMOTION::MODEL_ID:
-        return true;
-      case TRAFFICSIGN::MODEL_ID:
         return true;
       default:
         return false;
@@ -1099,23 +1051,6 @@ namespace object_access {
   inline bool hasTrafficLightType(const unsigned char& model_id) {
     switch(model_id) {
       case TRAFFICLIGHT::MODEL_ID:
-        return true;
-      default:
-        return false;
-    }
-  }
-
-  /**
-   * @brief Indicates if given model contains a traffic sign type.
-   *
-   * @param model_id
-   *
-   * @return true
-   * @return false
-  */
-  inline bool hasTrafficSignType(const unsigned char& model_id) {
-    switch(model_id) {
-      case TRAFFICSIGN::MODEL_ID:
         return true;
       default:
         return false;

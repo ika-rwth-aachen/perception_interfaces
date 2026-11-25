@@ -1,7 +1,6 @@
 # Copyright Institute for Automotive Engineering (ika), RWTH Aachen University
 # SPDX-License-Identifier: MIT
 
-from .evidence_access import *
 from .checks import *
 from .constants import *
 from .convenience_state_getters import *

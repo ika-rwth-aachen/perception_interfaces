@@ -6,7 +6,7 @@ std_msgs/Header header
 #   ISCACTR:       16
 #   HEXAMOTION:    17
 #   TRAFFICLIGHT:  20
-#   TRAFFICSIGN:   21
+#   BOX2D:         22
 uint8 model_id
 
 # IDs of the sensors having measured this state

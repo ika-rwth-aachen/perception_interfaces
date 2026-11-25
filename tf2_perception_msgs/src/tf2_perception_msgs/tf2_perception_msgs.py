@@ -5,7 +5,7 @@ import math
 
 from geometry_msgs.msg import TransformStamped, PoseStamped, PoseWithCovarianceStamped, Quaternion
 
-from perception_msgs.msg import BOX2D, ObjectState, Object, ObjectList, EgoData, ObjectWithEvidence, ObjectListWithEvidence
+from perception_msgs.msg import BOX2D, ObjectState, Object, ObjectList, EgoData
 from perception_msgs_utils.convenience_state_getters import get_pose, get_pose_with_covariance
 from perception_msgs_utils.convenience_state_setters import set_pose_from_gm_pose, set_pose_with_covariance_from_gm_pose_with_covariance
 from perception_msgs_utils.covariance_transform import transform_pose_with_covariance
@@ -22,8 +22,6 @@ tf2_ros.ConvertRegistration().add_to_msg(ObjectState, to_msg_msg)
 tf2_ros.ConvertRegistration().add_to_msg(Object, to_msg_msg)
 tf2_ros.ConvertRegistration().add_to_msg(ObjectList, to_msg_msg)
 tf2_ros.ConvertRegistration().add_to_msg(EgoData, to_msg_msg)
-tf2_ros.ConvertRegistration().add_to_msg(ObjectWithEvidence, to_msg_msg)
-tf2_ros.ConvertRegistration().add_to_msg(ObjectListWithEvidence, to_msg_msg)
 
 
 def from_msg_msg(msg):
@@ -33,8 +31,6 @@ tf2_ros.ConvertRegistration().add_from_msg(ObjectState, from_msg_msg)
 tf2_ros.ConvertRegistration().add_from_msg(Object, from_msg_msg)
 tf2_ros.ConvertRegistration().add_from_msg(ObjectList, from_msg_msg)
 tf2_ros.ConvertRegistration().add_from_msg(EgoData, from_msg_msg)
-tf2_ros.ConvertRegistration().add_from_msg(ObjectWithEvidence, from_msg_msg)
-tf2_ros.ConvertRegistration().add_from_msg(ObjectListWithEvidence, from_msg_msg)
 
 def _replace_unmeasured_orientation(pose) -> bool:
     """Replace an unmeasured (NaN) orientation by identity, which tf2 can transform, and report it."""
@@ -141,50 +137,6 @@ def do_transform_object_list(
     return object_list_out
 
 tf2_ros.TransformRegistration().add(ObjectList, do_transform_object_list)
-
-def do_transform_object_with_evidence(
-        object_with_evidence: ObjectWithEvidence,
-        transform: TransformStamped) -> ObjectWithEvidence:
-    """
-    Apply a `Transform` or `TransformStamped` to `ObjectWithEvidence`.
-
-    The object is transformed into a different frame,
-    while the evidence remains in its sensor frames.
-
-    :param object_with_evidence: The object with evidence that should be transformed
-    :param transform: The transform which will be applied to the object
-    :returns: The transformed object with evidence
-    """
-    object_with_evidence_out = object_with_evidence
-    object_with_evidence_out.object = do_transform_object(object_with_evidence.object, transform)
-
-    return object_with_evidence_out
-
-tf2_ros.TransformRegistration().add(ObjectWithEvidence, do_transform_object_with_evidence)
-
-def do_transform_object_list_with_evidence(
-        object_list: ObjectListWithEvidence,
-        transform: TransformStamped) -> ObjectListWithEvidence:
-    """
-    Apply a `Transform` or `TransformStamped` to `ObjectListWithEvidence`.
-
-    The objects are transformed into a different frame,
-    while the evidence remains in its sensor frames.
-
-    :param object_list: The object list that should be transformed
-    :param transform: The transform which will be applied to the object list
-    :returns: The transformed object list
-    """
-    object_list_out = object_list
-    object_list_out.header.stamp = transform.header.stamp
-    object_list_out.header.frame_id = transform.header.frame_id
-
-    for i in range(len(object_list.objects)):
-        object_list_out.objects[i] = do_transform_object_with_evidence(object_list.objects[i], transform)
-
-    return object_list_out
-
-tf2_ros.TransformRegistration().add(ObjectListWithEvidence, do_transform_object_list_with_evidence)
 
 def do_transform_ego_data(
         ego_data: EgoData,

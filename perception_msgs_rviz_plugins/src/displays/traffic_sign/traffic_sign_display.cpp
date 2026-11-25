@@ -63,7 +63,8 @@ void TrafficSignDisplay::onDisable() {
 bool TrafficSignDisplay::validateFloats(perception_msgs::msg::ObjectList::ConstSharedPtr msg) {
   bool valid = true;
   for (int i = 0; i < int(msg->objects.size()); i++) {
-    if (msg->objects[i].state.model_id != perception_msgs::msg::TRAFFICSIGN::MODEL_ID ||
+    if (msg->objects[i].state.model_id != perception_msgs::msg::HEXAMOTION::MODEL_ID ||
+        !perception_msgs::object_access::isTrafficSignClass(perception_msgs::object_access::bestClass(msg->objects[i].state)) ||
         !perception_msgs::object_access::hasValidPosition(msg->objects[i])) continue;
     valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getX(msg->objects[i]));
     valid = valid && rviz_common::validateFloats(perception_msgs::object_access::getY(msg->objects[i]));
@@ -74,36 +75,13 @@ bool TrafficSignDisplay::validateFloats(perception_msgs::msg::ObjectList::ConstS
 }
 
 void TrafficSignDisplay::processMessage(perception_msgs::msg::ObjectList::ConstSharedPtr msg) {
-  // Preserve the legacy renderer while accepting generic geometry with taxonomy
-  // semantics.
-  auto projected = std::make_shared<perception_msgs::msg::ObjectList>();
-  projected->header = msg->header;
-  for (const auto &object : msg->objects) {
-    try {
-      if (object.state.model_id == perception_msgs::msg::HEXAMOTION::MODEL_ID &&
-          perception_msgs::object_access::isTrafficSignClass(
-              perception_msgs::object_access::bestClass(object.state)))
-        projected->objects.push_back(
-            perception_msgs::object_access::toLegacyMetricSign(object));
-      else if (object.state.model_id ==
-               perception_msgs::msg::TRAFFICSIGN::MODEL_ID)
-        projected->objects.push_back(object);
-    } catch (const std::exception &error) {
-      setStatus(rviz_common::properties::StatusProperty::Error, "Topic",
-                QString::fromUtf8(error.what()));
-      return;
-    }
-  }
-  msg = projected;
-
-
-
   if (is_reset.load()) {
     return;
   }
   try {
     for (const auto& object : msg->objects) {
-      if (object.state.model_id == perception_msgs::msg::TRAFFICSIGN::MODEL_ID)
+      if (object.state.model_id == perception_msgs::msg::HEXAMOTION::MODEL_ID &&
+          perception_msgs::object_access::isTrafficSignClass(perception_msgs::object_access::bestClass(object.state)))
         perception_msgs::object_access::sanityCheckFullState(object);
     }
     if (!validateFloats(msg)) {
@@ -136,8 +114,9 @@ void TrafficSignDisplay::processMessage(perception_msgs::msg::ObjectList::ConstS
 
   if (msg->objects.size()) {
     for (int i = 0; i < int(msg->objects.size()); i++) {
-      if (msg->objects[i].state.model_id != perception_msgs::msg::TRAFFICSIGN::MODEL_ID ||
-          !perception_msgs::object_access::hasValidPosition(msg->objects[i])) continue;
+      if (msg->objects[i].state.model_id != perception_msgs::msg::HEXAMOTION::MODEL_ID ||
+          !perception_msgs::object_access::isTrafficSignClass(perception_msgs::object_access::bestClass(msg->objects[i].state)) ||
+        !perception_msgs::object_access::hasValidPosition(msg->objects[i])) continue;
       // render object state
       std::unique_ptr<perception_msgs::rendering::TrafficSign> state_ptr =
           std::make_unique<perception_msgs::rendering::TrafficSign>(scene_manager_, scene_node_);

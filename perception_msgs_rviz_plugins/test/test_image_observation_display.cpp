@@ -11,35 +11,30 @@
 #include <rviz_common/properties/editable_enum_property.hpp>
 #include <rviz_common/properties/qos_profile_property.hpp>
 
-#include "perception_msgs/displays/image_evidence/image_evidence_display.hpp"
+#include "perception_msgs/displays/image_observation/image_observation_display.hpp"
 
 namespace perception_msgs {
 namespace displays {
 
-class ImageEvidenceDisplayTest : public ::testing::Test {
+class ImageObservationDisplayTest : public ::testing::Test {
  protected:
   void SetUp() override {
-    display_ = std::make_unique<ImageEvidenceDisplay>();
-    display_->widget_ = std::make_unique<ImageEvidenceWidget>();
+    display_ = std::make_unique<ImageObservationDisplay>();
+    display_->widget_ = std::make_unique<ImageObservationWidget>();
     display_->widget_->resize(320, 240);
   }
 
-  static msg::ObjectWithEvidence makeObject(const std::string& frame = "left", uint64_t sensor = 1) {
-    msg::ObjectWithEvidence object;
+  static msg::ObjectWithObservation makeObject(const std::string& frame = "left", uint64_t sensor = 1) {
+    msg::ObjectWithObservation object;
     object.object.id = 42;
     object.object.existence_probability = 1.;
-    object_access::initializeState(object.object, msg::HEXAMOTION::MODEL_ID);
-    msg::Evidence evidence;
-    evidence.header.frame_id = frame;
-    evidence.header.stamp.sec = 10;
-    evidence.sensor_id = sensor;
-    msg::ImageEvidence image;
-    image.image_width = 80;
-    image.image_height = 60;
-    image.bounding_box.size_x = 10.;
-    image.bounding_box.size_y = 10.;
-    evidence.image.push_back(image);
-    object_access::addEvidence(object, evidence);
+    object_access::initializeState(object.object, msg::BOX2D::MODEL_ID);
+    object.object.state.header.frame_id = frame;
+    object.object.state.header.stamp.sec = 10;
+    object.object.state.sensor_id = {sensor};
+    object.object.state.continuous_state = {0, 0, 10, 10, 0};
+    object.object.state.discrete_state = {80, 60, 0, 0, 0, 0};
+    object.observation.image.emplace_back();
     return object;
   }
 
@@ -55,8 +50,8 @@ class ImageEvidenceDisplayTest : public ::testing::Test {
     return image;
   }
 
-  void receiveObjects(const std::vector<msg::ObjectWithEvidence>& objects, int32_t stamp = 10) {
-    auto list = std::make_shared<msg::ObjectListWithEvidence>();
+  void receiveObjects(const std::vector<msg::ObjectWithObservation>& objects, int32_t stamp = 10) {
+    auto list = std::make_shared<msg::ObjectListWithObservation>();
     list->header.frame_id = "map";
     list->header.stamp.sec = stamp;
     list->objects = objects;
@@ -85,15 +80,15 @@ class ImageEvidenceDisplayTest : public ::testing::Test {
   }
 
   auto select(const std::optional<std::string>& frame) const {
-    return display_->selectEvidence(frame).annotations;
+    return display_->selectObservations(frame).annotations;
   }
 
   void selectSensor(const std::string& sensor) { display_->sensor_id_property_->setValue(QString::fromStdString(sensor)); }
-  QString label(const msg::ObjectWithEvidence& object) const {
-    return display_->formatLabel(object.object, object.evidence.front());
+  QString label(const msg::ObjectWithObservation& object) const {
+    return display_->formatLabel(object.object, object);
   }
-  QColor color(const msg::ObjectWithEvidence& object) const {
-    return display_->annotationColor(object.object, object.evidence.front());
+  QColor color(const msg::ObjectWithObservation& object) const {
+    return display_->annotationColor(object.object, object);
   }
 
   rclcpp::QoS qos() const { return display_->qos_profile; }
@@ -103,10 +98,10 @@ class ImageEvidenceDisplayTest : public ::testing::Test {
     display_->topic_property_->subProp("Reliability Policy")->setValue(policy);
   }
 
-  std::unique_ptr<ImageEvidenceDisplay> display_;
+  std::unique_ptr<ImageObservationDisplay> display_;
 };
 
-TEST_F(ImageEvidenceDisplayTest, SensorDataQosIsDefaultAndRemainsConfigurable) {
+TEST_F(ImageObservationDisplayTest, SensorDataQosIsDefaultAndRemainsConfigurable) {
   EXPECT_EQ(reliability(), "Best Effort");
   EXPECT_EQ(qos().get_rmw_qos_profile().reliability, RMW_QOS_POLICY_RELIABILITY_BEST_EFFORT);
   EXPECT_NE(rclcpp::qos_check_compatible(rclcpp::SensorDataQoS(), qos()).compatibility, rclcpp::QoSCompatibility::Error);
@@ -117,7 +112,7 @@ TEST_F(ImageEvidenceDisplayTest, SensorDataQosIsDefaultAndRemainsConfigurable) {
   EXPECT_NE(rclcpp::qos_check_compatible(rclcpp::SensorDataQoS(), qos()).compatibility, rclcpp::QoSCompatibility::Error);
 }
 
-TEST_F(ImageEvidenceDisplayTest, InvalidImageTimestampsAreSkippedAndRecoveryWorks) {
+TEST_F(ImageObservationDisplayTest, InvalidImageTimestampsAreSkippedAndRecoveryWorks) {
   receiveObjects({makeObject()});
   receiveImage(makeImage(-1));
   EXPECT_EQ(bufferedImages(), 0u);
@@ -132,29 +127,29 @@ TEST_F(ImageEvidenceDisplayTest, InvalidImageTimestampsAreSkippedAndRecoveryWork
   EXPECT_EQ(shownPixel(), 10);
 }
 
-TEST_F(ImageEvidenceDisplayTest, InvalidObjectListTimestampDoesNotThrow) {
+TEST_F(ImageObservationDisplayTest, InvalidObjectListTimestampDoesNotThrow) {
   receiveObjects({}, -1);
   receiveImage(makeImage());
   EXPECT_NO_THROW(render());
   EXPECT_EQ(shownPixel(), 10);
 }
 
-TEST_F(ImageEvidenceDisplayTest, AutoSelectionNeverFallsBackToAnotherCameraImage) {
+TEST_F(ImageObservationDisplayTest, AutoSelectionNeverFallsBackToAnotherCameraImage) {
   receiveObjects({makeObject("left", 1), makeObject("right", 2)});
   auto matching = select(std::string("right"));
   ASSERT_EQ(matching.size(), 1u);
-  EXPECT_EQ(matching.front().evidence->sensor_id, 2u);
+  EXPECT_EQ(matching.front().observation->object.state.sensor_id.front(), 2u);
   EXPECT_TRUE(select(std::string("other")).empty());
   auto without_image = select(std::nullopt);
   ASSERT_EQ(without_image.size(), 1u);
-  EXPECT_EQ(without_image.front().evidence->sensor_id, 1u);
+  EXPECT_EQ(without_image.front().observation->object.state.sensor_id.front(), 1u);
   selectSensor("2");
   auto explicit_sensor = select(std::string("left"));
   ASSERT_EQ(explicit_sensor.size(), 1u);
-  EXPECT_EQ(explicit_sensor.front().evidence->sensor_id, 2u);
+  EXPECT_EQ(explicit_sensor.front().observation->object.state.sensor_id.front(), 2u);
 }
 
-TEST_F(ImageEvidenceDisplayTest, InvalidSensorSelectionDoesNotChooseAnotherSensor) {
+TEST_F(ImageObservationDisplayTest, InvalidSensorSelectionDoesNotChooseAnotherSensor) {
   receiveObjects({makeObject()});
   for (const auto* sensor : {"-1", "1invalid", "18446744073709551616"}) {
     selectSensor(sensor);
@@ -163,7 +158,7 @@ TEST_F(ImageEvidenceDisplayTest, InvalidSensorSelectionDoesNotChooseAnotherSenso
   }
 }
 
-TEST_F(ImageEvidenceDisplayTest, ImageArrivingAfterObjectsSchedulesRendering) {
+TEST_F(ImageObservationDisplayTest, ImageArrivingAfterObjectsSchedulesRendering) {
   receiveObjects({makeObject()});
   EXPECT_TRUE(render());
   EXPECT_FALSE(dirty());
@@ -174,7 +169,7 @@ TEST_F(ImageEvidenceDisplayTest, ImageArrivingAfterObjectsSchedulesRendering) {
   EXPECT_EQ(shownPixel(), 10);
 }
 
-TEST_F(ImageEvidenceDisplayTest, NewerUnrelatedImageDoesNotRepaintSynchronizedMasks) {
+TEST_F(ImageObservationDisplayTest, NewerUnrelatedImageDoesNotRepaintSynchronizedMasks) {
   receiveObjects({makeObject()});
   receiveImage(makeImage(10));
   EXPECT_TRUE(render());
@@ -184,7 +179,7 @@ TEST_F(ImageEvidenceDisplayTest, NewerUnrelatedImageDoesNotRepaintSynchronizedMa
   EXPECT_EQ(shownPixel(), 10);
 }
 
-TEST_F(ImageEvidenceDisplayTest, LateMatchingImageReplacesNearestFallback) {
+TEST_F(ImageObservationDisplayTest, LateMatchingImageReplacesNearestFallback) {
   receiveObjects({makeObject()});
   receiveImage(makeImage(9));
   expireSyncWait();
@@ -197,14 +192,14 @@ TEST_F(ImageEvidenceDisplayTest, LateMatchingImageReplacesNearestFallback) {
   EXPECT_EQ(shownPixel(), 10);
 }
 
-TEST_F(ImageEvidenceDisplayTest, ContinuousObjectListsDoNotRestartSyncWait) {
+TEST_F(ImageObservationDisplayTest, ContinuousObjectListsDoNotRestartSyncWait) {
   receiveObjects({makeObject()});
   receiveImage(makeImage(9));
   EXPECT_FALSE(render());
   expireSyncWait();
   for (int stamp = 11; stamp < 15; ++stamp) {
     auto object = makeObject();
-    object.evidence.front().header.stamp.sec = stamp;
+    object.object.state.header.stamp.sec = stamp;
     receiveObjects({object}, stamp);
     receiveImage(makeImage(stamp - 1));
     EXPECT_TRUE(render());
@@ -215,12 +210,12 @@ TEST_F(ImageEvidenceDisplayTest, ContinuousObjectListsDoNotRestartSyncWait) {
   EXPECT_EQ(shownPixel(), 14);
 
   auto object = makeObject();
-  object.evidence.front().header.stamp.sec = 15;
+  object.object.state.header.stamp.sec = 15;
   receiveObjects({object}, 15);
   EXPECT_FALSE(render());
 }
 
-TEST(ImageEvidenceRendering, Mono16PreservesPixelValuesForBothByteOrders) {
+TEST(ImageObservationRendering, Mono16PreservesPixelValuesForBothByteOrders) {
   sensor_msgs::msg::Image image;
   image.width = 2;
   image.height = 2;
@@ -241,7 +236,7 @@ TEST(ImageEvidenceRendering, Mono16PreservesPixelValuesForBothByteOrders) {
   }
 }
 
-TEST(ImageEvidenceRendering, ClassLabelsRetainExistingNamesAndDeprecationInformation) {
+TEST(ImageObservationRendering, ClassLabelsRetainExistingNamesAndDeprecationInformation) {
   using Class = msg::ObjectClassification;
   EXPECT_EQ(rendering::classificationName(Class::CAR), "CAR");
   EXPECT_EQ(rendering::classificationName(Class::VAN), "VAN (DEPRECATED)");
@@ -251,7 +246,7 @@ TEST(ImageEvidenceRendering, ClassLabelsRetainExistingNamesAndDeprecationInforma
   EXPECT_EQ(rendering::classificationName(255), "TYPE NOT IMPLEMENTED");
 }
 
-TEST_F(ImageEvidenceDisplayTest, ClassificationColorsAreConfigurableWithExistingDefaults) {
+TEST_F(ImageObservationDisplayTest, ClassificationColorsAreConfigurableWithExistingDefaults) {
   auto object = makeObject();
   msg::ObjectClassification classification;
   classification.type = msg::ObjectClassification::CAR;
@@ -270,27 +265,20 @@ TEST_F(ImageEvidenceDisplayTest, ClassificationColorsAreConfigurableWithExisting
   EXPECT_EQ(color(object), QColor(34, 56, 78));
 }
 
-TEST_F(ImageEvidenceDisplayTest, LabelsAndColorsUseSignAndLightModels) {
-  auto sign = makeObject();
-  object_access::initializeState(sign.object, msg::TRAFFICSIGN::MODEL_ID);
-  object_access::setTrafficSignType(sign.object, msg::TRAFFICSIGN::TYPE_STOP);
-  EXPECT_TRUE(label(sign).contains("traffic sign: STOP"));
-  EXPECT_FALSE(label(sign).contains("unknown"));
-  auto light = makeObject();
-  object_access::initializeState(light.object, msg::TRAFFICLIGHT::MODEL_ID);
-  object_access::setTrafficLightState(light.object, msg::TRAFFICLIGHT::STATE_RED);
-  object_access::setTrafficLightType(light.object, msg::TRAFFICLIGHT::TYPE_LEFT);
-  EXPECT_TRUE(label(light).contains("traffic light red left"));
-  EXPECT_NE(color(sign), color(light));
-  EXPECT_NE(color(sign), rendering::defaultClassificationColor(msg::ObjectClassification::UNKNOWN));
-  EXPECT_NE(color(light), rendering::defaultClassificationColor(msg::ObjectClassification::UNKNOWN));
-  sign.object.state.discrete_state.clear();
-  light.object.state.discrete_state.clear();
-  EXPECT_TRUE(label(sign).contains("traffic sign"));
-  EXPECT_TRUE(label(light).contains("traffic light"));
+
+TEST_F(ImageObservationDisplayTest, TaxonomyLabelsAndProbabilitiesAreRendered) {
+  auto object = makeObject();
+  msg::ObjectClassification classification;
+  classification.type = msg::ObjectClassTaxonomy::TRAFFIC_LIGHT_RED_RIGHT_STRAIGHT;
+  classification.probability = .93;
+  object.object.state.classifications = {classification};
+  EXPECT_EQ(label(object), "42 traffic_light_red_right_straight 0.93");
+  EXPECT_EQ(rendering::classificationName(classification.type), "traffic_light_red_right_straight");
+  receiveObjects({object});
+  EXPECT_TRUE(render());
 }
 
-TEST_F(ImageEvidenceDisplayTest, RoadUserClassLabelsAndProbabilitiesArePreserved) {
+TEST_F(ImageObservationDisplayTest, RoadUserClassLabelsAndProbabilitiesArePreserved) {
   auto car = makeObject();
   msg::ObjectClassification classification;
   classification.type = msg::ObjectClassification::CAR;
@@ -300,19 +288,6 @@ TEST_F(ImageEvidenceDisplayTest, RoadUserClassLabelsAndProbabilitiesArePreserved
   EXPECT_EQ(color(car), rendering::defaultClassificationColor(msg::ObjectClassification::CAR));
 }
 
-TEST_F(ImageEvidenceDisplayTest, ObservationProjectionShowsCompoundTaxonomyAndSemanticConfidence) {
-  auto source = makeObject();
-  auto observed = object_access::toImageObservation(source);
-  msg::ObjectClassification classification;
-  classification.type = msg::ObjectClassTaxonomy::TRAFFIC_LIGHT_RED_RIGHT_STRAIGHT;
-  classification.probability = .93;
-  observed.object.state.classifications = {classification};
-  auto canvas = object_access::toLegacyImage(observed, msg::HEXAMOTION::MODEL_ID);
-  EXPECT_EQ(label(canvas), "42 traffic_light_red_right_straight 0.93");
-  receiveObjects({canvas});
-  EXPECT_EQ(select(std::string("left")).size(), 1u);
-  EXPECT_TRUE(render());
-}
 
 }  // namespace displays
 }  // namespace perception_msgs

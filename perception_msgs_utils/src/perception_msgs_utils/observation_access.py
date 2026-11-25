@@ -1,13 +1,11 @@
 # Copyright Institute for Automotive Engineering (ika), RWTH Aachen University
 # SPDX-License-Identifier: MIT
-"""Observation validation and explicit compatibility projections."""
+"""Validate dimensionality, source geometry and raw observation layout."""
 
-import copy
 import math
 
-from perception_msgs.msg import BOX2D, HEXAMOTION, TRAFFICLIGHT, TRAFFICSIGN, ObjectWithObservation, ImageObservation
+from perception_msgs.msg import BOX2D
 from .utils import get_continuous_state_size, get_discrete_state_size
-from .class_taxonomy import traffic_light_class
 
 
 def sanity_check_box2d(state):
@@ -97,7 +95,7 @@ def sanity_check_object_observation(entry):
         _check_pixels(observation.image[0].mask, state, True)
         return
     if (
-        state.model_id not in (1, 2, 16, 17, 20, 21)
+        state.model_id not in (1, 2, 16, 17, 20)
         or len(state.continuous_state) != get_continuous_state_size(state.model_id)
         or len(state.discrete_state) != get_discrete_state_size(state.model_id)
         or len(state.sensor_id) != 1
@@ -127,95 +125,5 @@ def sanity_check_object_observation(entry):
             raise ValueError("Invalid point field")
 
 
-def to_image_observation(source):
-    if len(source.evidence) != 1 or len(source.evidence[0].image) != 1 or source.evidence[0].point_cloud:
-        raise ValueError("Cannot implicitly select a fused observation")
-    evidence = source.evidence[0]
-    image = evidence.image[0]
-    result = ObjectWithObservation()
-    result.object = copy.deepcopy(source.object)
-    state = result.object.state
-    state.model_id = BOX2D.MODEL_ID
-    state.header = copy.deepcopy(evidence.header)
-    state.sensor_id = [evidence.sensor_id]
-    box = image.bounding_box
-    state.continuous_state = [box.center.position.x, box.center.position.y, box.size_x, box.size_y, box.center.theta]
-    roi = image.roi
-    state.discrete_state = [image.image_width, image.image_height, roi.x_offset, roi.y_offset, roi.width, roi.height]
-    state.continuous_state_covariance = []
-    result.object.state_history = []
-    result.object.state_predictions = []
-    result.observation.image = [ImageObservation(crop=copy.deepcopy(image.crop), mask=copy.deepcopy(image.mask))]
-    sanity_check_object_observation(result)
-    return result
-
-
 def best_class(state):
     return max(state.classifications, key=lambda c: c.probability).type if state.classifications else 0
-
-
-def legacy_light_color(class_id):
-    if class_id == 106:
-        return TRAFFICLIGHT.STATE_GREEN
-    if class_id == 105:
-        return TRAFFICLIGHT.STATE_YELLOW
-    if class_id == 103:
-        return TRAFFICLIGHT.STATE_OFF
-    if class_id == 107:
-        return TRAFFICLIGHT.STATE_RED_YELLOW
-    if class_id == 104 or 108 <= class_id <= 114:
-        return TRAFFICLIGHT.STATE_RED
-    return TRAFFICLIGHT.STATE_UNKNOWN
-
-
-def to_metric_object(source):
-    if source.state.model_id == BOX2D.MODEL_ID:
-        raise ValueError("Pixel geometry requires localization before metric conversion")
-    if source.state.model_id not in (TRAFFICLIGHT.MODEL_ID, TRAFFICSIGN.MODEL_ID):
-        return copy.deepcopy(source)
-    old = source.state
-    indices = [0, 1, 2, 7, 8, 9, 14, 15] if old.model_id == TRAFFICSIGN.MODEL_ID else [0, 1, 2]
-    if len(old.continuous_state) != len(indices):
-        raise ValueError("Invalid legacy metric state")
-    result = copy.deepcopy(source)
-    state = result.state
-    state.model_id = HEXAMOTION.MODEL_ID
-    state.continuous_state = [math.nan] * 16
-    state.discrete_state = [0] * 3
-    for i, target in enumerate(indices):
-        state.continuous_state[target] = old.continuous_state[i]
-    state.continuous_state_covariance = []
-    if old.continuous_state_covariance:
-        n = len(indices)
-        if len(old.continuous_state_covariance) != n * n:
-            raise ValueError("Invalid legacy covariance")
-        covariance = [0.0] * 256
-        for i in range(16):
-            covariance[i * 16 + i] = -1.0
-        for i, ti in enumerate(indices):
-            for j, tj in enumerate(indices):
-                covariance[ti * 16 + tj] = old.continuous_state_covariance[i * n + j]
-        state.continuous_state_covariance = covariance
-    return result
-
-
-def to_legacy_metric_light(source):
-    if source.state.model_id == TRAFFICLIGHT.MODEL_ID:
-        return copy.deepcopy(source)
-    state = source.state
-    if (
-        state.model_id != HEXAMOTION.MODEL_ID
-        or len(state.continuous_state) != 16
-        or not 101 <= best_class(state) <= 114
-    ):
-        raise ValueError("Expected generic 3D traffic light")
-    result = copy.deepcopy(source)
-    result.state.model_id = TRAFFICLIGHT.MODEL_ID
-    result.state.continuous_state = list(state.continuous_state[:3])
-    result.state.discrete_state = [legacy_light_color(best_class(state)), TRAFFICLIGHT.TYPE_DEFAULT]
-    result.state.continuous_state_covariance = []
-    if len(state.continuous_state_covariance) == 256:
-        result.state.continuous_state_covariance = [
-            state.continuous_state_covariance[i * 16 + j] for i in range(3) for j in range(3)
-        ]
-    return result

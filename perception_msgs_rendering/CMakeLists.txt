@@ -41,7 +41,7 @@ add_library(${PROJECT_NAME} SHARED
   src/rendering/object_state/object_state.cpp
   src/rendering/traffic_light/traffic_light.cpp
   src/rendering/traffic_sign/traffic_sign.cpp
-  src/rendering/image_evidence/image_evidence_painter.cpp
+  src/rendering/image_observation/image_observation_painter.cpp
 )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC

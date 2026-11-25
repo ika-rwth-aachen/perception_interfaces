@@ -56,19 +56,14 @@
   </class>
 
   <class
-    name="perception_msgs/ImageEvidence"
-    type="perception_msgs::displays::ImageEvidenceDisplay"
+    name="perception_msgs/ImageObservation"
+    type="perception_msgs::displays::ImageObservationDisplay"
     base_class_type="rviz_common::Display"
   >
     <description>
-      Displays the 2D image evidence (bounding boxes, masks, crops) of perception_msgs/msg/ObjectListWithEvidence objects in their own dockable panel, optionally on top of the matching camera image.
+      Displays the 2D image observation (bounding boxes, masks, crops) of perception_msgs/msg/ObjectListWithObservation objects in their own dockable panel, optionally on top of the matching camera image.
     </description>
-    <message_type>perception_msgs/msg/ObjectListWithEvidence</message_type>
-  </class>
-
-  <class name="perception_msgs/ImageObservation"
-         type="perception_msgs::displays::ImageObservationDisplay" base_class_type="rviz_common::Display">
-    <description>2D objects and image observations, including crops, masks and synchronized source images.</description>
     <message_type>perception_msgs/msg/ObjectListWithObservation</message_type>
   </class>
+
 </library>

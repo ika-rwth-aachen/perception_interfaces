@@ -718,22 +718,6 @@ def test_initialization_omits_covariance_and_getters_expose_defaults(message_typ
     assert get_x(obj) == CONTINUOUS_STATE_INIT
     assert list(get_continuous_state_covariance(obj)) == defaults
 
-def test_set_get_TRAFFICSIGN():
-    from perception_msgs.msg import TRAFFICSIGN
-    from perception_msgs_utils.state_index import UnknownStateEntryError
-    obj = Object()
-    initialize_state(obj, TRAFFICSIGN.MODEL_ID)
-    assert get_continuous_state_size(obj) == 8 and get_discrete_state_size(obj) == 1
-    set_x(obj, 2.)
-    set_yaw(obj, .3)
-    set_width(obj, .6)
-    set_height(obj, .8)
-    assert get_x(obj) == 2. and get_yaw(obj) == .3 and get_width(obj) == .6 and get_height(obj) == .8
-    assert get_type(obj) == TRAFFICSIGN.TYPE_UNKNOWN
-    set_type(obj, TRAFFICSIGN.TYPE_STOP)
-    assert get_type(obj) == TRAFFICSIGN.TYPE_STOP
-    with pytest.raises(UnknownStateEntryError):
-        get_length(obj)
 
 @pytest.mark.parametrize('model', [ISCACTR.MODEL_ID, HEXAMOTION.MODEL_ID, TRAFFICLIGHT.MODEL_ID])
 def test_unmeasured_components(model):
@@ -758,80 +742,3 @@ def test_unmeasured_components(model):
     assert not has_valid_position(state)
     set_z(state, 1.)
     assert has_valid_position(state)
-
-def _image_evidence(sensor_id):
-    from perception_msgs.msg import Evidence, ImageEvidence
-    evidence = Evidence(sensor_id=sensor_id)
-    evidence.header.frame_id = 'camera'
-    image = ImageEvidence(image_width=80, image_height=60)
-    image.bounding_box.size_x = 20.
-    image.bounding_box.size_y = 10.
-    image.roi.width = 24
-    image.roi.height = 12
-    for pixels, encoding, step in ((image.crop, 'bgr8', 72), (image.mask, 'mono8', 24)):
-        pixels.header = evidence.header
-        pixels.width = 24
-        pixels.height = 12
-        pixels.encoding = encoding
-        pixels.step = step
-        pixels.data = bytes(step * 12)
-    evidence.image = [image]
-    return evidence
-
-def _point_cloud_evidence(sensor_id):
-    from perception_msgs.msg import Evidence, PointCloudEvidence
-    evidence = Evidence(sensor_id=sensor_id)
-    evidence.header.frame_id = 'lidar'
-    point_cloud = PointCloudEvidence()
-    point_cloud.points.header = evidence.header
-    point_cloud.points.height = 1
-    point_cloud.points.width = 4
-    point_cloud.points.point_step = 12
-    point_cloud.points.row_step = 48
-    point_cloud.points.data = bytes(48)
-    evidence.point_cloud = [point_cloud]
-    return evidence
-
-def test_evidence():
-    from perception_msgs.msg import ObjectWithEvidence, TRAFFICSIGN
-    from perception_msgs_utils.constants import CONTINUOUS_STATE_UNMEASURED
-    from perception_msgs_utils.evidence_access import add_evidence, sanity_check_evidence, sanity_check_object_evidence
-    obj = ObjectWithEvidence()
-    initialize_state(obj.object, TRAFFICSIGN.MODEL_ID, CONTINUOUS_STATE_UNMEASURED)
-    add_evidence(obj, _image_evidence(7))
-    add_evidence(obj, _image_evidence(7))
-    add_evidence(obj, _point_cloud_evidence(8))
-    assert len(obj.evidence) == 3 and list(obj.object.state.sensor_id) == [7, 8]
-    sanity_check_object_evidence(obj)
-    obj.object.state.sensor_id = [7]
-    with pytest.raises(ValueError):
-        sanity_check_object_evidence(obj)
-
-    evidence = _image_evidence(7)
-    evidence.point_cloud = _point_cloud_evidence(7).point_cloud
-    with pytest.raises(ValueError):
-        sanity_check_evidence(evidence)
-    evidence = _point_cloud_evidence(7)
-    evidence.point_cloud[0].points.data = bytes(40)
-    with pytest.raises(ValueError):
-        sanity_check_evidence(evidence)
-
-def test_image_evidence():
-    from perception_msgs_utils.evidence_access import sanity_check_image_evidence
-    valid = _image_evidence(7)
-    image = _image_evidence(7).image[0]
-    image.roi.x_offset = 70
-    with pytest.raises(ValueError):
-        sanity_check_image_evidence(image, valid.header)
-    image = _image_evidence(7).image[0]
-    image.bounding_box.size_x = float('nan')
-    with pytest.raises(ValueError):
-        sanity_check_image_evidence(image, valid.header)
-    image = _image_evidence(7).image[0]
-    image.crop.data = bytes(10)
-    with pytest.raises(ValueError):
-        sanity_check_image_evidence(image, valid.header)
-    image = _image_evidence(7).image[0]
-    image.mask.encoding = 'bgr8'
-    with pytest.raises(ValueError):
-        sanity_check_image_evidence(image, valid.header)

@@ -86,3 +86,18 @@ LIGHT_LABELS = {
     "off": 103,
     "red,yellow": 107,
 }
+
+
+def traffic_light_color(class_id):
+    """Coarse color for geometric association; preserves compound classes on objects."""
+    if class_id == 106:
+        return 4
+    if class_id == 105:
+        return 3
+    if class_id == 107:
+        return 2
+    if class_id == 103:
+        return 255
+    if class_id == 104 or 108 <= class_id <= 114:
+        return 1
+    return 0

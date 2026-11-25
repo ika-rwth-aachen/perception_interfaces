@@ -158,4 +158,11 @@ inline uint8_t trafficLightClass(const std::string &label) {
 }
 inline bool isTrafficLightClass(uint8_t id) { return id >= 101 && id <= 114; }
 inline bool isTrafficSignClass(uint8_t id) { return id >= 128 && id <= 172; }
+inline uint8_t trafficLightColor(uint8_t id) {
+  if (id == 106) return 4;
+  if (id == 105) return 3;
+  if (id == 107) return 2;
+  if (id == 103) return 255;
+  return id == 104 || (id >= 108 && id <= 114) ? 1 : 0;
+}
 } // namespace perception_msgs::object_access

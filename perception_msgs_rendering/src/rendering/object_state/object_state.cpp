@@ -825,6 +825,8 @@ void ObjectState::setObjectPredictionProbabilityText(const double& probability,
 }
 
 std::string classificationTypeName(uint8_t type) {
+  const auto label = perception_msgs::object_access::taxonomyLabel(type);
+  if (!label.empty()) return label;
   switch (type) {
     case perception_msgs::msg::ObjectClassification::UNCLASSIFIED:
       return "UNCLASSIFIED";

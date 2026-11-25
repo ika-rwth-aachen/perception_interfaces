@@ -26,18 +26,15 @@ ObjectWithObservation imageObject() {
   crop.data.assign(8100, 7);
   return entry;
 }
-TEST(Observation, RoundTripRetainsSourceGeometryAndPixels) {
+
+TEST(Observation, ImageViewRetainsSourceGeometryWithoutCopyingPixels) {
   auto input = imageObject();
-  ASSERT_NO_THROW(sanityCheckObjectObservation(input));
-  auto legacy = toLegacyImage(input, TRAFFICLIGHT::MODEL_ID);
-  auto output = toImageObservation(legacy);
-  EXPECT_EQ(output.object.id, input.object.id);
-  EXPECT_EQ(output.object.state.continuous_state,
-            input.object.state.continuous_state);
-  EXPECT_EQ(output.object.state.discrete_state,
-            input.object.state.discrete_state);
-  EXPECT_EQ(output.observation.image.front().crop,
-            input.observation.image.front().crop);
+  const auto view = imageView(input);
+  EXPECT_EQ(view.image_width, 640u);
+  EXPECT_EQ(view.roi.width, 60u);
+  EXPECT_EQ(view.crop.width, 30u);
+  EXPECT_EQ(&view.crop, &input.observation.image.front().crop);
+  EXPECT_EQ(view.header.frame_id, "camera_optical");
 }
 TEST(Observation, RejectsDimensionalMismatchAndMalformedStorage) {
   auto input = imageObject();
@@ -53,7 +50,6 @@ TEST(Observation, RejectsDimensionalMismatchAndMalformedStorage) {
   input.object.state.sensor_id.push_back(12);
   EXPECT_THROW(sanityCheckObjectObservation(input), std::invalid_argument);
   input = imageObject();
-  EXPECT_THROW(toMetricObject(input.object), std::invalid_argument);
 }
 TEST(Observation, CloudRequiresMetricGeometryAndValidFieldLayout) {
   auto input = imageObject();
@@ -78,32 +74,4 @@ TEST(Observation, CloudRequiresMetricGeometryAndValidFieldLayout) {
   field.offset = 10;
   cloud.fields.push_back(field);
   EXPECT_THROW(sanityCheckObjectObservation(input), std::invalid_argument);
-}
-TEST(Observation, GeometryProjectionCanOmitPixelsAndRejectInvalidConfidence) {
-  auto input = imageObject();
-  auto geometry = toLegacyImage(input, TRAFFICLIGHT::MODEL_ID, false);
-  EXPECT_TRUE(geometry.evidence.front().image.front().crop.data.empty());
-  EXPECT_EQ(geometry.evidence.front().image.front().bounding_box.size_x, 60);
-  input.object.existence_probability = std::numeric_limits<double>::quiet_NaN();
-  EXPECT_THROW(sanityCheckObjectObservation(input), std::invalid_argument);
-}
-TEST(Observation, MetricProjectionPreservesSemanticsAndCovariance) {
-  auto obj = imageObject().object;
-  initializeState(obj, TRAFFICLIGHT::MODEL_ID, CONTINUOUS_STATE_UNMEASURED);
-  obj.state.continuous_state = {1, 2, 3};
-  obj.state.discrete_state = {1, 0};
-  obj.state.continuous_state_covariance = {1, 0.2, 0, 0.2, 2, 0, 0, 0, 3};
-  ObjectClassification semantic;
-  semantic.type = trafficLightClass("left,red,straight");
-  semantic.probability = 0.9;
-  obj.state.classifications = {semantic};
-  const auto metric = toMetricObject(obj);
-  EXPECT_EQ(metric.state.model_id, HEXAMOTION::MODEL_ID);
-  EXPECT_TRUE(std::isnan(metric.state.continuous_state[3]));
-  EXPECT_EQ(metric.state.continuous_state_covariance[51], -1);
-  const auto restored = toLegacyMetricLight(metric);
-  EXPECT_EQ(restored.id, obj.id);
-  EXPECT_EQ(restored.state.classifications.front().type, 109);
-  EXPECT_EQ(restored.state.continuous_state_covariance,
-            obj.state.continuous_state_covariance);
 }

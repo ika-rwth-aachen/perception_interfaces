@@ -28,10 +28,10 @@ T = TypeVar('T', bound=Union[Object, ObjectState, EgoData])
 
 def get_x(obj: T) -> float:
     """Get the x-position for a given object or object state.
-    
+
     Args:
         obj: Object or ObjectState instance
-        
+
     Returns:
         float: x-position value
     """
@@ -184,7 +184,7 @@ def get_state(obj: T) -> int:
     return int(state.discrete_state[index_state(state.model_id)])
 
 def get_type(obj: T) -> int:
-    """Get the model-specific type for a given object or object state."""
+    """Get the traffic light type for a given object or object state."""
     state = obj if isinstance(obj, ObjectState) else obj.state
-    sanity_check_discrete_state(state)
+    sanity_check_continuous_state(state)
     return int(state.discrete_state[index_type(state.model_id)])

@@ -1,7 +1,7 @@
 // Copyright Institute for Automotive Engineering (ika), RWTH Aachen University
 // SPDX-License-Identifier: MIT
 
-#include "perception_msgs/rendering/image_evidence/image_evidence_painter.hpp"
+#include "perception_msgs/rendering/image_observation/image_observation_painter.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -27,7 +27,7 @@ namespace rendering {
 
 namespace {
 
-using perception_msgs::msg::ImageEvidence;
+using perception_msgs::object_access::ImageObservationView;
 using perception_msgs::msg::ObjectClassification;
 
 bool hostIsBigEndian() { return QSysInfo::ByteOrder == QSysInfo::BigEndian; }
@@ -93,7 +93,7 @@ QImage convertBgra(const sensor_msgs::msg::Image& image) {
 }
 
 /** @brief Maps source-image pixel coordinates (pixel edges, Qt convention) onto the canvas target. */
-QTransform sourceToTarget(const ImageEvidence& image, const QRectF& target) {
+QTransform sourceToTarget(const ImageObservationView& image, const QRectF& target) {
   QTransform transform;
   transform.translate(target.x(), target.y());
   transform.scale(target.width() / static_cast<double>(image.image_width),
@@ -101,13 +101,13 @@ QTransform sourceToTarget(const ImageEvidence& image, const QRectF& target) {
   return transform;
 }
 
-bool hasRoi(const ImageEvidence& image) { return image.roi.width > 0 && image.roi.height > 0; }
+bool hasRoi(const ImageObservationView& image) { return image.roi.width > 0 && image.roi.height > 0; }
 
-QRectF roiRect(const ImageEvidence& image) {
+QRectF roiRect(const ImageObservationView& image) {
   return QRectF(image.roi.x_offset, image.roi.y_offset, image.roi.width, image.roi.height);
 }
 
-QPolygonF boxPolygon(const ImageEvidence& image) {
+QPolygonF boxPolygon(const ImageObservationView& image) {
   const auto& box = image.bounding_box;
   // message uses pixel centers; Qt geometry uses pixel edges
   const double cx = box.center.position.x + 0.5, cy = box.center.position.y + 0.5;
@@ -123,8 +123,8 @@ bool maskOn(const sensor_msgs::msg::Image& mask, uint32_t u, uint32_t v) {
   return mask.data[static_cast<size_t>(v) * mask.step + u] >= 128;
 }
 
-void paintMask(QPainter& painter, const ImageEvidence& image, const QTransform& transform, const QColor& color,
-               const ImageEvidenceStyle& style, double opacity, bool stale) {
+void paintMask(QPainter& painter, const ImageObservationView& image, const QTransform& transform, const QColor& color,
+               const ImageObservationStyle& style, double opacity, bool stale) {
   const auto& mask = image.mask;
   if (mask.data.empty() || mask.encoding != "mono8" || !hasRoi(image) || mask.width == 0 || mask.height == 0 ||
       mask.step < mask.width || static_cast<size_t>(mask.step) * mask.height > mask.data.size())
@@ -176,7 +176,7 @@ void paintMask(QPainter& painter, const ImageEvidence& image, const QTransform& 
 }
 
 void paintLabel(QPainter& painter, const QRectF& anchor, const QRectF& target, const QString& text,
-                const QColor& color, const ImageEvidenceStyle& style, double opacity) {
+                const QColor& color, const ImageObservationStyle& style, double opacity) {
   if (text.isEmpty()) return;
   QFont font = painter.font();
   font.setPixelSize(std::max(6, style.font_pixel_size));
@@ -230,23 +230,23 @@ QImage toQImage(const sensor_msgs::msg::Image& image, std::string* error) {
   return fail("unsupported encoding or step for '" + enc + "'");
 }
 
-void paintImageEvidence(QPainter& painter, const QRectF& target,
-                        const std::vector<ImageEvidenceAnnotation>& annotations, const ImageEvidenceStyle& style) {
+void paintImageObservation(QPainter& painter, const QRectF& target,
+                        const std::vector<ImageObservationAnnotation>& annotations, const ImageObservationStyle& style) {
   painter.save();
   painter.setClipRect(target);
   painter.setRenderHint(QPainter::Antialiasing, true);
   painter.setRenderHint(QPainter::TextAntialiasing, true);
 
   // layer by layer so that labels are never covered by another object's mask or box
-  const auto valid = [](const ImageEvidenceAnnotation& a) {
-    return a.evidence && !a.evidence->image.empty() && a.evidence->image.front().image_width > 0 &&
-           a.evidence->image.front().image_height > 0;
+  const auto valid = [](const ImageObservationAnnotation& a) {
+    if (!a.observation) return false;
+    try { object_access::imageView(*a.observation); return true; }
+    catch (const std::exception&) { return false; }
   };
-
   if (style.draw_crop) {
     for (const auto& a : annotations) {
       if (!valid(a)) continue;
-      const auto& image = a.evidence->image.front();
+      const auto image = object_access::imageView(*a.observation);
       if (image.crop.data.empty() || !hasRoi(image)) continue;
       const QImage crop = toQImage(image.crop);
       if (crop.isNull()) continue;
@@ -261,7 +261,7 @@ void paintImageEvidence(QPainter& painter, const QRectF& target,
   if (style.draw_mask) {
     for (const auto& a : annotations) {
       if (!valid(a)) continue;
-      const auto& image = a.evidence->image.front();
+      const auto image = object_access::imageView(*a.observation);
       paintMask(painter, image, sourceToTarget(image, target), a.color, style,
                 a.stale ? style.stale_opacity : 1.0, a.stale);
     }
@@ -269,7 +269,7 @@ void paintImageEvidence(QPainter& painter, const QRectF& target,
 
   for (const auto& a : annotations) {
     if (!valid(a)) continue;
-    const auto& image = a.evidence->image.front();
+    const auto image = object_access::imageView(*a.observation);
     const double opacity = a.stale ? style.stale_opacity : 1.0;
     const QTransform transform = sourceToTarget(image, target);
 
@@ -299,7 +299,7 @@ void paintImageEvidence(QPainter& painter, const QRectF& target,
   if (style.draw_label) {
     for (const auto& a : annotations) {
       if (!valid(a)) continue;
-      const auto& image = a.evidence->image.front();
+      const auto image = object_access::imageView(*a.observation);
       const QRectF anchor = sourceToTarget(image, target).map(boxPolygon(image)).boundingRect();
       paintLabel(painter, anchor, target, a.label, a.color, style, a.stale ? style.stale_opacity : 1.0);
     }
@@ -333,17 +333,7 @@ QColor defaultClassificationColor(uint8_t type) {
 QString objectClassName(const perception_msgs::msg::ObjectState& state) {
   const auto semantic = object_access::taxonomyLabel(object_access::bestClass(state));
   if (!semantic.empty()) return QString::fromStdString(semantic);
-  using Sign = perception_msgs::msg::TRAFFICSIGN;
   using Light = perception_msgs::msg::TRAFFICLIGHT;
-  if (state.model_id == Sign::MODEL_ID) {
-    QString label = QStringLiteral("traffic sign");
-    if (state.discrete_state.size() == Sign::DISCRETE_STATE_SIZE) {
-      const auto type = perception_msgs::object_access::getTrafficSignType(state);
-      if (type > Sign::TYPE_UNKNOWN)
-        label += ": " + QString::fromStdString(trafficSignTypeName(type));
-    }
-    return label;
-  }
   if (state.model_id == Light::MODEL_ID) {
     QString label = QStringLiteral("traffic light");
     if (state.discrete_state.size() != Light::DISCRETE_STATE_SIZE) return label;
@@ -367,7 +357,7 @@ QString objectClassName(const perception_msgs::msg::ObjectState& state) {
 }
 
 QColor defaultObjectColor(const perception_msgs::msg::ObjectState& state) {
-  if (state.model_id == perception_msgs::msg::TRAFFICSIGN::MODEL_ID) return QColor(255, 80, 80);
+  if (object_access::isTrafficSignClass(object_access::bestClass(state))) return QColor(255, 80, 80);
   if (state.model_id == perception_msgs::msg::TRAFFICLIGHT::MODEL_ID) return QColor(255, 190, 0);
   return defaultClassificationColor(perception_msgs::object_access::getClassWithHighestProbability(state).type);
 }

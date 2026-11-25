@@ -13,7 +13,7 @@
 #include <QRectF>
 #include <QString>
 
-#include <perception_msgs/msg/evidence.hpp>
+#include <perception_msgs/msg/object_with_observation.hpp>
 #include <perception_msgs/msg/object_state.hpp>
 #include <sensor_msgs/msg/image.hpp>
 
@@ -23,8 +23,8 @@ namespace rendering {
 /** @brief How instance masks are drawn. */
 enum class MaskMode : uint8_t { Filled = 0, Contour = 1, FilledAndContour = 2 };
 
-/** @brief Appearance of image evidence annotations. Sizes are in canvas (device) pixels. */
-struct ImageEvidenceStyle {
+/** @brief Appearance of image observation annotations. Sizes are in canvas (device) pixels. */
+struct ImageObservationStyle {
   bool draw_box = true;
   double box_line_width = 2.0;
   double box_fill_alpha = 0.0;
@@ -34,7 +34,7 @@ struct ImageEvidenceStyle {
   double mask_alpha = 0.4;
   double contour_line_width = 1.5;
 
-  bool draw_crop = false;  ///< paste ImageEvidence::crop at its ROI
+  bool draw_crop = false;  ///< paste ImageObservation::crop at its ROI
   bool draw_roi = false;   ///< draw the crop/mask source rectangle
 
   bool draw_label = true;
@@ -44,9 +44,9 @@ struct ImageEvidenceStyle {
   double stale_opacity = 0.45;  ///< opacity multiplier for stale annotations
 };
 
-/** @brief One image evidence to draw, with its precomputed appearance. */
-struct ImageEvidenceAnnotation {
-  const perception_msgs::msg::Evidence* evidence = nullptr;
+/** @brief One image observation to draw, with its precomputed appearance. */
+struct ImageObservationAnnotation {
+  const perception_msgs::msg::ObjectWithObservation* observation = nullptr;
   QColor color;
   QString label;
   bool stale = false;  ///< drawn dashed and faded, e.g. when its stamp does not match the canvas image
@@ -67,8 +67,8 @@ QImage toQImage(const sensor_msgs::msg::Image& image, std::string* error = nullp
  * is scaled from its own source size onto @p target, so the canvas may have any resolution.
  * Bounding box centers follow the message convention (pixel centers, x right, y down).
  */
-void paintImageEvidence(QPainter& painter, const QRectF& target,
-                        const std::vector<ImageEvidenceAnnotation>& annotations, const ImageEvidenceStyle& style);
+void paintImageObservation(QPainter& painter, const QRectF& target,
+                        const std::vector<ImageObservationAnnotation>& annotations, const ImageObservationStyle& style);
 
 /** @brief Human-readable name of an ObjectClassification type. */
 QString classificationName(uint8_t type);

@@ -1,7 +1,7 @@
 // Copyright Institute for Automotive Engineering (ika), RWTH Aachen University
 // SPDX-License-Identifier: MIT
 
-#include "perception_msgs/displays/image_evidence/image_evidence_display.hpp"
+#include "perception_msgs/displays/image_observation/image_observation_display.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -47,7 +47,7 @@ std::optional<uint64_t> sensorId(const std::string& text) {
 
 }  // namespace
 
-ImageEvidenceDisplay::ImageEvidenceDisplay() {
+ImageObservationDisplay::ImageObservationDisplay() {
   using namespace rviz_common::properties;
 
   qos_profile = rclcpp::SensorDataQoS();
@@ -56,7 +56,7 @@ ImageEvidenceDisplay::ImageEvidenceDisplay() {
   // image source properties
   image_source_property_ = new EnumProperty(
       "Image Source", "Image topic",
-      "Canvas behind the annotations. 'Crop mosaic' pastes the evidence crops onto a blank canvas and "
+      "Canvas behind the annotations. 'Crop mosaic' pastes the observation crops onto a blank canvas and "
       "needs no image stream.",
       this, SLOT(updateSourceVisibility()));
   image_source_property_->addOption("Image topic", static_cast<int>(ImageSource::ImageTopic));
@@ -65,7 +65,7 @@ ImageEvidenceDisplay::ImageEvidenceDisplay() {
 
   image_topic_property_ = new RosTopicProperty(
       "Image Topic", "", "sensor_msgs/msg/Image",
-      "Camera image the evidence refers to (same resolution or a uniformly resized stream).",
+      "Camera image the observation refers to (same resolution or a uniformly resized stream).",
       image_source_property_, SLOT(updateImageSubscription()), this);
 
   image_transport_property_ = new EditableEnumProperty(
@@ -75,15 +75,15 @@ ImageEvidenceDisplay::ImageEvidenceDisplay() {
 
   sync_mode_property_ = new EnumProperty(
       "Synchronization", "Synchronized",
-      "Synchronized: show the image whose stamp matches the evidence (lags by detector latency). "
-      "Latest image: show the newest image with the latest evidence.",
+      "Synchronized: show the image whose stamp matches the observation (lags by detector latency). "
+      "Latest image: show the newest image with the latest observation.",
       image_source_property_, SLOT(queueRender()), this);
   sync_mode_property_->addOption("Synchronized", static_cast<int>(SyncMode::Synchronized));
   sync_mode_property_->addOption("Latest image", static_cast<int>(SyncMode::LatestImage));
 
   sync_tolerance_property_ = new FloatProperty(
       "Tolerance [ms]", 20.0,
-      "Maximum stamp difference between image and evidence. Evidence outside it is drawn as stale.",
+      "Maximum stamp difference between image and observation. Older annotations are drawn as stale.",
       image_source_property_, SLOT(queueRender()), this);
   sync_tolerance_property_->setMin(0.0);
 
@@ -139,7 +139,7 @@ ImageEvidenceDisplay::ImageEvidenceDisplay() {
   mask_alpha_property_->setMax(1.0);
 
   crop_property_ = new BoolProperty(
-      "Crop", false, "Paste the evidence crop at its ROI.", appearance_properties_, SLOT(queueRender()), this);
+      "Crop", false, "Paste the observation crop at its ROI.", appearance_properties_, SLOT(queueRender()), this);
   roi_property_ = new BoolProperty(
       "ROI", false, "Draw the crop/mask source rectangle.", appearance_properties_, SLOT(queueRender()), this);
 
@@ -183,21 +183,21 @@ ImageEvidenceDisplay::ImageEvidenceDisplay() {
   image_alpha_property_->setMax(1.0);
 }
 
-ImageEvidenceDisplay::~ImageEvidenceDisplay() { unsubscribeImage(); }
+ImageObservationDisplay::~ImageObservationDisplay() { unsubscribeImage(); }
 
-void ImageEvidenceDisplay::onInitialize() {
+void ImageObservationDisplay::onInitialize() {
   RTDClass::onInitialize();
   image_topic_property_->initialize(context_->getRosNodeAbstraction());
 
   // RViz hosts the widget in a dock panel named after the display (dockable, floatable, saved in the config)
   // and shows/hides it together with the display.
-  widget_ = std::make_unique<ImageEvidenceWidget>();
+  widget_ = std::make_unique<ImageObservationWidget>();
   widget_->setWindowTitle(getName());
   setAssociatedWidget(widget_.get());
   updateSourceVisibility();
 }
 
-void ImageEvidenceDisplay::reset() {
+void ImageObservationDisplay::reset() {
   RTDClass::reset();
   object_list_.reset();
   images_.clear();
@@ -208,33 +208,33 @@ void ImageEvidenceDisplay::reset() {
   dirty_ = true;
 }
 
-void ImageEvidenceDisplay::onEnable() {
+void ImageObservationDisplay::onEnable() {
   RTDClass::onEnable();
   subscribeImage();
   dirty_ = true;
 }
 
-void ImageEvidenceDisplay::onDisable() {
+void ImageObservationDisplay::onDisable() {
   RTDClass::onDisable();
   unsubscribeImage();
 }
 
-void ImageEvidenceDisplay::processMessage(perception_msgs::msg::ObjectListWithEvidence::ConstSharedPtr msg) {
+void ImageObservationDisplay::processMessage(perception_msgs::msg::ObjectListWithObservation::ConstSharedPtr msg) {
   object_list_ = msg;
   if (!validStamp(msg->header.stamp))
-    setStatus(StatusProperty::Warn, "Object timestamp", "Invalid object-list timestamp; using evidence timestamps.");
+    setStatus(StatusProperty::Warn, "Object timestamp", "Invalid object-list timestamp; using observation timestamps.");
   else
     deleteStatus("Object timestamp");
 
   std::set<uint64_t> sensor_ids;
-  for (const auto& object : msg->objects)
-    for (const auto& evidence : object.evidence)
-      if (!evidence.image.empty()) sensor_ids.insert(evidence.sensor_id);
+  for (const auto& entry : msg->objects)
+    if (!entry.observation.image.empty() && entry.object.state.sensor_id.size() == 1)
+      sensor_ids.insert(entry.object.state.sensor_id.front());
   updateSensorOptions(sensor_ids);
   dirty_ = true;
 }
 
-void ImageEvidenceDisplay::imageCallback(const sensor_msgs::msg::Image::ConstSharedPtr& msg) {
+void ImageObservationDisplay::imageCallback(const sensor_msgs::msg::Image::ConstSharedPtr& msg) {
   if (!validStamp(msg->header.stamp)) {
     setStatus(StatusProperty::Warn, "Image timestamp", "Image with invalid timestamp ignored.");
     return;
@@ -252,14 +252,14 @@ void ImageEvidenceDisplay::imageCallback(const sensor_msgs::msg::Image::ConstSha
     dirty_ = true;
 }
 
-void ImageEvidenceDisplay::update(float wall_dt, float ros_dt) {
+void ImageObservationDisplay::update(float wall_dt, float ros_dt) {
   RTDClass::update(wall_dt, ros_dt);
   if (dirty_ && isEnabled()) dirty_ = !render();
 }
 
-void ImageEvidenceDisplay::queueRender() { dirty_ = true; }
+void ImageObservationDisplay::queueRender() { dirty_ = true; }
 
-void ImageEvidenceDisplay::updateSourceVisibility() {
+void ImageObservationDisplay::updateSourceVisibility() {
   const bool topic = static_cast<ImageSource>(image_source_property_->getOptionInt()) == ImageSource::ImageTopic;
   image_topic_property_->setHidden(!topic);
   image_transport_property_->setHidden(!topic);
@@ -268,7 +268,7 @@ void ImageEvidenceDisplay::updateSourceVisibility() {
   updateImageSubscription();
 }
 
-void ImageEvidenceDisplay::updateImageSubscription() {
+void ImageObservationDisplay::updateImageSubscription() {
   unsubscribeImage();
   images_.clear();
   sync_wait_started_.reset();
@@ -276,7 +276,7 @@ void ImageEvidenceDisplay::updateImageSubscription() {
   dirty_ = true;
 }
 
-void ImageEvidenceDisplay::subscribeImage() {
+void ImageObservationDisplay::subscribeImage() {
   if (!context_ || static_cast<ImageSource>(image_source_property_->getOptionInt()) != ImageSource::ImageTopic) {
     deleteStatus("Image");
     return;
@@ -297,9 +297,9 @@ void ImageEvidenceDisplay::subscribeImage() {
   }
 }
 
-void ImageEvidenceDisplay::unsubscribeImage() { image_subscriber_.shutdown(); }
+void ImageObservationDisplay::unsubscribeImage() { image_subscriber_.shutdown(); }
 
-void ImageEvidenceDisplay::updateSensorOptions(const std::set<uint64_t>& sensor_ids) {
+void ImageObservationDisplay::updateSensorOptions(const std::set<uint64_t>& sensor_ids) {
   const size_t before = known_sensor_ids_.size();
   known_sensor_ids_.insert(sensor_ids.begin(), sensor_ids.end());
   if (known_sensor_ids_.size() == before) return;
@@ -308,65 +308,47 @@ void ImageEvidenceDisplay::updateSensorOptions(const std::set<uint64_t>& sensor_
   for (const auto id : known_sensor_ids_) sensor_id_property_->addOptionStd(std::to_string(id));
 }
 
-ImageEvidenceDisplay::Selection ImageEvidenceDisplay::selectEvidence(
+ImageObservationDisplay::Selection ImageObservationDisplay::selectObservations(
     const std::optional<std::string>& image_frame) const {
   Selection selection;
   if (!object_list_) return selection;
 
-  struct Candidate {
-    const perception_msgs::msg::Object* object;
-    const perception_msgs::msg::Evidence* evidence;
-  };
-  std::vector<Candidate> candidates;
+  std::vector<const perception_msgs::msg::ObjectWithObservation*> candidates;
   const double min_existence = min_existence_property_->getFloat();
   for (const auto& entry : object_list_->objects) {
-    const auto& object = entry.object;
-    if (object.existence_probability < min_existence) continue;
-    for (const auto& evidence : entry.evidence) {
-      if (evidence.image.empty()) continue;
-      try {
-        perception_msgs::object_access::sanityCheckEvidence(evidence);
-      } catch (const std::exception&) {
-        ++selection.invalid;
-        continue;
-      }
-      candidates.push_back({&object, &evidence});
-    }
+    if (entry.object.existence_probability < min_existence || entry.observation.image.empty()) continue;
+    try { object_access::imageView(entry); candidates.push_back(&entry); }
+    catch (const std::exception&) { ++selection.invalid; }
   }
-
-  // resolve which camera to draw
-  const std::string sensor_text = sensor_id_property_->getStdString();
-  const bool automatic = sensor_text == kAutoSensor || sensor_text.empty();
-  std::optional<uint64_t> sensor_id = automatic ? std::nullopt : sensorId(sensor_text);
-  if (!automatic && !sensor_id) return selection;
+  const auto text = sensor_id_property_->getStdString();
+  const bool automatic = text == kAutoSensor || text.empty();
+  auto selected_sensor = automatic ? std::optional<uint64_t>{} : sensorId(text);
+  if (!automatic && !selected_sensor) return selection;
   const bool match_frame = automatic && image_frame.has_value();
   if (automatic && !match_frame && !candidates.empty()) {
-    sensor_id = std::min_element(candidates.begin(), candidates.end(), [](const Candidate& a, const Candidate& b) {
-                  return a.evidence->sensor_id < b.evidence->sensor_id;
-                })->evidence->sensor_id;
+    selected_sensor = (*std::min_element(candidates.begin(), candidates.end(), [](const auto* a, const auto* b) {
+      return a->object.state.sensor_id.front() < b->object.state.sensor_id.front();
+    }))->object.state.sensor_id.front();
   }
-
-  for (const auto& c : candidates) {
-    if (match_frame ? c.evidence->header.frame_id != *image_frame
-                    : !sensor_id || c.evidence->sensor_id != *sensor_id)
-      continue;
-    rendering::ImageEvidenceAnnotation annotation;
-    annotation.evidence = c.evidence;
-    annotation.color = annotationColor(*c.object, *c.evidence);
-    annotation.label = formatLabel(*c.object, *c.evidence);
+  for (const auto* entry : candidates) {
+    const auto image = object_access::imageView(*entry);
+    if (match_frame ? image.header.frame_id != *image_frame : !selected_sensor || image.sensor_id != *selected_sensor) continue;
+    rendering::ImageObservationAnnotation annotation;
+    annotation.observation = entry;
+    annotation.color = annotationColor(entry->object, *entry);
+    annotation.label = formatLabel(entry->object, *entry);
     selection.annotations.push_back(annotation);
-
-    const rclcpp::Time stamp(c.evidence->header.stamp);
+    const rclcpp::Time stamp(image.header.stamp);
     if (!selection.reference_stamp || stamp > *selection.reference_stamp) selection.reference_stamp = stamp;
-    if (selection.source_width == 0) {
-      selection.source_width = c.evidence->image.front().image_width;
-      selection.source_height = c.evidence->image.front().image_height;
+    if (!selection.source_width) {
+      selection.source_width = image.image_width;
+      selection.source_height = image.image_height;
     }
   }
   return selection;
 }
 
-sensor_msgs::msg::Image::ConstSharedPtr ImageEvidenceDisplay::findImage(const rclcpp::Time& stamp,
+sensor_msgs::msg::Image::ConstSharedPtr ImageObservationDisplay::findImage(const rclcpp::Time& stamp,
                                                                        double& dt_ms) const {
   sensor_msgs::msg::Image::ConstSharedPtr best;
   dt_ms = std::numeric_limits<double>::infinity();
@@ -381,32 +363,29 @@ sensor_msgs::msg::Image::ConstSharedPtr ImageEvidenceDisplay::findImage(const rc
   return best;
 }
 
-QString ImageEvidenceDisplay::formatLabel(const perception_msgs::msg::Object& object,
-                                          const perception_msgs::msg::Evidence& evidence) const {
+QString ImageObservationDisplay::formatLabel(const perception_msgs::msg::Object& object,
+                                          const perception_msgs::msg::ObjectWithObservation& observation) const {
   const auto classification = perception_msgs::object_access::getClassWithHighestProbability(object);
   QString text = label_format_property_->getString();
   text.replace("{id}", QString::number(object.id));
   text.replace("{class}", rendering::objectClassName(object.state));
-  const bool model_class = object.state.model_id == perception_msgs::msg::TRAFFICSIGN::MODEL_ID ||
-                           object.state.model_id == perception_msgs::msg::TRAFFICLIGHT::MODEL_ID;
-  text.replace("{class_prob}",
-               !model_class && classification.probability >= 0.0 ? QString::number(classification.probability, 'f', 2) : QString());
+  text.replace("{class_prob}", classification.probability >= 0.0 ? QString::number(classification.probability, 'f', 2) : QString());
   text.replace("{exist}", QString::number(object.existence_probability, 'f', 2));
-  text.replace("{sensor}", QString::number(evidence.sensor_id));
+  text.replace("{sensor}", QString::number(observation.object.state.sensor_id.front()));
   return text.simplified();
 }
 
-QColor ImageEvidenceDisplay::annotationColor(const perception_msgs::msg::Object& object,
-                                             const perception_msgs::msg::Evidence& evidence) const {
+QColor ImageObservationDisplay::annotationColor(const perception_msgs::msg::Object& object,
+                                             const perception_msgs::msg::ObjectWithObservation& observation) const {
   switch (static_cast<ColorMode>(color_mode_property_->getOptionInt())) {
     case ColorMode::ByObjectId: return rendering::colorForId(object.id);
-    case ColorMode::BySensor: return rendering::colorForId(evidence.sensor_id);
+    case ColorMode::BySensor: return rendering::colorForId(observation.object.state.sensor_id.front());
     case ColorMode::Fixed: return fixed_color_property_->getColor();
     case ColorMode::ByClass:
     default:
       if (!color_property_group_->getBool()) return fixed_color_property_->getColor();
-      if (object.state.model_id == perception_msgs::msg::TRAFFICSIGN::MODEL_ID ||
-          object.state.model_id == perception_msgs::msg::TRAFFICLIGHT::MODEL_ID)
+      if (object_access::isTrafficSignClass(object_access::bestClass(object.state)) ||
+          object_access::isTrafficLightClass(object_access::bestClass(object.state)))
         return rendering::defaultObjectColor(object.state);
       const auto type = perception_msgs::object_access::getClassWithHighestProbability(object).type;
       const auto color = classification_color_properties_.find(
@@ -417,8 +396,8 @@ QColor ImageEvidenceDisplay::annotationColor(const perception_msgs::msg::Object&
   }
 }
 
-rendering::ImageEvidenceStyle ImageEvidenceDisplay::currentStyle() const {
-  rendering::ImageEvidenceStyle style;
+rendering::ImageObservationStyle ImageObservationDisplay::currentStyle() const {
+  rendering::ImageObservationStyle style;
   style.draw_box = box_property_->getBool();
   style.box_line_width = box_line_width_property_->getFloat();
   style.box_fill_alpha = box_fill_alpha_property_->getFloat();
@@ -433,7 +412,7 @@ rendering::ImageEvidenceStyle ImageEvidenceDisplay::currentStyle() const {
   return style;
 }
 
-bool ImageEvidenceDisplay::render() {
+bool ImageObservationDisplay::render() {
   if (!widget_) return true;
 
   const auto source = static_cast<ImageSource>(image_source_property_->getOptionInt());
@@ -444,7 +423,7 @@ bool ImageEvidenceDisplay::render() {
   // sensor selection; 'auto' follows the frame of the image stream
   std::optional<std::string> image_frame;
   if (use_images) image_frame = images_.back()->header.frame_id;
-  Selection selection = selectEvidence(image_frame);
+  Selection selection = selectObservations(image_frame);
 
   const std::string sensor_text = sensor_id_property_->getStdString();
   if (sensor_text != kAutoSensor && !sensor_text.empty() &&
@@ -454,10 +433,10 @@ bool ImageEvidenceDisplay::render() {
     deleteStatus("Filter");
 
   if (selection.invalid > 0)
-    setStatus(StatusProperty::Warn, "Evidence",
-              QString("%1 drawn, %2 invalid evidence skipped").arg(selection.annotations.size()).arg(selection.invalid));
+    setStatus(StatusProperty::Warn, "Observation",
+              QString("%1 drawn, %2 invalid observations skipped").arg(selection.annotations.size()).arg(selection.invalid));
   else if (object_list_)
-    setStatus(StatusProperty::Ok, "Evidence", QString("%1 drawn").arg(selection.annotations.size()));
+    setStatus(StatusProperty::Ok, "Observation", QString("%1 drawn").arg(selection.annotations.size()));
 
   // reference time: newest selected evidence, otherwise the object list itself
   std::optional<rclcpp::Time> reference = selection.reference_stamp;
@@ -507,12 +486,12 @@ bool ImageEvidenceDisplay::render() {
   // drawing one camera's evidence onto another camera's image is almost always a misconfiguration
   const auto foreign = canvas_msg ? std::find_if(selection.annotations.begin(), selection.annotations.end(),
                                                  [&](const auto& a) {
-                                                   return a.evidence->header.frame_id != canvas_msg->header.frame_id;
+                                                   return a.observation->object.state.header.frame_id != canvas_msg->header.frame_id;
                                                  })
                                   : selection.annotations.end();
   if (foreign != selection.annotations.end())
     setStatus(StatusProperty::Warn, "Frame",
-              QString::fromStdString("Evidence in frame '" + foreign->evidence->header.frame_id +
+              QString::fromStdString("Observation in frame '" + foreign->observation->object.state.header.frame_id +
                                      "' drawn on image in frame '" + canvas_msg->header.frame_id + "'"));
   else
     deleteStatus("Frame");
@@ -523,7 +502,7 @@ bool ImageEvidenceDisplay::render() {
   if (canvas_stamp) {
     for (auto& annotation : selection.annotations)
       annotation.stale =
-          std::abs((rclcpp::Time(annotation.evidence->header.stamp) - *canvas_stamp).seconds()) * 1e3 > tolerance_ms;
+          std::abs((rclcpp::Time(annotation.observation->object.state.header.stamp) - *canvas_stamp).seconds()) * 1e3 > tolerance_ms;
   }
   if (!show_stale_property_->getBool()) {
     selection.annotations.erase(std::remove_if(selection.annotations.begin(), selection.annotations.end(),
@@ -538,7 +517,7 @@ bool ImageEvidenceDisplay::render() {
     last_source_size_ = QSize(static_cast<int>(selection.source_width), static_cast<int>(selection.source_height));
   }
 
-  ImageEvidenceFrame frame;
+  ImageObservationFrame frame;
   frame.image = std::move(canvas_image);
   frame.image_opacity = image_alpha_property_->getFloat();
   frame.annotations = std::move(selection.annotations);
@@ -559,4 +538,4 @@ bool ImageEvidenceDisplay::render() {
 }  // namespace perception_msgs
 
 #include <pluginlib/class_list_macros.hpp>
-PLUGINLIB_EXPORT_CLASS(perception_msgs::displays::ImageEvidenceDisplay, rviz_common::Display)
+PLUGINLIB_EXPORT_CLASS(perception_msgs::displays::ImageObservationDisplay, rviz_common::Display)

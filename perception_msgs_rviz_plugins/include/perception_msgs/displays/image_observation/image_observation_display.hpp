@@ -15,12 +15,12 @@
 #include <vector>
 
 #include <image_transport/subscriber.hpp>
-#include <perception_msgs/msg/object_list_with_evidence.hpp>
+#include <perception_msgs/msg/object_list_with_observation.hpp>
 #include <rviz_common/ros_topic_display.hpp>
 #include <sensor_msgs/msg/image.hpp>
 
-#include "perception_msgs/displays/image_evidence/image_evidence_widget.hpp"
-#include "perception_msgs/rendering/image_evidence/image_evidence_painter.hpp"
+#include "perception_msgs/displays/image_observation/image_observation_widget.hpp"
+#include "perception_msgs/rendering/image_observation/image_observation_painter.hpp"
 
 namespace rviz_common {
 namespace properties {
@@ -40,18 +40,18 @@ namespace perception_msgs {
 namespace displays {
 
 /**
- * \class ImageEvidenceDisplay
- * \brief Draws the 2D image evidence (boxes, masks, crops, labels) of a perception_msgs/ObjectListWithEvidence
+ * \class ImageObservationDisplay
+ * \brief Draws the 2D image observation (boxes, masks, crops, labels) of a perception_msgs/ObjectListWithObservation
  *        in its own dockable RViz panel, optionally on top of the matching camera image.
  *
  * Needs no TF and no camera_info; also works for objects without metric state.
  */
-class ImageEvidenceDisplay : public rviz_common::RosTopicDisplay<perception_msgs::msg::ObjectListWithEvidence> {
+class ImageObservationDisplay : public rviz_common::RosTopicDisplay<perception_msgs::msg::ObjectListWithObservation> {
   Q_OBJECT
 
 public:
-  ImageEvidenceDisplay();
-  ~ImageEvidenceDisplay() override;
+  ImageObservationDisplay();
+  ~ImageObservationDisplay() override;
 
   void onInitialize() override;
   void reset() override;
@@ -60,7 +60,7 @@ public:
 protected:
   void onEnable() override;
   void onDisable() override;
-  void processMessage(perception_msgs::msg::ObjectListWithEvidence::ConstSharedPtr msg) override;
+  void processMessage(perception_msgs::msg::ObjectListWithObservation::ConstSharedPtr msg) override;
 
 private Q_SLOTS:
   void updateImageSubscription();
@@ -68,14 +68,14 @@ private Q_SLOTS:
   void queueRender();
 
 private:
-  friend class ImageEvidenceDisplayTest;
+  friend class ImageObservationDisplayTest;
 
   enum class ImageSource : int { ImageTopic = 0, CropMosaic = 1, Blank = 2 };
   enum class SyncMode : int { Synchronized = 0, LatestImage = 1 };
   enum class ColorMode : int { ByClass = 0, ByObjectId = 1, BySensor = 2, Fixed = 3 };
 
   struct Selection {
-    std::vector<rendering::ImageEvidenceAnnotation> annotations;
+    std::vector<rendering::ImageObservationAnnotation> annotations;
     std::optional<rclcpp::Time> reference_stamp;  ///< newest selected evidence stamp
     uint32_t source_width = 0, source_height = 0;
     size_t invalid = 0;
@@ -85,13 +85,13 @@ private:
   void unsubscribeImage();
   void imageCallback(const sensor_msgs::msg::Image::ConstSharedPtr& msg);
 
-  Selection selectEvidence(const std::optional<std::string>& image_frame) const;
+  Selection selectObservations(const std::optional<std::string>& image_frame) const;
   sensor_msgs::msg::Image::ConstSharedPtr findImage(const rclcpp::Time& stamp, double& dt_ms) const;
   QString formatLabel(const perception_msgs::msg::Object& object,
-                      const perception_msgs::msg::Evidence& evidence) const;
+                      const perception_msgs::msg::ObjectWithObservation& observation) const;
   QColor annotationColor(const perception_msgs::msg::Object& object,
-                         const perception_msgs::msg::Evidence& evidence) const;
-  rendering::ImageEvidenceStyle currentStyle() const;
+                         const perception_msgs::msg::ObjectWithObservation& observation) const;
+  rendering::ImageObservationStyle currentStyle() const;
   void updateSensorOptions(const std::set<uint64_t>& sensor_ids);
   /** @brief Compose the next frame for the widget; false while waiting for a matching image. */
   bool render();
@@ -131,10 +131,10 @@ private:
   rviz_common::properties::FloatProperty* image_alpha_property_;
 
   // owned here; destroyed before rviz_common::Display deletes the dock panel that hosts it
-  std::unique_ptr<ImageEvidenceWidget> widget_;
+  std::unique_ptr<ImageObservationWidget> widget_;
   image_transport::Subscriber image_subscriber_;
 
-  perception_msgs::msg::ObjectListWithEvidence::ConstSharedPtr object_list_;
+  perception_msgs::msg::ObjectListWithObservation::ConstSharedPtr object_list_;
   std::optional<std::chrono::steady_clock::time_point> sync_wait_started_;
   std::deque<sensor_msgs::msg::Image::ConstSharedPtr> images_;
   std::set<uint64_t> known_sensor_ids_;

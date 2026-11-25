@@ -35,7 +35,7 @@ set(display_headers_to_moc
   include/perception_msgs/displays/ego_data_overlay/ego_data_overlay_display.hpp
   include/perception_msgs/displays/traffic_light/traffic_light_display.hpp
   include/perception_msgs/displays/traffic_sign/traffic_sign_display.hpp
-  include/perception_msgs/displays/image_evidence/image_evidence_display.hpp
+  include/perception_msgs/displays/image_observation/image_observation_display.hpp
 )
 
 foreach(header "${display_headers_to_moc}")
@@ -43,14 +43,13 @@ foreach(header "${display_headers_to_moc}")
 endforeach()
 
 set(display_source_files
-  src/displays/image_evidence/image_observation_display.cpp
   src/displays/object_list/object_list_display.cpp
   src/displays/ego_data/ego_data_display.cpp
   src/displays/ego_data_overlay/ego_data_overlay_display.cpp
   src/displays/traffic_light/traffic_light_display.cpp
   src/displays/traffic_sign/traffic_sign_display.cpp
-  src/displays/image_evidence/image_evidence_display.cpp
-  src/displays/image_evidence/image_evidence_widget.cpp
+  src/displays/image_observation/image_observation_display.cpp
+  src/displays/image_observation/image_observation_widget.cpp
 )
 
 add_library(${PROJECT_NAME} SHARED
@@ -132,9 +131,9 @@ if(BUILD_TESTING)
   #set(ament_cmake_cpplint_FOUND TRUE)
   #ament_lint_auto_find_test_dependencies()
   find_package(ament_cmake_gtest REQUIRED)
-  ament_add_gtest(test_image_evidence_display test/test_image_evidence_display.cpp)
-  target_link_libraries(test_image_evidence_display ${PROJECT_NAME} Qt5::Widgets)
-  set_tests_properties(test_image_evidence_display PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=offscreen")
+  ament_add_gtest(test_image_observation_display test/test_image_observation_display.cpp)
+  target_link_libraries(test_image_observation_display ${PROJECT_NAME} Qt5::Widgets)
+  set_tests_properties(test_image_observation_display PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=offscreen")
 endif()
 
 ament_package(

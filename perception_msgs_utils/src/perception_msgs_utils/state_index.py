@@ -10,9 +10,9 @@ This module provides functions to get indices into state vectors based on the mo
 from typing import Dict, Set
 from .constants import (
     EGO_MODEL_ID, EGORWS_MODEL_ID, ISCACTR_MODEL_ID,
-    HEXAMOTION_MODEL_ID, TRAFFICLIGHT_MODEL_ID, TRAFFICSIGN_MODEL_ID
+    HEXAMOTION_MODEL_ID, TRAFFICLIGHT_MODEL_ID
 )
-from perception_msgs.msg import EGO, EGORWS, ISCACTR, HEXAMOTION, TRAFFICLIGHT, TRAFFICSIGN
+from perception_msgs.msg import EGO, EGORWS, ISCACTR, HEXAMOTION, TRAFFICLIGHT
 
 class UnknownStateEntryError(Exception):
     """Exception raised when a state entry is not supported by a model."""
@@ -122,20 +122,13 @@ _TRAFFICLIGHT_DISCRETE_INDICES = {
     'type': TRAFFICLIGHT.TYPE
 }
 
-_TRAFFICSIGN_INDICES = {
-    'x': TRAFFICSIGN.X, 'y': TRAFFICSIGN.Y, 'z': TRAFFICSIGN.Z,
-    'roll': TRAFFICSIGN.ROLL, 'pitch': TRAFFICSIGN.PITCH, 'yaw': TRAFFICSIGN.YAW,
-    'width': TRAFFICSIGN.WIDTH, 'height': TRAFFICSIGN.HEIGHT
-}
-
 # Model capabilities (which states are supported by each model)
 _MODEL_CAPABILITIES: Dict[int, Set[str]] = {
     EGO_MODEL_ID: set(_EGO_INDICES.keys()),
     EGORWS_MODEL_ID: set(_EGORWS_INDICES.keys()),
     ISCACTR_MODEL_ID: set(_ISCACTR_INDICES.keys()),
     HEXAMOTION_MODEL_ID: set(_HEXAMOTION_INDICES.keys()),
-    TRAFFICLIGHT_MODEL_ID: set(_TRAFFICLIGHT_INDICES.keys()),
-    TRAFFICSIGN_MODEL_ID: set(_TRAFFICSIGN_INDICES.keys())
+    TRAFFICLIGHT_MODEL_ID: set(_TRAFFICLIGHT_INDICES.keys())
 }
 
 # Discrete Model capabilities (which states are supported by each model)
@@ -144,20 +137,19 @@ _DISCRETE_MODEL_CAPABILITIES: Dict[int, Set[str]] = {
     EGORWS_MODEL_ID: set(_EGORWS_DISCRETE_INDICES.keys()),
     ISCACTR_MODEL_ID: set(_ISCACTR_DISCRETE_INDICES.keys()),
     HEXAMOTION_MODEL_ID: set(_HEXAMOTION_DISCRETE_INDICES.keys()),
-    TRAFFICLIGHT_MODEL_ID: set(_TRAFFICLIGHT_DISCRETE_INDICES.keys()),
-    TRAFFICSIGN_MODEL_ID: {'type'}
+    TRAFFICLIGHT_MODEL_ID: set(_TRAFFICLIGHT_DISCRETE_INDICES.keys())
 }
 
 def _get_index(model_id: int, entry: str) -> int:
     """Get the vector index for a state entry in a given model.
-    
+
     Args:
         model_id: Model identifier
         entry: Name of the state entry
-        
+
     Returns:
         int: Index into the state vector
-        
+
     Raises:
         UnknownStateEntryError: If the entry is not supported by the model
     """
@@ -171,26 +163,24 @@ def _get_index(model_id: int, entry: str) -> int:
         indices = _HEXAMOTION_INDICES
     elif model_id == TRAFFICLIGHT_MODEL_ID:
         indices = _TRAFFICLIGHT_INDICES
-    elif model_id == TRAFFICSIGN_MODEL_ID:
-        indices = _TRAFFICSIGN_INDICES
     else:
         raise UnknownStateEntryError(f"Unknown model ID: {model_id}")
-        
+
     if entry not in indices:
         raise UnknownStateEntryError(f"Model with ID {model_id} does not support entry: {entry}")
-        
+
     return indices[entry]
 
 def _get_discrete_index(model_id: int, entry: str) -> int:
     """Get the vector index for a discrete state entry in a given model.
-    
+
     Args:
         model_id: Model identifier
         entry: Name of the state entry
-        
+
     Returns:
         int: Index into the state vector
-        
+
     Raises:
         UnknownStateEntryError: If the entry is not supported by the model
     """
@@ -204,14 +194,12 @@ def _get_discrete_index(model_id: int, entry: str) -> int:
         indices = _HEXAMOTION_DISCRETE_INDICES
     elif model_id == TRAFFICLIGHT_MODEL_ID:
         indices = _TRAFFICLIGHT_DISCRETE_INDICES
-    elif model_id == TRAFFICSIGN_MODEL_ID:
-        indices = {'type': TRAFFICSIGN.TYPE}
     else:
         raise UnknownStateEntryError(f"Unknown model ID: {model_id}")
-        
+
     if entry not in indices:
         raise UnknownStateEntryError(f"Model with ID {model_id} does not support entry: {entry}")
-        
+
     return indices[entry]
 
 def index_x(model_id: int) -> int:

@@ -1,7 +1,7 @@
 // Copyright Institute for Automotive Engineering (ika), RWTH Aachen University
 // SPDX-License-Identifier: MIT
 
-#include "perception_msgs/displays/image_evidence/image_evidence_widget.hpp"
+#include "perception_msgs/displays/image_observation/image_observation_widget.hpp"
 
 #include <utility>
 
@@ -10,20 +10,20 @@
 namespace perception_msgs {
 namespace displays {
 
-ImageEvidenceWidget::ImageEvidenceWidget(QWidget* parent) : QWidget(parent) {
+ImageObservationWidget::ImageObservationWidget(QWidget* parent) : QWidget(parent) {
   setMinimumSize(160, 90);
   setAttribute(Qt::WA_OpaquePaintEvent);
   frame_.message = QStringLiteral("Waiting for data");
 }
 
-void ImageEvidenceWidget::setFrame(ImageEvidenceFrame frame) {
+void ImageObservationWidget::setFrame(ImageObservationFrame frame) {
   frame_ = std::move(frame);
   update();
 }
 
-QSize ImageEvidenceWidget::sizeHint() const { return QSize(640, 360); }
+QSize ImageObservationWidget::sizeHint() const { return QSize(640, 360); }
 
-void ImageEvidenceWidget::paintEvent(QPaintEvent* /*event*/) {
+void ImageObservationWidget::paintEvent(QPaintEvent* /*event*/) {
   QPainter painter(this);
   painter.fillRect(rect(), Qt::black);
 
@@ -45,7 +45,7 @@ void ImageEvidenceWidget::paintEvent(QPaintEvent* /*event*/) {
     painter.drawImage(target, frame_.image);
     painter.setOpacity(1.0);
   }
-  rendering::paintImageEvidence(painter, target, frame_.annotations, frame_.style);
+  rendering::paintImageObservation(painter, target, frame_.annotations, frame_.style);
 
   if (!frame_.message.isEmpty()) {
     painter.setPen(QColor(230, 230, 230));

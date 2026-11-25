@@ -6,13 +6,11 @@ find_package(geometry_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
-find_package(vision_msgs REQUIRED)
 
 ament_export_dependencies(
     geometry_msgs
     std_msgs
     sensor_msgs
-    vision_msgs
 )
 
 set(msg_files
@@ -25,28 +23,22 @@ set(msg_files
     "msg/ObjectListWithObservation.msg"
 
     "msg/EgoData.msg"
-    "msg/Evidence.msg"
-    "msg/ImageEvidence.msg"
     "msg/Object.msg"
     "msg/ObjectClassification.msg"
     "msg/ObjectList.msg"
-    "msg/ObjectListWithEvidence.msg"
     "msg/ObjectReferencePoint.msg"
     "msg/ObjectState.msg"
     "msg/ObjectStatePrediction.msg"
-    "msg/ObjectWithEvidence.msg"
-    "msg/PointCloudEvidence.msg"
     "msg/EGO.msg"
     "msg/EGORWS.msg"
     "msg/ISCACTR.msg"
     "msg/HEXAMOTION.msg"
     "msg/TRAFFICLIGHT.msg"
-    "msg/TRAFFICSIGN.msg"
 )
 
 rosidl_generate_interfaces(${PROJECT_NAME}
     ${msg_files}
-    DEPENDENCIES geometry_msgs std_msgs sensor_msgs vision_msgs
+    DEPENDENCIES geometry_msgs std_msgs sensor_msgs
 )
 
 ament_package()

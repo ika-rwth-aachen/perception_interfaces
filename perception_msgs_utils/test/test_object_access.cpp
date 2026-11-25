@@ -834,32 +834,8 @@ TEST(perception_msgs_utils, initialization_omits_covariance_and_getters_expose_d
 }
 
 
-TEST(perception_msgs, test_set_get_TRAFFICSIGN) {
-  ObjectState state;
-  initializeState(state, TRAFFICSIGN::MODEL_ID);
-  EXPECT_EQ(getContinuousStateSize(state), 8);
-  EXPECT_EQ(getDiscreteStateSize(state), 1);
-  setPosition(state, std::array<double, 3>{2., 3., 4.});
-  setRoll(state, .1);
-  setPitch(state, .2);
-  setYaw(state, .3);
-  setWidth(state, .6);
-  setHeight(state, .8);
-  EXPECT_DOUBLE_EQ(getX(state), 2.);
-  EXPECT_DOUBLE_EQ(getYaw(state), .3);
-  EXPECT_DOUBLE_EQ(getWidth(state), .6);
-  EXPECT_DOUBLE_EQ(getHeight(state), .8);
-  EXPECT_FALSE(hasLength(TRAFFICSIGN::MODEL_ID));
-  EXPECT_THROW(getLength(state), std::invalid_argument);
-  EXPECT_EQ(getTrafficSignType(state), TRAFFICSIGN::TYPE_UNKNOWN);
-  setTrafficSignType(state, TRAFFICSIGN::TYPE_STOP);
-  EXPECT_EQ(getTrafficSignType(state), TRAFFICSIGN::TYPE_STOP);
-  EXPECT_FALSE(hasTrafficSignType(TRAFFICLIGHT::MODEL_ID));
-  EXPECT_NO_THROW(sanityCheckFullState(state));
-}
-
 TEST(perception_msgs_utils, unmeasured_components) {
-  for (const auto model : {ISCACTR::MODEL_ID, HEXAMOTION::MODEL_ID, TRAFFICLIGHT::MODEL_ID, TRAFFICSIGN::MODEL_ID}) {
+  for (const auto model : {ISCACTR::MODEL_ID, HEXAMOTION::MODEL_ID, TRAFFICLIGHT::MODEL_ID}) {
     ObjectState state;
     initializeState(state, model);
     EXPECT_TRUE(hasValidPosition(state));
@@ -883,103 +859,4 @@ TEST(perception_msgs_utils, unmeasured_components) {
     EXPECT_TRUE(hasValidPosition(state));
     EXPECT_THROW(isMeasured(state, n), std::out_of_range);
   }
-}
-
-static Evidence makeImageEvidence(const uint64_t sensor_id) {
-  Evidence evidence;
-  evidence.header.frame_id = "camera";
-  evidence.sensor_id = sensor_id;
-  ImageEvidence image;
-  image.image_width = 80;
-  image.image_height = 60;
-  image.bounding_box.size_x = 20.;
-  image.bounding_box.size_y = 10.;
-  image.roi.width = 24;
-  image.roi.height = 12;
-  image.crop.header = evidence.header;
-  image.crop.width = 12;
-  image.crop.height = 6;
-  image.crop.encoding = "bgr8";
-  image.crop.step = 38;
-  image.crop.data.resize(image.crop.step * image.crop.height);
-  image.mask.header = evidence.header;
-  image.mask.width = 24;
-  image.mask.height = 12;
-  image.mask.encoding = "mono8";
-  image.mask.step = 24;
-  image.mask.data.resize(image.mask.step * image.mask.height, 255);
-  evidence.image.push_back(image);
-  return evidence;
-}
-
-static Evidence makePointCloudEvidence(const uint64_t sensor_id) {
-  Evidence evidence;
-  evidence.header.frame_id = "lidar";
-  evidence.sensor_id = sensor_id;
-  PointCloudEvidence point_cloud;
-  point_cloud.points.header = evidence.header;
-  point_cloud.points.height = 1;
-  point_cloud.points.width = 4;
-  point_cloud.points.point_step = 12;
-  point_cloud.points.row_step = 48;
-  point_cloud.points.data.resize(48);
-  evidence.point_cloud.push_back(point_cloud);
-  return evidence;
-}
-
-TEST(perception_msgs_utils, evidence) {
-  ObjectWithEvidence obj;
-  initializeState(obj.object, TRAFFICSIGN::MODEL_ID, CONTINUOUS_STATE_UNMEASURED);
-  addEvidence(obj, makeImageEvidence(7));
-  addEvidence(obj, makeImageEvidence(7));
-  addEvidence(obj, makePointCloudEvidence(8));
-  EXPECT_EQ(obj.evidence.size(), 3u);
-  EXPECT_EQ(obj.object.state.sensor_id, (std::vector<uint64_t>{7, 8}));
-  EXPECT_NO_THROW(sanityCheckObjectEvidence(obj));
-  obj.object.state.sensor_id.pop_back();
-  EXPECT_THROW(sanityCheckObjectEvidence(obj), std::invalid_argument);
-
-  auto evidence = makeImageEvidence(7);
-  evidence.point_cloud = makePointCloudEvidence(7).point_cloud;
-  EXPECT_THROW(sanityCheckEvidence(evidence), std::invalid_argument);
-  evidence.image.clear();
-  evidence.point_cloud.clear();
-  EXPECT_THROW(sanityCheckEvidence(evidence), std::invalid_argument);
-  evidence = makePointCloudEvidence(7);
-  evidence.point_cloud.front().points.data.pop_back();
-  EXPECT_THROW(sanityCheckEvidence(evidence), std::invalid_argument);
-  evidence = makePointCloudEvidence(7);
-  evidence.point_cloud.front().points.header.frame_id = "other";
-  EXPECT_THROW(sanityCheckEvidence(evidence), std::invalid_argument);
-}
-
-TEST(perception_msgs_utils, image_evidence) {
-  const auto valid = makeImageEvidence(7);
-  const auto& header = valid.header;
-  auto image = valid.image.front();
-  image.roi.x_offset = 70;
-  EXPECT_THROW(sanityCheckImageEvidence(image, header), std::invalid_argument);
-  image = valid.image.front();
-  image.bounding_box.size_x = std::numeric_limits<double>::quiet_NaN();
-  EXPECT_THROW(sanityCheckImageEvidence(image, header), std::invalid_argument);
-  image = valid.image.front();
-  image.crop.header.frame_id = "other";
-  EXPECT_THROW(sanityCheckImageEvidence(image, header), std::invalid_argument);
-  image = valid.image.front();
-  image.crop.data.pop_back();
-  EXPECT_THROW(sanityCheckImageEvidence(image, header), std::invalid_argument);
-  image = valid.image.front();
-  image.mask.encoding = "bgr8";
-  EXPECT_THROW(sanityCheckImageEvidence(image, header), std::invalid_argument);
-  image = valid.image.front();
-  image.crop.data.clear();
-  image.mask.data.clear();
-  image.roi = sensor_msgs::msg::RegionOfInterest();
-  EXPECT_NO_THROW(sanityCheckImageEvidence(image, header));
-}
-
-int main(int argc, char * argv[])
-{
-  testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
 }
