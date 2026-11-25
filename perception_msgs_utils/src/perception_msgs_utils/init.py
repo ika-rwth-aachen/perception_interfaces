@@ -24,7 +24,7 @@ def initialize_state(obj: T, model_id: int, continuous_state_init: float = CONTI
     Args:
         obj: The object to initialize the state from.
         model_id: The model ID to assign to the state.
-        continuous_state_init: Pass CONTINUOUS_STATE_UNMEASURED (NaN) for states without metric estimate.
+        continuous_state_init: Pass CONTINUOUS_STATE_UNAVAILABLE (NaN) for components without an available estimate.
 
     Returns:
         The initialized object state message.

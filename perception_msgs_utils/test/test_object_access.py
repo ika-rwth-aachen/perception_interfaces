@@ -2,13 +2,14 @@
 # SPDX-License-Identifier: MIT
 
 import pytest
+import math
 import random
 import numpy as np
 
 from perception_msgs.msg import ObjectState, EgoData, EGO, EGORWS, Object, ISCACTR, HEXAMOTION, ObjectClassification
 from geometry_msgs.msg import PoseWithCovariance, Vector3, Point
 from perception_msgs_utils.init import initialize_state
-from perception_msgs_utils.constants import CONTINUOUS_STATE_COVARIANCE_INVALID, CONTINUOUS_STATE_COVARIANCE_INIT, CONTINUOUS_STATE_INIT
+from perception_msgs_utils.constants import CONTINUOUS_STATE_COVARIANCE_UNKNOWN, CONTINUOUS_STATE_COVARIANCE_INVALID, CONTINUOUS_STATE_COVARIANCE_INIT, CONTINUOUS_STATE_INIT
 from perception_msgs_utils.checks import InvalidStateCovarianceSizeError, sanity_check_continuous_state_covariance
 from perception_msgs_utils.utils import get_continuous_state_size, get_discrete_state_size, get_continuous_state_covariance_size
 from perception_msgs_utils.convenience_state_getters import get_continuous_state_covariance_at, get_continuous_state, get_discrete_state, get_continuous_state_covariance, get_class_with_highest_probability, get_pose_with_covariance, get_velocity, get_acceleration, get_roll_in_deg, get_pitch_in_deg, get_yaw_in_deg, get_velocity_xyz, get_velocity_magnitude, get_acceleration_magnitude, get_velocity_xyz_with_covariance, get_acceleration_xyz_with_covariance, get_acceleration_xyz, get_center_position
@@ -699,18 +700,18 @@ def test_initialization_omits_covariance_and_getters_expose_defaults(message_typ
 
 
 @pytest.mark.parametrize('model', [ISCACTR.MODEL_ID, HEXAMOTION.MODEL_ID])
-def test_unmeasured_components(model):
-    from perception_msgs_utils.constants import CONTINUOUS_STATE_UNMEASURED
-    from perception_msgs_utils.convenience_state_getters import is_measured, has_valid_position
+def test_component_validity(model):
+    from perception_msgs_utils.constants import CONTINUOUS_STATE_UNAVAILABLE
+    from perception_msgs_utils.convenience_state_getters import is_component_valid, has_valid_position
     from perception_msgs_utils.state_index import index_x, index_z
     state = ObjectState()
     initialize_state(state, model)
     assert has_valid_position(state)
-    initialize_state(state, model, CONTINUOUS_STATE_UNMEASURED)
-    assert not is_measured(state, index_x(model)) and not has_valid_position(state)
+    initialize_state(state, model, CONTINUOUS_STATE_UNAVAILABLE)
+    assert not is_component_valid(state, index_x(model)) and not has_valid_position(state)
     set_x(state, 0.)
     set_y(state, 0.)
-    assert is_measured(state, index_x(model)) and not has_valid_position(state)
+    assert is_component_valid(state, index_x(model)) and not has_valid_position(state)
     set_z(state, 0.)
     assert has_valid_position(state) and not state.continuous_state_covariance
 
@@ -718,6 +719,14 @@ def test_unmeasured_components(model):
     z = index_z(model)
     set_continuous_state_covariance(state, [CONTINUOUS_STATE_COVARIANCE_INIT] * (n * n))
     set_continuous_state_covariance_at(state, z, z, CONTINUOUS_STATE_COVARIANCE_INVALID)
-    assert not has_valid_position(state)
+    assert has_valid_position(state)
+    set_continuous_state_covariance_at(state, z, z, CONTINUOUS_STATE_COVARIANCE_UNKNOWN)
+    assert has_valid_position(state)
+    set_z(state, math.inf)
+    assert not is_component_valid(state, z)
     set_z(state, 1.)
     assert has_valid_position(state)
+    with pytest.raises(IndexError):
+        is_component_valid(state, n)
+    with pytest.raises(IndexError):
+        is_component_valid(state, -1)

@@ -59,7 +59,7 @@ TEST(Observation, CloudRequiresMetricGeometryAndValidFieldLayout) {
       input.object.state.header;
   EXPECT_THROW(sanityCheckObjectObservation(input), std::invalid_argument);
   initializeState(input.object, HEXAMOTION::MODEL_ID,
-                  CONTINUOUS_STATE_UNMEASURED);
+                  CONTINUOUS_STATE_UNAVAILABLE);
   EXPECT_NO_THROW(sanityCheckObjectObservation(input));
   auto &cloud = input.observation.point_cloud.front().points;
   cloud.width = 1;

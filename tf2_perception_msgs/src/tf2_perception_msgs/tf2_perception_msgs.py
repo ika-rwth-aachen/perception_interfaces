@@ -3,13 +3,13 @@
 
 import math
 
-from geometry_msgs.msg import TransformStamped, PoseStamped, PoseWithCovarianceStamped, Quaternion
+from geometry_msgs.msg import TransformStamped, PoseStamped, PoseWithCovarianceStamped, Quaternion, Point
 
 from perception_msgs.msg import BOX2D, ObjectState, Object, ObjectList, EgoData
 from perception_msgs_utils.convenience_state_getters import get_pose, get_pose_with_covariance
 from perception_msgs_utils.convenience_state_setters import set_pose_from_gm_pose, set_pose_with_covariance_from_gm_pose_with_covariance
 from perception_msgs_utils.covariance_transform import transform_pose_with_covariance
-from perception_msgs_utils.state_index import has_roll, has_pitch, has_yaw, index_roll, index_pitch, index_yaw
+from perception_msgs_utils.state_index import has_roll, has_pitch, has_yaw, index_roll, index_pitch, index_yaw, index_x, index_y, index_z
 from std_msgs.msg import Header
 import tf2_ros
 import tf2_geometry_msgs
@@ -32,13 +32,16 @@ tf2_ros.ConvertRegistration().add_from_msg(Object, from_msg_msg)
 tf2_ros.ConvertRegistration().add_from_msg(ObjectList, from_msg_msg)
 tf2_ros.ConvertRegistration().add_from_msg(EgoData, from_msg_msg)
 
-def _replace_unmeasured_orientation(pose) -> bool:
-    """Replace an unmeasured (NaN) orientation by identity, which tf2 can transform, and report it."""
-    q = pose.orientation
-    if all(math.isfinite(v) for v in (q.x, q.y, q.z, q.w)):
-        return False
-    pose.orientation = Quaternion()
-    return True
+def _prepare_pose(pose):
+    """Use numerical placeholders for unavailable position/orientation groups."""
+    p, q = pose.position, pose.orientation
+    unavailable_position = not all(math.isfinite(v) for v in (p.x, p.y, p.z))
+    unavailable_orientation = not all(math.isfinite(v) for v in (q.x, q.y, q.z, q.w))
+    if unavailable_position:
+        pose.position = Point()
+    if unavailable_orientation:
+        pose.orientation = Quaternion(w=1.0)
+    return unavailable_position, unavailable_orientation
 
 def do_transform_state(
         state: ObjectState,
@@ -62,17 +65,20 @@ def do_transform_state(
     if not state.continuous_state_covariance:
         xyz_rpy = PoseStamped()
         xyz_rpy.pose = get_pose(state)
-        unmeasured_orientation = _replace_unmeasured_orientation(xyz_rpy.pose)
+        unavailable_position, unavailable_orientation = _prepare_pose(xyz_rpy.pose)
         xyz_rpy_tf = tf2_geometry_msgs.do_transform_pose_stamped(xyz_rpy, transform)
         set_pose_from_gm_pose(state_out, xyz_rpy_tf.pose, False)
     else:
         xyz_rpy_cov = PoseWithCovarianceStamped()
         xyz_rpy_cov.pose = get_pose_with_covariance(state)
-        unmeasured_orientation = _replace_unmeasured_orientation(xyz_rpy_cov.pose.pose)
+        unavailable_position, unavailable_orientation = _prepare_pose(xyz_rpy_cov.pose.pose)
         xyz_rpy_cov_tf = transform_pose_with_covariance(xyz_rpy_cov, transform)
         set_pose_with_covariance_from_gm_pose_with_covariance(state_out, xyz_rpy_cov_tf.pose)
 
-    if unmeasured_orientation:
+    if unavailable_position:
+        for index in (index_x, index_y, index_z):
+            state_out.continuous_state[index(state_out.model_id)] = math.nan
+    if unavailable_orientation:
         for has, index in ((has_roll, index_roll), (has_pitch, index_pitch), (has_yaw, index_yaw)):
             if has(state_out.model_id):
                 state_out.continuous_state[index(state_out.model_id)] = math.nan

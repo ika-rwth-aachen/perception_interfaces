@@ -37,16 +37,41 @@ namespace tf2 {
     state_out.header.stamp = transform.header.stamp;
     state_out.header.frame_id = transform.header.frame_id;
 
+    bool unavailable_position = false, unavailable_orientation = false;
+    const auto preparePose = [&](gm::Pose& pose) {
+      unavailable_position = !std::isfinite(pose.position.x) || !std::isfinite(pose.position.y) || !std::isfinite(pose.position.z);
+      const auto& q = pose.orientation;
+      unavailable_orientation = !std::isfinite(q.x) || !std::isfinite(q.y) || !std::isfinite(q.z) || !std::isfinite(q.w);
+      if (unavailable_position) pose.position = gm::Point();
+      if (unavailable_orientation) {
+        pose.orientation = gm::Quaternion();
+        pose.orientation.w = 1.0;
+      }
+    };
+
     if (state_in.continuous_state_covariance.empty()) {
       gm::PoseStamped xyz_rpy, xyz_rpy_tf;
       xyz_rpy.pose = getPose(state_in);
+      preparePose(xyz_rpy.pose);
       doTransform(xyz_rpy, xyz_rpy_tf, transform);
       setPose(state_out, xyz_rpy_tf.pose, false);
     } else {
       gm::PoseWithCovarianceStamped xyz_rpy_cov, xyz_rpy_cov_tf;
       xyz_rpy_cov.pose = getPoseWithCovariance(state_in);
+      preparePose(xyz_rpy_cov.pose.pose);
       transformPoseWithCovariance(xyz_rpy_cov, xyz_rpy_cov_tf, transform);
       setPoseWithCovariance(state_out, xyz_rpy_cov_tf.pose);
+    }
+    // Position and orientation are coupled groups; incomplete groups stay unavailable.
+    if (unavailable_position) {
+      setX(state_out, CONTINUOUS_STATE_UNAVAILABLE, false);
+      setY(state_out, CONTINUOUS_STATE_UNAVAILABLE, false);
+      setZ(state_out, CONTINUOUS_STATE_UNAVAILABLE, false);
+    }
+    if (unavailable_orientation) {
+      if (hasRoll(state_out.model_id)) setRoll(state_out, CONTINUOUS_STATE_UNAVAILABLE, false);
+      if (hasPitch(state_out.model_id)) setPitch(state_out, CONTINUOUS_STATE_UNAVAILABLE, false);
+      if (hasYaw(state_out.model_id)) setYaw(state_out, CONTINUOUS_STATE_UNAVAILABLE, false);
     }
   }
 

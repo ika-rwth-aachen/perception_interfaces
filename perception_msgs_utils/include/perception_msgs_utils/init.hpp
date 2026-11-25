@@ -23,7 +23,7 @@ namespace object_access {
    *
    * @param state
    * @param model_id
-   * @param continuous_state_init Pass CONTINUOUS_STATE_UNMEASURED (NaN) for states without metric estimate.
+   * @param continuous_state_init Pass CONTINUOUS_STATE_UNAVAILABLE (NaN) for components without an available estimate.
    */
   inline void initializeState(ObjectState& state, const unsigned char& model_id,
                               const double continuous_state_init = CONTINUOUS_STATE_INIT) {

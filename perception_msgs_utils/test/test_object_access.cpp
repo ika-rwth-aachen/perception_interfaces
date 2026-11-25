@@ -804,17 +804,17 @@ TEST(perception_msgs_utils, initialization_omits_covariance_and_getters_expose_d
 }
 
 
-TEST(perception_msgs_utils, unmeasured_components) {
+TEST(perception_msgs_utils, component_validity) {
   for (const auto model : {ISCACTR::MODEL_ID, HEXAMOTION::MODEL_ID}) {
     ObjectState state;
     initializeState(state, model);
     EXPECT_TRUE(hasValidPosition(state));
-    initializeState(state, model, CONTINUOUS_STATE_UNMEASURED);
-    EXPECT_FALSE(isMeasured(state, indexX(model)));
+    initializeState(state, model, CONTINUOUS_STATE_UNAVAILABLE);
+    EXPECT_FALSE(isComponentValid(state, indexX(model)));
     EXPECT_FALSE(hasValidPosition(state));
     setX(state, 0.);
     setY(state, 0.);
-    EXPECT_TRUE(isMeasured(state, indexX(model)));
+    EXPECT_TRUE(isComponentValid(state, indexX(model)));
     EXPECT_FALSE(hasValidPosition(state));
     setZ(state, 0.);
     EXPECT_TRUE(hasValidPosition(state));
@@ -824,9 +824,13 @@ TEST(perception_msgs_utils, unmeasured_components) {
     const int z = indexZ(model);
     setContinuousStateCovariance(state, std::vector<double>(n * n, CONTINUOUS_STATE_COVARIANCE_INIT));
     setContinuousStateCovarianceAt(state, z, z, CONTINUOUS_STATE_COVARIANCE_INVALID);
-    EXPECT_FALSE(hasValidPosition(state));
+    EXPECT_TRUE(hasValidPosition(state));
+    setContinuousStateCovarianceAt(state, z, z, CONTINUOUS_STATE_COVARIANCE_UNKNOWN);
+    EXPECT_TRUE(hasValidPosition(state));
+    setZ(state, std::numeric_limits<double>::infinity());
+    EXPECT_FALSE(isComponentValid(state, z));
     setZ(state, 1.);
     EXPECT_TRUE(hasValidPosition(state));
-    EXPECT_THROW(isMeasured(state, n), std::out_of_range);
+    EXPECT_THROW(isComponentValid(state, n), std::out_of_range);
   }
 }

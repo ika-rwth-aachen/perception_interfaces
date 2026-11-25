@@ -805,26 +805,23 @@ inline ObjectClassification getClassWithHighestProbability(const T& obj) {
   return getClassWithHighestProbability(obj.state);
 }
 
-// --- measurement availability ----------------------------------------------
+// --- component validity ----------------------------------------------
 
 /**
- * @brief Check if a continuous state component of a given object state is measured.
- * A component is unmeasured if it is NaN (CONTINUOUS_STATE_UNMEASURED) or its covariance diagonal is INVALID.
+ * @brief Check if a continuous state component has a finite estimate.
+ * Covariance availability is independent of component validity.
  *
  * @param state
  * @param index
  * @return bool
  */
-inline bool isMeasured(const ObjectState& state, const int index) {
+inline bool isComponentValid(const ObjectState& state, const int index) {
   sanityCheckContinuousState(state);
-  sanityCheckContinuousStateCovariance(state);
-  if (!std::isfinite(state.continuous_state.at(index))) return false;
-  const int n = getContinuousStateSize(state);
-  return state.continuous_state_covariance.empty() || state.continuous_state_covariance[n * index + index] >= 0.0;
+  return std::isfinite(state.continuous_state.at(index));
 }
 
 /**
- * @brief Check if a continuous state component of a given template object that contains an object state is measured.
+ * @brief Check if a continuous state component of an object has a finite estimate.
  *
  * @tparam T
  * @param obj
@@ -832,24 +829,24 @@ inline bool isMeasured(const ObjectState& state, const int index) {
  * @return bool
  */
 template <typename T>
-inline bool isMeasured(const T& obj, const int index) {
-  return isMeasured(obj.state, index);
+inline bool isComponentValid(const T& obj, const int index) {
+  return isComponentValid(obj.state, index);
 }
 
 /**
- * @brief Check if all position components of a given object state are measured.
+ * @brief Check if all position components of an object state are finite.
  *
  * @param state
  * @return bool
  */
 inline bool hasValidPosition(const ObjectState& state) {
   return hasX(state.model_id) && hasY(state.model_id) && hasZ(state.model_id) &&
-         isMeasured(state, indexX(state.model_id)) && isMeasured(state, indexY(state.model_id)) &&
-         isMeasured(state, indexZ(state.model_id));
+         isComponentValid(state, indexX(state.model_id)) && isComponentValid(state, indexY(state.model_id)) &&
+         isComponentValid(state, indexZ(state.model_id));
 }
 
 /**
- * @brief Check if all position components of a given template object that contains an object state are measured.
+ * @brief Check if all position components of an object are finite.
  *
  * @tparam T
  * @param obj
